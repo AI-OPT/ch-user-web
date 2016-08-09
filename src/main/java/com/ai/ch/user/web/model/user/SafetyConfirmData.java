@@ -1,4 +1,4 @@
-package com.ai.ch.operate.web.model.user;
+package com.ai.ch.user.web.model.user;
 
 import java.io.Serializable;
 
