@@ -97,5 +97,5 @@ eclipse {
 
 
 war {
-    baseName 'slp-op'
+    baseName 'ch-op'
 }
