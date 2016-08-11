@@ -1,5 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<!-- footer -->
-<div class="footer">版权所有 © SLP版权归运营家所有</div>
-<!--底部 结束-->
+ <!--底部-->
+    <footer id="footer-bar" class="row">
+   		 <p id="footer-copyright" class="col-xs-12">亚信</p>
+    </footer>
+   <!--/底部结束-->
+   <script src="${uedroot}/scripts/modular/scripts.js"></script>
+   <%-- <script src="${uedroot}/scripts/modular/frame.js"></script> --%>
+   
+   
