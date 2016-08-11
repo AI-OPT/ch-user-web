@@ -11,13 +11,13 @@
 				http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<!-- 自动扫描的包名 -->
-	<context:component-scan base-package="com.ai.slp.operate.web"/>
+	<context:component-scan base-package="com.ai.ch.user.web"/>
 	
 	<!-- 默认的注解映射的支持 -->
 	<mvc:annotation-driven />
 	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/jsp/"/>
+        <property name="prefix" value="/"/>
         <property name="suffix" value=".jsp"/>
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
     </bean>
