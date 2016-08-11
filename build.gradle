@@ -2,10 +2,24 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
+apply plugin: "APIJarProcess"
 
 compileJava.dependsOn clean
 
 sourceCompatibility = 1.7
+
+configurations {
+    optUedTemplate
+}
+
+buildscript {
+    repositories {
+       maven { url "http://10.1.228.199:18081/nexus/content/groups/public/" }
+    }
+    dependencies {
+        classpath group: 'com.ai.runner.plugin', name: 'apijarprocessplugin', version: '1.0'
+    }
+}
 
 configurations.all { 
 	    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
@@ -48,7 +62,7 @@ dependencies {
     compile 'joda-time:joda-time:2.9.4'
     //compile 'org.quartz-scheduler:quartz:2.2.1'
     //providedCompile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
-
+	
     compile ("org.apache.hadoop:hadoop-common:2.7.1") {
         exclude group: 'com.sun.jersey', module: 'jersey-core'
         exclude group: 'com.sun.jersey', module: 'jersey-json'
@@ -60,29 +74,17 @@ dependencies {
     compile 'com.ai.opt.uni.session:opt-uni-session:2.0-SNAPSHOT'
     compile 'com.ai.opt.sso.client:opt-sso-client:1.0.2-SNAPSHOT'
     compile "com.ai:ipaas-idps:0.3"
-	//cache
-	compile 'com.ai.runner.center.mmp:manager:1.0.0-SNAPSHOT'
-    //标准品
-    compile 'com.ai.slp.product:normproduct:1.0-SNAPSHOT'
-    //库存
-    compile 'com.ai.slp.product:storage:1.0-SNAPSHOT'
-    //商品类目
-    compile 'com.ai.slp.product:productcat:1.0-SNAPSHOT'
-    //销售商品
-    compile 'com.ai.slp.product:product:1.0-SNAPSHOT'
-    //公共缓存
-    compile 'com.ai.slp.common:cache:1.0-SNAPSHOT'
-	//jersey
-	compile 'org.glassfish.jersey.core:jersey-client:2.9.1'
-    //用户
-    compile 'com.ai.slp.user:keyinfo:1.0-SNAPSHOT'
-	
-	compile 'com.ai.baas.smc:sysparamcache:2.0-SNAPSHOT'
-
+    optUedTemplate 'com.ai.opt.uniframe:opt-ued-template:1.0-SNAPSHOT'
+    
     testCompile(
             "org.springframework:spring-test:4.1.7.RELEASE",
             "junit:junit:4.12"
     )
+}
+
+def getUedTemplate=task("getUedTemplate",type:com.ai.runner.gradle.plugin.jar.APIJarProcessTask){
+	jarPaths=configurations.optUedTemplate.files.asType(List)
+    destinationDir file("src/main/webapp/resources/template") //这里面的路径建议保持默认
 }
 
 eclipse {
@@ -94,6 +96,7 @@ eclipse {
         }
     }
 }
+
 
 
 war {
