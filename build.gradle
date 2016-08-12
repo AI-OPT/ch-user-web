@@ -74,6 +74,8 @@ dependencies {
     compile 'com.ai.opt.uni.session:opt-uni-session:2.0-SNAPSHOT'
     compile 'com.ai.opt.sso.client:opt-sso-client:1.0.2-SNAPSHOT'
     compile "com.ai:ipaas-idps:0.3"
+    
+    compile 'org.sitemesh:sitemesh:3.0.1'
     optUedTemplate 'com.ai.opt.uniframe:opt-ued-template:1.0-SNAPSHOT'
     
     testCompile(

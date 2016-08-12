@@ -10,10 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/score")
 public class ScoreController {
 	
-	private static final Log LOG = LogFactory.getLog(FrameController.class);
+	private static final Log LOG = LogFactory.getLog(ScoreController.class);
 	
-	@RequestMapping("/scoreTable")
-    public ModelAndView getScoreList() {
-        return new ModelAndView("");
+	@RequestMapping("/scorelog")
+    public ModelAndView getScoreLog() {
+        return new ModelAndView("/score/scorelog");
     }
 }
