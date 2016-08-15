@@ -38,6 +38,19 @@
                             <div class="main-box-body clearfix">
                             	<!--table表格-->
                                 <div class="table-responsive clearfix">
+								    <div class="form-label pl-40">
+								    	<ul>
+								    		<li>
+								    			<p class="word">供货商用户名:${supplier_name }</p>
+								    		</li>
+								    		<li>
+								    			<p class="word">公司名称:${company_name }</p>
+								    		</li>
+								    		<li>
+								    			<p class="word">综合评分:${total_score }</p>
+								    		</li>
+								    	</ul>
+								    </div>
                                     <table class="table table-hover table-border table-bordered">
                                         <thead>
                                             <tr>
@@ -95,6 +108,15 @@
             </div>
     </div>
   </div>   
-
+<script type="text/javascript">
+var pager;
+var scoreLogParams = $.parseJSON('${scoreLogParams}');
+(function () {
+	seajs.use('app/jsp/score/scorelog', function (ScoreLogPager) {
+		pager = new ScoreLogPager({element: document.body});
+		pager.render();
+	});
+})();
+</script>
 </body>
 </html>

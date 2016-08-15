@@ -19,31 +19,30 @@
 	<!-- 消费方 -->
 	<dubbo:application name="${dubbo.appname}" />
 	<dubbo:registry protocol="${dubbo.registry.protocol}"
-		address="${dubbo.registry.address}" id="chRegistry" />
+		address="${dubbo.registry.address}" id="slpRegistry" />
 	<dubbo:consumer timeout="${dubbo.provider.timeout}" />
 
-	<context:component-scan base-package="com.ai.ch" />
+	<context:component-scan base-package="com.ai.slp" />
 
-	<dubbo:reference id="iNormProductSV" interface="com.ai.ch.product.api.normproduct.interfaces.INormProductSV"
-					 registry="chRegistry"/>
+	<dubbo:reference id="iNormProductSV" interface="com.ai.slp.product.api.normproduct.interfaces.INormProductSV"
+					 registry="slpRegistry"/>
 	<!-- 商品类目 -->
-	<dubbo:reference id="iProductCatSV" interface="com.ai.ch.product.api.productcat.interfaces.IProductCatSV"
-					 registry="chRegistry"/>
+	<dubbo:reference id="iProductCatSV" interface="com.ai.slp.product.api.productcat.interfaces.IProductCatSV"
+					 registry="slpRegistry"/>
 	<!-- 商品管理 -->
-	<dubbo:reference id="iProductManagerSV" interface="com.ai.ch.product.api.product.interfaces.IProductManagerSV"
-					 registry="chRegistry"/>
+	<dubbo:reference id="iProductManagerSV" interface="com.ai.slp.product.api.product.interfaces.IProductManagerSV"
+					 registry="slpRegistry"/>
 	<!-- 商品服务 -->
-	<dubbo:reference id="iProductSV" interface="com.ai.ch.product.api.product.interfaces.IProductSV"
-					 registry="chRegistry"/>
+	<dubbo:reference id="iProductSV" interface="com.ai.slp.product.api.product.interfaces.IProductSV"
+					 registry="slpRegistry"/>
 	<!-- 公共缓存 -->
-	<dubbo:reference id="iCacheSV" interface="com.ai.ch.common.api.cache.interfaces.ICacheSV"
-					 registry="chRegistry"/>
+	<dubbo:reference id="iCacheSV" interface="com.ai.slp.common.api.cache.interfaces.ICacheSV"
+					 registry="slpRegistry"/>
 	<!-- 组织机构用户 -->
-	<dubbo:reference id="iUcKeyInfoSV" interface="com.ai.ch.user.api.keyinfo.interfaces.IUcKeyInfoSV"
-					 registry="chRegistry"/>
+	<dubbo:reference id="iUcKeyInfoSV" interface="com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV"
+					 registry="slpRegistry"/>
 	<!-- 库存服务 -->
-	<dubbo:reference id="iStorageSV" interface="com.ai.ch.product.api.storage.interfaces.IStorageSV"
-					 registry="chRegistry"/>
-
+	<dubbo:reference id="iStorageSV" interface="com.ai.slp.product.api.storage.interfaces.IStorageSV"
+					 registry="slpRegistry"/>
 
 </beans>
