@@ -8,7 +8,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>历史评价明细</title>
+<title>评价供货商</title>
 <%@include file="/inc/inc.jsp"%>
 </head>
 <body>
@@ -57,69 +57,33 @@
 								<!--table表格-->
 								<div class="table-responsive clearfix">
 									<div class="form-label pl-40">
-									<%-- 	<ul>
-											<li class="word">1.${scoreKpiList[0].ctScoreKpiVo.kpiName }</li>
-											<li><input type="text" class="int-text int-medium" placeholder="请输入评分" /></li>
-											<li>${scoreKpiList[0].ctScoreKpiVo.minScore }-${scoreKpiList[0].ctScoreKpiVo.maxScore }</li><br/>
-										</ul> --%>
-										
-										
-										<c:forEach items="${scoreKpiList}" var="ctScoreKpiVo" >
+										<form id="scorePage">
+										<c:forEach items="${scoreKpiList}" var="ctScoreKpiVo" varStatus="status">
 										<ul>
-											<li class="word" style="font-weight:bold;">1.${ctScoreKpiVo.kpiName }</li>
-											<li><input type="text" class="int-text int-medium" placeholder="请输入评分" /></li>
+											<li class="word" style="font-weight:bold;">${status.count}.${ctScoreKpiVo.kpiName }</li>
+											<li><input type="text" class="int-text int-medium" placeholder="请输入评分" name='${status.count }' id='${status.count }'/></li>
 											<li style="color:red">&nbsp;&nbsp;&nbsp;${ctScoreKpiVo.minScore }-${ctScoreKpiVo.maxScore }</li>
 										</ul>
 										<ul>
 											<li>注:${ctScoreKpiVo.kpiDesc }</li>
 										</ul>
 									     </c:forEach> 
+									     </form>
 									     <ul>
-									     	<li style="margin-left:70px"><input type="button" class="biu-btn btn-blue btn-xlarge  radius" value="提交评价"></li>
+									     	<li style="margin-left:70px"><input type="button" id="submitScore" class="biu-btn btn-blue btn-xlarge  radius" value="提交评价"></li>
+									     	<li><input type="hidden" id="scoreFlag"/></li>
 									     </ul>
-										<%-- <ul>
-											<li>注:${scoreKpiList[0].ctScoreKpiVo.kpiDesc }</li>
-										</ul>
-										
-										<ul>
-											<li class="word">2.${scoreKpiList[1].ctScoreKpiVo.kpiName }</li>
-											<li><input type="text" class="int-text int-medium" placeholder="请输入评分" /></li>
-											<li>${scoreKpiList[1].ctScoreKpiVo.minScore }-${scoreKpiList[1].ctScoreKpiVo.maxScore }</li><br/>
-										</ul>
-										
-										<ul>
-											<li>注:${scoreKpiList[1].ctScoreKpiVo.kpiDesc }</li>
-										</ul>
-										<ul>
-											<li class="word">3.${scoreKpiList[2].ctScoreKpiVo.kpiName }</li>
-											<li><input type="text" class="int-text int-medium" placeholder="请输入评分" /></li>
-											<li>${scoreKpiList[2].ctScoreKpiVo.minScore }-${scoreKpiList[2].ctScoreKpiVo.maxScore }</li><br/>
-										</ul>
-										<ul>
-											<li>注:${scoreKpiList[2].ctScoreKpiVo.kpiDesc }</li>
-										</ul>
-										
-										<ul>
-											<li class="word">4.${scoreKpiList[3].ctScoreKpiVo.kpiName }</li>
-											<li><input type="text" class="int-text int-medium" placeholder="请输入评分" /></li>
-											<li>${scoreKpiList[3].ctScoreKpiVo.minScore }-${scoreKpiList[3].ctScoreKpiVo.maxScore }</li><br/>
-										</ul>
-										<ul>
-											<li>注:${scoreKpiList[3].ctScoreKpiVo.kpiDesc }</li>
-										</ul>
-										<ul>
-											<li><input type="button" class="biu-btn btn-blue btn-xlarge  radius" value="首要"></li>
-										</ul> --%>
 										</div>
 							</div>
 						</div>
+					</div>
+					</div>
 					</div>
 				</div>
 				</div>
 				</div>
 				<script type="text/javascript">
 					var pager;
-					var scorePageParams = $.parseJSON('${scorePageParams}');
 					(function() {
 						seajs.use('app/jsp/score/scorepage', function(
 								ScorePagePager) {

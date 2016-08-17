@@ -47,13 +47,13 @@
 								 		</li>
 								 		<li>
 								 			<p class="word">企业名称:</p>
-								 			<p><select class="select select-medium"></select></p>
+								 			<p><input type="text" class="int-text int-medium"/></p>
 								 			<p><input type="button" class="btn-default btn-blue btn-mini" value="查询" /></p>
 								 		</li>
 								 	</ul>
 								 </div>
 
-                                    <table class="table table-hover table-border table-bordered">
+                                    <table class="table table-border table-bordered">
                                         <thead>
                                             <tr>
                                                 <th>用户名</th>
@@ -92,11 +92,11 @@ var pager;
 
 <script id="scoreListImpl" type="text/x-jsrender">
 	{{for result ~pageSize=pageSize ~pageNo=pageNo}}
-		<tr class="current">
+		<tr>
 			<td id='userId{{:userId}}'>{{:userName}}</td>
 			<td>{{:groupName}}</td>
 			<td>{{:totalScore}}</td>
-			<td><a href="javascript:pager._toScorePage('{{:userId}}')" class="click">评价</a><a href="javascript:pager._toScoreLog('{{:userId}}')" class="click">查看</a></td>
+			<td><a href="javascript:pager._toScorePage('{{:userId}}')" class="click">评价</a></td>
 		</tr>
 	{{/for}}
 </script>

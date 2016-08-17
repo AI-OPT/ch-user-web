@@ -1,4 +1,4 @@
-define('app/jsp/score/scorelist', function (require, exports, module) {
+define('app/jsp/rank/rankrule', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
     Widget = require('arale-widget/1.2.0/widget'),
@@ -19,7 +19,7 @@ define('app/jsp/score/scorelist', function (require, exports, module) {
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
     //定义页面组件类
-    var ScoreListPager = Widget.extend({
+    var RankRulePager = Widget.extend({
     	
     	//属性，使用时由类的构造函数传入
     	attrs: {
@@ -32,18 +32,26 @@ define('app/jsp/score/scorelist', function (require, exports, module) {
         },
     	//重写父类
     	setup: function () {
-    		ScoreListPager.superclass.setup.call(this);
-    		this._queryScoreList();
-    	},
-    	/**
-    	 * 显示对话框
-    	 */
-    	_showDialog:function(id){
-    		$('.eject-mask').fadeIn(100);
-    		$('#'+id).slideDown(200);
+    		RankRulePager.superclass.setup.call(this);
+    		this._initTable();
     	},
     	
-    	//获取供货商管理列表
+    	_initTable:function(){
+    		$("#TBODY_RANKRULE").html();
+    		var data = [
+    		              {
+    		                id: "1"
+    		              },
+    		              {
+    		                id: "2",
+    		              }
+    		            ];
+    		var template = $.templates("#rankRuleImpl");
+            var htmlOutput = template.render(data);
+            alert(htmlOutput);
+            $("#TBODY_RANKRULE").html(htmlOutput);
+    	},
+    	
     	_queryScoreList: function(){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({
@@ -69,9 +77,23 @@ define('app/jsp/score/scorelist', function (require, exports, module) {
 
 		_toScorePage:function(userId){
 			window.location.href = _base+'/score/scorepage?'+userId;
-		}
+		},
+    	
+    	/**
+    	 * 编辑按钮事件
+    	 */
+    	_modifyTelData:function(telNo,telName,telMp){
+    		$("#telName_"+telNo).html(
+    				"<input id='telName_val_"+telNo+"' type='text' class='table-int-mini' value='"+telName+"' maxLength='24'>" +
+    				"<div id='modify_name_error_"+telNo+"' class='ejecr-pos-border' style='display: none;'>" +
+    				"<i class='icon-caret-up'></i></div>");
+    		$("#telMp_"+telNo).html(
+    				"<input id='telMp_val_"+telNo+"' type='text' class='table-int-mini' value='"+telMp+"' maxLength='11'><input type='button' class='mail-btn' value='保存' onclick=\"pager._saveModifyTelData('"+telNo+"')\">" +
+    				"<div id='modify_mp_error_"+telNo+"' class='ejecr-pos-border' style='display: none;'>" +
+					"<i class='icon-caret-up'></i></div>");
+    	}
     	
     });
     
-    module.exports = ScoreListPager
+    module.exports = RankRulePager
 });

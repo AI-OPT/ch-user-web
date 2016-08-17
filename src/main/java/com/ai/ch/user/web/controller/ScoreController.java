@@ -3,17 +3,25 @@ package com.ai.ch.user.web.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.htmlparser.lexer.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ai.ch.user.api.score.param.CtScoreKpiVo;
+import com.ai.ch.user.api.score.interfaces.IScoreSV;
+import com.ai.ch.user.api.score.param.InsertCurrentScoreRequest;
+import com.ai.ch.user.api.score.param.InsertScoreLogRequest;
+import com.ai.ch.user.api.score.param.QueryScoreKpiRequest;
+import com.ai.ch.user.api.score.param.QueryScoreKpiResponse;
+import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.vo.SupplierScoreVo;
 import com.ai.opt.base.vo.PageInfo;
+import com.ai.opt.base.vo.ResponseHeader;
+import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.web.model.ResponseData;
 
 @RestController
@@ -24,7 +32,7 @@ public class ScoreController {
 	
 	//跳转供货商评价管理
 	@RequestMapping("/scorelist")
-	public ModelAndView scorelist() {
+	public ModelAndView scoreList() {
 		ModelAndView model = new ModelAndView("/jsp/score/scorelist"); 
 		return model;
 	}
@@ -32,10 +40,10 @@ public class ScoreController {
 	//获取供货商列表
 	@RequestMapping("/getscorelist")
 	@ResponseBody
-	public ResponseData<PageInfo<SupplierScoreVo>> getscorelist(String tenentId) {
+	public ResponseData<PageInfo<SupplierScoreVo>> getScoreList(String tenentId) {
 		PageInfo<SupplierScoreVo> pageInfo = new PageInfo<SupplierScoreVo>();
-		pageInfo.setCount(5);
-		pageInfo.setPageCount(5);
+		pageInfo.setCount(20);
+		pageInfo.setPageCount(4);
 		pageInfo.setPageNo(1);
 		pageInfo.setPageSize(5);
 		List<SupplierScoreVo> list = new ArrayList<SupplierScoreVo>();
@@ -51,32 +59,23 @@ public class ScoreController {
 		pageInfo.setResult(list);
 		ResponseData<PageInfo<SupplierScoreVo>> response = new ResponseData<PageInfo<SupplierScoreVo>>("000000", "1");
 		response.setData(pageInfo);
+		LOG.error("finish");
 		return response;
 	}
 	
 	//评价供货商页面
 	@RequestMapping("/scorepage")
-	public ModelAndView scorepage() {
+	public ModelAndView scorePage(HttpServletRequest request,String userId) {
 		ModelAndView model = new ModelAndView("/jsp/score/scorepage"); 
 		model.addObject("supplier_name", "wuda");
 		model.addObject("company_name", "wuwer");
-		List<CtScoreKpiVo> scoreKpiList = new ArrayList<CtScoreKpiVo>();
-		for(int i=0;i<4;i++){
-			CtScoreKpiVo ctScoreKpiVo = new CtScoreKpiVo();
-			ctScoreKpiVo.setKpiName("商品质量");
-			ctScoreKpiVo.setMinScore(0);
-			ctScoreKpiVo.setMaxScore(40);
-			ctScoreKpiVo.setKpiDesc("针对供货商的供货品质量进行评分");
-			scoreKpiList.add(ctScoreKpiVo );
-		}
-		model.addObject("scoreKpiList", scoreKpiList);
 		
 		//调dubbo服务
-		/*IScoreSV scoreSV = DubboConsumerFactory.getService("iScoreSV");
+		IScoreSV scoreSV = DubboConsumerFactory.getService("iScoreSV");
 		QueryScoreKpiRequest queryScoreKpiRequest = new QueryScoreKpiRequest();
 		queryScoreKpiRequest.setTenantId("ch");
 		QueryScoreKpiResponse queryScoreKpiResponse = scoreSV.queryScoreKpi(queryScoreKpiRequest);
-		model.addObject("scoreKpiList", queryScoreKpiResponse.getList());*/
+		model.addObject("scoreKpiList", queryScoreKpiResponse.getList());
 		return model;
 	}
 	
@@ -85,4 +84,53 @@ public class ScoreController {
     public ModelAndView getScoreLog() {
         return new ModelAndView("/jsp/score/scorelog");
     }
+	
+	//提交供货商评价
+	@RequestMapping("/savescore")
+	public ResponseData<String> saveScore(HttpServletRequest request) {
+		ResponseData<String> response = new ResponseData<String>(null, null);
+		ResponseHeader responseHeader = null;
+		InsertCurrentScoreRequest currentScoreRequest = new InsertCurrentScoreRequest();
+		InsertScoreLogRequest scoreLogRequest = new InsertScoreLogRequest();
+		//调dubbo服务
+		//tenantId
+		String tenantId ="ch";
+		//供货商ID
+		String userId = "111333";
+		//操作员ID
+		Long operId = 111222L;
+		//总分
+		Integer totalScore =0;
+		for(int i=1;i<=4;i++)
+			totalScore+=Integer.valueOf(request.getParameter(String.valueOf(i)).toString());
+		//评分指标
+		scoreLogRequest.setScore1(Integer.valueOf(request.getParameter(String.valueOf(1)).toString()));
+		scoreLogRequest.setScore2(Integer.valueOf(request.getParameter(String.valueOf(2)).toString()));
+		scoreLogRequest.setScore3(Integer.valueOf(request.getParameter(String.valueOf(3)).toString()));
+		scoreLogRequest.setScore4(Integer.valueOf(request.getParameter(String.valueOf(4)).toString()));
+		IScoreSV scoreSV = DubboConsumerFactory.getService("iScoreSV");
+		currentScoreRequest.setTenantId(tenantId);
+		currentScoreRequest.setOperId(operId);
+		currentScoreRequest.setUserId(userId);
+		currentScoreRequest.setTotalScore(totalScore);
+		scoreLogRequest.setTenantId(tenantId);
+		scoreLogRequest.setOperId(operId);
+		scoreLogRequest.setUserId(userId);
+		scoreLogRequest.setTotalScore(totalScore);
+		try{
+			scoreSV.insertCurrentScore(currentScoreRequest);
+			scoreSV.insertScoreLog(scoreLogRequest);
+			response.setStatusCode(ChWebConstants.OperateCode.SUCCESS);
+			response.setStatusInfo("操作成功");
+			responseHeader = new ResponseHeader(true,ChWebConstants.OperateCode.SUCCESS,"操作成功");
+		}catch(Exception e){
+		response.setStatusCode(ChWebConstants.OperateCode.Fail);
+		response.setStatusInfo("操作失败");
+		responseHeader = new ResponseHeader(false,ChWebConstants.OperateCode.Fail,"操作失败");
+		LOG.error("保存失败");
+		}
+		response.setResponseHeader(responseHeader);
+		return response;
+	}
+	
 }
