@@ -78,6 +78,8 @@ dependencies {
     compile 'org.sitemesh:sitemesh:3.0.1'
     //供货商评分
     compile 'com.ai.ch.user:score:1.0-SNAPSHOT'
+    //店铺评级设置
+    compile 'com.ai.ch.user:rank:1.0-SNAPSHOT'
     optUedTemplate 'com.ai.opt.uniframe:opt-ued-template:1.0-SNAPSHOT'
     
     testCompile(

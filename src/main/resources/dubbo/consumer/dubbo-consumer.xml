@@ -47,6 +47,9 @@
 	<!-- 供货商评价-->
 	<dubbo:reference id="iScoreSV" interface="com.ai.ch.user.api.score.interfaces.IScoreSV"
 					 registry="chRegistry"/>
+	<!-- 店铺评级-->
+	<dubbo:reference id="iRankSV" interface="com.ai.ch.user.api.rank.interfaces.IRankSV"
+					 registry="chRegistry"/>
 
 
 </beans>

@@ -29,6 +29,8 @@ define('app/jsp/rank/rankrule', function (require, exports, module) {
     	},
     	//事件代理
     	events: {
+    		"change #rankRegion":"_initTable",
+    		"click #saveRule":"_saveRule",
         },
     	//重写父类
     	setup: function () {
@@ -38,61 +40,61 @@ define('app/jsp/rank/rankrule', function (require, exports, module) {
     	
     	_initTable:function(){
     		$("#TBODY_RANKRULE").html();
-    		var data = [
-    		              {
-    		                id: "1"
-    		              },
-    		              {
-    		                id: "2",
-    		              }
-    		            ];
+    		var count = document.getElementById("rankRegion").value;
+    		if(count==null||count=="")
+    			count=5;
+    		//I am drunk
+    		var count_=count-1;
+    		var htmlOutput ="<tr><td><p class='f-14' style='font-weight:400;padding-right:89px;'>等级 1: 0 - <input type='hidden' name='minFee' value='0'><input type='hidden' value='1' name='list[0].rank'><input class='int-text int-mini' name='list[0].maxFee' type='text'>元</p></td>";
+             htmlOutput+="<td><p class='f-14'>等级名称 :  <input class='int-text int-small' name='list[0].rankName' type='text'></p></td>";
+             htmlOutput+="<td><p class='f-14'>图片名称 :  <input class='int-text int-small' name='list[0].rankLogo' type='text'>&nbsp;&nbsp;&nbsp;<span class='btn-upload'>";
+             htmlOutput+="<input type='button' class='btn-default btn-medium' value='浏览文件'/>";
+             htmlOutput+="<input type='file' class='int-file'/></span></p></td></tr>";
+    		if(count>2){
+    		var json = '[';
+    		for(var i=2;i<=count-1;i++){
+    			json+='{id:{index:'+i+'}},';
+    		}
+    		json=json.substr(0,json.length-1);
+    		json+=']';
+    		json = eval("(" + json + ")");
     		var template = $.templates("#rankRuleImpl");
-            var htmlOutput = template.render(data);
-            alert(htmlOutput);
+    		//渲染模版
+            htmlOutput += template.render(json);
+    		}
+            htmlOutput+="<tr><td><p class='f-14' style='font-weight:400;padding-right:80px;'>等级 "+count+" :  <input class='int-text int-mini' name='list["+count_+"].minFee' type='text'> 元以上</p><input type='hidden' value='999999999999999' name='maxFee'><input type='hidden' value='1' name='list["+count+"].rank'></td>";
+            htmlOutput+="<td><p class='f-14'>等级名称 :  <input class='int-text int-small' name='list["+count_+"].rankName' type='text'></p></td>";
+            htmlOutput+="<td><p class='f-14'>图片名称 :  <input class='int-text int-small' name='list["+count_+"].rankLogo' type='text'>&nbsp;&nbsp;&nbsp;<span class='btn-upload'>";
+            htmlOutput+="<input type='button' class='btn-default btn-medium' value='浏览文件'/>";
+            htmlOutput+="<input type='file' class='int-file'/></span></p></td></tr>";
             $("#TBODY_RANKRULE").html(htmlOutput);
     	},
     	
-    	_queryScoreList: function(){
-    		var _this = this;
-    		$("#pagination-ul").runnerPagination({
-    			url: _base+"/score/getscorelist",
-	 			method: "POST",
-	 			dataType: "json",
-	 			renderId:"TBODY_SCORELIST",
-	            data : {
-					tenantId: 'ch',
-				},
-	           	pageSize: ScoreListPager.DEFAULT_PAGE_SIZE,
-	           	visiblePages:5,
-	            message: "正在为您查询数据..",
-	            callback: function(data){
-	              	if(data.result != null && data.result != 'undefined' && data.result.length>0){
-	            		var template = $.templates("#scoreListImpl");
-	                    var htmlOutput = template.render(data);
-	                    $("#TBODY_SCORELIST").html(htmlOutput);
-	            	}
-	            }
-    		}); 
-    	},
-
-		_toScorePage:function(userId){
-			window.location.href = _base+'/score/scorepage?'+userId;
-		},
-    	
-    	/**
-    	 * 编辑按钮事件
-    	 */
-    	_modifyTelData:function(telNo,telName,telMp){
-    		$("#telName_"+telNo).html(
-    				"<input id='telName_val_"+telNo+"' type='text' class='table-int-mini' value='"+telName+"' maxLength='24'>" +
-    				"<div id='modify_name_error_"+telNo+"' class='ejecr-pos-border' style='display: none;'>" +
-    				"<i class='icon-caret-up'></i></div>");
-    		$("#telMp_"+telNo).html(
-    				"<input id='telMp_val_"+telNo+"' type='text' class='table-int-mini' value='"+telMp+"' maxLength='11'><input type='button' class='mail-btn' value='保存' onclick=\"pager._saveModifyTelData('"+telNo+"')\">" +
-    				"<div id='modify_mp_error_"+telNo+"' class='ejecr-pos-border' style='display: none;'>" +
-					"<i class='icon-caret-up'></i></div>");
+    	_saveRule:function(){
+    		$.ajax({
+    			type:"post",
+    			url:_base+"/rank/saverule",
+    			dataType: "json",
+    			data:$("#rankForm").serialize(),
+    	        success: function(data) {
+    	        	if(data.responseHeader.resultCode='000000'){
+    	        	var dialog = Dialog({
+    					title : '提示',
+    					content : "评价成功",
+    					okValue : "确定",
+    					ok : function() {
+    						this.close;
+    						window.location.href=_base+"/rank/rankrule";
+    					}
+    				});
+    	        	dialog.show();
+    	        	}
+    	            },
+    				error: function(error) {
+    					alert("error:"+ error);
+    				}
+    				});
     	}
-    	
     });
     
     module.exports = RankRulePager
