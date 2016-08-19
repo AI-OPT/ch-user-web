@@ -106,5 +106,5 @@ eclipse {
 
 
 war {
-    baseName 'ch-op'
+    baseName 'ch-user-web'
 }
