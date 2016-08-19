@@ -81,7 +81,8 @@ dependencies {
     //店铺评级设置
     compile 'com.ai.ch.user:rank:1.0-SNAPSHOT'
     optUedTemplate 'com.ai.opt.uniframe:opt-ued-template:1.0-SNAPSHOT'
-    
+    //合同管理
+    compile "com.ai.ch.user:contract:1.0-SNAPSHOT"
     testCompile(
             "org.springframework:spring-test:4.1.7.RELEASE",
             "junit:junit:4.12"

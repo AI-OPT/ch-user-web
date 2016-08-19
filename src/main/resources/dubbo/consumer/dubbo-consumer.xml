@@ -26,30 +26,13 @@
 
 	<dubbo:reference id="iNormProductSV" interface="com.ai.ch.product.api.normproduct.interfaces.INormProductSV"
 					 registry="chRegistry"/>
-	<!-- 商品类目 -->
-	<dubbo:reference id="iProductCatSV" interface="com.ai.ch.product.api.productcat.interfaces.IProductCatSV"
-					 registry="chRegistry"/>
-	<!-- 商品管理 -->
-	<dubbo:reference id="iProductManagerSV" interface="com.ai.ch.product.api.product.interfaces.IProductManagerSV"
-					 registry="chRegistry"/>
-	<!-- 商品服务 -->
-	<dubbo:reference id="iProductSV" interface="com.ai.ch.product.api.product.interfaces.IProductSV"
-					 registry="chRegistry"/>
-	<!-- 公共缓存 -->
-	<dubbo:reference id="iCacheSV" interface="com.ai.ch.common.api.cache.interfaces.ICacheSV"
-					 registry="chRegistry"/>
-	<!-- 组织机构用户 -->
-	<dubbo:reference id="iUcKeyInfoSV" interface="com.ai.ch.user.api.keyinfo.interfaces.IUcKeyInfoSV"
-					 registry="chRegistry"/>
-	<!-- 库存服务 -->
-	<dubbo:reference id="iStorageSV" interface="com.ai.ch.product.api.storage.interfaces.IStorageSV"
-					 registry="chRegistry"/>
 	<!-- 供货商评价-->
 	<dubbo:reference id="iScoreSV" interface="com.ai.ch.user.api.score.interfaces.IScoreSV"
 					 registry="chRegistry"/>
 	<!-- 店铺评级-->
 	<dubbo:reference id="iRankSV" interface="com.ai.ch.user.api.rank.interfaces.IRankSV"
 					 registry="chRegistry"/>
-
-
+	<!-- 合同管理-->
+    <dubbo:reference id="iContractSV" interface="com.ai.ch.user.api.contract.interfaces.IContractSV" 
+    registry="chRegistry"/>
 </beans>
