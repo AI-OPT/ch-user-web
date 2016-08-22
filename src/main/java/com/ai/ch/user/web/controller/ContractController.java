@@ -23,6 +23,7 @@ import com.ai.ch.user.web.constants.ChWebConstants.ExceptionCode;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sdk.util.DateUtil;
 import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.paas.ipaas.image.IImageClient;
@@ -65,6 +66,7 @@ public class ContractController {
 		 	contactInfo.setTenantId(ChWebConstants.COM_TENANT_ID);
 		 	contactInfo.setUserId(userId);
 	 		ContactInfoResponse response = contract.queryContractInfo(contactInfo);
+	 		response.setUserId(userId);
 	 		Map<String, Object> model = new HashMap<String, Object>();
 	 		model.put("contactInfo", response);
 	        return new ModelAndView("/jsp/contract/supplier/contractManager",model);
@@ -79,7 +81,7 @@ public class ContractController {
 	 public ModelAndView contractShopManagerPager(HttpServletRequest request,String userId) {
 		 	IContractSV contract = DubboConsumerFactory.getService("iContractSV");
 		 	ContactInfoRequest contactInfo = new ContactInfoRequest();
-		 	contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SUPPLIER);
+		 	contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SHOP);
 		 	contactInfo.setTenantId(ChWebConstants.COM_TENANT_ID);
 		 	contactInfo.setUserId(userId);
 	 		ContactInfoResponse response = contract.queryContractInfo(contactInfo);
@@ -95,9 +97,9 @@ public class ContractController {
 	  * @return
 	  */
 	 
-	 @RequestMapping("/contractDetailPager")
+	 @RequestMapping("/contractSupplierDetailPager")
 	 public ModelAndView contractDetail(HttpServletRequest request,String userId) {
-		 IContractSV contract = DubboConsumerFactory.getService("iContractSV");
+		    IContractSV contract = DubboConsumerFactory.getService("iContractSV");
 		 	ContactInfoRequest contactInfo = new ContactInfoRequest();
 		 	contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SUPPLIER);
 		 	contactInfo.setTenantId(ChWebConstants.COM_TENANT_ID);
@@ -105,7 +107,31 @@ public class ContractController {
 	 		ContactInfoResponse response = contract.queryContractInfo(contactInfo);
 	 		Map<String, Object> model = new HashMap<String, Object>();
 	 		model.put("contactInfo", response);
+	 		model.put("startTime", DateUtil.getDateString(response.getActiveTime(),"yyyy-MM-dd"));
+	 		model.put("endTime", DateUtil.getDateString(response.getInactiveTime(),"yyyy-MM-dd"));
 	        return new ModelAndView("/jsp/contract/supplier/contractDetail",model);
+	 }
+	 
+	 /**
+	  * 合同店铺查看页面信息
+	  * @param request
+	  * @param userId
+	  * @return
+	  */
+	 
+	 @RequestMapping("/contractShopDetailPager")
+	 public ModelAndView contractShopDetailPager(HttpServletRequest request,String userId) {
+		    IContractSV contract = DubboConsumerFactory.getService("iContractSV");
+		 	ContactInfoRequest contactInfo = new ContactInfoRequest();
+		 	contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SHOP);
+		 	contactInfo.setTenantId(ChWebConstants.COM_TENANT_ID);
+		 	contactInfo.setUserId(userId);
+	 		ContactInfoResponse response = contract.queryContractInfo(contactInfo);
+	 		Map<String, Object> model = new HashMap<String, Object>();
+	 		model.put("contactInfo", response);
+	 		model.put("startTime", DateUtil.getDateString(response.getActiveTime(),"yyyy-MM-dd"));
+	 		model.put("endTime", DateUtil.getDateString(response.getInactiveTime(),"yyyy-MM-dd"));
+	        return new ModelAndView("/jsp/contract/shop/contractDetail",model);
 	 }
 	 /**
 	  * 店铺添加合同信息
@@ -115,13 +141,19 @@ public class ContractController {
 	  */
 	 @RequestMapping("/addShopContractInfo")
 	 @ResponseBody
-	 public ResponseData<String> addShopContractInfo(HttpServletRequest request,ContactInfoRequest contactInfo) {
-
+	 public ResponseData<String> addShopContractInfo(HttpServletRequest request,ContactInfoRequest contractInfo) {
 	        ResponseData<String> responseData = null;
 	        ResponseHeader responseHeader = null;
 	        try{
+	        	String startTime = request.getParameter("startTime");
+	 	        String endTime = request.getParameter("endTime");
+	 	        contractInfo.setActiveTime(DateUtil.getTimestamp(startTime));
+	        	contractInfo.setInactiveTime(DateUtil.getTimestamp(endTime));
+	        	contractInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SHOP);
+	        	contractInfo.setTenantId(ChWebConstants.COM_TENANT_ID);
+	        	contractInfo.setUserId(contractInfo.getUserId());
 	        	IContractSV contract = DubboConsumerFactory.getService("iContractSV");
-	 	        contract.insertContractInfo(contactInfo);
+	 	        contract.insertContractInfo(contractInfo);
 	        	responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
                 responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
 	        }catch(Exception e){
@@ -140,13 +172,22 @@ public class ContractController {
 	  */
 	 @RequestMapping("/addSupplierContractInfo")
 	 @ResponseBody
-	 public ResponseData<String> addContractInfo(HttpServletRequest request,ContactInfoRequest contactInfo) {
+	 public ResponseData<String> addSupplierContractInfo(HttpServletRequest request,ContactInfoRequest contractInfo) {
 
 	        ResponseData<String> responseData = null;
 	        ResponseHeader responseHeader = null;
+	        String startTime = request.getParameter("startTime");
+	        String endTime = request.getParameter("endTime");
+	
 	        try{
+	        	
+	        	contractInfo.setActiveTime(DateUtil.getTimestamp(startTime));
+	        	contractInfo.setInactiveTime(DateUtil.getTimestamp(endTime));
+	        	contractInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SUPPLIER);
+	        	contractInfo.setTenantId(ChWebConstants.COM_TENANT_ID);
+	        	contractInfo.setUserId(contractInfo.getUserId());
 	        	IContractSV contract = DubboConsumerFactory.getService("iContractSV");
-	 	        contract.insertContractInfo(contactInfo);
+	 	        contract.insertContractInfo(contractInfo);
 	        	responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
                 responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
 	        }catch(Exception e){
