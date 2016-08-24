@@ -80,26 +80,26 @@
 									<li>
 										<p class="word"><b class="red">*</b>扫描版合同:</p>
 										<span class="btn-upload">
-										 <input class="int-text int-large" type="text">
-										 <input type="button" class="btn-default btn-medium" value="浏览文件"/>
-										 <input type="file" class="int-file"/>
+										 <input class="int-text int-large" id="scanContractInput" type="text">
+										 <input type="button"  class="btn-default btn-medium" value="浏览文件"/>
+										 <input type="file"  class="int-file"/>
 										</span>
 
 									</li>
 								</ul>
 								<ul>
 									<li>
-										<p class="word"><b class="red">*</b>电子版合同:</p>
+										<p class="word">电子版合同:</p>
 										<span class="btn-upload">
 										 <input class="int-text int-large" type="text">
-										 <input type="button" class="btn-default btn-medium" value="浏览文件"/>
+										 <input type="button" id="electronicContract" class="btn-default btn-medium" value="浏览文件"/>
 										 <input type="file" class="int-file"/>
 										</span>
 									</li>
 								</ul>
 								<ul>
 									<li>
-										<p style="margin-left: 25%">支持上传pdf、PNG、JPG及word格式的文件</p>
+										<p style="margin-left: 25%">支持上传pdf、PNG、JPG及word格式的文件，大小20M以下</p>
 										
 									</li>
 								</ul>
