@@ -130,7 +130,7 @@
             </li>
          <!--/用户信息结束-->
          <!--退出icon-->    
-            <li class="hidden-xxs"><a class="btn"><i class="fa fa-power-off"></i></a></li>
+            <li class="hidden-xxs"><a class="btn" href="${_base}/ssologout"><i class="fa fa-power-off"></i></a></li>
          <!--/退出icon-->       
             </ul>
             </div>
