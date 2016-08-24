@@ -16,31 +16,6 @@
 </head>
 <body>
 
-     <div class="row"><!--外围框架-->
-     	<div class="col-lg-12"><!--删格化-->
-             <div class="row"><!--内侧框架-->
-	                 <div class="col-lg-12"><!--删格化-->
-	                    <div class="main-box clearfix"><!--白色背景-->
-	                    		<div class="notice col-lg-12">
-	                    			<p class="gongg"><A href="#">［公告］:</A></p>
-           						 <div  id="elem">
-						            <ul id="elem1">
-						                <li><A href="#">公告位置！比如说系统维护，哪些功能在什么时间段可能不可用之类的，针对后台</A></li>
-						                <li><A href="#">公告位置！比如说系统维护，哪些功能在什么时间段可能不可用之类的，针对后台</A></li>
-						                <li><A href="#">公告位置！比如说系统维护，哪些功能在什么时间段可能不可用之类的，针对后台</A></li>
-						                <li><A href="#">公告位置！比如说系统维护，哪些功能在什么时间段可能不可用之类的，针对后台</A></li>
-						            </ul>
-						            <ul id="elem2">
-						            </ul>
-						            </div>
-            						 <p class="dclose"><A href="#"><i class="icon-remove"></i></A></p>
-	                    		</div>
-	         			</div>
-	                	</div>
-              </div>
-         </div>
-     </div>	
-			
   		  <div class="row"><!--外围框架-->
             <div class="col-lg-12"><!--删格化-->
                 <div class="row"><!--内侧框架-->
@@ -106,26 +81,26 @@
 									<li>
 										<p class="word"><b class="red">*</b>扫描版合同:</p>
 										<span class="btn-upload">
-										 <input class="int-text int-large" type="text">
-										 <input type="button" class="btn-default btn-medium" value="浏览文件"/>
-										 <input type="file" class="int-file"/>
+										   <input class="int-text int-large" id="scanFileText" type="text">
+										   <input type="button" id="scanContract" class="btn-default btn-medium" value="浏览文件"/>
+										   <input type="file" name="scanFile" id="scanFile" onchange="uploadFile('scanFile','scanFileText','scanContractErrMsg','scanContractText','scanVersionContractFlag')"  class="int-file"/>
 										</span>
-
 									</li>
+									<li><label id="scanContractErrMsg" style="display: none;"><span class="ash" id="scanContractText">扫描件不能为空</span></label></li>
 								</ul>
 								<ul>
 									<li>
-										<p class="word"><b class="red">*</b>电子版合同:</p>
+										<p class="word">电子版合同:</p>
 										<span class="btn-upload">
 										 <input class="int-text int-large" type="text">
-										 <input type="button" class="btn-default btn-medium" value="浏览文件"/>
+										 <input type="button" id="electronicContract" class="btn-default btn-medium" value="浏览文件"/>
 										 <input type="file" class="int-file"/>
 										</span>
 									</li>
 								</ul>
 								<ul>
 									<li>
-										<p style="margin-left: 25%">支持上传pdf、PNG、JPG及word格式的文件</p>
+										<p style="margin-left: 25%">支持上传pdf、PNG、JPG及word格式的文件，大小20M以下</p>
 										
 									</li>
 								</ul>
@@ -148,11 +123,6 @@
             </div>
     </div>
     
-    <!--底部-->
-    <footer id="footer-bar" class="row">
-   		 <p id="footer-copyright" class="col-xs-12">亚信</p>
-    </footer>
-   <!--/底部结束-->
 
 <script type="text/javascript">
 	var contractPager;
