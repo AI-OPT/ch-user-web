@@ -110,29 +110,47 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				$("#startTimeFlag").val("1");
 			}
 		},
-		_checkEndTime:function(){
+		_checkScanFileText:function(){
+			var scanFileInput = $("#scanFileText").val();
+			if(scanFileInput==""||scanFileInput==null){
+				$("#scanContractErrMsg").show();
+				$("#scanContractText").show();
+				$("#scanContractText").text('请上传扫描件');
+	    		$("#scanVersionContractFlag").val("0");
+			}else{
+				$("#scanContractErrMsg").hide();
+				$("#scanContractText").hide();
+				$("#scanVersionContractFlag").val("1");
+			}
+		},
+		_checkEndTimeText:function(){
 			var endTime = $("#endTime").val();
 			if(endTime==""||endTime==null){
-				$("#endTimeErrMsg").show();
-				$("#endTimeText").show();
-				$("#endTimeText").text('请输入时间');
-	    		$("#endTimeFlag").val("0");
-			}else{
-				$("#endTimeErrMsg").hide();
-				$("#endTimeText").hide();
-				$("#endTimeFlag").val("1");
+				$("#endTimeTextErrMsg").show();
+				$("#endTimeTextShow").show();
+				$("#endTimeTextShow").text('请输入时间');
+	    		$("#endTimeTextFlag").val("0");
+			}
+			
+			if(endTime!=""&&endTime!=null){
+				$("#endTimeTextErrMsg").hide();
+				$("#endTimeTextShow").hide();
+				$("#endTimeTextFlag").val("1");
 			}
 		},
 		_saveSupplierContract:function(){
 			this._checkContractCodeValue();
 			this._checkContractNameValue();
 			this._checkStartTime();
-			this._checkEndTime();
+			this._checkEndTimeText();
+			this._checkScanFileText();
+			
 			var contractCodeFlag = $("#contractCodeFlag").val();
 			var contractNameFlag = $("#contractNameFlag").val();
-			
 			var startTime = $("#startTime").val();
 			var endTime = $("#endTime").val();
+			var scanVersionContractFlag = $("#scanVersionContractFlag").val();
+			
 			var  startTimeStr=startTime.toString();
 			startTimeStr =  startTimeStr.replace(/-/g,"/");
 			var oDate1 = new Date(startTimeStr).getTime();
@@ -142,18 +160,26 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			var oDate2 = new Date(endTimeStr).getTime();
 			
 			if(oDate1>oDate2){
-				$("#endTimeErrMsg").show();
-				$("#endTimeText").show();
-				$("#endTimeText").text('开始时间不能大于结束时间');
-	    		$("#endTimeFlag").val("0");
+				$("#endTimeTextErrMsg").show();
+				$("#endTimeTextShow").show();
+				$("#endTimeTextShow").text('开始时间不能大于结束时间');
+	    		$("#endTimeTextFlag").val("0");
 			}else{
-				$("#endTimeErrMsg").hide();
-				$("#endTimeText").hide();
-				$("#endTimeFlag").val("1");
+				$("#endTimeTextErrMsg").hide();
+				$("#endTimeTextShow").hide();
+				$("#endTimeTextFlag").val("1");
 			}
 			var startTimeFlag = $("#startTimeFlag").val();
-			var endTimeFlag  = $("#endTimeFlag").val();
-			if(contractCodeFlag!="0"&&contractNameFlag!="0"&&startTimeFlag!="0"&&endTimeFlag!="0"){
+			var endTimeFlag  = $("#endTimeTextFlag").val();
+			if(contractCodeFlag!="0"&&contractNameFlag!="0"&&startTimeFlag!="0"&&endTimeFlag!="0"&&scanVersionContractFlag!="0"){
+				
+				$("#scanFileName").val($("#scanFileText").val());
+				
+				if($("#electronicContractText").val()!=""&&$("#electronicContractText").val()!=null){
+					$("#electronicFileName").attr("name","list[1].infoName");
+					$("#electronicFileName").val($("#electronicContractText").val());
+				}
+				
 				$.ajax({
 					type:"post",
 					url:_base+"/contract/addSupplierContractInfo",
@@ -173,57 +199,20 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 					});
 			}
 		},
-		_uploadFile:function(){
-			var scanContractFile = $("#scanFile").val();
-			$("#scanFileTest").val(scanContractFile);
-			var scanFileTest = $("#scanFileTest").val();
-			if(scanFileTest==""){
-				$("#scanContractErrMsg").show();
-				$("#scanContractText").show();
-				$("#scanContractText").text('扫描件合同不能为空');
-				$("#scanVersionContractFlag").val("0");
-				return false;
-			}else if(!/\.(PDF|PNG|JPG|DOC|pdf|png|jpg|doc)$/.test(scanFileTest)){
-				$("#scanContractErrMsg").show();
-				$("#scanContractText").show();
-				$("#scanContractText").text('文件格式不对，只允许上传pdf、png、jpg、word');
-				$("#scanVersionContractFlag").val("0");
-				return false;
-			}else if(scanFileTest.size>=(20.05*1024*1024)-1){
-				$("#scanContractErrMsg").show();
-				$("#scanContractText").show();
-				$("#scanContractText").text('文档太大，不能超过20M');
-				$("#scanVersionContractFlag").val("0");
-				return false;
-			}
-			 $.ajaxFileUpload({  
-		         url:_base+"/contract/uploadFile",  
-		         secureuri:false,  
-		         fileElementId:"scanFileTest",//file标签的id  
-		         dataType: 'json',//返回数据的类型  
-		         data:{scanFile:scanFileTest},//一同上传的数据  
-		         success: function (data, status) {
-		        	if(data.isTrue==true){
-		        		alert("dddd");
-		        		//document.getElementById(ddsId1).value=data.idpsId;
-		        		//$("#picFlag").val("1");
-		        	 }
-		         },
-		         error: function (data, status, e) {  
-		             alert(e);  
-		         }
-		     }); 
-		},
 		_saveShopContract:function(){
 			this._checkContractCodeValue();
 			this._checkContractNameValue();
 			this._checkStartTime();
-			this._checkEndTime();
+			this._checkEndTimeText();
+			this._checkScanFileText();
+			
 			var contractCodeFlag = $("#contractCodeFlag").val();
 			var contractNameFlag = $("#contractNameFlag").val();
 			
 			var startTime = $("#startTime").val();
 			var endTime = $("#endTime").val();
+			
+			var scanVersionContractFlag = $("#scanVersionContractFlag").val();
 			
 			var  startTimeStr=startTime.toString();
 			startTimeStr =  startTimeStr.replace(/-/g,"/");
@@ -233,20 +222,28 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			endTimeStr =  endTimeStr.replace(/-/g,"/");
 			var oDate2 = new Date(endTimeStr).getTime();
 			if(oDate1>oDate2){
-				$("#endTimeErrMsg").show();
-				$("#endTimeText").show();
-				$("#endTimeText").text('开始时间不能大于结束时间');
-	    		$("#endTimeFlag").val("0");
+				$("#endTimeTextErrMsg").show();
+				$("#endTimeTextShow").show();
+				$("#endTimeTextShow").text('开始时间不能大于结束时间');
+	    		$("#endTimeTextFlag").val("0");
 			}else{
-				$("#endTimeErrMsg").hide();
-				$("#endTimeText").hide();
-				$("#endTimeFlag").val("1");
+				$("#endTimeTextErrMsg").hide();
+				$("#endTimeTextShow").hide();
+				$("#endTimeTextFlag").val("1");
 			}
 			
 			var startTimeFlag = $("#startTimeFlag").val();
-			var endTimeFlag = $("#endTimeFlag").val();
+			var endTimeFlag = $("#endTimeTextFlag").val();
 			
-			if(contractCodeFlag!="0"&&contractNameFlag!="0"&&startTimeFlag!="0"&&endTimeFlag!="0"){
+			if(contractCodeFlag!="0"&&contractNameFlag!="0"&&startTimeFlag!="0"&&endTimeFlag!="0"&&scanVersionContractFlag!="0"){
+				
+				$("#scanFileName").val($("#scanFileText").val());
+				
+				if($("#electronicContractText").val()!=""&&$("#electronicContractText").val()!=null){
+					$("#electronicFileName").attr("name","list[1].infoName");
+					$("#electronicFileName").val($("#electronicContractText").val());
+				}
+				
 				$.ajax({
 					type:"post",
 					url:_base+"/contract/addShopContractInfo",
@@ -271,8 +268,8 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     module.exports = ContractInfoPager
 });
 
-function uploadFile(fileId,inputText,errMsg,contractText,contractFlag){
-	var contractFile = $(fileId).val();
+function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
+	var contractFile = $("#"+fileId).val();
 	$("#"+inputText).val(contractFile);
 	var fileTest = $("#"+inputText).val();
 	if(fileTest==""){
@@ -281,7 +278,7 @@ function uploadFile(fileId,inputText,errMsg,contractText,contractFlag){
 		$("#"+contractText).text('扫描件合同不能为空');
 		$("#"+contractFlag).val("0");
 		return false;
-	}else if(!/\.(PDF|PNG|JPG|DOC|pdf|png|jpg|doc)$/.test(scanFileTest)){
+	}else if(!/\.(PDF|PNG|JPG|DOC|pdf|png|jpg|doc)$/.test(fileTest)){
 		$("#"+errMsg).show();
 		$("#"+contractText).show();
 		$("#"+contractText).text('文件格式不对，只允许上传pdf、png、jpg、word');
@@ -295,13 +292,14 @@ function uploadFile(fileId,inputText,errMsg,contractText,contractFlag){
 		return false;
 	}
 	 $.ajaxFileUpload({  
-         url:_base+"/contract/uploadFile",  
+         url:_base+"/contract/uploadFile？contractFileId"+fileId,  
          secureuri:false,  
          fileElementId:fileId,//file标签的id  
          dataType: 'json',//返回数据的类型  
-         data:{"contractFileId":fileId},//一同上传的数据  
+         data:{fileId:fileId},//一同上传的数据  
          success: function (data, status) {
         	if(data.isTrue==true){
+        		$("#"+ddsId).val(data.dssId);
         		$("#"+contractFlag).val("1");
         	 }else{
         		 alert("上传失败");
