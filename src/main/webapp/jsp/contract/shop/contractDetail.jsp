@@ -13,33 +13,6 @@
 <link rel="stylesheet" type="text/css" href="${uedroot}/css/modular/modular.css"/>
 </head>
 <body>
-
-    <!--右侧-->
-     <div class="row"><!--外围框架-->
-     	<div class="col-lg-12"><!--删格化-->
-             <div class="row"><!--内侧框架-->
-	                 <div class="col-lg-12"><!--删格化-->
-	                    <div class="main-box clearfix"><!--白色背景-->
-	                    		<div class="notice col-lg-12">
-	                    			<p class="gongg"><A href="#">［公告］:</A></p>
-           						 <div  id="elem">
-						            <ul id="elem1">
-						                <li><A href="#">公告位置！比如说系统维护，哪些功能在什么时间段可能不可用之类的，针对后台</A></li>
-						                <li><A href="#">公告位置！比如说系统维护，哪些功能在什么时间段可能不可用之类的，针对后台</A></li>
-						                <li><A href="#">公告位置！比如说系统维护，哪些功能在什么时间段可能不可用之类的，针对后台</A></li>
-						                <li><A href="#">公告位置！比如说系统维护，哪些功能在什么时间段可能不可用之类的，针对后台</A></li>
-						            </ul>
-						            <ul id="elem2">
-						            </ul>
-						            </div>
-            						 <p class="dclose"><A href="#"><i class="icon-remove"></i></A></p>
-	                    		</div>
-	         			</div>
-	                	</div>
-              </div>
-         </div>
-     </div>	
-			
   		  <div class="row"><!--外围框架-->
             <div class="col-lg-12"><!--删格化-->
                 <div class="row"><!--内侧框架-->
@@ -66,14 +39,14 @@
 					   	<!--查询结束-->   
 					 	<!--table表格-->
 					 	 	<div class="form-label pl-40">
-						    	<ul>
+					 	 		<ul>
 									<li>
 									  <p class="word" style="font-style: "><b class="red">*</b>合同编号:</p>
 									</li>
 									<li>${contactInfo.contractCode}</li>
 								</ul>
 								
-								<ul>
+						    	<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>合同名称:</p>
 									</li>
@@ -96,15 +69,15 @@
 								<ul>
 									<li>
 										<p class="word"><b class="red">*</b>扫描版合同:</p>
-										<p>扫描合同.pdf</p>
-										<a class="biu-btn btn-auto btn-green"> <i class="icon-download-alt"> </i>下载 </a>
+										<p>${scanContractInfoName }</p>
+										<a class="biu-btn btn-auto btn-green" href="${_base}/contract/download/${scanContractInfoName}?fileName=${scanContractInfoName}&attrValue=${scanContractAttrValue}"> <i class="icon-download-alt"> </i>下载 </a>
 									</li>
 								</ul>
 								<ul>
 									<li>
-										<p class="word"><b class="red">*</b>电子版合同:</p>
-										<p>电子合同.pdf</p>
-										<a class="biu-btn btn-auto btn-green"> <i class="icon-download-alt"> </i>下载 </a>
+										<p class="word">电子版合同:</p>
+										<p>${electronicContractInfoName}</p>
+										<a class="biu-btn btn-auto btn-green" href="${_base}/contract/download/${electronicContractInfoName}?fileName=${electronicContractInfoName}&attrValue=${electronicContractAttrValue}"> <i class="icon-download-alt"> </i>下载 </a>
 									</li>
 								</ul>
 																							
