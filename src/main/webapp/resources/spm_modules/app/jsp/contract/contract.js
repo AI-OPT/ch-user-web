@@ -292,7 +292,7 @@ function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
 		return false;
 	}
 	 $.ajaxFileUpload({  
-         url:_base+"/contract/uploadFile？contractFileId"+fileId,  
+         url:_base+"/contract/uploadFile?contractFileId="+fileId,  
          secureuri:false,  
          fileElementId:fileId,//file标签的id  
          dataType: 'json',//返回数据的类型  
