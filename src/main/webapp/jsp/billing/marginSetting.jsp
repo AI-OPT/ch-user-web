@@ -7,71 +7,84 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<title>保证金</title>
+<title>保证金设置</title>
 <%@include file="/inc/inc.jsp" %>
-<script src="${uedroot}/scripts/modular/frame.js"></script>  
-<link rel="stylesheet" type="text/css" href="${uedroot}/css/modular/modular.css"/>
 </head>
 <body>
+   <div class="content-wrapper-iframe" ><!--右侧灰色背景-->
+     <!--框架标签结束-->
+      <div class="row"><!--外围框架-->
+     	<div class="col-lg-12"><!--删格化-->
+             <div class="row"><!--内侧框架-->
+	                 <div class="col-lg-12"><!--删格化-->
+	                    <div class="main-box clearfix"><!--白色背景-->
+					   	<!--查询结束-->      
+	         			</div>
+	                	</div>
+              </div>
+         </div>
+     </div>	
+     <!--框架标签结束-->
   		  <div class="row"><!--外围框架-->
             <div class="col-lg-12"><!--删格化-->
                 <div class="row"><!--内侧框架-->
                     <div class="col-lg-12"><!--删格化-->
-                        <div class="main-box clearfix"><!--白色背景-->   
-							<div class="form-label" style="margin-bottom: 20px ">
-					           	<ul>
-					                <li class="col-md-6" style="width: 40%">
-					                    <p class="word" style="font-size: 20px;margin-left: 30px">用户名:</p>
-					                    <p>aaa</p>
-					                </li>
-					                <li  class="col-md-6">
-					                    <p class="word" style="font-size: 20px">企业名称:</p>
-					                    <p>bbb</p>
-					                </li>  
-					            </ul>
-					            
-					            <ul>
-					                <li class="col-md-6" style="width: 40%">
-					                    <p class="word" style="font-size: 20px;margin-left: 30px">当前保证金:</p>
-					                    <p>89000.00元</p>
-					                </li>
-					            </ul>
-				         	</div>
-				         	<div class="form-label">
-				         		 <ul>
-					                <li  class="col-md-6" style="border-bottom:1px  solid #e7e7e7;padding-bottom: 10px;width: 98%;margin-left: 30px">
-					                    <p class="word" style="font-size: 20px">保证金设置</p>
-					                </li>  
-					            </ul>
-				         	</div>
-					   	<!--查询结束-->   
-					 	 <div>	
-					 	 	<div class="form-label pl-40" >
-						    	<ul style="margin-bottom: 20px">
-									<li>
-									  <p class="word" style="font-style: "><b class="red">*</b>保证金:</p>
-									</li>
-									<li><input type="text" class="int-text int-medium" placeholder="保证金" />元  （一次性收取）</li>
-								</ul>
+                        <div class="main-box clearfix"><!--白色背景-->
+                        <!--标题-->
+                            <header class="main-box-header clearfix">
+                            <h2 class="pull-left">保证金设置</h2>
+                            </header>
+                        <!--标题结束-->   
+                            <div class="main-box-body clearfix">
+                            	<!--table表格-->
+                                <div class="table-responsive clearfix">
 								
-							    <ul>
-									<li class="form-btn" >
-										<input type="button" class="biu-btn border-green btn-xlarge  radius" style="margin-left: 55%;" value="保存">	
-									</li>
-								</ul>
+								 <div class="form-label pl-40">
+								 	<ul>
+								 		<li>
+								 			<p class="word">用户名:</p>
+								 			<p>${userName }</p>
+								 		</li>
+								 		<li>
+								 			<p class="word">企业名称:</p>
+								 			<p>${shopName }</p>
+								 		</li>
+								 	</ul>
+								 	<ul>
+								 		<li><p class="word">当前保证金:</p>
+								 		<p>${deposit }</p></li>
+								 	</ul>
+								 	<ul>
+								 	<li>
+								 	<p class="word">保证金:</p>
+								 	<p class="word"><input type="text" class="int-text int-mini"  placeholder=""/></p>
+								 	<p class="word">元(一次性收取)</p>
+								 	</li>
+								 	</ul>
+								 	<ul>
+								 	<li>
+								 		<input type="button" style="margin-left:110px;" class="biu-btn btn-blue btn-xlarge  radius" value="保存">
+								 	</li>
+								 	</ul>
+								 </div>
 							</div>
-					   	 </div>
                         </div>
                     </div>
                 </div>
-            
+            </div>
             </div>
     </div>
-    
-    <!--底部-->
-    <footer id="footer-bar" class="row">
-   		 <p id="footer-copyright" class="col-xs-12">亚信</p>
-    </footer>
-   <!--/底部结束-->
+  </div>   
+	<script type="text/javascript">
+		var pager;
+		(function() {
+			seajs.use('app/jsp/billing/marginSetting', function(MarginSettingPager) {
+				pager = new MarginSettingPager({
+					element : document.body
+				});
+				pager.render();
+			});
+		})();
+	</script>
 </body>
 </html>

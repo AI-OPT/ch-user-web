@@ -53,10 +53,11 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
     		if(score>50||score<0){
     			var dialog = Dialog({
 					title : '提示',
-					content : "评价分数格式不对",
+					content : "评价分数区间不对",
 					okValue : "确定",
 					ok : function() {
 						this.close;
+						document.getElementById(1).value='';
 						$("#scoreFlag").val("0");
 					}
 				});
@@ -84,10 +85,11 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
 				if(score>10||score<0){
 					var dialog = Dialog({
 						title : '提示',
-						content : "评价分数格式不对",
+						content : "评价分数区间不对",
 						okValue : "确定",
 						ok : function() {
 							this.close;
+							document.getElementById(2).value='';
 							$("#scoreFlag").val("0");
 						}
 					});
@@ -114,10 +116,11 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
     			if(score>20||score<0){
     				var dialog = Dialog({
     					title : '提示',
-    					content : "评价分数格式不对",
+    					content : "评价分数区间不对",
     					okValue : "确定",
     					ok : function() {
     						this.close;
+    						document.getElementById(3).value='';
     						$("#scoreFlag").val("0");
     					}
     				});
@@ -143,10 +146,11 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
     			if(score>20||score<0){
     				var dialog = Dialog({
     					title : '提示',
-    					content : "评价分数格式不对",
+    					content : "评价分数区间不对",
     					okValue : "确定",
     					ok : function() {
     						this.close;
+    						document.getElementById(4).value='';
     						$("#scoreFlag").val("0");
     					}
     				});
@@ -157,6 +161,7 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
     	
     	//提交供货商评价
     	_submitScore: function(){
+    		$("#scoreFlag").val("1");
     		for(var i=1;i<=4;i++){
     		var score = document.getElementById(i).value;
     		if(score==null||score=="")

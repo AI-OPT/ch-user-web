@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <c:set var="uedroot"
 	value="${pageContext.request.contextPath}/template/default" />
 <!DOCTYPE html>
@@ -50,7 +51,7 @@
 							<div class="main-box-body clearfix">
 								<!--table表格-->
 								<div class="table-responsive clearfix">
-									<form id="rankForm" method="post">
+									<form:form id="rankForm" method="post" enctype="multipart/form-data" action="${_base}/rank/saverule">
 									<div class="radio-box">
 										<span>请选择评级周期:</span> <input type="radio" class="radio-2"
 											name="periodType_" checked value="M"> <label for="radio-2">月</label>
@@ -61,7 +62,7 @@
 									</div>
 									<div>
 										<span>请选择店铺级数:</span>
-										<select class="select select-small" id="rankRegion">
+										<select class="select select-small" id="rankRegion" name="rankRegion">
 										<option value="">请选择</option>
 										<c:forEach var="i" begin="2" end="20">
 										<option>${i}</option>
@@ -83,8 +84,9 @@
 									</table>
 									<div class="text-c">
 									<input type="button" id="saveRule" class="biu-btn btn-blue btn-xlarge  radius" value="保存">
+									<input type="hidden" id="picFlag" value="">
 									</div>
-									</form>
+									</form:form>
 								<!--/table表格结束-->
 								</div>
 							</div>
@@ -109,11 +111,11 @@
 <script id="rankRuleImpl" type="text/x-jsrender">
 	{{for id}}
 		<tr>
-			<td><p class="f-14" style="font-weight:400;">等级 {{:index}}:  <input type='hidden' value='{{:index}}' name='list[{{:index}}].rank'><input class="int-text int-mini" name="list[{{:index}}].minFee" type="text"> - <input class="int-text int-mini" name="list[{{:index}}].maxFee" type="text">元</p></td>
-			<td><p class="f-14">等级名称 :  <input class="int-text int-small" name="list[{{:index}}].rankName" type="text"></p></td>
-			<td><p class="f-14">图片名称 :  <input class="int-text int-small" name="list[{{:index}}].rankLogo" type="text">&nbsp;&nbsp;&nbsp;<span class="btn-upload">
+			<td><p class="f-14" style="font-weight:400;">等级 {{:index}}:  <input type='hidden' value='{{:index}}' name='list[{{:index-1}}].rank'><input class="int-text int-mini" name="list[{{:index-1}}].minFee" id="min{{:index}}" type="text" value="0" readonly="readonly"> - <input class="int-text int-mini" name="list[{{:index-1}}].maxFee" type="text" id="max{{:index}}" onblur="pager._changeValue('{{:index}}')">元</p></td>
+			<td><p class="f-14">等级名称 :  <input class="int-text int-small" name="list[{{:index-1}}].rankName" type="text"></p></td>
+			<td><p class="f-14">图片名称 :  <input class="int-text int-small" name="list[{{:index-1}}].rankLogo" id="rankLogo{{:index}}" readonly="readonly" type="text">&nbsp;&nbsp;&nbsp;<span class="btn-upload">
 				<input type="button" class="btn-default btn-medium" value="浏览文件"/>
-				<input type="file" class="int-file"/></span></p></td>
+				<input type="file" class="int-file" id='img{{:index}}' name='img{{:index}}' onchange="pager._imgName('{{:index}}')"/></span></p></td>
 		</tr>
 	{{/for}}
 </script>

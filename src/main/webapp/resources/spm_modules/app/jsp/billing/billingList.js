@@ -1,4 +1,4 @@
-define('app/jsp/score/scorelist', function (require, exports, module) {
+define('app/jsp/billing/billingList', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
     Widget = require('arale-widget/1.2.0/widget'),
@@ -19,7 +19,7 @@ define('app/jsp/score/scorelist', function (require, exports, module) {
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
     //定义页面组件类
-    var ScoreListPager = Widget.extend({
+    var BillingListPager = Widget.extend({
     	
     	//属性，使用时由类的构造函数传入
     	attrs: {
@@ -29,42 +29,51 @@ define('app/jsp/score/scorelist', function (require, exports, module) {
     	},
     	//事件代理
     	events: {
+    		"change #rankRegion":"_initTable"
         },
     	//重写父类
     	setup: function () {
-    		ScoreListPager.superclass.setup.call(this);
-    		this._queryScoreList();
+    		BillingListPager.superclass.setup.call(this);
+    		this._queryBill();
     	},
     	
-    	//获取供货商管理列表
-    	_queryScoreList: function(){
+    	//获取已设置保证金列表
+    	_queryBill: function(){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({
-    			url: _base+"/score/getscorelist",
+    			url: _base+"/billing/getbilllist",
 	 			method: "POST",
 	 			dataType: "json",
-	 			renderId:"TBODY_SCORELIST",
+	 			renderId:"TBODY_BILLLIST",
 	            data : {
 					tenantId: 'ch',
 				},
-	           	pageSize: ScoreListPager.DEFAULT_PAGE_SIZE,
+	           	pageSize: BillingListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",
 	            callback: function(data){
 	              	if(data.result != null && data.result != 'undefined' && data.result.length>0){
-	            		var template = $.templates("#scoreListImpl");
+	            		var template = $.templates("#bailListImpl");
 	                    var htmlOutput = template.render(data);
-	                    $("#TBODY_SCORELIST").html(htmlOutput);
+	                    $("#TBODY_BILLLIST").html(htmlOutput);
 	            	}
 	            }
     		}); 
     	},
-
-		_toScorePage:function(userId){
-			window.location.href = _base+'/score/scorepage?'+userId;
-		}
+    	
+    	_toMarginPage:function(userId){
+    		window.location.href= _base+"/billing/marginsetting?"+userId;
+    	},
+    	_toServiceFeeSettingPage:function(userId){
+    		window.location.href= _base+"/billing/servicefeesetting?"+userId;
+    	},
+    	_toServiceFeePage:function(userId){
+    		window.location.href= _base+"/billing/servicefee?"+userId;
+    	}
+    	
     	
     });
     
-    module.exports = ScoreListPager
+    module.exports = BillingListPager
 });
+

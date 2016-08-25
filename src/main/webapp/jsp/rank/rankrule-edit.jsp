@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <c:set var="uedroot"
 	value="${pageContext.request.contextPath}/template/default" />
 <!DOCTYPE html>
@@ -51,24 +52,14 @@
 								<!--table表格-->
 								<div id="view" style="display:">
 								<div class="table-responsive clearfix">
-									<input type="button" class="biu-btn btn-blue btn-small radius" value="修改">
 									<div class="radio-box">
-										<span>请选择评级周期:</span> <input type="radio" class="radio-2"
-											name="demo-radio1" checked> <label for="radio-2">月</label>
-										<input type="radio" class="radio-1" name="demo-radio1">
-										<label for="radio-1">季度</label> <input type="radio"
-											class="radio-1" name="demo-radio1"> <label
-											for="radio-1">年</label>
+										<span>评级周期:</span><span>${ periodType}</span> 
 									</div>
 									<div>
-										<span>请选择评级周期:</span>
-										<select class="select select-small" id="rankRegion">
-										<option value="">请选择</option>
-										<c:forEach var="i" begin="2" end="20">
-										<option>${i}</option>
-										</c:forEach>
-										</select>
-										<span>(2-20个等级之间)</span>
+										<span>店铺级数:</span>
+										<span>${rank }</span>
+									</div>
+									<div class="text-r"><input type="button" id="toEdit" class="biu-btn btn-blue btn-small radius" value="修改">
 									</div>
 									<table class="table table-border table-bordered">
 										<thead>
@@ -84,17 +75,37 @@
 									</table>
 								<!--/table表格结束-->
 								</div>
+								</div>
 								
-								<div id="edit" style="display:none">
-								<div class="table-responsive clearfix">
-
+								<div id="edit" class="table-responsive clearfix" style="display:none;">
+								<form:form method="post" id="rankRule" enctype="multipart/form-data" action="${_base}/rank/updaterule">
 									<div class="radio-box">
+										<c:choose>
+										<c:when test="${periodType=='月'}">
 										<span>请选择评级周期:</span> <input type="radio" class="radio-2"
-											name="demo-radio1" checked> <label for="radio-2">月</label>
-										<input type="radio" class="radio-1" name="demo-radio1">
+											name="periodType_" value="M" checked> <label for="radio-2">月</label>
+										<input type="radio" class="radio-1" name="periodType_" value="Q">
 										<label for="radio-1">季度</label> <input type="radio"
-											class="radio-1" name="demo-radio1"> <label
+											class="radio-1" name="periodType_" value="Y"> <label
 											for="radio-1">年</label>
+											 </c:when>
+											<c:when test="${periodType=='季度'}">
+											    <span>请选择评级周期:</span> <input type="radio" class="radio-2"
+											name="periodType_" value="M"> <label for="radio-2">月</label>
+										<input type="radio" class="radio-1" name="periodType_" value="Q" checked>
+										<label for="radio-1">季度</label> <input type="radio"
+											class="radio-1" name="periodType_" value="Y"> <label
+											for="radio-1">年</label>
+											 </c:when>
+											 <c:otherwise>
+											    <span>请选择评级周期:</span> <input type="radio" class="radio-2"
+											name="periodType_" value="M"> <label for="radio-2">月</label>
+										<input type="radio" class="radio-1" name="periodType_" value="Q">
+										<label for="radio-1">季度</label> <input type="radio"
+											class="radio-1" name="periodType_" value="Y" checked> <label
+											for="radio-1">年</label>
+											 </c:otherwise>
+											</c:choose>
 									</div>
 									<div>
 										<span>请选择评级周期:</span>
@@ -119,21 +130,24 @@
 										</tbody>
 									</table>
 									<div class="text-c">
-									<input type="button" id="saveRule" class="biu-btn btn-blue btn-xlarge  radius" value="保存">
+									<input type="button" id="updateRule" class="biu-btn btn-blue btn-xlarge  radius" value="保存">
 									</div>
+									</form:form>
 								<!--/table表格结束-->
 								</div>
-								</div>
 							</div>
-						</div>
+							</div>
 					</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	<script type="text/javascript">
 		var pager;
+		var result=${result};
+		var urlList=${urlList};
+		var rank=${rank};
+		var periodType='${periodType}';
 		(function() {
 			seajs.use('app/jsp/rank/rankrule-edit', function(RankRuleEditPager) {
 				pager = new RankRuleEditPager({
@@ -145,22 +159,33 @@
 	</script>
 
 <script id="rankRuleViewImpl" type="text/x-jsrender">
-	{{for id}}
+	{{for}}
 		<tr>
-			<td><p clas"f-14" style="font-weight:400;">等级{{:index}}:  {{:minFee}} - {{:maxFee}}元</p></td>
-			<td><p class="f-14">等级名称:  {{:rankName}}</p></td>
-			<td><p class="f-14">图片名称:  {{:url}}</p></td>
+			<td><p class="f-14" style="font-weight:400;">等级{{:rank}}:  {{:minFee}} - {{:maxFee}}元</p></td>
+			<td><p class="f-14" style="font-weight:400;">等级名称:  {{:rankName}}</p></td>
+			<td><p class="f-14" style="font-weight:400;">图片名称:  {{:rankLogo}} <image src="{{:url}}" height="80" width="100"/></p></td>
+		</tr>
+	{{/for}}
+</script>
+<script id="rankRuleInitImpl" type="text/x-jsrender">
+	{{for}}
+		<tr>
+			<td><p class="f-14" style="font-weight:400;">等级 {{:rank}}:  <input type='hidden' value='{{:rank}}' name='list[{{:rank-1}}].rank'><input class="int-text int-mini" name="list[{{:rank-1}}].minFee" value="{{:minFee}}" id="min{{:rank}}" type="text" readonly="readonly"> - <input class="int-text int-mini" name="list[{{:rank-1}}].maxFee" value="{{:maxFee}}" type="text" id="max{{:rank}}" onblur="pager._changeValue('{{:rank}}')">元</p></td>
+			<td><p class="f-14">等级名称 :  <input class="int-text int-small" name="list[{{:rank-1}}].rankName" value="{{:rankName}}" type="text"></p></td>
+			<td><p class="f-14">图片名称 :  <input class="int-text int-small" name="list[{{:rank-1}}].rankLogo" id="rankLogo{{:rank}}" value="{{:rankLogo}}" type="text" readonly="readonly">&nbsp;&nbsp;&nbsp;<span class="btn-upload">
+				<input type="button" class="btn-default btn-medium" value="浏览文件"/>
+				<input type="file" class="int-file" id='img{{:rank}}' name='img{{:rank}}' onchange="pager._imgName('{{:rank}}')"/></span></p></td>
 		</tr>
 	{{/for}}
 </script>
 <script id="rankRuleImpl" type="text/x-jsrender">
 	{{for id}}
 		<tr>
-			<td><p clas"f-14" style="font-weight:400;">等级{{:index}}:  <span id="list[{{:index}}].minFee">0</sapn> - <input class="int-text int-small" name="list[{{:index}}].maxFee" type="text">元</p></td>
-			<td><p class="f-14">等级名称:  <input class="int-text int-small" name="list[{{:index}}].rankName" type="text"></p></td>
-			<td><p class="f-14">图片名称:  <input class="int-text int-small" name="list[{{:index}}].rankName" type="text">&nbsp;&nbsp;&nbsp;<span class="btn-upload">
+			<td><p class="f-14" style="font-weight:400;">等级 {{:index}}:  <input type='hidden' value='{{:index}}' name='list[{{:index-1}}].rank'><input class="int-text int-mini" name="list[{{:index-1}}].minFee" type="text" id="min{{:index}}" readonly="readonly"> - <input class="int-text int-mini" name="list[{{:index-1}}].maxFee" id="max{{:index}}" type="text" onblur="pager._changeValue('{{:index}}')">元</p></td>
+			<td><p class="f-14">等级名称 :  <input class="int-text int-small" name="list[{{:index-1}}].rankName" type="text"></p></td>
+			<td><p class="f-14">图片名称 :  <input class="int-text int-small" name="list[{{:index-1}}].rankLogo" type="text" readonly="readonly" id="rankLogo{{:index}}">&nbsp;&nbsp;&nbsp;<span class="btn-upload">
 				<input type="button" class="btn-default btn-medium" value="浏览文件"/>
-				<input type="file" class="int-file"/></span></p></td>
+				<input type="file" class="int-file" id='img{{:index}}' name='img{{:index}}' onchange="pager._imgName('{{:index}}')"/></span></p></td>
 		</tr>
 	{{/for}}
 </script>

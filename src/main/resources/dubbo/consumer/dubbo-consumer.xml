@@ -35,4 +35,13 @@
 	<!-- 合同管理-->
     <dubbo:reference id="iContractSV" interface="com.ai.ch.user.api.contract.interfaces.IContractSV" 
     registry="chRegistry"/>
+	<!-- 附件表-->
+    <dubbo:reference id="iCustfileSV" interface="com.ai.ch.user.api.custfile.interfaces.ICustFileSV" 
+    registry="chRegistry"/>
+	<!-- 店铺信息-->
+    <dubbo:reference id="iShopInfoSV" interface="com.ai.ch.user.api.shopinfo.interfaces.IShopInfoSV" 
+    registry="chRegistry"/>
+	<!-- 扣费设置-->
+    <dubbo:reference id="iDefaultLogSV" interface="com.ai.ch.user.api.defaultlog.interfaces.IDefaultLogSV" 
+    registry="chRegistry"/>
 </beans>

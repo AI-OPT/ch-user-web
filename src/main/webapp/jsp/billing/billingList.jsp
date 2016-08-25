@@ -7,167 +7,103 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<title>保证金及费用设置</title>
+<title>保证金/服务费管理</title>
 <%@include file="/inc/inc.jsp" %>
-<script src="${uedroot}/scripts/modular/frame.js"></script>  
-<link rel="stylesheet" type="text/css" href="${uedroot}/css/modular/modular.css"/>
 </head>
 <body>
-
-
+   <div class="content-wrapper-iframe" ><!--右侧灰色背景-->
+     <!--框架标签结束-->
+      <div class="row"><!--外围框架-->
+     	<div class="col-lg-12"><!--删格化-->
+             <div class="row"><!--内侧框架-->
+	                 <div class="col-lg-12"><!--删格化-->
+	                    <div class="main-box clearfix"><!--白色背景-->
+					   	<!--查询结束-->      
+	         			</div>
+	                	</div>
+              </div>
+         </div>
+     </div>	
+     <!--框架标签结束-->
   		  <div class="row"><!--外围框架-->
             <div class="col-lg-12"><!--删格化-->
                 <div class="row"><!--内侧框架-->
                     <div class="col-lg-12"><!--删格化-->
-                        <div class="main-box clearfix"><!--白色背景-->   
-							 	<!--查询条件-->
-	                    		 <div class="form-label">
-					           	<ul>
-					                <li class="col-md-6">
-					                    <p class="word">用户名</p>
-					                    <p><input name="control_date" class="int-text int-medium " type="text"/>
-					                    </p>
-					                </li>
-					                <li  class="col-md-6">
-					                    <p class="word">企业名称</p>
-					                    <p><input type="text" class="int-text int-medium"></p>
-					                </li>  
-					            </ul>
-					            <ul>
-					                <li class="width-xlag">
-					                <p class="word">&nbsp;</p>
-					                <p><input type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="查  询"></p>
-					                </li>
-					            </ul>
-					         </div>
-					   	<!--查询结束-->   
-					 	<!--table表格-->
-					 	 <div class="main-box-body clearfix">
-							<div class="order-list-table">
-					           <ul>
-						           <li><a href="#" class="current">未设置</a></li>
-						           <li><a href="#">已设置</a></li>
-					           </ul>                                        
-					     	</div>
-					     	<!--选项卡第一个-->
-					     	<div id="date1">
+                        <div class="main-box clearfix"><!--白色背景-->
+                        <!--标题-->
+                            <header class="main-box-header clearfix">
+                            <h2 class="pull-left">保证金/服务费管理</h2>
+                            </header>
+                        <!--标题结束-->   
+                            <div class="main-box-body clearfix">
+                            	<!--table表格-->
                                 <div class="table-responsive clearfix">
-                                    <table class="table table-hover table-border table-bordered">
-                                        <thead>      
+								
+								 <div class="form-label pl-40">
+								 	<ul>
+								 		<li>
+								 			<p class="word">用户名:</p>
+								 			<p><input type="text" class="int-text int-medium"/></p>
+								 		</li>
+								 		<li>
+								 			<p class="word">企业名称:</p>
+								 			<p><input type="text" class="int-text int-medium"/></p>
+								 			<p><input type="button" class="btn-default btn-blue btn-mini" value="查询" /></p>
+								 		</li>
+								 	</ul>
+								 </div>
+
+                                    <table class="table table-border table-bordered">
+                                    <thead>
                                             <tr>
-                                            	<th>用户名</th>
+                                                <th>用户名</th>
                                                 <th>企业名称</th>
                                                 <th>经营品类</th>
                                                 <th>保证金</th>
                                                 <th>操作</th>
                                             </tr>
                                         </thead>
-                                    <tbody>
-                                        <tr>
-                                        	<td>xionger</td>
-                                            <td>企业营业执照注册名称</td>
-                                            <td>品类信息</td>
-                                            <td>100000.00</td>
-                                            <td  id="operation">
-                                              <a href="#">保证金设置</a>
-                                              <a href="#">服务费设置</a>
-                                              <a href="#">查看</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                        	<td>xionger</td>
-                                            <td>企业营业执照注册名称</td>
-                                            <td>品类信息</td>
-                                            <td>100000.00</td>
-                                            <td  id="operation">
-                                              <a href="#">保证金设置</a>
-                                              <a href="#">服务费设置</a>
-                                              <a href="#">查看</a>
-                                            </td>
-                                        </tr>
-                                         <tr>
-                                        	<td>xionger</td>
-                                            <td>企业营业执照注册名称</td>
-                                            <td>品类信息</td>
-                                            <td>100000.00</td>
-                                            <td  id="operation">
-                                              <a href="#">保证金设置</a>
-                                              <a href="#">服务费设置</a>
-                                              <a href="#">查看</a>
-                                            </td>
-                                        </tr>
-                                       
+                                    <tbody id="TBODY_BILLLIST">
                                     </tbody>
                                     </table>
-                               </div>
-                                </div>
-                            <!--选项卡第一个-->
-                            <div id="date2" style="display:none;">
-                                <div class="table-responsive clearfix">
-                                    <table class="table table-hover table-border table-bordered">
-                                        <thead>      
-                                            <tr>
-                                            		<th>用户名</th>
-                                                <th>企业名称</th>
-                                                <th>审核时间</th>
-                                                <th>审核人</th>
-                                                <th>操作</th>
-                                            </tr>
-                                        </thead>
-                                    <tbody>
-                                        <tr>
-                                        		<td>xionger</td>
-                                            <td>企业营业执照注册名称1</td>
-                                            <td>2016-07-11</td>
-                                            <td>xionger</td>
-                                            <td  id="operation"><a href="#">查看</a><a href="#">编辑</a></td>
-                                        </tr>
-                                        <tr>
-                                        		<td>xionger</td>
-                                            <td>企业营业执照注册名称</td>
-                                            <td>2016-07-11</td>
-                                            <td>xionger</td>
-                                            <td  id="operation"><a href="#">查看</a><a href="#">编辑</a></td>
-                                        </tr>
-                                         <tr>
-                                        		<td>xionger</td>
-                                            <td>企业营业执照注册名称</td>
-                                            <td>2016-07-11</td>
-                                            <td>xionger</td>
-                                            <td  id="operation"><a href="#">查看</a><a href="#">编辑</a></td>
-                                        </tr>
-                                       
-                                    </tbody>
-                                    </table>
-                               </div>
-                               
-                                </div>
-                            <!--/table表格结束-->
-                                <!--分页-->
-                                <div class="paging">
-                            		<ul class="pagination">
-									<li class="disabled"><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-									<li class="active"><a href="#">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li><a href="#">5</a></li>
-									<li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-								</ul>
-								</div>
-								<!--分页结束-->
-					   	 </div>
+                                    </div>
+                                	<!--/table表格结束-->
+					            	<!--分页-->          
+						          <div style="text-align: center">
+									 <ul id="pagination-ul"></ul>
+								  </div>
+								<!--分页-->
                         </div>
                     </div>
                 </div>
-            
+            </div>
             </div>
     </div>
-    
-    <!--底部-->
-    <footer id="footer-bar" class="row">
-   		 <p id="footer-copyright" class="col-xs-12">亚信</p>
-    </footer>
-   <!--/底部结束-->
+  </div>   
+	<script type="text/javascript">
+		var pager;
+		(function() {
+			seajs.use('app/jsp/billing/billingList', function(BillingListPager) {
+				pager = new BillingListPager({
+					element : document.body
+				});
+				pager.render();
+			});
+		})();
+	</script>
+<script id="bailListImpl" type="text/x-jsrender">
+	{{for result ~pageSize=pageSize ~pageNo=pageNo}}
+		<tr>
+			<td id={{:userId}}>{{:userName}}</td>
+			<td>{{:shopName}}</td>
+			<td id={{:busiType}}>{{:busiType}}</td>
+			<td id={{:deposit}}>{{:deposit}}</td>
+			<td><input class="biu-btn border-default btn-small  radius" type="button" value="保证金设置" onclick="pager._toMarginPage('{{:userId}}')">
+				<input class="biu-btn border-default btn-small  radius" type="button" value="服务费设置" onclick="pager._toServiceFeeSettingPage('{{:userId}}')">
+				<input class="biu-btn border-default btn-small  radius" type="button" value="查看" onclick="pager._toServiceFeePage('{{:userId}}')"></td>
+		</tr>
+	{{/for}}
+</script>
+
 </body>
 </html>
