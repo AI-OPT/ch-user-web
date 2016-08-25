@@ -1,10 +1,13 @@
 package com.ai.ch.user.web.controller;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,16 +21,21 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ai.ch.user.api.contract.interfaces.IContractSV;
 import com.ai.ch.user.api.contract.param.ContactInfoRequest;
 import com.ai.ch.user.api.contract.param.ContactInfoResponse;
+import com.ai.ch.user.api.custfile.interfaces.ICustFileSV;
+import com.ai.ch.user.api.custfile.params.CmCustFileExtVo;
+import com.ai.ch.user.api.custfile.params.InsertCustFileExtRequest;
+import com.ai.ch.user.api.custfile.params.QueryCustFileExtRequest;
+import com.ai.ch.user.api.custfile.params.QueryCustFileExtResponse;
+import com.ai.ch.user.api.custfile.params.UpdateCustFileExtRequest;
 import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.constants.ChWebConstants.ExceptionCode;
+import com.ai.ch.user.web.model.user.CustFileListVo;
 import com.ai.opt.base.vo.ResponseHeader;
-import com.ai.opt.sdk.components.idps.IDPSClientFactory;
+import com.ai.opt.sdk.components.dss.DSSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.DateUtil;
-import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
-import com.ai.paas.ipaas.image.IImageClient;
-import com.alibaba.fastjson.JSON;
+import com.ai.paas.ipaas.dss.base.interfaces.IDSSClient;
 
 @RestController
 @RequestMapping("/contract")
@@ -98,14 +106,45 @@ public class ContractController {
 	  */
 	 
 	 @RequestMapping("/contractSupplierDetailPager")
-	 public ModelAndView contractDetail(HttpServletRequest request,String userId) {
+	 public ModelAndView contractSupplierDetailPager(HttpServletRequest request,String userId) {
 		    IContractSV contract = DubboConsumerFactory.getService("iContractSV");
+		    ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
+		    
 		 	ContactInfoRequest contactInfo = new ContactInfoRequest();
 		 	contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SUPPLIER);
 		 	contactInfo.setTenantId(ChWebConstants.COM_TENANT_ID);
 		 	contactInfo.setUserId(userId);
+		 	
 	 		ContactInfoResponse response = contract.queryContractInfo(contactInfo);
+	 		
+	 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
+	 		custFileExtRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+	 		custFileExtRequest.setUsreId(userId);
+	 		QueryCustFileExtResponse custFileExtResponse = custFileSV.queryCustFileExt(custFileExtRequest);
+	 		List<CmCustFileExtVo> list = custFileExtResponse.getList();
+	 		
 	 		Map<String, Object> model = new HashMap<String, Object>();
+	 		
+	 		for(int i=0;i<list.size();i++){
+	 			CmCustFileExtVo extVp = list.get(i);
+	 			/**
+	 			 * 扫描件合同
+	 			 */
+	 			String infoName = extVp.getInfoName();
+	 			String attrValue = extVp.getAttrValue();
+	 			String infoItem = extVp.getInfoItem();
+	 			
+	 			if(ChWebConstants.SCAN_CONTRACT_SUPPLIER.equals(extVp.getInfoItem())){
+		 			model.put("scanContractInfoName",infoName);
+		 			model.put("scanContractAttrValue",attrValue);
+		 			model.put("scanContractInfoItem",infoItem);
+	 			}else{
+	 				model.put("electronicContractInfoName",infoName);
+		 			model.put("electronicContractAttrValue",attrValue);
+		 			model.put("electronicContractInfoItem",infoItem);
+	 			}
+	 		}
+	 			
 	 		model.put("contactInfo", response);
 	 		model.put("startTime", DateUtil.getDateString(response.getActiveTime(),"yyyy-MM-dd"));
 	 		model.put("endTime", DateUtil.getDateString(response.getInactiveTime(),"yyyy-MM-dd"));
@@ -122,12 +161,44 @@ public class ContractController {
 	 @RequestMapping("/contractShopDetailPager")
 	 public ModelAndView contractShopDetailPager(HttpServletRequest request,String userId) {
 		    IContractSV contract = DubboConsumerFactory.getService("iContractSV");
+		    ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
 		 	ContactInfoRequest contactInfo = new ContactInfoRequest();
 		 	contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SHOP);
 		 	contactInfo.setTenantId(ChWebConstants.COM_TENANT_ID);
 		 	contactInfo.setUserId(userId);
 	 		ContactInfoResponse response = contract.queryContractInfo(contactInfo);
+	 		/**
+	 		 * 附件信息
+	 		 */
+	 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
+	 		custFileExtRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+	 		custFileExtRequest.setUsreId(userId);
+	 		QueryCustFileExtResponse custFileExtResponse = custFileSV.queryCustFileExt(custFileExtRequest);
+	 		List<CmCustFileExtVo> list = custFileExtResponse.getList();
+	 		
 	 		Map<String, Object> model = new HashMap<String, Object>();
+	 		
+	 		for(int i=0;i<list.size();i++){
+	 			CmCustFileExtVo extVp = list.get(i);
+	 			/**
+	 			 * 扫描件合同
+	 			 */
+	 			String infoName = extVp.getInfoName();
+	 			String attrValue = extVp.getAttrValue();
+	 			String infoItem = extVp.getInfoItem();
+	 			
+	 			if(ChWebConstants.SCAN_CONTRACT_SHOP.equals(extVp.getInfoItem())){
+		 			model.put("scanContractInfoName",infoName);
+		 			model.put("scanContractAttrValue",attrValue);
+		 			model.put("scanContractInfoItem",infoItem);
+	 			}else{
+	 				model.put("electronicContractInfoName",infoName);
+		 			model.put("electronicContractAttrValue",attrValue);
+		 			model.put("electronicContractInfoItem",infoItem);
+	 			}
+	 		}
+	 		
+	 		
 	 		model.put("contactInfo", response);
 	 		model.put("startTime", DateUtil.getDateString(response.getActiveTime(),"yyyy-MM-dd"));
 	 		model.put("endTime", DateUtil.getDateString(response.getInactiveTime(),"yyyy-MM-dd"));
@@ -141,7 +212,7 @@ public class ContractController {
 	  */
 	 @RequestMapping("/addShopContractInfo")
 	 @ResponseBody
-	 public ResponseData<String> addShopContractInfo(HttpServletRequest request,ContactInfoRequest contractInfo) {
+	 public ResponseData<String> addShopContractInfo(HttpServletRequest request,ContactInfoRequest contractInfo,CustFileListVo custFileListVo) {
 	        ResponseData<String> responseData = null;
 	        ResponseHeader responseHeader = null;
 	        try{
@@ -152,8 +223,18 @@ public class ContractController {
 	        	contractInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SHOP);
 	        	contractInfo.setTenantId(ChWebConstants.COM_TENANT_ID);
 	        	contractInfo.setUserId(contractInfo.getUserId());
+	        	
 	        	IContractSV contract = DubboConsumerFactory.getService("iContractSV");
+	        	ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
+	        	
 	 	        contract.insertContractInfo(contractInfo);
+	 	        
+	 	       //保存附件信息
+	 	        UpdateCustFileExtRequest updateCustFileExtRequest = new UpdateCustFileExtRequest();
+	 	        updateCustFileExtRequest.setList(custFileListVo.getList());
+	            custFileSV.updateCustFileExtBycondition(updateCustFileExtRequest);
+	 	        
+	 	        
 	        	responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
                 responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
 	        }catch(Exception e){
@@ -172,7 +253,7 @@ public class ContractController {
 	  */
 	 @RequestMapping("/addSupplierContractInfo")
 	 @ResponseBody
-	 public ResponseData<String> addSupplierContractInfo(HttpServletRequest request,ContactInfoRequest contractInfo) {
+	 public ResponseData<String> addSupplierContractInfo(HttpServletRequest request,ContactInfoRequest contractInfo,CustFileListVo custFileListVo) {
 
 	        ResponseData<String> responseData = null;
 	        ResponseHeader responseHeader = null;
@@ -181,13 +262,21 @@ public class ContractController {
 	
 	        try{
 	        	
+	        	//保存合同信息
 	        	contractInfo.setActiveTime(DateUtil.getTimestamp(startTime));
 	        	contractInfo.setInactiveTime(DateUtil.getTimestamp(endTime));
 	        	contractInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SUPPLIER);
 	        	contractInfo.setTenantId(ChWebConstants.COM_TENANT_ID);
 	        	contractInfo.setUserId(contractInfo.getUserId());
 	        	IContractSV contract = DubboConsumerFactory.getService("iContractSV");
+	        	ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
 	 	        contract.insertContractInfo(contractInfo);
+	 	        
+	 	        //保存附件信息
+	 	        UpdateCustFileExtRequest updateCustFileExtRequest = new UpdateCustFileExtRequest();
+	 	        updateCustFileExtRequest.setList(custFileListVo.getList());
+	            custFileSV.updateCustFileExtBycondition(updateCustFileExtRequest);
+	 	        
 	        	responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
                 responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
 	        }catch(Exception e){
@@ -200,29 +289,52 @@ public class ContractController {
 	 }
 	 
 	 
- 	// 上传图片
-    @RequestMapping(value = "/uploadImg", produces = "application/json;charset=UTF-8")
+ 	// 上传文件
+    @RequestMapping(value = "/uploadFile", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public Map<String, Object> uploadImg(HttpServletRequest request) {
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        String imageId = request.getParameter("imageId");
-        MultipartHttpServletRequest file = (MultipartHttpServletRequest) request;
-        MultipartFile image = file.getFile(imageId);
-        String idpsns = "slp-mall-web-idps";
-        // 获取imageClient
-        IImageClient im = IDPSClientFactory.getImageClient(idpsns);
-        // 获取图片信息
-        try {
-            String idpsId = im.upLoadImage(image.getBytes(), UUIDUtil.genId32() + ".png");
-            String url = im.getImageUrl(idpsId, ".jpg", "80x80");
-            map.put("isTrue", true);
-            map.put("idpsId", idpsId);
-            map.put("url", url);
-        } catch (IOException e) {
-            map.put("isTrue", false);
+    public Map<String, Object> uploadFile(HttpServletRequest request,String contractFileId) {
+    	
+    	 Map<String, Object> map = new HashMap<String, Object>();
+         MultipartHttpServletRequest file = (MultipartHttpServletRequest) request;
+         MultipartFile multiFile = file.getFile(contractFileId);
+        String dssns = "ch-user-detail-dss";
+        try{
+        	IDSSClient client=DSSClientFactory.getDSSClient(dssns);
+    		String fileId=client.save(multiFile.getBytes(), "remark");
+    		map.put("isTrue", true);
+    		map.put("dssId", fileId);
+        }catch(Exception e){
+        	 LOGGER.error("上传失败");
+             map.put("isTrue", false);
         }
-        LOGGER.info("Map:---->>" + JSON.toJSONString(map));
         return map;
-    }
+       }
+    
+    @RequestMapping("/download/{fileName}")
+	public void downloadFile(HttpServletRequest request, HttpServletResponse response,String fileName, String attrValue) {
+		OutputStream os = null;
+		try {
+			os = response.getOutputStream();// 取得输出流
+			String exportFileName = fileName;
+			response.reset();// 清空输出流
+			response.setContentType("application/pdf");// 定义输出类型
+			response.setHeader("Content-disposition", "attachment; filename=" + exportFileName);// 设定输出文件头
+			 String dssns = "ch-user-detail-dss";
+			 IDSSClient client=DSSClientFactory.getDSSClient(dssns);
+	    	 byte[] b=client.read(attrValue);
+	         os.write(b); 
+	         os.flush(); 
+			 os.close();
+		} catch (Exception e) {
+			LOGGER.error("下载文件失败",e);
+			if(os!=null){
+				try {
+					os.close();
+				} catch (IOException e1) {
+					LOGGER.error("操作异常",e1);
+				}
+			}
+		}
+
+	}
 }
