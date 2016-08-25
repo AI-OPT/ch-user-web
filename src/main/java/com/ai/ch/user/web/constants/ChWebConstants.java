@@ -16,7 +16,14 @@ public class ChWebConstants {
      */
     public static final String CONTRACT_TYPE_SHOP="2";
     
+    public static final String SCAN_CONTRACT_SUPPLIER="30001";
+    
+    public static final String ELECTRONIC_CONTRACT_SUPPLIER="30002";
 	
+    public static final String SCAN_CONTRACT_SHOP="40001";
+    
+    public static final String ELECTRONIC_CONTRACT_SHOP="40002";
+    
 	public final static class Tenant {
 		private Tenant() {
 		}
