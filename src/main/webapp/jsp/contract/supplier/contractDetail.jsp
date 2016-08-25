@@ -69,15 +69,15 @@
 								<ul>
 									<li>
 										<p class="word"><b class="red">*</b>扫描版合同:</p>
-										<p>扫描合同.pdf</p>
-										<a class="biu-btn btn-auto btn-green"> <i class="icon-download-alt"> </i>下载 </a>
+										<p>${scanContractInfoName }</p>
+										<a class="biu-btn btn-auto btn-green" href="${_base}/contract/download/${scanContractInfoName}?fileName=${scanContractInfoName}&attrValue=${scanContractAttrValue}"> <i class="icon-download-alt"> </i>下载 </a>
 									</li>
 								</ul>
 								<ul>
 									<li>
-										<p class="word"><b class="red">*</b>电子版合同:</p>
-										<p>电子合同.pdf</p>
-										<a class="biu-btn btn-auto btn-green"> <i class="icon-download-alt"> </i>下载 </a>
+										<p class="word">电子版合同:</p>
+										<p>${electronicContractInfoName}</p>
+										<a class="biu-btn btn-auto btn-green" href="${_base}/contract/download/${electronicContractInfoName}?fileName=${electronicContractInfoName}&attrValue=${electronicContractAttrValue}"> <i class="icon-download-alt"> </i>下载 </a>
 									</li>
 								</ul>
 																							
