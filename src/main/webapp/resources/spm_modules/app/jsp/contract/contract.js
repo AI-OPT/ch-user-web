@@ -190,7 +190,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			        		alert("失败了");
 			        		return false;
 			        	}else if(data.responseHeader.resultCode=="000000"){
-			        		window.location.href=_base+"/contract/contractSupplierDetailPager?userId="+userId;
+			        		alert("扣款成功");
 			        	}
 			          },
 					error: function(error) {
