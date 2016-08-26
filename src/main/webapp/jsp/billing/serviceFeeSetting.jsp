@@ -56,53 +56,56 @@
 								 	<ul>
 								 		<li>
 								 			<p class="word">固定金额服务费</p>
-								 			<p class="word">${rentFee }元/${rentCycle }</p>
+								 			<p class="word">${rentFeeStr }</p>
 								 		</li>
 								 	</ul>
 								 	<ul>
 								 		<li>
 								 			<p class="word">实时划扣服务费</p>
-								 			<p class="word">${ratio }%</p>
+								 			<p class="word">${ratioStr }</p>
 								 		</li>
 								 	</ul>
+								 <form id="serviceFee" method="post">
 								 <div class="mt-20 skin-minimal">
 									  <div class="radio-box">
 									  		<p class="word">固定金额服务费:  
-										    <input type="radio" class="radio-1" name="needPayRent" checked>
+										    <input type="radio" class="radio-1" value="0" name="needPayRent" onclick="pager._change('needPayRent','payRent');" checked>
 										    <label for="radio-1">需缴纳</label>
-										    <input type="radio" class="radio-1" name="needPayRent">
+										    <input type="radio" class="radio-1" value="1" name="needPayRent" onclick="pager._change('needPayRent','payRent');">
 										    <label for="radio-1">无需缴纳</label>
 										    </p>
 									  </div>
-									  <div>
-									  	<p><input type="text" class="int-text int-mini" />元/
-									  	<select class="select select-mini">
-									  	<option>年</option>
-									  	<option>季度</option>
-									  	<option>月</option>
+									  <div id="payRent" style="display:">
+									  	<p><input type="text" class="int-text int-mini" id="rentFee" name="rentFee" />元/
+									  	<select class="select select-mini" id="rentCycleType" name="rentCycleType">
+									  	<option value="Y">年</option>
+									  	<option value="Q">季度</option>
+									  	<option value="M">月</option>
 									  	</select>
 									  	</p>
 									  </div>
 								</div>
-								 <div class="mt-20 skin-minimal">
 									  <div class="radio-box">
 									  <p class="word">实时划扣服务费: 
-										    <input type="radio" class="radio-1" name="needPayCycle" checked>
+										    <input type="radio" class="radio-1" value="0" name="needPayCycle" checked onclick="pager._change('needPayCycle','payCycle')">
 										    <label for="radio-1">需缴纳</label>
-										    <input type="radio" class="radio-1" name="needPayCycle">
+										    <input type="radio" class="radio-1" value="1" name="needPayCycle" onclick="pager._change('needPayCycle','payCycle')">
 										    <label for="radio-1">无需缴纳</label>
 									  </div>
-									   <div>
-									  	<p><input type="text" class="int-text int-mini" />% * 订单金额
+									   <div id="payCycle">
+									  	<p><input type="text" class="int-text int-mini" name="ratio" id="ratio"/>% * 订单金额
+									  	<input type="hidden" id="userId" name="userId" value="${userId }"/>
 									  	</p>
 										</div>
+									</form>
 									<div>
 										<ul>
 								 		<li>
-								 			<input type="button" style="margin-left:50px;" class="biu-btn btn-blue btn-xlarge  radius" value="保存">
+								 			<input type="button" id="saveSetting" style="margin-left:50px;" class="biu-btn btn-blue btn-xlarge  radius" value="保存">
 								 		</li>
 								 		</ul>
 								 	</div>
+								 	
 								 </div>
 							</div>
                         </div>
@@ -112,7 +115,52 @@
             </div>
             </div>
     </div>
-  </div>   
+    
+    <!-- 模态框（Modal） 开始 -->
+	<div class="modal fade" id="sureModal" tabindex="-1" role="dialog" aria-labelledby="stopSureModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width: 400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">提示</h4>
+				</div>
+				<div class="modal-body" id="dialogContent">
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" onclick="pager._jump();" class="biu-btn  btn-primary btn-blue btn-medium ml-10"
+						data-dismiss="modal">确认</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
+	<!-- 模态框（Modal） 结束 -->
+    
+       <!-- 模态框（Modal） 开始 -->
+	<div class="modal fade" id="sureModal2" tabindex="-1" role="dialog" aria-labelledby="stopSureModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width: 400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">提示</h4>
+				</div>
+				<div class="modal-body" id="dialogContent2">
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10"
+						data-dismiss="modal">确认</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
+	<!-- 模态框（Modal） 结束 -->
 	<script type="text/javascript">
 		var pager;
 		(function() {
@@ -120,7 +168,7 @@
 				pager = new ServiceFeeSettingPager({
 					element : document.body
 				});
-				pager.render();
+				pager.render() ;
 			});
 		})();
 	</script>

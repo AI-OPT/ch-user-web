@@ -59,7 +59,6 @@ public class ScoreController {
 		pageInfo.setResult(list);
 		ResponseData<PageInfo<SupplierScoreVo>> response = new ResponseData<PageInfo<SupplierScoreVo>>("000000", "1");
 		response.setData(pageInfo);
-		LOG.error("finish");
 		return response;
 	}
 	

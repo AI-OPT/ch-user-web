@@ -49,50 +49,78 @@
 							<!--标题结束-->
 							<div style="padding-left: 40px">
 								<p>
-									<span class="word">供货商用户名：${supplier_name }</span>
-									<span class="word">公司名称：${company_name }</span>
-								</p>								
-							</div>	
+									<span class="word">供货商用户名：${supplier_name }</span> <span
+										class="word">公司名称：${company_name }</span>
+								</p>
+							</div>
 							<div class="main-box-body clearfix">
 								<!--table表格-->
 								<div class="table-responsive clearfix">
 									<div class="form-label pl-40">
 										<form id="scorePage">
-										<c:forEach items="${scoreKpiList}" var="ctScoreKpiVo" varStatus="status">
+											<c:forEach items="${scoreKpiList}" var="ctScoreKpiVo"
+												varStatus="status">
+												<ul>
+													<li class="word" style="font-weight: bold;">${status.count}.${ctScoreKpiVo.kpiName }</li>
+													<li><input type="text" class="int-text int-medium"
+														placeholder="请输入评分" name='${status.count }'
+														id='${status.count }' /></li>
+													<li style="color: red">&nbsp;&nbsp;&nbsp;${ctScoreKpiVo.minScore }-${ctScoreKpiVo.maxScore }</li>
+												</ul>
+												<ul>
+													<li>注:${ctScoreKpiVo.kpiDesc }</li>
+												</ul>
+											</c:forEach>
+										</form>
 										<ul>
-											<li class="word" style="font-weight:bold;">${status.count}.${ctScoreKpiVo.kpiName }</li>
-											<li><input type="text" class="int-text int-medium" placeholder="请输入评分" name='${status.count }' id='${status.count }'/></li>
-											<li style="color:red">&nbsp;&nbsp;&nbsp;${ctScoreKpiVo.minScore }-${ctScoreKpiVo.maxScore }</li>
+											<li style="margin-left: 70px"><input type="button"
+												id="submitScore" class="biu-btn btn-blue btn-xlarge  radius"
+												value="提交评价"></li>
+											<li><input type="hidden" id="scoreFlag" /></li>
 										</ul>
-										<ul>
-											<li>注:${ctScoreKpiVo.kpiDesc }</li>
-										</ul>
-									     </c:forEach> 
-									     </form>
-									     <ul>
-									     	<li style="margin-left:70px"><input type="button" id="submitScore" class="biu-btn btn-blue btn-xlarge  radius" value="提交评价"></li>
-									     	<li><input type="hidden" id="scoreFlag"/></li>
-									     </ul>
-										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-					</div>
-					</div>
 				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 模态框（Modal） 开始 -->
+	<div class="modal fade" id="sureModal" tabindex="-1" role="dialog" aria-labelledby="stopSureModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width: 400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">提示</h4>
 				</div>
+				<div class="modal-body" id="dialogContent">
+					
 				</div>
-				<script type="text/javascript">
-					var pager;
-					(function() {
-						seajs.use('app/jsp/score/scorepage', function(
-								ScorePagePager) {
-							pager = new ScorePagePager({
-								element : document.body
-							});
-							pager.render();
-						});
-					})();
-				</script>
+				<div class="modal-footer">
+					<button type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10"
+						data-dismiss="modal">确认</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
+	<!-- 模态框（Modal） 结束 -->
+
+	<script type="text/javascript">
+		var pager;
+		(function() {
+			seajs.use('app/jsp/score/scorepage', function(ScorePagePager) {
+				pager = new ScorePagePager({
+					element : document.body
+				});
+				pager.render();
+			});
+		})();
+	</script>
 </body>
 </html>

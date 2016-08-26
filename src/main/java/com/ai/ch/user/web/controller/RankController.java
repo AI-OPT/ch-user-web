@@ -1,7 +1,9 @@
 package com.ai.ch.user.web.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -57,9 +59,11 @@ public class RankController {
 			if ("M".equals(response.getList().get(0).getPeriodType()))
 				periodType_ = "月";
 			ModelAndView model = new ModelAndView("/jsp/rank/rankrule-edit");
-			List<String> urlList=getUrlList();
+			Map<String,String> urlMap=getUrlMap();
+			Map<String,String> nameMap=getNameMap();
 			model.addObject("periodType", periodType_);
-			model.addObject("urlList", JSON.toJSONString(urlList));
+			model.addObject("urlMap", JSON.toJSONString(urlMap));
+			model.addObject("nameMap", JSON.toJSONString(nameMap));
 			model.addObject("rank", response.getList().get(response.getList().size()-1).getRank());
 			model.addObject("result", JSON.toJSONString(response.getList()));
 			return model;
@@ -87,6 +91,8 @@ public class RankController {
 			     cmCustFileExtVo.setAttrValue(idpsId);
 			     cmCustFileExtVo.setTenantId(ChWebConstants.COM_TENANT_ID);
 			     cmCustFileExtVo.setAttrId(String.valueOf(i));
+			     cmCustFileExtVo.setInfoName(rankRuleRequest.getList().get(i-1).getRankLogo());
+			     rankRuleRequest.getList().get(i-1).setRankLogo(idpsId);
 			     list.add(cmCustFileExtVo);
 			}
 			custFileExtRequest.setList(list);
@@ -128,7 +134,9 @@ public class RankController {
 			     String idpsId= im.upLoadImage(image.getBytes(), UUIDUtil.genId32() + ".png");
 			     cmCustFileExtVo.setAttrValue(idpsId);
 			     cmCustFileExtVo.setTenantId(ChWebConstants.COM_TENANT_ID);
-			     cmCustFileExtVo.setAttrId(rank.toString());
+			     cmCustFileExtVo.setInfoItem(rankRuleRequest.getList().get(i-1).getRankLogo());
+			     cmCustFileExtVo.setAttrId(String.valueOf(i));
+			     rankRuleRequest.getList().get(i-1).setRankLogo(idpsId);
 			     list.add(cmCustFileExtVo);
 			     }
 			}
@@ -154,8 +162,8 @@ public class RankController {
 	}
 	
 	
-	//获取url
-	public List<String> getUrlList(){
+	//获取url的Map
+	public Map<String,String> getUrlMap(){
 		String idpsns = "ch-user-web-idps";
 	    // 获取imageClient
 	    IImageClient im = IDPSClientFactory.getImageClient(idpsns);
@@ -163,14 +171,28 @@ public class RankController {
 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
 		custFileExtRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
 		QueryCustFileExtResponse response = custfileSV.queryCustFileExt(custFileExtRequest);
-		List<String> list = new ArrayList<String>();
+		Map<String,String> urlMap = new HashMap<String,String>();
 		if(!response.getList().isEmpty()){
 			for (CmCustFileExtVo cmCustFileExtVo : response.getList()) {
 				String url = im.getImageUrl(cmCustFileExtVo.getAttrValue(), ".jpg");
-				list.add(url);
+				urlMap.put(cmCustFileExtVo.getAttrId(), url);
 			}
 		}
-			return list;
+			return urlMap;
+	}
+	//获取图片name的Map
+	public Map<String,String> getNameMap(){
+		ICustFileSV custfileSV = DubboConsumerFactory.getService("iCustfileSV");
+		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
+		custFileExtRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+		QueryCustFileExtResponse response = custfileSV.queryCustFileExt(custFileExtRequest);
+		Map<String,String> nameMap = new HashMap<String,String>();
+		if(!response.getList().isEmpty()){
+			for (CmCustFileExtVo cmCustFileExtVo : response.getList()) {
+				nameMap.put(cmCustFileExtVo.getAttrId(), cmCustFileExtVo.getInfoName());
+			}
+		}
+		return nameMap;
 	}
 	
 }

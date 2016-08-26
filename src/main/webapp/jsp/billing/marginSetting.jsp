@@ -54,18 +54,21 @@
 								 		<li><p class="word">当前保证金:</p>
 								 		<p>${deposit }</p></li>
 								 	</ul>
+								 	<form>
 								 	<ul>
 								 	<li>
 								 	<p class="word">保证金:</p>
-								 	<p class="word"><input type="text" class="int-text int-mini"  placeholder=""/></p>
+								 	<p class="word"><input type="text" class="int-text int-mini"  placeholder="" name="deposit" id="deposit"/></p>
 								 	<p class="word">元(一次性收取)</p>
 								 	</li>
 								 	</ul>
 								 	<ul>
 								 	<li>
-								 		<input type="button" style="margin-left:110px;" class="biu-btn btn-blue btn-xlarge  radius" value="保存">
+								 	<input type="hidden" value="${userId }" name="userId">
+								 		<input type="button" id="saveSetting" style="margin-left:110px;" class="biu-btn btn-blue btn-xlarge  radius" value="保存">
 								 	</li>
 								 	</ul>
+								 	</form>
 								 </div>
 							</div>
                         </div>
@@ -75,8 +78,56 @@
             </div>
     </div>
   </div>   
+  
+  <!-- 模态框（Modal） 开始 -->
+	<div class="modal fade" id="sureModal" tabindex="-1" role="dialog" aria-labelledby="stopSureModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width: 400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">提示</h4>
+				</div>
+				<div class="modal-body" id="dialogContent">
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" onclick="pager._jump();" class="biu-btn  btn-primary btn-blue btn-medium ml-10"
+						data-dismiss="modal">确认</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
+	<!-- 模态框（Modal） 结束 -->
+  
+    <!-- 模态框（Modal） 开始 -->
+	<div class="modal fade" id="sureModal2" tabindex="-1" role="dialog" aria-labelledby="stopSureModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width: 400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">提示</h4>
+				</div>
+				<div class="modal-body" id="dialogContent2">
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10"
+						data-dismiss="modal">确认</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
+	<!-- 模态框（Modal） 结束 -->
+  
 	<script type="text/javascript">
 		var pager;
+		var userId=${userId};
 		(function() {
 			seajs.use('app/jsp/billing/marginSetting', function(MarginSettingPager) {
 				pager = new MarginSettingPager({

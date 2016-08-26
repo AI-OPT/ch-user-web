@@ -9,6 +9,7 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
     require("bootstrap-paginator/bootstrap-paginator.min");
+    require("bootstrap/dist/js/bootstrap.min");
     require("app/util/jsviews-ext");
     
     //实例化AJAX控制处理对象
@@ -34,34 +35,19 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
     	setup: function () {
     		ScorePagePager.superclass.setup.call(this);
     	},
+    	
     	//校验输入数字0到50
     	_validate1:function(){
     		var score = document.getElementById(1).value;
     		if(score==null||score==""){
-    			var dialog = Dialog({
-					title : '提示',
-					content : "评价分数不能为空",
-					okValue : "确定",
-					ok : function() {
-						this.close;
-						$("#scoreFlag").val("0");
-					}
-				});
-	        	dialog.show();
+    			$('#dialogContent').text('评价分数不能为空');
+    			$('#sureModal').modal();
     		}else{
     		//var	reg = /^[0-9]{1}$|^[0-4][0-9]$|^50$/;
     		if(score>50||score<0){
-    			var dialog = Dialog({
-					title : '提示',
-					content : "评价分数区间不对",
-					okValue : "确定",
-					ok : function() {
-						this.close;
-						document.getElementById(1).value='';
-						$("#scoreFlag").val("0");
-					}
-				});
-	        	dialog.show();
+    			$('#dialogContent').text('评价分数区间不对');
+    			$('#sureModal').modal();
+    			document.getElementById(1).value='';
     		}
     		}
     	},
@@ -70,30 +56,14 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
 		_validate2:function(){
 			var score = document.getElementById(2).value;
 			if(score==null||score==""){
-				var dialog = Dialog({
-					title : '提示',
-					content : "评价分数不能为空",
-					okValue : "确定",
-					ok : function() {
-						this.close;
-						$("#scoreFlag").val("0");
-					}
-				});
-				dialog.show();
+				$('#dialogContent').text('评价分数不能为空');
+    			$('#sureModal').modal();
 			}else{
 				//var	reg = /^(0?\d|10)$/;
 				if(score>10||score<0){
-					var dialog = Dialog({
-						title : '提示',
-						content : "评价分数区间不对",
-						okValue : "确定",
-						ok : function() {
-							this.close;
-							document.getElementById(2).value='';
-							$("#scoreFlag").val("0");
-						}
-					});
-					dialog.show();
+					$('#dialogContent').text('评价分数区间不对');
+	    			$('#sureModal').modal();
+	    			document.getElementById(2).value='';
 				}
 			}
 		},
@@ -102,29 +72,13 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
     	_validate3:function(){
     		var score = document.getElementById(3).value;
     		if(score==null||score==""){
-    			var dialog = Dialog({
-    				title : '提示',
-    				content : "评价分数不能为空",
-    				okValue : "确定",
-    				ok : function() {
-    					this.close;
-    					$("#scoreFlag").val("0");
-    				}
-    			});
-    			dialog.show();
+    			$('#dialogContent').text('评价分数不能为空');
+    			$('#sureModal').modal();
     		}else{
     			if(score>20||score<0){
-    				var dialog = Dialog({
-    					title : '提示',
-    					content : "评价分数区间不对",
-    					okValue : "确定",
-    					ok : function() {
-    						this.close;
-    						document.getElementById(3).value='';
-    						$("#scoreFlag").val("0");
-    					}
-    				});
-    				dialog.show();
+    				$('#dialogContent').text('评价分数区间不对');
+	    			$('#sureModal').modal();
+	    			document.getElementById(3).value='';
     			}
     		}
     	},
@@ -132,29 +86,13 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
     	_validate4:function(){
     		var score = document.getElementById(4).value;
     		if(score==null||score==""){
-    			var dialog = Dialog({
-    				title : '提示',
-    				content : "评价分数不能为空",
-    				okValue : "确定",
-    				ok : function() {
-    					this.close;
-    					$("#scoreFlag").val("0");
-    				}
-    			});
-    			dialog.show();
+    			$('#dialogContent').text('评价分数不能为空');
+    			$('#sureModal').modal();
     		}else{
     			if(score>20||score<0){
-    				var dialog = Dialog({
-    					title : '提示',
-    					content : "评价分数区间不对",
-    					okValue : "确定",
-    					ok : function() {
-    						this.close;
-    						document.getElementById(4).value='';
-    						$("#scoreFlag").val("0");
-    					}
-    				});
-    				dialog.show();
+    				$('#dialogContent').text('评价分数区间不对');
+	    			$('#sureModal').modal();
+	    			document.getElementById(4).value='';
     			}
     		}
     	},
@@ -178,16 +116,8 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
 			},
 	        success: function(data) {
 	        	if(data.responseHeader.resultCode='000000'){
-	        	var dialog = Dialog({
-					title : '提示',
-					content : "评价成功",
-					okValue : "确定",
-					ok : function() {
-						this.close;
-						window.location.href=_base+"/score/scorelist";
-					}
-				});
-	        	dialog.show();
+	        		$('#dialogContent').text('评价成功');
+	    			$('#sureModal').modal();
 	        	}
 	            },
 				error: function(error) {

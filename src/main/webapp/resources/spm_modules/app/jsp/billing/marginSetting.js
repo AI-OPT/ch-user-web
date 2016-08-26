@@ -11,6 +11,7 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
     require("bootstrap-paginator/bootstrap-paginator.min");
+    require("bootstrap/dist/js/bootstrap.min");
     require("app/util/jsviews-ext");
     
     require("opt-paging/aiopt.pagination");
@@ -29,10 +30,44 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
     	},
     	//事件代理
     	events: {
+    		"click #saveSetting":"_saveSetting",
+    		"blur #deposit":"_checkDeposit"
         },
     	//重写父类
     	setup: function () {
     		MarginSettingPager.superclass.setup.call(this);
+    	},
+    	
+    	_saveSetting:function(){
+    	var deposit=$("#deposit").val();
+    	$.ajax({
+			type:"post",
+			url:_base+"/billing/savemarginsetting",
+			dataType: "json",
+			data:{"deposit":deposit,
+				 "userId":userId },
+	        success: function(data) {
+	        	if(data.responseHeader.resultCode='000000'){
+	        		$('#dialogContent').text('保存成功');
+	    			$('#sureModal').modal({backdrop:"static",show:true});
+	        	}
+	            },
+				error: function(error) {
+					alert("error:"+ error);
+				}
+				});
+    	},
+    	_jump:function(){
+    		window.location.href=_base+"/billing/billingpager";
+    	},
+    	_checkDeposit:function(){
+    		var deposit = $("#deposit").val();
+    		var pattern = "^[1-9]\d{15}$";
+    		if(!deposit.match(pattern)){
+    			$('#dialogContent2').text('数据类型不对');
+    			$('#sureModal2').modal();
+    			$('#deposit').val("");
+    		}
     	}
     	
     });

@@ -11,6 +11,7 @@ define('app/jsp/rank/rankrule', function (require, exports, module) {
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
     require("bootstrap-paginator/bootstrap-paginator.min");
+    require("bootstrap/dist/js/bootstrap.min");
     require("app/util/jsviews-ext");
     
     require("opt-paging/aiopt.pagination");
@@ -70,7 +71,8 @@ define('app/jsp/rank/rankrule', function (require, exports, module) {
     	},
     	
     	_saveRule:function(){
-    	$("#rankForm").submit();
+    		
+    		$("#rankForm").submit();
     	},
     	
     	//获取上传图片名
@@ -81,17 +83,16 @@ define('app/jsp/rank/rankrule', function (require, exports, module) {
     	_changeValue:function(index){
     		var maxIndex = document.getElementById('max'+index).value;
     		var minIndex = document.getElementById('min'+index).value;
+    		if(maxIndex==""||maxIndex==null)
+    		{
+    			$("#dialogContent").text('等级不能为空');
+    			$("#sureModal").modal();
+    			return false;
+    			}
     		if(maxIndex<=minIndex){
-    			var dialog = Dialog({
-					title : '提示',
-					content : "数据区间不正确",
-					okValue : "确定",
-					ok : function() {
-						this.close;
-						document.getElementById('max'+index).value="";
-					}
-				});
-	        	dialog.show();
+    			$("#dialogContent").text('等级区间不正确');
+    			$("#sureModal").modal();
+	        	document.getElementById('max'+index).value="";
     		}else{
     		document.getElementById('min'+(parseInt(index)+1)).value=maxIndex;
     		}

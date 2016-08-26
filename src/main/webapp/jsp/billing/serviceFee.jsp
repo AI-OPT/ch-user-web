@@ -54,15 +54,16 @@
 								 		<li><p class="word">当前结算设置:</p>
 								 	</ul>
 								 	<ul>
-								 	<li><p class="word">保证金: ${deposit }元</p></li>
+								 	<li><p class="word">保证金:</p></li>
+								 	<li><p class="word">${deposit }</p></li>
 								 	</ul>
 								 	<ul>
-								 	<li><p class="word">固定金额服务费: ${deposit }</p>
-								 	<p class="word">元/</p>
-								 	<p>${depositCycle }</p></li>
+								 	<li><p class="word">固定金额服务费: </p></li>
+								 	<li><p class="word">${rentFeeStr }</p></li>
 								 	</ul>
 								 	<ul>
-								 	<li><p class="word">实时划扣服务费: ${ratio }%</p></li>
+								 	<li><p class="word">实时划扣服务费: </p></li>
+								 	<li><p class="word">${ratioStr }</p></li>
 								 	</ul>
 								 </div>
 							</div>

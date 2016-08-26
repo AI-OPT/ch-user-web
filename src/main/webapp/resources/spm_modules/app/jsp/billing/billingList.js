@@ -62,13 +62,13 @@ define('app/jsp/billing/billingList', function (require, exports, module) {
     	},
     	
     	_toMarginPage:function(userId){
-    		window.location.href= _base+"/billing/marginsetting?"+userId;
+    		window.location.href= _base+"/billing/marginsetting?userId="+userId;
     	},
     	_toServiceFeeSettingPage:function(userId){
-    		window.location.href= _base+"/billing/servicefeesetting?"+userId;
+    		window.location.href= _base+"/billing/servicefeesetting?userId="+userId;
     	},
     	_toServiceFeePage:function(userId){
-    		window.location.href= _base+"/billing/servicefee?"+userId;
+    		window.location.href= _base+"/billing/servicefee?userId="+userId;
     	}
     	
     	
