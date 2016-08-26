@@ -101,7 +101,7 @@
 					
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10"
+					<button type="button" onclick="pager._jump();" class="biu-btn  btn-primary btn-blue btn-medium ml-10"
 						data-dismiss="modal">确认</button>
 				</div>
 			</div>

@@ -13,16 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.ch.user.api.score.interfaces.IScoreSV;
+import com.ai.ch.user.api.score.param.CountScoreAvgRequest;
 import com.ai.ch.user.api.score.param.InsertCurrentScoreRequest;
 import com.ai.ch.user.api.score.param.InsertScoreLogRequest;
 import com.ai.ch.user.api.score.param.QueryScoreKpiRequest;
 import com.ai.ch.user.api.score.param.QueryScoreKpiResponse;
 import com.ai.ch.user.web.constants.ChWebConstants;
+import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.vo.SupplierScoreVo;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.opt.sso.client.filter.SSOClientConstants;
 
 @RestController
 @RequestMapping("/score")
@@ -46,13 +49,18 @@ public class ScoreController {
 		pageInfo.setPageCount(4);
 		pageInfo.setPageNo(1);
 		pageInfo.setPageSize(5);
+		IScoreSV scoreSV = DubboConsumerFactory.getService("iScoreSV");
+		CountScoreAvgRequest scoreAvgRequest = new CountScoreAvgRequest();
+		scoreAvgRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+		scoreAvgRequest.setUserId("1");
+		float avgScore = scoreSV.countScoreAvg(scoreAvgRequest);
 		List<SupplierScoreVo> list = new ArrayList<SupplierScoreVo>();
 		for(int i=0;i<5;i++){
 			SupplierScoreVo sl = new SupplierScoreVo();
 			sl.setGroupName("yaxin");
 			sl.setTenantId("ch");
 			sl.setUserName("ww");
-			sl.setTotalScore(60);
+			sl.setTotalScore(Integer.valueOf((int)avgScore));
 			sl.setUserId("1234567");
 			list.add(sl);
 		}
@@ -95,9 +103,10 @@ public class ScoreController {
 		//tenantId
 		String tenantId ="ch";
 		//供货商ID
-		String userId = "111333";
+		String userId = "1";
 		//操作员ID
-		Long operId = 111222L;
+		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+		String operId = user.getUserId();
 		//总分
 		Integer totalScore =0;
 		for(int i=1;i<=4;i++)
@@ -109,11 +118,11 @@ public class ScoreController {
 		scoreLogRequest.setScore4(Integer.valueOf(request.getParameter(String.valueOf(4)).toString()));
 		IScoreSV scoreSV = DubboConsumerFactory.getService("iScoreSV");
 		currentScoreRequest.setTenantId(tenantId);
-		currentScoreRequest.setOperId(operId);
+		currentScoreRequest.setOperId(Long.valueOf(operId));
 		currentScoreRequest.setUserId(userId);
 		currentScoreRequest.setTotalScore(totalScore);
 		scoreLogRequest.setTenantId(tenantId);
-		scoreLogRequest.setOperId(operId);
+		scoreLogRequest.setOperId(Long.valueOf(operId));
 		scoreLogRequest.setUserId(userId);
 		scoreLogRequest.setTotalScore(totalScore);
 		try{

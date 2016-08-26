@@ -125,6 +125,9 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
 				}
 				});
 	           }
+    	},
+    	_jump:function(){
+    		window.location.href=_base+"/score/scorelist";
     	}
     });
     
