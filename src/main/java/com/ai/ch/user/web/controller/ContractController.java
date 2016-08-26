@@ -29,12 +29,14 @@ import com.ai.ch.user.api.custfile.params.QueryCustFileExtResponse;
 import com.ai.ch.user.api.custfile.params.UpdateCustFileExtRequest;
 import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.constants.ChWebConstants.ExceptionCode;
+import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.model.user.CustFileListVo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.dss.DSSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.DateUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.paas.ipaas.dss.base.interfaces.IDSSClient;
 
 @RestController
@@ -71,7 +73,8 @@ public class ContractController {
 		 	IContractSV contract = DubboConsumerFactory.getService("iContractSV");
 		 	ContactInfoRequest contactInfo = new ContactInfoRequest();
 		 	contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SUPPLIER);
-		 	contactInfo.setTenantId(ChWebConstants.COM_TENANT_ID);
+		 	GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+		 	contactInfo.setTenantId(userClient.getTenantId());
 		 	contactInfo.setUserId(userId);
 	 		ContactInfoResponse response = contract.queryContractInfo(contactInfo);
 	 		response.setUserId(userId);
