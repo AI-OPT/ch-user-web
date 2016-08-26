@@ -28,8 +28,8 @@
                 <!--二级菜单-->    
                     <ul class="submenu">
                         <li><a href="${_base}/billing/billingpager" target="mainFrame">保证金/服务费设置</a></li>
-                        <li><a href="#">结算周期设置</a></li>
-                        <li><a href="#">违约管理</a></li>
+                        <li><a href="${_base}/billing/billingCyclePager" target="mainFrame">结算周期设置</a></li>
+                        <li><a href="${_base}/billing/defaultManagerPager" target="mainFrame">违约管理</a></li>
                     </ul>
                 <!--二级菜单结束-->
                 </li>
