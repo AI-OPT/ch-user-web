@@ -67,7 +67,7 @@ public class BillingController {
 		QueryShopInfoResponse shopInfoResponse = shopInfoSV.queryShopInfo(shopInfoRequest);
 		String rentFeeStr="";
 		String ratioStr="";
-		if(shopInfoResponse.getRentFee()==null||shopInfoResponse.getRentCycleType()==null)
+		if(shopInfoResponse.getRentFee()==null||shopInfoResponse.getRentFee()==0)
 		{
 			rentFeeStr="未设置";
 		}else{
@@ -78,7 +78,7 @@ public class BillingController {
 			if("M".equals(shopInfoResponse.getRentCycleType()))
 				rentFeeStr=shopInfoResponse.getRentFee()+"元/月";
 		}
-		if(shopInfoResponse.getRatio()==null)
+		if(shopInfoResponse.getRatio()==null||shopInfoResponse.getRatio()==0)
 			ratioStr="未设置";
 		else{
 			ratioStr=shopInfoResponse.getRatio()+"%";
@@ -104,8 +104,7 @@ public class BillingController {
 		String rentFeeStr="";
 		String ratioStr="";
 		String deposit="";
-		if(shopInfoResponse.getRentFee()==null||shopInfoResponse.getRentCycleType()==null)
-		{
+		if(shopInfoResponse.getRentFee()==null||shopInfoResponse.getRentFee()==0){
 			rentFeeStr="未设置";
 		}else{
 			if("Y".equals(shopInfoResponse.getRentCycleType()))
@@ -115,7 +114,7 @@ public class BillingController {
 			if("M".equals(shopInfoResponse.getRentCycleType()))
 				rentFeeStr=shopInfoResponse.getRentFee()+"元/月";
 		}
-		if(shopInfoResponse.getRatio()==null)
+		if(shopInfoResponse.getRatio()==null||shopInfoResponse.getRatio()==0)
 			ratioStr="未设置";
 		else{
 			ratioStr=shopInfoResponse.getRatio()+"%";
@@ -164,12 +163,37 @@ public class BillingController {
 	
 	@RequestMapping("/savemarginsetting")
 	@ResponseBody
-	public ResponseData<String> saveMarginSetting(HttpServletRequest request,UpdateShopInfoRequest shopInfoRequst) {
+	public ResponseData<String> saveMarginSetting(HttpServletRequest request) {
+		ResponseData<String> response = new ResponseData<String>(ChWebConstants.OperateCode.SUCCESS, "成功");
+		ResponseHeader responseHeader = null;
+		UpdateShopInfoRequest shopInfoRequst = new UpdateShopInfoRequest();
+		shopInfoRequst.setTenantId(ChWebConstants.COM_TENANT_ID);
+		if(request.getParameter("userId")==null||"".equals(request.getParameter("userId")));
+		shopInfoRequst.setUserId(request.getParameter("userId"));
+		shopInfoRequst.setDepositBalance(Long.valueOf(request.getParameter("deposit")));
+		try{
+		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
+		shopInfoSV.updateShopInfo(shopInfoRequst);
+		responseHeader = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+		}catch(Exception e){
+			responseHeader = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败");
+		}
+		response.setResponseHeader(responseHeader);
+		return response;
+	}
+	
+	@RequestMapping("/saveservicesetting")
+	@ResponseBody
+	public ResponseData<String> saveServiceSetting(HttpServletRequest request,UpdateShopInfoRequest shopInfoRequst) {
 		ResponseData<String> response = new ResponseData<String>(ChWebConstants.OperateCode.SUCCESS, "成功");
 		ResponseHeader responseHeader = null;
 		shopInfoRequst.setTenantId(ChWebConstants.COM_TENANT_ID);
 		if(request.getParameter("userId")==null||"".equals(request.getParameter("userId")));
 		shopInfoRequst.setUserId(request.getParameter("userId"));
+		if(shopInfoRequst.getRentFee()==null)
+			shopInfoRequst.setRentFee(0L);
+		if(shopInfoRequst.getRatio()==null)
+			shopInfoRequst.setRatio(0);
 		try{
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		shopInfoSV.updateShopInfo(shopInfoRequst);

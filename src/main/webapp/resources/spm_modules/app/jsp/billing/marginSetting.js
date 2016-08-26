@@ -40,6 +40,10 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
     	
     	_saveSetting:function(){
     	var deposit=$("#deposit").val();
+    	pager._checkDeposit();
+    	if($("#flag").val()=='0')
+    		return false;
+    	else{
     	$.ajax({
 			type:"post",
 			url:_base+"/billing/savemarginsetting",
@@ -56,18 +60,28 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
 					alert("error:"+ error);
 				}
 				});
+    	}
     	},
     	_jump:function(){
     		window.location.href=_base+"/billing/billingpager";
     	},
     	_checkDeposit:function(){
     		var deposit = $("#deposit").val();
-    		var pattern = "^[1-9]\d{15}$";
+    		if(deposit==null||deposit==""){
+    			$('#dialogContent2').text('输入数据不能为空');
+    			$('#sureModal2').modal({backdrop:"static",show:true});
+    			$('#flag').val('0');
+    			return false;
+    		}
+    		var pattern = /^[1-9]\d{0,14}$/;
     		if(!deposit.match(pattern)){
     			$('#dialogContent2').text('数据类型不对');
     			$('#sureModal2').modal();
+    			$('#flag').val('0');
     			$('#deposit').val("");
+    			return false;
     		}
+    		$('#flag').val('1');
     	}
     	
     });

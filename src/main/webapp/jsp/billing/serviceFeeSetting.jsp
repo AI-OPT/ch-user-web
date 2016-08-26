@@ -154,6 +154,8 @@
 				<div class="modal-footer">
 					<button type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10"
 						data-dismiss="modal">确认</button>
+						<input type="hidden" id="rentFeeFlag">
+						<input type="hidden" id="ratioFlag">
 				</div>
 			</div>
 			<!-- /.modal-content -->

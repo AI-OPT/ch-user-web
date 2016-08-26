@@ -66,6 +66,7 @@
 								 	<li>
 								 	<input type="hidden" value="${userId }" name="userId">
 								 		<input type="button" id="saveSetting" style="margin-left:110px;" class="biu-btn btn-blue btn-xlarge  radius" value="保存">
+								 		<input type="hidden" id="flag" value="">
 								 	</li>
 								 	</ul>
 								 	</form>
