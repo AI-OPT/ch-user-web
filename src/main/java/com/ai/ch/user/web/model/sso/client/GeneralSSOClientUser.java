@@ -24,7 +24,8 @@ public class GeneralSSOClientUser implements Serializable {
     private String mobile;
     //邮件
     private String email;    
-    
+    //租户ID
+    private String tenantId;
 	public String getUsername() {
 		return username;
 	}
@@ -54,6 +55,12 @@ public class GeneralSSOClientUser implements Serializable {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getTenantId() {
+		return tenantId;
+	}
+	public void setTenantId(String tenantId) {
+		this.tenantId = tenantId;
 	}
     
 
