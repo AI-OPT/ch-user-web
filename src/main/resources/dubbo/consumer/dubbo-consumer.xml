@@ -44,4 +44,8 @@
 	<!-- 扣费设置-->
     <dubbo:reference id="iDefaultLogSV" interface="com.ai.ch.user.api.defaultlog.interfaces.IDefaultLogSV" 
     registry="chRegistry"/>
+    
+    <!-- 获取系统管理信息-->
+    <dubbo:reference id="iSysUserQuerySV" interface="com.ai.platform.common.api.sysuser.interfaces.ISysUserQuerySV" 
+    registry="chRegistry"/>
 </beans>
