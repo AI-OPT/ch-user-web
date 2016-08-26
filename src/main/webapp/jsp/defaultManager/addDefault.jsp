@@ -22,18 +22,18 @@
 					           	<ul>
 					                <li class="col-md-6" style="width: 40%">
 					                    <p class="word" style="font-size: 20px;margin-left: 30px">用户名:</p>
-					                    <p>aaa</p>
+					                    <p>${userName }</p>
 					                </li>
 					                <li  class="col-md-6">
 					                    <p class="word" style="font-size: 20px">企业名称:</p>
-					                    <p>bbb</p>
+					                    <p>${custName}</p>
 					                </li>  
 					            </ul>
 					            
 					            <ul>
 					                <li class="col-md-6" style="width: 40%">
 					                    <p class="word" style="font-size: 20px;margin-left: 30px">保证金余额:</p>
-					                    <p>89000.00元</p>
+					                    <p>2000.00元</p>
 					                </li>
 					            </ul>
 				         	</div>
@@ -45,27 +45,34 @@
 					            </ul>
 				         	</div>
 					   	<!--查询结束-->   
+					   	<form id="defaultManagerForm" method="post">
 					 	 <div>	
 					 	 	<div class="form-label pl-40" >
+					 	 	   <input type="hidden" id="userId" name="userId" value="${userId}"/>
 						    	<ul style="margin-bottom: 20px">
 									<li>
 									  <p class="word" style="font-style: "><b class="red">*</b>违约原因:</p>
 									</li>
-									<li><textarea class="int-text textarea-large"></textarea></li>
+									<li ><textarea class="int-text textarea-large" id="defaultReason" name="defaultReason" cols="50" rows="4"></textarea></li>
+									<li><label id="defaultReasonErrMsg" style="display: none;"><span class="ash" id="defaultReasonText">1-12位字符，可用数字及"."</span></label></li>
 								</ul>
 								<ul style="margin-bottom: 20px">
 									<li>
 									  <p class="word" style="font-style: "><b class="red">*</b>扣款金额:</p>
 									</li>
-									<li><input type="text" class="int-text int-medium" placeholder="请输入金额" />元</li>
+									<li><input type="text" class="int-text int-medium" id="amount" name="deductBalance" placeholder="请输入金额" />元</li>
+									<li><label id="amountErrMsg" style="display: none;"><span class="ash" id="amountText">1-12位字符，可用数字及"."</span></label></li>
 								</ul>
 							    <ul>
 									<li class="form-btn" >
-										<input type="button" class="biu-btn border-green btn-xlarge  radius" style="margin-left: 55%;" value="保存">	
+										<input type="button" class="biu-btn border-green btn-xlarge  radius" style="margin-left: 55%;" id="saveDefaultManager" value="保存">	
+										<input type="hidden" id="defaultReasonFlag"/>
+										<input type="hidden" id="amountFlag"/>
 									</li>
 								</ul>
 							</div>
 					   	 </div>
+					   	 </form>
                         </div>
                     </div>
                 </div>
@@ -78,5 +85,14 @@
    		 <p id="footer-copyright" class="col-xs-12">亚信</p>
     </footer>
    <!--/底部结束-->
+<script type="text/javascript">
+   var defaultPagerManager;
+   seajs.use(['app/jsp/billing/defaultManager'], function(DefaultPagerManager) {
+	    defaultPagerManager = new DefaultPagerManager({
+		element : document.body
+	});
+	    defaultPagerManager.render();
+});
+   </script>
 </body>
 </html>
