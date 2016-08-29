@@ -38,6 +38,7 @@ define('app/jsp/rank/rankrule', function (require, exports, module) {
     		RankRulePager.superclass.setup.call(this);
     		this._initTable();
     	},
+    	
     	_initTable:function(){
     		$("#TBODY_RANKRULE").html();
     		var count = document.getElementById("rankRegion").value;
@@ -45,7 +46,7 @@ define('app/jsp/rank/rankrule', function (require, exports, module) {
     			count=5;
     		//I am drunk
     		var count_=count-1;
-    		var htmlOutput ="<tr><td><p class='f-14' style='font-weight:400;padding-right:89px;'>等级 1: 0 - <input type='hidden' name='minFee' id='min1' value='0'><input type='hidden' value='1' name='list[0].rank'><input class='int-text int-mini' name='list[0].maxFee' id='max1' type='text' onblur=\""+"pager._changeValue('1')"+"\">元</p></td>";
+    		var htmlOutput ="<tr><td><p class='f-14' style='font-weight:400;padding-right:89px;'>等级 1: 0 - <input type='hidden' name='minFee' id='min1' value='0'><input type='hidden' value='1' name='list[0].rank'><input class='int-text int-mini' name='list[0].maxFee' id='max1' type='text' onblur=\""+"pager._changeValue('1')"+"\">元<input type='text' style='display:none;color:red' id='msg1'></p></td>";
              htmlOutput+="<td><p class='f-14'>等级名称 :  <input class='int-text int-small' name='list[0].rankName' type='text'></p></td>";
              htmlOutput+="<td><p class='f-14'>图片名称 :  <input class='int-text int-small' name='list[0].rankLogo' readonly='readonly' id='rankLogo1' type='text'>&nbsp;&nbsp;&nbsp;<span class='btn-upload'>";
              htmlOutput+="<input type='button' class='btn-default btn-medium' value='浏览文件'/>";
@@ -62,7 +63,7 @@ define('app/jsp/rank/rankrule', function (require, exports, module) {
     		//渲染模版
             htmlOutput += template.render(json);
     		}
-            htmlOutput+="<tr><td><p class='f-14' style='font-weight:400;padding-right:80px;'>等级 "+count+" :  <input class='int-text int-mini' name='list["+count_+"].minFee' id='min"+count+"' type='text' value='0' readonly='readonly' id='min"+count+"'> 元以上</p><input type='hidden' value='999999999999999' name='maxFee'><input type='hidden' value='"+count+"' name='list["+count_+"].rank'></td>";
+            htmlOutput+="<tr><td><p class='f-14' style='font-weight:400;padding-right:80px;'>等级 "+count+" :  <input class='int-text int-mini' name='list["+count_+"].minFee' id='min"+count+"' type='text' value='0' readonly='readonly' id='min"+count+"'> 元以上</p><input type='text' style='display:none;color:red' id='msg"+count+"'><input type='hidden' value='999999999999999' name='maxFee'><input type='hidden' value='"+count+"' name='list["+count_+"].rank'></td>";
             htmlOutput+="<td><p class='f-14'>等级名称 :  <input class='int-text int-small' name='list["+count_+"].rankName' type='text'></p></td>";
             htmlOutput+="<td><p class='f-14'>图片名称 :  <input class='int-text int-small' name='list["+count_+"].rankLogo' readonly='readonly' id='rankLogo"+count	+"' type='text'>&nbsp;&nbsp;&nbsp;<span class='btn-upload'>";
             htmlOutput+="<input type='button' class='btn-default btn-medium' value='浏览文件'/>";
@@ -80,19 +81,22 @@ define('app/jsp/rank/rankrule', function (require, exports, module) {
     		 var img = document.getElementById('img'+index).files;
     		document.getElementById('rankLogo'+index).value=img[0].name;
     	},
+    	
     	_changeValue:function(index){
+    		document.getElementById('msg'+index).style.display="none";
     		var maxIndex = document.getElementById('max'+index).value;
     		var minIndex = document.getElementById('min'+index).value;
     		if(maxIndex==""||maxIndex==null)
     		{
-    			$("#dialogContent").text('等级不能为空');
-    			$("#sureModal").modal();
+    			document.getElementById('msg'+index).value='(等级区间不能为空)';
+    			document.getElementById('msg'+index).style.display="";
     			return false;
     			}
     		if(maxIndex<=minIndex){
-    			$("#dialogContent").text('等级区间不正确');
-    			$("#sureModal").modal();
+    			document.getElementById('msg'+index).value='(等级区间错误)';
+    			document.getElementById('msg'+index).style.display="";
 	        	document.getElementById('max'+index).value="";
+	        	return false;
     		}else{
     		document.getElementById('min'+(parseInt(index)+1)).value=maxIndex;
     		}

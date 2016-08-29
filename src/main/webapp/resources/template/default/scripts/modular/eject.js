@@ -77,3 +77,109 @@ jQuery(document).ready(function($) {
 	$('#add-samll').slideUp(150);
 	})
 })
+
+//废弃弹出
+jQuery(document).ready(function($) {
+	$('#abandoned').click(function(){
+	$('#eject-mask').fadeIn(100);
+	$('#aband-small').slideDown(200);
+	})
+	$('#aband-close').click(function(){
+	$('#eject-mask').fadeOut(100);
+	$('#aband-small').slideUp(150);
+	})
+	$('.eject-medium-title .img').click(function(){
+	$('#eject-mask').fadeOut(100);
+	$('#aband-small').slideUp(150);
+	})
+})
+
+//库存增加
+jQuery(document).ready(function($) {
+	$('#increase').click(function(){
+	$('#eject-mask').fadeIn(100);
+	$('#increase-samll').slideDown(200);
+	})
+	$('#increase-close').click(function(){
+	$('#eject-mask').fadeOut(100);
+	$('#increase-samll').slideUp(150);
+	})
+	$('.eject-medium-title .img').click(function(){
+	$('#eject-mask').fadeOut(100);
+	$('#increase-samll').slideUp(150);
+	})
+})
+
+
+
+//商品编辑 选择地市弹出
+jQuery(document).ready(function($) {
+	$('#city').click(function(){
+	$('#eject-mask').fadeIn(100);
+	$('#eject-city').slideDown(200);
+	})
+	$('.eject-medium-title .img').click(function(){
+	$('#eject-mask').fadeOut(100);
+	$('#eject-city').slideUp(150);
+	})
+})
+
+//商品编辑 选择地市弹出
+jQuery(document).ready(function($) {
+	$('#edit-city').click(function(){
+	$('#eject-mask').fadeIn(100);
+	$('#eject-city').slideDown(200);
+	})
+	$('.eject-medium-title .img').click(function(){
+	$('#eject-mask').fadeOut(100);
+	$('#eject-city').slideUp(150);
+	})
+})
+
+//商品编辑 选择地市弹出
+jQuery(document).ready(function($) {
+	$('#xz-city').click(function(){
+	$('#eject-mask').fadeIn(100);
+	$('#eject-city').slideDown(200);
+	})
+	$('.eject-medium-title .img').click(function(){
+	$('#eject-mask').fadeOut(100);
+	$('#eject-city').slideUp(150);
+	})
+})
+
+//商品编辑 选择地市弹出
+jQuery(document).ready(function($) {
+	$('#xz-edit-city').click(function(){
+	$('#eject-mask').fadeIn(100);
+	$('#eject-city').slideDown(200);
+	})
+	$('.eject-medium-title .img').click(function(){
+	$('#eject-mask').fadeOut(100);
+	$('#eject-city').slideUp(150);
+	})
+})
+
+//商品编辑 选择代理商弹出
+jQuery(document).ready(function($) {
+	$('#agent-btn').click(function(){
+	$('#eject-mask').fadeIn(100);
+	$('#agent').slideDown(200);
+	})
+	$('.eject-medium-title .img').click(function(){
+	$('#eject-mask').fadeOut(100);
+	$('#agent').slideUp(150);
+	})
+})
+
+//商品编辑 上传图片
+jQuery(document).ready(function($) {
+	$('#upload-btn').click(function(){
+	$('#eject-mask').fadeIn(100);
+	$('#upload').slideDown(200);
+	})
+	$('.eject-medium-title .img').click(function(){
+	$('#eject-mask').fadeOut(100);
+	$('#upload').slideUp(150);
+	})
+})

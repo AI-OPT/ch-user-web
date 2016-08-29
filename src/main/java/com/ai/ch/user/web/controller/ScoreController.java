@@ -59,7 +59,7 @@ public class ScoreController {
 		for(int i=0;i<5;i++){
 			SupplierScoreVo sl = new SupplierScoreVo();
 			sl.setGroupName("yaxin");
-			sl.setTenantId("ch");
+			sl.setTenantId("changhong");
 			sl.setUserName("ww");
 			sl.setTotalScore(Integer.valueOf((int)avgScore));
 			sl.setUserId("1234567");
@@ -81,7 +81,7 @@ public class ScoreController {
 		//调dubbo服务
 		IScoreSV scoreSV = DubboConsumerFactory.getService("iScoreSV");
 		QueryScoreKpiRequest queryScoreKpiRequest = new QueryScoreKpiRequest();
-		queryScoreKpiRequest.setTenantId("ch");
+		queryScoreKpiRequest.setTenantId("changhong");
 		QueryScoreKpiResponse queryScoreKpiResponse = scoreSV.queryScoreKpi(queryScoreKpiRequest);
 		model.addObject("scoreKpiList", queryScoreKpiResponse.getList());
 		return model;
@@ -102,7 +102,7 @@ public class ScoreController {
 		InsertScoreLogRequest scoreLogRequest = new InsertScoreLogRequest();
 		//调dubbo服务
 		//tenantId
-		String tenantId ="ch";
+		String tenantId ="changhong";
 		//供货商ID
 		String userId = "1";
 		//操作员ID

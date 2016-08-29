@@ -10,6 +10,7 @@ sourceCompatibility = 1.7
 
 configurations {
     optUedTemplate
+    jsCommonLibs
 }
 
 buildscript {
@@ -69,6 +70,7 @@ dependencies {
         exclude group: 'com.sun.jersey', module: 'jersey-server'
     }
 
+	jsCommonLibs 'com.ai.opt.uniframe:opt-jscommon-libs:1.0-SNAPSHOT'
     compile 'com.ai.opt.sdk:opt-sdk:2.0-SNAPSHOT'
     compile 'com.ai.opt.xss.filter:opt-xss-firewall:1.0-SNAPSHOT'
     compile 'com.ai.opt.uni.session:opt-uni-session:2.0-SNAPSHOT'
@@ -100,6 +102,12 @@ dependencies {
 def getUedTemplate=task("getUedTemplate",type:com.ai.runner.gradle.plugin.jar.APIJarProcessTask){
 	jarPaths=configurations.optUedTemplate.files.asType(List)
     destinationDir file("src/main/webapp/resources/template") //这里面的路径建议保持默认
+}
+
+
+def getJsCommonLibs=task("getJsCommonLibs",type:com.ai.runner.gradle.plugin.jar.APIJarProcessTask){
+	jarPaths=configurations.jsCommonLibs.files.asType(List)
+    destinationDir file("src/main/webapp/resources/spm_modules") //这里面的路径建议保持默认
 }
 
 eclipse {

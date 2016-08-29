@@ -12,6 +12,9 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
     require("bootstrap/dist/js/bootstrap.min");
     require("app/util/jsviews-ext");
     
+	require("jquery-validation/1.15.1/jquery.validate");
+	require("app/util/aiopt-validate-ext");
+    
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
     //定义页面组件类
@@ -26,86 +29,90 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
     	//事件代理
     	events: {
     		"click #submitScore":"_submitScore",
-    		"blur #1":"_validate1",
-    		"blur #2":"_validate2",
-    		"blur #3":"_validate3",
-    		"blur #4":"_validate4"
         },
     	//重写父类
     	setup: function () {
     		ScorePagePager.superclass.setup.call(this);
+    		var formValidator=this._initValidate();
+			$(":input").bind("focusout",function(){
+				formValidator.element(this);
+			});
     	},
     	
-    	//校验输入数字0到50
-    	_validate1:function(){
-    		var score = document.getElementById(1).value;
-    		if(score==null||score==""){
-    			$('#dialogContent').text('评价分数不能为空');
-    			$('#sureModal').modal();
-    		}else{
-    		//var	reg = /^[0-9]{1}$|^[0-4][0-9]$|^50$/;
-    		if(score>50||score<0){
-    			$('#dialogContent').text('评价分数区间不对');
-    			$('#sureModal').modal();
-    			document.getElementById(1).value='';
-    		}
-    		}
-    	},
-    	
-		//校验输入数字0到10
-		_validate2:function(){
-			var score = document.getElementById(2).value;
-			if(score==null||score==""){
-				$('#dialogContent').text('评价分数不能为空');
-    			$('#sureModal').modal();
-			}else{
-				//var	reg = /^(0?\d|10)$/;
-				if(score>10||score<0){
-					$('#dialogContent').text('评价分数区间不对');
-	    			$('#sureModal').modal();
-	    			document.getElementById(2).value='';
-				}
-			}
-		},
-
-    	//校验输入数字0到20
-    	_validate3:function(){
-    		var score = document.getElementById(3).value;
-    		if(score==null||score==""){
-    			$('#dialogContent').text('评价分数不能为空');
-    			$('#sureModal').modal();
-    		}else{
-    			if(score>20||score<0){
-    				$('#dialogContent').text('评价分数区间不对');
-	    			$('#sureModal').modal();
-	    			document.getElementById(3).value='';
+    	//初始化校验器
+    	_initValidate:function(){
+    		var formValidator=$("#scorePage").validate({
+    			rules: {
+    				1: {
+    					required:true,
+    					digits:true,
+    					min:1,
+    					max:50
+    					},
+					2: {
+    					required:true,
+    					digits:true,
+    					min:1,
+    					max:10
+    					},
+					3: {
+    					required:true,
+    					digits:true,
+    					min:1,
+    					max:20
+    					},
+					4: {
+    					required:true,
+    					digits:true,
+    					min:1,
+    					max:20
+    					}
+    			},
+    			messages: {
+    				1: {
+    					required:"评分不能为空",
+    					digits: "只能输入数字",
+    					min:"最小值为{0}",
+    					max:"最大值为{0}"
+    					},
+    				2: {
+    					required:"评分不能为空",
+    					digits: "只能输入数字",
+    					min:"最小值为{0}",
+    					max:"最大值为{0}"
+    					},
+        			
+        			3: {
+    					required:"评分不能为空",
+    					digits: "只能输入数字",
+    					min:"最小值为{0}",
+    					max:"最大值为{0}"
+    					},
+            		4: {
+    					required:"评分不能为空",
+    					digits: "只能输入数字",
+    					min:"最小值为{0}",
+    					max:"最大值为{0}"
+    					}
     			}
-    		}
-    	},
-    	//校验输入数字0到20
-    	_validate4:function(){
-    		var score = document.getElementById(4).value;
-    		if(score==null||score==""){
-    			$('#dialogContent').text('评价分数不能为空');
-    			$('#sureModal').modal();
-    		}else{
-    			if(score>20||score<0){
-    				$('#dialogContent').text('评价分数区间不对');
-	    			$('#sureModal').modal();
-	    			document.getElementById(4).value='';
-    			}
-    		}
+    		});
+    		
+    		return formValidator;
     	},
     	
     	//提交供货商评价
     	_submitScore: function(){
-    		$("#scoreFlag").val("1");
-    		for(var i=1;i<=4;i++){
-    		var score = document.getElementById(i).value;
-    		if(score==null||score=="")
-    			$("#scoreFlag").val("0");
-    	}
-    	if($("#scoreFlag").val()!="0"){
+    		
+    		var _this= this;
+			//父类目
+			var catArr = [];
+			var hasError = false;
+			var formValidator=_this._initValidate();
+			formValidator.form();
+			if(!$("#scorePage").valid()){
+				alert('验证不通过！！！！！');
+				return false;
+			}
     	   $.ajax({
 			type:"post",
 			url:_base+"/score/savescore",
@@ -124,7 +131,6 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
 					alert("error:"+ error);
 				}
 				});
-	           }
     	},
     	_jump:function(){
     		window.location.href=_base+"/score/scorelist";

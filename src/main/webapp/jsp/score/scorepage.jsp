@@ -76,7 +76,6 @@
 											<li style="margin-left: 70px"><input type="button"
 												id="submitScore" class="biu-btn btn-blue btn-xlarge  radius"
 												value="提交评价"></li>
-											<li><input type="hidden" id="scoreFlag" /></li>
 										</ul>
 									</div>
 								</div>
@@ -87,30 +86,6 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- 模态框（Modal） 开始 -->
-	<div class="modal fade" id="sureModal" tabindex="-1" role="dialog" aria-labelledby="stopSureModalLabel" aria-hidden="true">
-		<div class="modal-dialog" style="width: 400px;">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="myModalLabel">提示</h4>
-				</div>
-				<div class="modal-body" id="dialogContent">
-					
-				</div>
-				<div class="modal-footer">
-					<button type="button" onclick="pager._jump();" class="biu-btn  btn-primary btn-blue btn-medium ml-10"
-						data-dismiss="modal">确认</button>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal -->
-	</div>
-	<!-- 模态框（Modal） 结束 -->
-
 	<script type="text/javascript">
 		var pager;
 		(function() {

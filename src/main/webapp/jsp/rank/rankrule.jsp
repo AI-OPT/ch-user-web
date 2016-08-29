@@ -97,29 +97,6 @@
 		</div>
 	</div>
 	
-		<!-- 模态框（Modal） 开始 -->
-	<div class="modal fade" id="sureModal" tabindex="-1" role="dialog" aria-labelledby="stopSureModalLabel" aria-hidden="true">
-		<div class="modal-dialog" style="width: 400px;">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="myModalLabel">提示</h4>
-				</div>
-				<div class="modal-body" id="dialogContent">
-					
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10"
-						data-dismiss="modal">确认</button>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal -->
-	</div>
-	<!-- 模态框（Modal） 结束 -->
-	
 	<script type="text/javascript">
 		var pager;
 		(function() {
@@ -135,7 +112,7 @@
 <script id="rankRuleImpl" type="text/x-jsrender">
 	{{for id}}
 		<tr>
-			<td><p class="f-14" style="font-weight:400;">等级 {{:index}}:  <input type='hidden' value='{{:index}}' name='list[{{:index-1}}].rank'><input class="int-text int-mini" name="list[{{:index-1}}].minFee" id="min{{:index}}" type="text" value="0" readonly="readonly"> - <input class="int-text int-mini" name="list[{{:index-1}}].maxFee" type="text" id="max{{:index}}" onblur="pager._changeValue('{{:index}}')">元</p></td>
+			<td><p class="f-14" style="font-weight:400;">等级 {{:index}}:  <input type='hidden' value='{{:index}}' name='list[{{:index-1}}].rank'><input class="int-text int-mini" name="list[{{:index-1}}].minFee" id="min{{:index}}" type="text" value="0" readonly="readonly"> - <input class="int-text int-mini" name="list[{{:index-1}}].maxFee" type="text" id="max{{:index}}" onblur="pager._changeValue('{{:index}}')">元<input type='text' style='display:none;color:red' id='msg{{:index}}'></p></td>
 			<td><p class="f-14">等级名称 :  <input class="int-text int-small" name="list[{{:index-1}}].rankName" type="text"></p></td>
 			<td><p class="f-14">图片名称 :  <input class="int-text int-small" name="list[{{:index-1}}].rankLogo" id="rankLogo{{:index}}" readonly="readonly" type="text">&nbsp;&nbsp;&nbsp;<span class="btn-upload">
 				<input type="button" class="btn-default btn-medium" value="浏览文件"/>
