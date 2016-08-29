@@ -58,7 +58,8 @@ public class BillingController {
 		String userId=url.substring(url.lastIndexOf("=")+1);
 		QueryShopInfoRequest shopInfoRequest = new QueryShopInfoRequest();
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
-		shopInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+		shopInfoRequest.setTenantId(user.getTenantId());
 		shopInfoRequest.setUserId(userId);
 		QueryShopInfoResponse shopInfoResponse = shopInfoSV.queryShopInfo(shopInfoRequest);
 		Long deposit=0L;
@@ -81,7 +82,8 @@ public class BillingController {
 		String userId=url.substring(url.lastIndexOf("=")+1);
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopInfoRequest shopInfoRequest = new QueryShopInfoRequest();
-		shopInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+		shopInfoRequest.setTenantId(user.getUserId());
 		shopInfoRequest.setUserId(userId);
 		QueryShopInfoResponse shopInfoResponse = shopInfoSV.queryShopInfo(shopInfoRequest);
 		String rentFeeStr="";
@@ -117,7 +119,8 @@ public class BillingController {
 		String userId=url.substring(url.lastIndexOf("=")+1);
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopInfoRequest shopInfoRequest = new QueryShopInfoRequest();
-		shopInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+		shopInfoRequest.setTenantId(user.getTenantId());
 		shopInfoRequest.setUserId(userId);
 		QueryShopInfoResponse shopInfoResponse = shopInfoSV.queryShopInfo(shopInfoRequest);
 		String rentFeeStr="";
@@ -152,13 +155,14 @@ public class BillingController {
 
 	@RequestMapping("/getbilllist")
 	@ResponseBody
-	public ResponseData<PageInfo<ShopManageVo>> getbillList() {
+	public ResponseData<PageInfo<ShopManageVo>> getbillList(HttpServletRequest request) {
 		ResponseData<PageInfo<ShopManageVo>> response = new ResponseData<PageInfo<ShopManageVo>>(
 				ChWebConstants.OperateCode.SUCCESS, "成功");
 		PageInfo<ShopManageVo> pageInfo = new PageInfo<ShopManageVo>();
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopInfoRequest shopInfoRequest = new QueryShopInfoRequest();
-		shopInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+		shopInfoRequest.setTenantId(user.getTenantId());
 		shopInfoRequest.setUserId("1");
 		QueryShopInfoResponse shopInfoResponse = shopInfoSV.queryShopInfo(shopInfoRequest);
 		pageInfo.setCount(20);
@@ -186,7 +190,8 @@ public class BillingController {
 		ResponseData<String> response = new ResponseData<String>(ChWebConstants.OperateCode.SUCCESS, "成功");
 		ResponseHeader responseHeader = null;
 		UpdateShopInfoRequest shopInfoRequst = new UpdateShopInfoRequest();
-		shopInfoRequst.setTenantId(ChWebConstants.COM_TENANT_ID);
+		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+		shopInfoRequst.setTenantId(user.getTenantId());
 		if(request.getParameter("userId")==null||"".equals(request.getParameter("userId")));
 		shopInfoRequst.setUserId(request.getParameter("userId"));
 		shopInfoRequst.setDepositBalance(Long.valueOf(request.getParameter("deposit")));
@@ -206,7 +211,8 @@ public class BillingController {
 	public ResponseData<String> saveServiceSetting(HttpServletRequest request,UpdateShopInfoRequest shopInfoRequst) {
 		ResponseData<String> response = new ResponseData<String>(ChWebConstants.OperateCode.SUCCESS, "成功");
 		ResponseHeader responseHeader = null;
-		shopInfoRequst.setTenantId(ChWebConstants.COM_TENANT_ID);
+		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+		shopInfoRequst.setTenantId(user.getTenantId());
 		if(request.getParameter("userId")==null||"".equals(request.getParameter("userId")));
 		shopInfoRequst.setUserId(request.getParameter("userId"));
 		if(shopInfoRequst.getRentFee()==null)

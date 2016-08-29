@@ -43,15 +43,16 @@ public class ScoreController {
 	//获取供货商列表
 	@RequestMapping("/getscorelist")
 	@ResponseBody
-	public ResponseData<PageInfo<SupplierScoreVo>> getScoreList(String tenentId) {
+	public ResponseData<PageInfo<SupplierScoreVo>> getScoreList(HttpServletRequest request) {
 		PageInfo<SupplierScoreVo> pageInfo = new PageInfo<SupplierScoreVo>();
 		pageInfo.setCount(20);
 		pageInfo.setPageCount(4);
 		pageInfo.setPageNo(1);
 		pageInfo.setPageSize(5);
 		IScoreSV scoreSV = DubboConsumerFactory.getService("iScoreSV");
+		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		CountScoreAvgRequest scoreAvgRequest = new CountScoreAvgRequest();
-		scoreAvgRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+		scoreAvgRequest.setTenantId(user.getTenantId());
 		scoreAvgRequest.setUserId("1");
 		float avgScore = scoreSV.countScoreAvg(scoreAvgRequest);
 		List<SupplierScoreVo> list = new ArrayList<SupplierScoreVo>();

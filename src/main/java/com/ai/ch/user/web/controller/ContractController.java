@@ -92,8 +92,9 @@ public class ContractController {
 	 public ModelAndView contractShopManagerPager(HttpServletRequest request,String userId) {
 		 	IContractSV contract = DubboConsumerFactory.getService("iContractSV");
 		 	ContactInfoRequest contactInfo = new ContactInfoRequest();
+		 	GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		 	contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SHOP);
-		 	contactInfo.setTenantId(ChWebConstants.COM_TENANT_ID);
+		 	contactInfo.setTenantId(user.getTenantId());
 		 	contactInfo.setUserId(userId);
 	 		ContactInfoResponse response = contract.queryContractInfo(contactInfo);
 	 		Map<String, Object> model = new HashMap<String, Object>();
@@ -115,13 +116,14 @@ public class ContractController {
 		    
 		 	ContactInfoRequest contactInfo = new ContactInfoRequest();
 		 	contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SUPPLIER);
-		 	contactInfo.setTenantId(ChWebConstants.COM_TENANT_ID);
+		 	GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+		 	contactInfo.setTenantId(user.getTenantId());
 		 	contactInfo.setUserId(userId);
 		 	
 	 		ContactInfoResponse response = contract.queryContractInfo(contactInfo);
 	 		
 	 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
-	 		custFileExtRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+	 		custFileExtRequest.setTenantId(user.getTenantId());
 	 		custFileExtRequest.setUsreId(userId);
 	 		QueryCustFileExtResponse custFileExtResponse = custFileSV.queryCustFileExt(custFileExtRequest);
 	 		List<CmCustFileExtVo> list = custFileExtResponse.getList();
@@ -166,15 +168,16 @@ public class ContractController {
 		    IContractSV contract = DubboConsumerFactory.getService("iContractSV");
 		    ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
 		 	ContactInfoRequest contactInfo = new ContactInfoRequest();
+		 	GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		 	contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SHOP);
-		 	contactInfo.setTenantId(ChWebConstants.COM_TENANT_ID);
+		 	contactInfo.setTenantId(user.getTenantId());
 		 	contactInfo.setUserId(userId);
 	 		ContactInfoResponse response = contract.queryContractInfo(contactInfo);
 	 		/**
 	 		 * 附件信息
 	 		 */
 	 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
-	 		custFileExtRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+	 		custFileExtRequest.setTenantId(user.getTenantId());
 	 		custFileExtRequest.setUsreId(userId);
 	 		QueryCustFileExtResponse custFileExtResponse = custFileSV.queryCustFileExt(custFileExtRequest);
 	 		List<CmCustFileExtVo> list = custFileExtResponse.getList();
@@ -218,13 +221,14 @@ public class ContractController {
 	 public ResponseData<String> addShopContractInfo(HttpServletRequest request,ContactInfoRequest contractInfo,CustFileListVo custFileListVo) {
 	        ResponseData<String> responseData = null;
 	        ResponseHeader responseHeader = null;
+	        GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 	        try{
 	        	String startTime = request.getParameter("startTime");
 	 	        String endTime = request.getParameter("endTime");
 	 	        contractInfo.setActiveTime(DateUtil.getTimestamp(startTime));
 	        	contractInfo.setInactiveTime(DateUtil.getTimestamp(endTime));
 	        	contractInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SHOP);
-	        	contractInfo.setTenantId(ChWebConstants.COM_TENANT_ID);
+	        	contractInfo.setTenantId(user.getTenantId());
 	        	contractInfo.setUserId(contractInfo.getUserId());
 	        	
 	        	IContractSV contract = DubboConsumerFactory.getService("iContractSV");
@@ -262,14 +266,14 @@ public class ContractController {
 	        ResponseHeader responseHeader = null;
 	        String startTime = request.getParameter("startTime");
 	        String endTime = request.getParameter("endTime");
-	
+	        GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 	        try{
 	        	
 	        	//保存合同信息
 	        	contractInfo.setActiveTime(DateUtil.getTimestamp(startTime));
 	        	contractInfo.setInactiveTime(DateUtil.getTimestamp(endTime));
 	        	contractInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SUPPLIER);
-	        	contractInfo.setTenantId(ChWebConstants.COM_TENANT_ID);
+	        	contractInfo.setTenantId(user.getTenantId());
 	        	contractInfo.setUserId(contractInfo.getUserId());
 	        	IContractSV contract = DubboConsumerFactory.getService("iContractSV");
 	        	ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");

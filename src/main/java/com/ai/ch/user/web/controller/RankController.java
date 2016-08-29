@@ -28,9 +28,11 @@ import com.ai.ch.user.api.rank.params.QueryRankRuleResponse;
 import com.ai.ch.user.api.rank.params.ShopRankRuleVo;
 import com.ai.ch.user.api.rank.params.UpdateRankRuleRequest;
 import com.ai.ch.user.web.constants.ChWebConstants;
+import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.UUIDUtil;
+import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.paas.ipaas.image.IImageClient;
 import com.alibaba.fastjson.JSON;
 
@@ -41,12 +43,13 @@ public class RankController {
 	private static final Log LOG = LogFactory.getLog(RankController.class);
 
 	@RequestMapping("/rankrule")
-	public ModelAndView rankRule() {
+	public ModelAndView rankRule(HttpServletRequest request) {
 		// 调dubbo服务
 		IRankSV rankSV = DubboConsumerFactory.getService("iRankSV");
 		QueryRankRuleRequest queryRankRuleRequest = new QueryRankRuleRequest();
 		queryRankRuleRequest.setTenantId(ChWebConstants.Tenant.TENANT_ID);
 		QueryRankRuleResponse response = rankSV.queryRankRule(queryRankRuleRequest);
+		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		LOG.info("判断是否存在记录");
 		if (response.getList().isEmpty())
 			return new ModelAndView("/jsp/rank/rankrule");
@@ -59,8 +62,8 @@ public class RankController {
 			if ("M".equals(response.getList().get(0).getPeriodType()))
 				periodType_ = "月";
 			ModelAndView model = new ModelAndView("/jsp/rank/rankrule-edit");
-			Map<String,String> urlMap=getUrlMap();
-			Map<String,String> nameMap=getNameMap();
+			Map<String,String> urlMap=getUrlMap(user.getTenantId());
+			Map<String,String> nameMap=getNameMap(user.getTenantId());
 			model.addObject("periodType", periodType_);
 			model.addObject("urlMap", JSON.toJSONString(urlMap));
 			model.addObject("nameMap", JSON.toJSONString(nameMap));
@@ -84,12 +87,13 @@ public class RankController {
 			MultipartHttpServletRequest file = (MultipartHttpServletRequest) request;
 			List<CmCustFileExtVo> list = new ArrayList<CmCustFileExtVo>();
 			InsertCustFileExtRequest custFileExtRequest = new InsertCustFileExtRequest();
+			GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 			for(int i=1;i<=rank;i++){
 				 CmCustFileExtVo cmCustFileExtVo = new CmCustFileExtVo(); 
 			     MultipartFile image = file.getFile("img"+i);
 			     String idpsId = im.upLoadImage(image.getBytes(), UUIDUtil.genId32() + ".png");
 			     cmCustFileExtVo.setAttrValue(idpsId);
-			     cmCustFileExtVo.setTenantId(ChWebConstants.COM_TENANT_ID);
+			     cmCustFileExtVo.setTenantId(user.getTenantId());
 			     cmCustFileExtVo.setAttrId(String.valueOf(i));
 			     cmCustFileExtVo.setInfoName(rankRuleRequest.getList().get(i-1).getRankLogo());
 			     rankRuleRequest.getList().get(i-1).setRankLogo(idpsId);
@@ -127,13 +131,14 @@ public class RankController {
 			MultipartHttpServletRequest file = (MultipartHttpServletRequest) request;
 			List<CmCustFileExtVo> list = new ArrayList<CmCustFileExtVo>();
 			UpdateCustFileExtRequest custFileExtRequest = new UpdateCustFileExtRequest();
+			GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 			for(int i=1;i<=rank;i++){
 				 CmCustFileExtVo cmCustFileExtVo = new CmCustFileExtVo(); 
 			     MultipartFile image = file.getFile("img"+i);
 			     if(image.getSize()!=0){
 			     String idpsId= im.upLoadImage(image.getBytes(), UUIDUtil.genId32() + ".png");
 			     cmCustFileExtVo.setAttrValue(idpsId);
-			     cmCustFileExtVo.setTenantId(ChWebConstants.COM_TENANT_ID);
+			     cmCustFileExtVo.setTenantId(user.getTenantId());
 			     cmCustFileExtVo.setInfoItem(rankRuleRequest.getList().get(i-1).getRankLogo());
 			     cmCustFileExtVo.setAttrId(String.valueOf(i));
 			     rankRuleRequest.getList().get(i-1).setRankLogo(idpsId);
@@ -149,8 +154,8 @@ public class RankController {
 				shopRankRuleVo.setPeriodType(request.getParameter("periodType_"));
 			}
 			// 调dubbo服务
-			rankRuleRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
-			custFileExtRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+			rankRuleRequest.setTenantId(user.getTenantId());
+			custFileExtRequest.setTenantId(user.getTenantId());
 			rankSV.updateRankRule(rankRuleRequest);
 			custfileSV.updateCustFileExt(custFileExtRequest);
 			view = new ModelAndView("/jsp/rank/saverulesuc");
@@ -163,13 +168,14 @@ public class RankController {
 	
 	
 	//获取url的Map
-	public Map<String,String> getUrlMap(){
+	public Map<String,String> getUrlMap(String tenantId){
 		String idpsns = "ch-user-web-idps";
 	    // 获取imageClient
 	    IImageClient im = IDPSClientFactory.getImageClient(idpsns);
 		ICustFileSV custfileSV = DubboConsumerFactory.getService("iCustfileSV");
 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
-		custFileExtRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+		
+		custFileExtRequest.setTenantId(tenantId);
 		QueryCustFileExtResponse response = custfileSV.queryCustFileExt(custFileExtRequest);
 		Map<String,String> urlMap = new HashMap<String,String>();
 		if(!response.getList().isEmpty()){
@@ -181,10 +187,10 @@ public class RankController {
 			return urlMap;
 	}
 	//获取图片name的Map
-	public Map<String,String> getNameMap(){
+	public Map<String,String> getNameMap(String tenantId){
 		ICustFileSV custfileSV = DubboConsumerFactory.getService("iCustfileSV");
 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
-		custFileExtRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+		custFileExtRequest.setTenantId(tenantId);
 		QueryCustFileExtResponse response = custfileSV.queryCustFileExt(custFileExtRequest);
 		Map<String,String> nameMap = new HashMap<String,String>();
 		if(!response.getList().isEmpty()){
