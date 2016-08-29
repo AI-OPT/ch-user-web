@@ -45,7 +45,7 @@ define('app/jsp/score/scorelist', function (require, exports, module) {
 	 			dataType: "json",
 	 			renderId:"TBODY_SCORELIST",
 	            data : {
-					tenantId: 'ch',
+					tenantId: 'changhong',
 				},
 	           	pageSize: ScoreListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
