@@ -40,7 +40,7 @@ define('app/jsp/billing/defaultHistoryList', function (require, exports, module)
     	_queryDefaultHistoryList: function(){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({
-    			url: _base+"/billing/getDefaultHistoryList",
+    			url: _base+"/defaultManager/getDefaultHistoryList",
 	 			method: "POST",
 	 			dataType: "json",
 	 			renderId:"TBODY_DEFAULTLIST",
