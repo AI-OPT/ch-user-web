@@ -85,7 +85,7 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     		if(defaultReasonFlag!="0"&&amountFlag!="0"){
     			$.ajax({
     				type:"post",
-    				url:_base+"/billing/saveDefaultInfo",
+    				url:_base+"/defaultManager/saveDefaultInfo",
     				dataType: "json",
     				data:$("#defaultManagerForm").serialize(),
     		        success: function(data) {
@@ -93,7 +93,7 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     		        		alert("失败了");
     		        		return false;
     		        	}else if(data.responseHeader.resultCode=="000000"){
-    		        		window.location.href= _base+"/billing/defaultManagerPager";
+    		        		window.location.href= _base+"/defaultManager/defaultManagerPager";
     		        	}
     		          },
     				error: function(error) {
