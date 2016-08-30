@@ -131,6 +131,9 @@
 									</table>
 									<div class="text-c">
 									<input type="button" id="updateRule" class="biu-btn btn-blue btn-xlarge  radius" value="保存">
+									<input type="hidden" id="rankFlag" value="">
+									<input type="hidden" id="nameFlag" value="">
+									<input type="hidden" id="picFlag" value="">
 									</div>
 									</form:form>
 								<!--/table表格结束-->
@@ -142,30 +145,6 @@
 				</div>
 			</div>
 		</div>
-		
-			<!-- 模态框（Modal） 开始 -->
-	<div class="modal fade" id="sureModal" tabindex="-1" role="dialog" aria-labelledby="stopSureModalLabel" aria-hidden="true">
-		<div class="modal-dialog" style="width: 400px;">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="myModalLabel">提示</h4>
-				</div>
-				<div class="modal-body" id="dialogContent">
-					
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10"
-						data-dismiss="modal">确认</button>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal -->
-	</div>
-	<!-- 模态框（Modal） 结束 -->
-		
 	<script type="text/javascript">
 		var pager;
 		var result=${result};
@@ -195,9 +174,9 @@
 <script id="rankRuleInitImpl" type="text/x-jsrender">
 	{{for}}
 		<tr>
-			<td><p class="f-14" style="font-weight:400;">等级 {{:rank}}:  <input type='hidden' value='{{:rank}}' name='list[{{:rank-1}}].rank'><input class="int-text int-mini" name="list[{{:rank-1}}].minFee" value="{{:minFee}}" id="min{{:rank}}" type="text" readonly="readonly"> - <input class="int-text int-mini" name="list[{{:rank-1}}].maxFee" value="{{:maxFee}}" type="text" id="max{{:rank}}" onblur="pager._changeValue('{{:rank}}')">元</p></td>
-			<td><p class="f-14">等级名称 :  <input class="int-text int-small" name="list[{{:rank-1}}].rankName" value="{{:rankName}}" type="text"></p></td>
-			<td><p class="f-14">图片名称 :  <input class="int-text int-small" name="list[{{:rank-1}}].rankLogo" id="custTab{{:rank}}" value="" type="text" readonly="readonly">&nbsp;&nbsp;&nbsp;<span class="btn-upload">
+			<td><p class="f-14" style="font-weight:400;">等级 {{:rank}}:  <input type='hidden' value='{{:rank}}' name='list[{{:rank-1}}].rank'><input class="int-text int-mini" name="list[{{:rank-1}}].minFee" value="{{:minFee}}" id="min{{:rank}}" type="text" readonly="readonly" style='border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;'> - <input class="int-text int-mini" name="list[{{:rank-1}}].maxFee" value="{{:maxFee}}" type="text" id="max{{:rank}}" onblur="pager._changeValue('{{:rank}}')">元<input type='text' style='display:none;color:red' id='rankMsg{{:rank}}'></p></td>
+			<td><p class="f-14">等级名称 :  <input class="int-text int-small" name="list[{{:rank-1}}].rankName" value="{{:rankName}}" id="name{{:rank}}" type="text" onblur="pager._valideName({{:rank}})"><input type='text' id='nameMsg{{:rank}}' style='display:none;color:red'></p></td>
+			<td><p class="f-14">图片名称 :  <input class="int-text int-small" name="list[{{:rank-1}}].rankLogo" id="custTab{{:rank}}" value="" type="text" readonly="readonly" style='border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;'>&nbsp;&nbsp;&nbsp;<span class="btn-upload">
 				<input type="button" class="btn-default btn-medium" value="浏览文件"/>
 				<input type="file" class="int-file" id='img{{:rank}}' name='img{{:rank}}' onchange="pager._imgName('{{:rank}}')"/></span></p></td>
 		</tr>
@@ -206,9 +185,9 @@
 <script id="rankRuleImpl" type="text/x-jsrender">
 	{{for id}}
 		<tr>
-			<td><p class="f-14" style="font-weight:400;">等级 {{:index}}:  <input type='hidden' value='{{:index}}' name='list[{{:index-1}}].rank'><input class="int-text int-mini" name="list[{{:index-1}}].minFee" type="text" id="min{{:index}}" readonly="readonly"> - <input class="int-text int-mini" name="list[{{:index-1}}].maxFee" id="max{{:index}}" type="text" onblur="pager._changeValue('{{:index}}')">元</p></td>
-			<td><p class="f-14">等级名称 :  <input class="int-text int-small" name="list[{{:index-1}}].rankName" type="text"></p></td>
-			<td><p class="f-14">图片名称 :  <input class="int-text int-small" name="list[{{:index-1}}].rankLogo" type="text" readonly="readonly" id="custName{{:index}}">&nbsp;&nbsp;&nbsp;<span class="btn-upload">
+			<td><p class="f-14" style="font-weight:400;">等级 {{:index}}:  <input class="int-text int-mini" name="list[{{:index-1}}].minFee" id="min{{:index}}" type="text" value="0" readonly="readonly" style='border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;'><input type='hidden' name=list[{{:index-1}}].rank value='{{:index}}'> - <input class="int-text int-mini" name="list[{{:index-1}}].maxFee" type="text" id="max{{:index}}" onblur="pager._changeValue('{{:index}}')">元<input type='text' style='display:none;color:red' id='rankMsg{{:index}}'></p></td>
+			<td><p class="f-14">等级名称 :  <input class="int-text int-small" name="list[{{:index-1}}].rankName" type="text" id="name{{:index}}" onblur="pager._valideName('{{:index}}')"><input type='text' id='nameMsg{{:index}}' style='display:none;color:red'></p></td>
+			<td><p class="f-14">图片名称 :  <input class="int-text int-small" name="list[{{:index-1}}].rankLogo" id="rankLogo{{:index}}" readonly="readonly" type="text" style="border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;">&nbsp;&nbsp;&nbsp;<span class="btn-upload">
 				<input type="button" class="btn-default btn-medium" value="浏览文件"/>
 				<input type="file" class="int-file" id='img{{:index}}' name='img{{:index}}' onchange="pager._imgName('{{:index}}')"/></span></p></td>
 		</tr>

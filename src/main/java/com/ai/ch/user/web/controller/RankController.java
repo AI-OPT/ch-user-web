@@ -87,6 +87,7 @@ public class RankController {
 			MultipartHttpServletRequest file = (MultipartHttpServletRequest) request;
 			List<CmCustFileExtVo> list = new ArrayList<CmCustFileExtVo>();
 			InsertCustFileExtRequest custFileExtRequest = new InsertCustFileExtRequest();
+			//获取登陆用户信息
 			GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 			for(int i=1;i<=rank;i++){
 				 CmCustFileExtVo cmCustFileExtVo = new CmCustFileExtVo(); 
@@ -101,12 +102,13 @@ public class RankController {
 			}
 			custFileExtRequest.setList(list);
 			// 设置最大最小值
-			rankRuleRequest.getList().get(0).setMinFee(Long.valueOf(request.getParameter("minFee")));
 			rankRuleRequest.getList().get(rankRuleRequest.getList().size() - 1).setMaxFee(Long.valueOf(request.getParameter("maxFee")));
 			for (ShopRankRuleVo shopRankRuleVo : rankRuleRequest.getList()) {
 				shopRankRuleVo.setTenantId(ChWebConstants.Tenant.TENANT_ID);
 				shopRankRuleVo.setPeriodType(request.getParameter("periodType_"));
+				shopRankRuleVo.setOperId(Long.valueOf(user.getUserId()));
 			}
+			rankRuleRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
 			// 调dubbo服务
 			rankSV.insertRankRule(rankRuleRequest);
 			custfileSV.insertCustFileExt(custFileExtRequest);
@@ -152,6 +154,7 @@ public class RankController {
 			for (ShopRankRuleVo shopRankRuleVo : rankRuleRequest.getList()) {
 				shopRankRuleVo.setTenantId(ChWebConstants.Tenant.TENANT_ID);
 				shopRankRuleVo.setPeriodType(request.getParameter("periodType_"));
+				shopRankRuleVo.setOperId(Long.valueOf(user.getUserId()));
 			}
 			// 调dubbo服务
 			rankRuleRequest.setTenantId(user.getTenantId());
