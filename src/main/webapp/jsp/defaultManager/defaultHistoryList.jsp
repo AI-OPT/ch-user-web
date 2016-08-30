@@ -88,7 +88,7 @@ var custNameInfo=${custName};
 		<td>{{:~timesToFmatter(deductDate)}}</td>
 		<td>{{:defaultReason}}</td>
 		<td>{{:deductBalance}}</td>
-		<td>{{:operId}}</td>
+		<td>{{:operName}}</td>
 	</tr>
 {{/for}}
 </script>
