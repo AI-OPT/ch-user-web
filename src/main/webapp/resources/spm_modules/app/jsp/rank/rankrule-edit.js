@@ -65,7 +65,7 @@ define('app/jsp/rank/rankrule-edit', function (require, exports, module) {
             $("#TBODY_VIEW").html(htmlOutput);
             for(var t=2;t<count;t++){
             	document.getElementById("imgView"+t).src=urlMap[t];
-            	document.getElementById("rankLogo"+t).innerHTML =nameMap[t];
+            	document.getElementById("rankLogoView"+t).innerHTML =nameMap[t];
             }
     	},
     	
@@ -94,7 +94,7 @@ define('app/jsp/rank/rankrule-edit', function (require, exports, module) {
 	            $("#TBODY_RANKRULE").html(htmlOutput);
 	    		$("#rankRegion").val(rank);
 				for(var t=2;t<count;t++){
-					document.getElementById("custTab"+t).value =nameMap[t];	
+					document.getElementById("rankLogo"+t).value =nameMap[t];	
     		}
     	},
     	
@@ -144,7 +144,7 @@ define('app/jsp/rank/rankrule-edit', function (require, exports, module) {
     		for(var i=1;i<count;i++){
     			this._changeValue(i);
     			this._valideName(i);
-    			var pic = $("#rankLogo"+i).val();
+    			var pic = document.getElementById('rankLogo'+i).value;
     			if(pic==""||pic==null){
     				$("#picFlag").val('0');
     				return false;

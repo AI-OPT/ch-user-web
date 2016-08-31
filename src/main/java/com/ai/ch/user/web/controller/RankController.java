@@ -112,10 +112,10 @@ public class RankController {
 			// 调dubbo服务
 			rankSV.insertRankRule(rankRuleRequest);
 			custfileSV.insertCustFileExt(custFileExtRequest);
-			view = new ModelAndView("/jsp/rank/saverulesuc");
+			view = new ModelAndView("/jsp/rank/rankrule");
 		} catch (Exception e) {
 			LOG.error("保存失败");
-			view = new ModelAndView("/jsp/rank/saverulefai");
+			view = new ModelAndView("/jsp/rank/rankrule");
 		}
 		return view;
 	}
@@ -148,8 +148,7 @@ public class RankController {
 			     }
 			}
 			custFileExtRequest.setList(list);
-			// 设置最大最小值
-			rankRuleRequest.getList().get(0).setMinFee(Long.valueOf(request.getParameter("minFee")));
+			//设置最大值
 			rankRuleRequest.getList().get(rankRuleRequest.getList().size() - 1).setMaxFee(Long.valueOf(request.getParameter("maxFee")));
 			for (ShopRankRuleVo shopRankRuleVo : rankRuleRequest.getList()) {
 				shopRankRuleVo.setTenantId(ChWebConstants.Tenant.TENANT_ID);
@@ -161,10 +160,10 @@ public class RankController {
 			custFileExtRequest.setTenantId(user.getTenantId());
 			rankSV.updateRankRule(rankRuleRequest);
 			custfileSV.updateCustFileExt(custFileExtRequest);
-			view = new ModelAndView("/jsp/rank/saverulesuc");
+			view = new ModelAndView("/jsp/rank/rankrule");
 		} catch (Exception e) {
 			LOG.error("更新失败");
-			view = new ModelAndView("/jsp/rank/saverulefai");
+			view = new ModelAndView("/jsp/rank/rankrule");
 		}
 		return view;
 	}

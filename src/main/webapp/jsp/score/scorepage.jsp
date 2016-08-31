@@ -10,6 +10,17 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <title>评价供货商</title>
 <%@include file="/inc/inc.jsp"%>
+<style type="text/css">
+* {
+	font-size: 14px;
+}
+label.error {
+	color: Red;
+	font-size: 13px;
+	margin-left: 5px;
+	padding-left: 16px;
+}
+</style>
 </head>
 <body>
 	<div class="content-wrapper-iframe">

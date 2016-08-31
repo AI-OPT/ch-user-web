@@ -167,7 +167,7 @@
 		<tr>
 			<td><p class="f-14" style="font-weight:400;">等级{{:rank}}:  {{:minFee}} - {{:maxFee}}元</p></td>
 			<td><p class="f-14" style="font-weight:400;">等级名称:  {{:rankName}}</p></td>
-			<td><p class="f-14" style="font-weight:400;">图片名称:  <span id="custName{{:rank}}"></span><image id='imgView{{:rank}}' src="" height="80" width="100"/></p></td>
+			<td><p class="f-14" style="font-weight:400;">图片名称:  <span id="rankLogoView{{:rank}}"></span><image id='imgView{{:rank}}' src="" height="80" width="100"/></p></td>
 		</tr>
 	{{/for}}
 </script>
@@ -176,7 +176,7 @@
 		<tr>
 			<td><p class="f-14" style="font-weight:400;">等级 {{:rank}}:  <input type='hidden' value='{{:rank}}' name='list[{{:rank-1}}].rank'><input class="int-text int-mini" name="list[{{:rank-1}}].minFee" value="{{:minFee}}" id="min{{:rank}}" type="text" readonly="readonly" style='border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;'> - <input class="int-text int-mini" name="list[{{:rank-1}}].maxFee" value="{{:maxFee}}" type="text" id="max{{:rank}}" onblur="pager._changeValue('{{:rank}}')">元<input type='text' style='display:none;color:red' id='rankMsg{{:rank}}'></p></td>
 			<td><p class="f-14">等级名称 :  <input class="int-text int-small" name="list[{{:rank-1}}].rankName" value="{{:rankName}}" id="name{{:rank}}" type="text" onblur="pager._valideName({{:rank}})"><input type='text' id='nameMsg{{:rank}}' style='display:none;color:red'></p></td>
-			<td><p class="f-14">图片名称 :  <input class="int-text int-small" name="list[{{:rank-1}}].rankLogo" id="custTab{{:rank}}" value="" type="text" readonly="readonly" style='border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;'>&nbsp;&nbsp;&nbsp;<span class="btn-upload">
+			<td><p class="f-14">图片名称 :  <input class="int-text int-small" name="list[{{:rank-1}}].rankLogo" id="rankLogo{{:rank}}" value="" type="text" readonly="readonly" style='border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;'>&nbsp;&nbsp;&nbsp;<span class="btn-upload">
 				<input type="button" class="btn-default btn-medium" value="浏览文件"/>
 				<input type="file" class="int-file" id='img{{:rank}}' name='img{{:rank}}' onchange="pager._imgName('{{:rank}}')"/></span></p></td>
 		</tr>

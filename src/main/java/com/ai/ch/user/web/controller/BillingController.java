@@ -68,7 +68,7 @@ public class BillingController {
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopInfoRequest shopInfoRequest = new QueryShopInfoRequest();
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-		shopInfoRequest.setTenantId(user.getUserId());
+		shopInfoRequest.setTenantId(user.getTenantId());
 		shopInfoRequest.setUserId(userId);
 		QueryShopInfoResponse shopInfoResponse = shopInfoSV.queryShopInfo(shopInfoRequest);
 		String rentFeeStr="";
@@ -179,7 +179,7 @@ public class BillingController {
 		shopInfoRequst.setTenantId(user.getTenantId());
 		if(request.getParameter("userId")==null||"".equals(request.getParameter("userId")));
 		shopInfoRequst.setUserId(request.getParameter("userId"));
-		shopInfoRequst.setDepositBalance(Long.valueOf(request.getParameter("deposit")));
+		shopInfoRequst.setDepositBalance(Long.valueOf(request.getParameter("depositBalance")));
 		try{
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		shopInfoSV.updateShopInfo(shopInfoRequst);

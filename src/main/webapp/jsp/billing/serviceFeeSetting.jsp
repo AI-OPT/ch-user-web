@@ -9,6 +9,17 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <title>服务费设置</title>
 <%@include file="/inc/inc.jsp" %>
+<style type="text/css">
+* {
+	font-size: 14px;
+}
+label.error {
+	color: Red;
+	font-size: 13px;
+	margin-left: 5px;
+	padding-left: 16px;
+}
+</style>
 </head>
 <body>
    <div class="content-wrapper-iframe" ><!--右侧灰色背景-->
@@ -65,7 +76,7 @@
 								 			<p class="word">${ratioStr }</p>
 								 		</li>
 								 	</ul>
-								 <form id="serviceFee" method="post">
+								 <form id="serviceFee">
 								 <div class="mt-20 skin-minimal">
 									  <div class="radio-box">
 									  		<p class="word">固定金额服务费:  
@@ -116,53 +127,6 @@
             </div>
     </div>
     
-    <!-- 模态框（Modal） 开始 -->
-	<div class="modal fade" id="sureModal" tabindex="-1" role="dialog" aria-labelledby="stopSureModalLabel" aria-hidden="true">
-		<div class="modal-dialog" style="width: 400px;">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="myModalLabel">提示</h4>
-				</div>
-				<div class="modal-body" id="dialogContent">
-					
-				</div>
-				<div class="modal-footer">
-					<button type="button" onclick="pager._jump();" class="biu-btn  btn-primary btn-blue btn-medium ml-10"
-						data-dismiss="modal">确认</button>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal -->
-	</div>
-	<!-- 模态框（Modal） 结束 -->
-    
-       <!-- 模态框（Modal） 开始 -->
-	<div class="modal fade" id="sureModal2" tabindex="-1" role="dialog" aria-labelledby="stopSureModalLabel" aria-hidden="true">
-		<div class="modal-dialog" style="width: 400px;">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="myModalLabel">提示</h4>
-				</div>
-				<div class="modal-body" id="dialogContent2">
-					
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10"
-						data-dismiss="modal">确认</button>
-						<input type="hidden" id="rentFeeFlag">
-						<input type="hidden" id="ratioFlag">
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal -->
-	</div>
-	<!-- 模态框（Modal） 结束 -->
 	<script type="text/javascript">
 		var pager;
 		(function() {

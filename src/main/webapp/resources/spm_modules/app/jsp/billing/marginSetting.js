@@ -17,10 +17,13 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
     require("opt-paging/aiopt.pagination");
     require("twbs-pagination/jquery.twbsPagination.min");
     
+	require("jquery-validation/1.15.1/jquery.validate");
+	require("app/util/aiopt-validate-ext");
+    
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
     //定义页面组件类
-    var MarginSettingPager = Widget.extend({
+    var marginSettingPager = Widget.extend({
     	
     	//属性，使用时由类的构造函数传入
     	attrs: {
@@ -31,60 +34,82 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
     	//事件代理
     	events: {
     		"click #saveSetting":"_saveSetting",
-    		"blur #deposit":"_checkDeposit"
         },
     	//重写父类
     	setup: function () {
-    		MarginSettingPager.superclass.setup.call(this);
+    		marginSettingPager.superclass.setup.call(this);
+    		var formValidator=this._initValidate();
+    		$("input[type='text']").bind("focusout",function(){
+				formValidator.element(this);
+			});
+    	},
+    	
+    	//初始化校验器
+    	_initValidate:function(){
+    		var formValidator=$("#depositForm").validate({
+    			rules: {
+    				depositBalance: {
+    					required:true,
+    					digits:true,
+    					min:0,
+    					max:999999999999999
+    					}
+    			},
+    			messages: {
+    				depositBalance: {
+    					required:"评分不能为空",
+    					digits: "只能输入数字",
+    					min:"最小值为{0}",
+    					max:"最大值为{0}"
+    					}
+    			}
+    		});
+    		
+    		return formValidator;
     	},
     	
     	_saveSetting:function(){
-    	var deposit=$("#deposit").val();
-    	pager._checkDeposit();
-    	if($("#flag").val()=='0')
-    		return false;
-    	else{
-    	$.ajax({
+    		var _this= this;
+			//父类目
+			var catArr = [];
+			var hasError = false;
+			var formValidator=_this._initValidate();
+			formValidator.form();
+			if(!$("#depositForm").valid()){
+				Dialog({
+					title : '提示',
+					content : '验证不通过',
+					okValue : "确定",
+					ok : function() {
+						this.close;
+					}
+				}).showModal();
+				return false;
+			}
+			$.ajax({
 			type:"post",
+			processing: true,
 			url:_base+"/billing/savemarginsetting",
 			dataType: "json",
-			data:{"deposit":deposit,
-				 "userId":userId },
+			data:$("#depositForm").serialize(),
 	        success: function(data) {
 	        	if(data.responseHeader.resultCode='000000'){
-	        		$('#dialogContent').text('保存成功');
-	    			$('#sureModal').modal({backdrop:"static",show:true});
+	        		window.location.href=_base+"/billing/billingpager";
 	        	}
 	            },
 				error: function(error) {
-					alert("error:"+ error);
+					Dialog({
+						title : '提示',
+						content : error,
+						okValue : "确定",
+						ok : function() {
+							this.close;
+						}
+					}).showModal();
 				}
 				});
     	}
-    	},
-    	_jump:function(){
-    		window.location.href=_base+"/billing/billingpager";
-    	},
-    	_checkDeposit:function(){
-    		var deposit = $("#deposit").val();
-    		if(deposit==null||deposit==""){
-    			$('#dialogContent2').text('输入数据不能为空');
-    			$('#sureModal2').modal({backdrop:"static",show:true});
-    			$('#flag').val('0');
-    			return false;
-    		}
-    		var pattern = /^[1-9]\d{0,14}$/;
-    		if(!deposit.match(pattern)){
-    			$('#dialogContent2').text('数据类型不对');
-    			$('#sureModal2').modal();
-    			$('#flag').val('0');
-    			$('#deposit').val("");
-    			return false;
-    		}
-    		$('#flag').val('1');
-    	}
-    	
     });
     
-    module.exports = MarginSettingPager
+    module.exports = marginSettingPager
 });

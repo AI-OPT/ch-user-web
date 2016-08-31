@@ -17,10 +17,13 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     require("opt-paging/aiopt.pagination");
     require("twbs-pagination/jquery.twbsPagination.min");
     
+	require("jquery-validation/1.15.1/jquery.validate");
+	require("app/util/aiopt-validate-ext");
+    
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
     //定义页面组件类
-    var ServiceFeeSettingPager = Widget.extend({
+    var serviceFeeSettingPager = Widget.extend({
     	
     	//属性，使用时由类的构造函数传入
     	attrs: {
@@ -31,12 +34,50 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     	//事件代理
     	events: {
     		"click #saveSetting":"_saveSetting",
-    		"blur #rentFee":"_checkRentFee",
-    		"blur #ratio":"_checkRatio"
         },
     	//重写父类
     	setup: function () {
-    		ServiceFeeSettingPager.superclass.setup.call(this);
+    		serviceFeeSettingPager.superclass.setup.call(this);
+    		var formValidator=this._initValidate();
+    		$("input[type='text']").bind("focusout",function(){
+				formValidator.element(this);
+			});
+    	},
+    	
+    	//初始化校验器
+    	_initValidate:function(){
+    		var formValidator=$("#serviceFee").validate({
+    			rules: {
+    				rentFee: {
+    					required:true,
+    					digits:true,
+    					min:0,
+    					max:999999999999999
+    					},
+    				ratio: {
+		    			required:true,
+		    			digits:true,
+		    			min:0,
+		    			max:100
+    		}
+    			},
+    			messages: {
+    				rentFee: {
+    					required:"评分不能为空",
+    					digits: "只能输入数字",
+    					min:"最小值为{0}",
+    					max:"最大值为{0}"
+    					},
+    				ratio: {
+    					required:"评分不能为空",
+    					digits: "只能输入数字",
+    					min:"最小值为{0}",
+    					max:"最大值为{0}"
+    					}
+    			}
+    		});
+    		
+    		return formValidator;
     	},
     	
     	_change:function(value,divId){
@@ -68,11 +109,24 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     	},
     	
     	_saveSetting:function(){
-    		pager._checkRentFee();
-    		pager._checkRatio();
-    		if($("#rentFeeFlag").val()=='0'||$("#ratioFlag").val()=='0')
-    			return false;
-    		else{
+    		var _this= this;
+			//父类目
+			var catArr = [];
+			var hasError = false;
+			var formValidator=_this._initValidate();
+			formValidator.form();
+			if(!$("#serviceFee").valid()){
+				Dialog({
+					title : '提示',
+					content : '验证不通过',
+					okValue : "确定",
+					ok : function() {
+						this.close;
+					}
+				}).showModal();
+				return false;
+			}
+			//debugger;
         	$.ajax({
     			type:"post",
     			url:_base+"/billing/saveservicesetting",
@@ -80,59 +134,26 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     			data:$("#serviceFee").serialize(),
     	        success: function(data) {
     	        	if(data.responseHeader.resultCode='000000'){
-    	        		$('#dialogContent').text('保存成功');
-    	    			$('#sureModal').modal({backdrop:"static",show:true});
+    	        		window.location.href=_base+"/billing/billingpager"
     	        	}
     	            },
     				error: function(error) {
-    					alert("error:"+ error);
+    					Dialog({
+    						title : '提示',
+    						content : error,
+    						okValue : "确定",
+    						ok : function() {
+    							this.close;
+    						}
+    					}).showModal();
     				}
     				});
-    		}
     	},
     	_jump:function(){
-    		window.location.href=_base+"/billing/billingpager"
-    	},
-    	
-    	_checkRentFee:function(){
-    		var rentFee=$("#rentFee").val();
-    		if(rentFee==null||rentFee==""){
-    			$('#dialogContent2').text('输入数据不能为空');
-    			$('#sureModal2').modal({backdrop:"static",show:true});
-    			$('#rentFeeFlag').val("0");
-    			return false;
-    		}
-    		var pattern = /^[1-9]\d{0,14}$/;
-    		if(!rentFee.match(pattern)){
-    			$('#dialogContent2').text('输入数据有误');
-    			$('#sureModal2').modal({backdrop:"static",show:true});
-    			$('#rentFeeFlag').val("0");
-    			$('#rentFee').val("");
-    			return false;
-    		}
-    		$('#rentFeeFlag').val("1");
-    	},
-    	_checkRatio:function(){
-    		var ratio=$("#ratio").val();
-    		if(ratio==null||ratio==""){
-    			$('#dialogContent2').text('输入数据不能为空');
-    			$('#sureModal2').modal({backdrop:"static",show:true});
-    			$('#ratioFlag').val("0");
-    			return false;
-    		}
-    		var pattern = /^([1-9][0-9]?|100)$/;
-    		if(!ratio.match(pattern)){
-    			$('#dialogContent2').text('输入数据有误');
-    			$('#sureModal2').modal({backdrop:"static",show:true});
-    			$('#ratio').val("");
-    			$('#ratioFlag').val("0");
-    			return false;
-    		}
-    		$('#ratioFlag').val("1");
     	}
     	
     });
     
-    module.exports = ServiceFeeSettingPager
+    module.exports = serviceFeeSettingPager
 });
 

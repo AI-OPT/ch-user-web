@@ -18,7 +18,7 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
     //定义页面组件类
-    var ScorePagePager = Widget.extend({
+    var scorePagePager = Widget.extend({
     	
     	//属性，使用时由类的构造函数传入
     	attrs: {
@@ -32,9 +32,9 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
         },
     	//重写父类
     	setup: function () {
-    		ScorePagePager.superclass.setup.call(this);
+    		scorePagePager.superclass.setup.call(this);
     		var formValidator=this._initValidate();
-			$(":input").bind("focusout",function(){
+			$("input[type='text']").bind("focusout",function(){
 				formValidator.element(this);
 			});
     	},
@@ -46,25 +46,25 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
     				1: {
     					required:true,
     					digits:true,
-    					min:1,
+    					min:0,
     					max:50
     					},
 					2: {
     					required:true,
     					digits:true,
-    					min:1,
+    					min:0,
     					max:10
     					},
 					3: {
     					required:true,
     					digits:true,
-    					min:1,
+    					min:0,
     					max:20
     					},
 					4: {
     					required:true,
     					digits:true,
-    					min:1,
+    					min:0,
     					max:20
     					}
     			},
@@ -110,7 +110,14 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
 			var formValidator=_this._initValidate();
 			formValidator.form();
 			if(!$("#scorePage").valid()){
-				alert('验证不通过！！！！！');
+				Dialog({
+					title : '提示',
+					content : '验证不通过',
+					okValue : "确定",
+					ok : function() {
+						this.close;
+					}
+				}).showModal();
 				return false;
 			}
     	   $.ajax({
@@ -123,19 +130,22 @@ define('app/jsp/score/scorepage', function (require, exports, module) {
 			},
 	        success: function(data) {
 	        	if(data.responseHeader.resultCode='000000'){
-	        		$('#dialogContent').text('评价成功');
-	    			$('#sureModal').modal();
+	        		window.location.href=_base+"/score/scorelist";
 	        	}
 	            },
 				error: function(error) {
-					alert("error:"+ error);
+					Dialog({
+						title : '提示',
+						content : error,
+						okValue : "确定",
+						ok : function() {
+							this.close;
+						}
+					}).showModal();
 				}
 				});
-    	},
-    	_jump:function(){
-    		window.location.href=_base+"/score/scorelist";
     	}
     });
     
-    module.exports = ScorePagePager
+    module.exports = scorePagePager
 });
