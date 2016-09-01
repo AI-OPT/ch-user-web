@@ -100,7 +100,7 @@ label.error {
 	<script type="text/javascript">
 		var pager;
 		(function() {
-			seajs.use('app/jsp/score/scorepage', function(ScorePagePager) {
+			seajs.use('app/jsp/crm/scorepage', function(ScorePagePager) {
 				pager = new ScorePagePager({
 					element : document.body
 				});

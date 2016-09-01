@@ -112,7 +112,7 @@
 var pager;
 var scoreLogParams = $.parseJSON('${scoreLogParams}');
 (function () {
-	seajs.use('app/jsp/score/scorelog', function (ScoreLogPager) {
+	seajs.use('app/jsp/crm/scorelog', function (ScoreLogPager) {
 		pager = new ScoreLogPager({element: document.body});
 		pager.render();
 	});

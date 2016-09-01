@@ -36,7 +36,7 @@ public class ScoreController {
 	//跳转供货商评价管理
 	@RequestMapping("/scorelist")
 	public ModelAndView scoreList() {
-		ModelAndView model = new ModelAndView("/jsp/score/scorelist"); 
+		ModelAndView model = new ModelAndView("/jsp/crm/scorelist"); 
 		return model;
 	}
 	
@@ -74,7 +74,7 @@ public class ScoreController {
 	//评价供货商页面
 	@RequestMapping("/scorepage")
 	public ModelAndView scorePage(HttpServletRequest request,String userId) {
-		ModelAndView model = new ModelAndView("/jsp/score/scorepage"); 
+		ModelAndView model = new ModelAndView("/jsp/crm/scorepage"); 
 		model.addObject("supplier_name", "wuda");
 		model.addObject("company_name", "wuwer");
 		
@@ -90,7 +90,7 @@ public class ScoreController {
 	//供货商评价历史记录	
 	@RequestMapping("/scorelog")
     public ModelAndView getScoreLog() {
-        return new ModelAndView("/jsp/score/scorelog");
+        return new ModelAndView("/jsp/crm/scorelog");
     }
 	
 	//提交供货商评价

@@ -1,4 +1,4 @@
-define('app/jsp/rank/rankrule', function (require, exports, module) {
+define('app/jsp/crm/rankrule', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
     Widget = require('arale-widget/1.2.0/widget'),
@@ -46,7 +46,7 @@ define('app/jsp/rank/rankrule', function (require, exports, module) {
     			count=5;
     		//I am drunk
     		var count_=count-1;
-    		var htmlOutput ="<tr><td><p class='f-14' style='font-weight:400;'>等级 1: <input class='int-text int-mini' readonly='readonly' type='text' name='list[0].minFee' id='min1' value='0' style='border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;'><input type='hidden' name=list[0].rank value='1'> - <input class='int-text int-mini' name='list[0].maxFee' id='max1' type='text' onblur=\""+"pager._changeValue('1')"+"\">元<input type='text' style='display:none;color:red' id='rankMsg1'></p></td>";
+    		var htmlOutput ="<tr><td><p class='f-14' style='font-weight:400;'>等级 1: <input class='int-text int-mini' readonly='readonly' type='text' name='list[0].minScore' id='min1' value='0' style='border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;'><input type='hidden' name=list[0].rank value='1'> - <input class='int-text int-mini' name='list[0].maxFee' id='max1' type='text' onblur=\""+"pager._changeValue('1')"+"\">元<input type='text' style='display:none;color:red' id='rankMsg1'></p></td>";
              htmlOutput+="<td><p class='f-14'>等级名称 :  <input class='int-text int-small' name='list[0].rankName' id='name1' type='text' onblur=\""+"pager._valideName('1')"+"\"><input type='text' id='nameMsg1' style='display:none;color:red'></p></td>";
              htmlOutput+="<td><p class='f-14'>图片名称 :  <input class='int-text int-small' name='list[0].rankLogo' readonly='readonly' id='rankLogo1' type='text' style='border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;'>&nbsp;&nbsp;&nbsp;<span class='btn-upload'>";
              htmlOutput+="<input type='button' class='btn-default btn-medium' value='浏览文件'/>";
@@ -63,7 +63,7 @@ define('app/jsp/rank/rankrule', function (require, exports, module) {
     		//渲染模版
             htmlOutput += template.render(json);
     		}
-            htmlOutput+="<tr><td><p class='f-14' style='font-weight:400;padding-right:80px;'>等级 "+count+" :  <input class='int-text int-mini' name='list["+count_+"].minFee' id='min"+count+"' type='text' value='0' readonly='readonly' id='min"+count+"' style='border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;'> 元以上</p><input type='text' style='display:none;color:red' id='rankMsg"+count+"'><input type='hidden' value='999999999999999' name='maxFee'><input type='hidden' value='"+count+"' name='list["+count_+"].rank'></td>";
+            htmlOutput+="<tr><td><p class='f-14' style='font-weight:400;padding-right:80px;'>等级 "+count+" :  <input class='int-text int-mini' name='list["+count_+"].minScore' id='min"+count+"' type='text' value='0' readonly='readonly' id='min"+count+"' style='border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;'> 元以上</p><input type='text' style='display:none;color:red' id='rankMsg"+count+"'><input type='hidden' value='999999999999999' name='maxFee'><input type='hidden' value='"+count+"' name='list["+count_+"].rank'></td>";
             htmlOutput+="<td><p class='f-14'>等级名称 :  <input class='int-text int-small' name='list["+count_+"].rankName' id='name"+count+"' type='text' onblur=\""+"pager._valideName('"+count+"')\"><input type='text' id='nameMsg"+count+"' style='display:none;color:red'></p></td>";
             htmlOutput+="<td><p class='f-14'>图片名称 :  <input class='int-text int-small' name='list["+count_+"].rankLogo' readonly='readonly' id='rankLogo"+count	+"' type='text' style='border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;''>&nbsp;&nbsp;&nbsp;<span class='btn-upload'>";
             htmlOutput+="<input type='button' class='btn-default btn-medium' value='浏览文件'/>";

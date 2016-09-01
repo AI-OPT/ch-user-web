@@ -1,4 +1,4 @@
-define('app/jsp/score/scorepage', function (require, exports, module) {
+define('app/jsp/crm/scorepage', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
     Widget = require('arale-widget/1.2.0/widget'),

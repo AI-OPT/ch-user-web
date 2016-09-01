@@ -52,7 +52,7 @@ public class RankController {
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		LOG.info("判断是否存在记录");
 		if (response.getList().isEmpty())
-			return new ModelAndView("/jsp/rank/rankrule");
+			return new ModelAndView("/jsp/crm/rankrule");
 		else {
 			String periodType_ = "";
  			if ("Y".equals(response.getList().get(0).getPeriodType()))
@@ -61,7 +61,7 @@ public class RankController {
 				periodType_ = "季度";
 			if ("M".equals(response.getList().get(0).getPeriodType()))
 				periodType_ = "月";
-			ModelAndView model = new ModelAndView("/jsp/rank/rankrule-edit");
+			ModelAndView model = new ModelAndView("/jsp/crm/rankrule-edit");
 			Map<String,String> urlMap=getUrlMap(user.getTenantId());
 			Map<String,String> nameMap=getNameMap(user.getTenantId());
 			model.addObject("periodType", periodType_);
@@ -102,7 +102,7 @@ public class RankController {
 			}
 			custFileExtRequest.setList(list);
 			// 设置最大最小值
-			rankRuleRequest.getList().get(rankRuleRequest.getList().size() - 1).setMaxFee(Long.valueOf(request.getParameter("maxFee")));
+			rankRuleRequest.getList().get(rankRuleRequest.getList().size() - 1).setMaxScore(Long.valueOf(request.getParameter("maxScore")));
 			for (ShopRankRuleVo shopRankRuleVo : rankRuleRequest.getList()) {
 				shopRankRuleVo.setTenantId(ChWebConstants.Tenant.TENANT_ID);
 				shopRankRuleVo.setPeriodType(request.getParameter("periodType_"));
@@ -112,10 +112,10 @@ public class RankController {
 			// 调dubbo服务
 			rankSV.insertRankRule(rankRuleRequest);
 			custfileSV.insertCustFileExt(custFileExtRequest);
-			view = new ModelAndView("/jsp/rank/rankrule");
+			view = new ModelAndView("redirect:/rank/rankrule");
 		} catch (Exception e) {
 			LOG.error("保存失败");
-			view = new ModelAndView("/jsp/rank/rankrule");
+			view = new ModelAndView("redirect:/rank/rankrule");
 		}
 		return view;
 	}
@@ -141,7 +141,7 @@ public class RankController {
 			     String idpsId= im.upLoadImage(image.getBytes(), UUIDUtil.genId32() + ".png");
 			     cmCustFileExtVo.setAttrValue(idpsId);
 			     cmCustFileExtVo.setTenantId(user.getTenantId());
-			     cmCustFileExtVo.setInfoItem(rankRuleRequest.getList().get(i-1).getRankLogo());
+			     cmCustFileExtVo.setInfoName(rankRuleRequest.getList().get(i-1).getRankLogo());
 			     cmCustFileExtVo.setAttrId(String.valueOf(i));
 			     rankRuleRequest.getList().get(i-1).setRankLogo(idpsId);
 			     list.add(cmCustFileExtVo);
@@ -149,7 +149,7 @@ public class RankController {
 			}
 			custFileExtRequest.setList(list);
 			//设置最大值
-			rankRuleRequest.getList().get(rankRuleRequest.getList().size() - 1).setMaxFee(Long.valueOf(request.getParameter("maxFee")));
+			rankRuleRequest.getList().get(rankRuleRequest.getList().size() - 1).setMaxScore(Long.valueOf(request.getParameter("maxScore")));
 			for (ShopRankRuleVo shopRankRuleVo : rankRuleRequest.getList()) {
 				shopRankRuleVo.setTenantId(ChWebConstants.Tenant.TENANT_ID);
 				shopRankRuleVo.setPeriodType(request.getParameter("periodType_"));
@@ -160,10 +160,10 @@ public class RankController {
 			custFileExtRequest.setTenantId(user.getTenantId());
 			rankSV.updateRankRule(rankRuleRequest);
 			custfileSV.updateCustFileExt(custFileExtRequest);
-			view = new ModelAndView("/jsp/rank/rankrule");
+			view = new ModelAndView("redirect:/rank/rankrule");
 		} catch (Exception e) {
 			LOG.error("更新失败");
-			view = new ModelAndView("/jsp/rank/rankrule");
+			view = new ModelAndView("redirect:/rank/rankrule");
 		}
 		return view;
 	}

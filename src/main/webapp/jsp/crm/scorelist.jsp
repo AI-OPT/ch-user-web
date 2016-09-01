@@ -83,7 +83,7 @@
 <script type="text/javascript">
 var pager;
 (function () {
-	seajs.use('app/jsp/score/scorelist', function (ScoreListPager) {
+	seajs.use('app/jsp/crm/scorelist', function (ScoreListPager) {
 		pager = new ScoreListPager({element: document.body});
 		pager.render();
 	});
