@@ -151,9 +151,13 @@ public class ContractController {
 	 		}
 	 			
 	 		model.put("contactInfo", response);
-	 		model.put("startTime", DateUtil.getDateString(response.getActiveTime(),"yyyy-MM-dd"));
-	 		model.put("endTime", DateUtil.getDateString(response.getInactiveTime(),"yyyy-MM-dd"));
-	        return new ModelAndView("/jsp/contract/supplier/contractDetail",model);
+	 		if(response.getActiveTime()!=null){
+	 			model.put("startTime", DateUtil.getDateString(response.getActiveTime(),"yyyy-MM-dd"));
+	 		}
+	 		if(response.getInactiveTime()!=null){
+	 		  model.put("endTime", DateUtil.getDateString(response.getInactiveTime(),"yyyy-MM-dd"));
+	 		}
+	 		  return new ModelAndView("/jsp/contract/supplier/contractDetail",model);
 	 }
 	 
 	 /**
@@ -206,8 +210,12 @@ public class ContractController {
 	 		
 	 		
 	 		model.put("contactInfo", response);
-	 		model.put("startTime", DateUtil.getDateString(response.getActiveTime(),"yyyy-MM-dd"));
-	 		model.put("endTime", DateUtil.getDateString(response.getInactiveTime(),"yyyy-MM-dd"));
+	 		if(response.getActiveTime()!=null){
+	 			model.put("startTime", DateUtil.getDateString(response.getActiveTime(),"yyyy-MM-dd"));
+	 		}
+	 		if(response.getInactiveTime()!=null){
+	 		  model.put("endTime", DateUtil.getDateString(response.getInactiveTime(),"yyyy-MM-dd"));
+	 		}
 	        return new ModelAndView("/jsp/contract/shop/contractDetail",model);
 	 }
 	 /**
