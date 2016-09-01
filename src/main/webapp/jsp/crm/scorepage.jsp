@@ -8,7 +8,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>评价供货商</title>
+<title>供应商评价</title>
 <%@include file="/inc/inc.jsp"%>
 <style type="text/css">
 * {
@@ -55,12 +55,12 @@ label.error {
 							<!--白色背景-->
 							<!--标题-->
 							<header class="main-box-header clearfix">
-								<h2 class="pull-left">评价供货商</h2>
+								<h2 class="pull-left">供应商评价</h2>
 							</header>
 							<!--标题结束-->
 							<div style="padding-left: 40px">
 								<p>
-									<span class="word">供货商用户名：${supplier_name }</span> <span
+									<span class="word">供应商用户名：${supplier_name }</span> <span
 										class="word">公司名称：${company_name }</span>
 								</p>
 							</div>
