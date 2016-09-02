@@ -19,7 +19,7 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
     //定义页面组件类
-    var ScoreListPager = Widget.extend({
+    var scoreListPager = Widget.extend({
     	
     	//属性，使用时由类的构造函数传入
     	attrs: {
@@ -32,7 +32,7 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
         },
     	//重写父类
     	setup: function () {
-    		ScoreListPager.superclass.setup.call(this);
+    		scoreListPager.superclass.setup.call(this);
     		this._queryScoreList();
     	},
     	
@@ -47,7 +47,7 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
 	            data : {
 					tenantId: 'changhong',
 				},
-	           	pageSize: ScoreListPager.DEFAULT_PAGE_SIZE,
+	           	pageSize: scoreListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",
 	            callback: function(data){
@@ -66,5 +66,5 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
     	
     });
     
-    module.exports = ScoreListPager
+    module.exports = scoreListPager
 });
