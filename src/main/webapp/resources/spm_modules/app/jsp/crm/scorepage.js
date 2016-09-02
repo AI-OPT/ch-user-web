@@ -47,25 +47,29 @@ define('app/jsp/crm/scorepage', function (require, exports, module) {
     					required:true,
     					digits:true,
     					min:0,
-    					max:50
+    					max:50,
+    					pattern:/^(0|[1-9]\d{0,9})$/
     					},
 					2: {
     					required:true,
     					digits:true,
     					min:0,
-    					max:10
+    					max:10,
+    					pattern:/^(0|[1-9]\d{0,9})$/
     					},
 					3: {
     					required:true,
     					digits:true,
     					min:0,
-    					max:20
+    					max:20,
+    					pattern:/^(0|[1-9]\d{0,9})$/
     					},
 					4: {
     					required:true,
     					digits:true,
     					min:0,
-    					max:20
+    					max:20,
+    					pattern:/^(0|[1-9]\d{0,9})$/
     					}
     			},
     			messages: {
@@ -73,26 +77,30 @@ define('app/jsp/crm/scorepage', function (require, exports, module) {
     					required:"评分不能为空",
     					digits: "只能输入数字",
     					min:"最小值为{0}",
-    					max:"最大值为{0}"
+    					max:"最大值为{0}",
+    					pattern:'格式不对'
     					},
     				2: {
     					required:"评分不能为空",
     					digits: "只能输入数字",
     					min:"最小值为{0}",
-    					max:"最大值为{0}"
+    					max:"最大值为{0}",
+    					pattern:'格式不对'
     					},
         			
         			3: {
     					required:"评分不能为空",
     					digits: "只能输入数字",
     					min:"最小值为{0}",
-    					max:"最大值为{0}"
+    					max:"最大值为{0}",
+    					pattern:'格式不对'
     					},
             		4: {
     					required:"评分不能为空",
     					digits: "只能输入数字",
     					min:"最小值为{0}",
-    					max:"最大值为{0}"
+    					max:"最大值为{0}",
+    					pattern:'格式不对'
     					}
     			}
     		});
