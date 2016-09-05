@@ -75,7 +75,7 @@ label.error {
 													<li class="word" style="font-weight: bold;">${status.count}.${ctScoreKpiVo.kpiName }</li>
 													<li><input type="text" class="int-text int-medium" maxlength="10"
 														placeholder="请输入评分" name='${status.count }'
-														id='${status.count }' /></li>
+														id='${status.count }' onkeydown="return doit()"/></li>	
 													<li style="color: red">&nbsp;&nbsp;&nbsp;${ctScoreKpiVo.minScore }-${ctScoreKpiVo.maxScore }</li>
 												</ul>
 												<ul>
@@ -84,9 +84,12 @@ label.error {
 											</c:forEach>
 										</form>
 										<ul>
-											<li style="margin-left: 70px"><input type="button"
-												id="submitScore" class="biu-btn btn-blue btn-xlarge  radius"
+											<li style="margin-left: 50px"><input type="button"
+												id="submitScore" class="biu-btn btn-blue btn-mini  radius"
 												value="提交评价"></li>
+											<li style="margin-left: 70px"><input type="button"
+												onclick="backup();" class="biu-btn btn-blue btn-mini  radius"
+												value="返回"></li>
 										</ul>
 									</div>
 								</div>

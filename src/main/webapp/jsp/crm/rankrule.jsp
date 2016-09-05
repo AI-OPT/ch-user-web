@@ -73,7 +73,7 @@
 									<table class="table table-border table-bordered">
 										<thead>
 											<tr>
-												<th>店铺佣金等级</th>
+												<th>店铺评分等级</th>
 												<th>等级名称</th>
 												<th>等级图片</th>
 											</tr>
