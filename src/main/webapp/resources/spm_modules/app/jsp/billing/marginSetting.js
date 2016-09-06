@@ -57,7 +57,7 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
     			},
     			messages: {
     				depositBalance: {
-    					required:"评分不能为空",
+    					required:"保证金不能为空",
     					digits: "只能输入数字",
     					min:"最小值为{0}",
     					max:"最大值为{0}"
@@ -113,3 +113,26 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
     
     module.exports = marginSettingPager
 });
+
+function getEvent() {
+    if (document.all) {
+        return window.event; //for ie
+    }
+    func = getEvent.caller;
+    while (func != null) {
+        var arg0 = func.arguments[0];
+        if (arg0) {
+            if ((arg0.constructor == Event || arg0.constructor == MouseEvent) || (typeof (arg0) == "object" && arg0.preventDefault && arg0.stopPropagation)) {
+                return arg0;
+            }
+        }
+        func = func.caller;
+    }
+    return null;
+}
+function doit(){
+    var ev = getEvent();
+    if((ev.keyCode>=48&&ev.keyCode<=57)||ev.keyCode==8) 
+    	return true;
+    return false;
+}

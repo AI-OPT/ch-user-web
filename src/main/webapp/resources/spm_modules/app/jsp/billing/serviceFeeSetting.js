@@ -52,27 +52,29 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     					required:true,
     					digits:true,
     					min:0,
-    					max:999999999999999
+    					max:999999999999999,
+    					pattern:/^(0|[1-9]\d{0,9})$/
     					},
     				ratio: {
 		    			required:true,
-		    			digits:true,
+		    			pattern:/^(([1-9]{1}\d*)|([0]{1}))(\.(\d){1,2})?$/,
 		    			min:0,
-		    			max:100
+		    			max:100,
     		}
     			},
     			messages: {
     				rentFee: {
-    					required:"评分不能为空",
+    					required:"服务费不能为空",
     					digits: "只能输入数字",
     					min:"最小值为{0}",
-    					max:"最大值为{0}"
+    					max:"最大值为{0}",
+    					pattern:"数据格式不对"
     					},
     				ratio: {
-    					required:"评分不能为空",
-    					digits: "只能输入数字",
+    					required:"服务费不能为空",
+    					pattern: "数据格式不对,支持小数点后2位",
     					min:"最小值为{0}",
-    					max:"最大值为{0}"
+    					max:"最大值为{0}",
     					}
     			}
     		});
@@ -157,3 +159,25 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     module.exports = serviceFeeSettingPager
 });
 
+function getEvent() {
+    if (document.all) {
+        return window.event; //for ie
+    }
+    func = getEvent.caller;
+    while (func != null) {
+        var arg0 = func.arguments[0];
+        if (arg0) {
+            if ((arg0.constructor == Event || arg0.constructor == MouseEvent) || (typeof (arg0) == "object" && arg0.preventDefault && arg0.stopPropagation)) {
+                return arg0;
+            }
+        }
+        func = func.caller;
+    }
+    return null;
+}
+function doit(){
+    var ev = getEvent();
+    if((ev.keyCode>=48&&ev.keyCode<=57)||ev.keyCode==8||ev.keyCode==110) 
+    	return true;
+    return false;
+}

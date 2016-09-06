@@ -73,7 +73,7 @@ label.error {
 												varStatus="status">
 												<ul>
 													<li class="word" style="font-weight: bold;">${status.count}.${ctScoreKpiVo.kpiName }</li>
-													<li><input type="text" class="int-text int-medium" maxlength="10"
+													<li><input type="text" class="int-text int-medium" maxlength="2"
 														placeholder="请输入评分" name='${status.count }'
 														id='${status.count }' onkeydown="return doit()"/></li>	
 													<li style="color: red">&nbsp;&nbsp;&nbsp;${ctScoreKpiVo.minScore }-${ctScoreKpiVo.maxScore }</li>

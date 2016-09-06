@@ -87,7 +87,7 @@ label.error {
 										    </p>
 									  </div>
 									  <div id="payRent" style="display:">
-									  	<p><input type="text" class="int-text int-mini" id="rentFee" name="rentFee" />元/
+									  	<p><input type="text" class="int-text int-mini" id="rentFee" name="rentFee" maxlength="15" onkeydown="return doit()"/>元/
 									  	<select class="select select-mini" id="rentCycleType" name="rentCycleType">
 									  	<option value="Y">年</option>
 									  	<option value="Q">季度</option>

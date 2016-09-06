@@ -69,7 +69,7 @@ label.error {
 								 	<ul>
 								 	<li>
 								 	<p class="word">保证金:</p>
-								 	<p class="word"><input type="text" class="int-text int-mini"  placeholder="" name="depositBalance" id="depositBalance"/></p>
+								 	<p class="word"><input type="text" class="int-text int-mini"  placeholder="" name="depositBalance" id="depositBalance" maxlength="10" onkeydown="return doit()"/></p>
 								 	<p class="word">元(一次性收取)</p>
 								 	<input type="hidden" value="${userId }" name="userId" id="userId">
 								 	</li>
