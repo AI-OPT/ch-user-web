@@ -52,7 +52,8 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
     					required:true,
     					digits:true,
     					min:0,
-    					max:999999999999999
+    					max:999999999999999,
+    					pattern:/^(0|[1-9]\d{0,9})$/
     					}
     			},
     			messages: {
@@ -60,7 +61,8 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
     					required:"保证金不能为空",
     					digits: "只能输入数字",
     					min:"最小值为{0}",
-    					max:"最大值为{0}"
+    					max:"最大值为{0}",
+    					pattern:"数据格式不对"
     					}
     			}
     		});
