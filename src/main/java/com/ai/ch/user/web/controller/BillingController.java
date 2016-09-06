@@ -203,7 +203,7 @@ public class BillingController {
 		if(shopInfoRequst.getRentFee()==null)
 			shopInfoRequst.setRentFee(0L);
 		if(shopInfoRequst.getRatio()==null)
-			shopInfoRequst.setRatio(0);
+			shopInfoRequst.setRatio(0.0F);
 		try{
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		shopInfoSV.updateShopInfo(shopInfoRequst);
