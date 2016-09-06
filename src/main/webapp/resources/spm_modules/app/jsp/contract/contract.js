@@ -38,7 +38,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     		
     		"click [id='supplierSave']":"_saveSupplierContract",
     		"click [id='shopSave']":"_saveShopContract",
-    		
+    		"blur [id='endTime']":"_checkEndTimeText",
     		/*"click [id='scanContract']":"_uploadFile",
     		
     		"change [id='scanFile']":"_uploadFile",*/
@@ -133,9 +133,25 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			}
 			
 			if(endTime!=""&&endTime!=null){
-				$("#endTimeTextErrMsg").hide();
-				$("#endTimeTextShow").hide();
-				$("#endTimeTextFlag").val("1");
+				var startTime = $("#startTime").val();
+				var endTime = $("#endTime").val();
+				var scanVersionContractFlag = $("#scanVersionContractFlag").val();
+				var  startTimeStr=startTime.toString();
+				startTimeStr =  startTimeStr.replace(/-/g,"/");
+				var oDate1 = new Date(startTimeStr).getTime();
+				var  endTimeStr=endTime.toString();
+				endTimeStr =  endTimeStr.replace(/-/g,"/");
+				var oDate2 = new Date(endTimeStr).getTime();
+				if(oDate1>oDate2){
+					$("#endTimeTextErrMsg").show();
+					$("#endTimeTextShow").show();
+					$("#endTimeTextShow").text('开始时间不能大于结束时间');
+		    		$("#endTimeTextFlag").val("0");
+				}else{
+					$("#endTimeTextErrMsg").hide();
+					$("#endTimeTextShow").hide();
+					$("#endTimeTextFlag").val("1");
+				}
 			}
 		},
 		_saveSupplierContract:function(){
@@ -144,42 +160,16 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			this._checkStartTime();
 			this._checkEndTimeText();
 			this._checkScanFileText();
-			
 			var contractCodeFlag = $("#contractCodeFlag").val();
 			var contractNameFlag = $("#contractNameFlag").val();
-			var startTime = $("#startTime").val();
-			var endTime = $("#endTime").val();
-			var scanVersionContractFlag = $("#scanVersionContractFlag").val();
-			
-			var  startTimeStr=startTime.toString();
-			startTimeStr =  startTimeStr.replace(/-/g,"/");
-			var oDate1 = new Date(startTimeStr).getTime();
-			
-			var  endTimeStr=endTime.toString();
-			endTimeStr =  endTimeStr.replace(/-/g,"/");
-			var oDate2 = new Date(endTimeStr).getTime();
-			
-			if(oDate1>oDate2){
-				$("#endTimeTextErrMsg").show();
-				$("#endTimeTextShow").show();
-				$("#endTimeTextShow").text('开始时间不能大于结束时间');
-	    		$("#endTimeTextFlag").val("0");
-			}else{
-				$("#endTimeTextErrMsg").hide();
-				$("#endTimeTextShow").hide();
-				$("#endTimeTextFlag").val("1");
-			}
 			var startTimeFlag = $("#startTimeFlag").val();
 			var endTimeFlag  = $("#endTimeTextFlag").val();
 			if(contractCodeFlag!="0"&&contractNameFlag!="0"&&startTimeFlag!="0"&&endTimeFlag!="0"&&scanVersionContractFlag!="0"){
-				
 				$("#scanFileName").val($("#scanFileText").val());
-				
 				if($("#electronicContractText").val()!=""&&$("#electronicContractText").val()!=null){
 					$("#electronicFileName").attr("name","list[1].infoName");
 					$("#electronicFileName").val($("#electronicContractText").val());
 				}
-				
 				$.ajax({
 					type:"post",
 					url:_base+"/contract/addSupplierContractInfo",
@@ -190,7 +180,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			        		alert("失败了");
 			        		return false;
 			        	}else if(data.responseHeader.resultCode=="000000"){
-			        		alert("扣款成功");
+			        		window.location.href=_base+"/contract/contractSupplierDetailPager?userId="+userId;
 			        	}
 			          },
 					error: function(error) {
@@ -278,10 +268,10 @@ function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
 		$("#"+contractText).text('扫描件合同不能为空');
 		$("#"+contractFlag).val("0");
 		return false;
-	}else if(!/\.(PDF|PNG|JPG|DOC|pdf|png|jpg|doc)$/.test(fileTest)){
+	}else if(!/\.(PDF|PNG|JPG|DOC|pdf|png|jpg|doc|docx)$/.test(fileTest)){
 		$("#"+errMsg).show();
 		$("#"+contractText).show();
-		$("#"+contractText).text('文件格式不对，只允许上传pdf、png、jpg、word');
+		$("#"+contractText).text('文件格式不对，只允许上传pdf、png、jpg、doc、docx');
 		$("#"+contractFlag).val("0");
 		return false;
 	}else if(fileTest.size>=(20.05*1024*1024)-1){

@@ -30,11 +30,6 @@
                 <div class="row"><!--内侧框架-->
                     <div class="col-lg-12"><!--删格化-->
                         <div class="main-box clearfix"><!--白色背景-->
-                        <!--标题-->
-                            <header class="main-box-header clearfix">
-                            <h2 class="pull-left">保证金/服务费管理</h2>
-                            </header>
-                        <!--标题结束-->   
                             <div class="main-box-body clearfix">
                             	<!--table表格-->
                                 <div class="table-responsive clearfix">

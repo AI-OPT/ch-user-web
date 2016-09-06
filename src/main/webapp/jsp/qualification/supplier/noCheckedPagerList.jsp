@@ -29,13 +29,8 @@
 					                <li  class="col-md-6">
 					                    <p class="word">企业名称</p>
 					                    <p><input type="text" class="int-text int-medium"></p>
+					                	<p><input type="button" class="btn-default btn-blue btn-mini" value="查询" /></p>
 					                </li>  
-					            </ul>
-					            <ul>
-					                <li class="width-xlag">
-					                <p class="word">&nbsp;</p>
-					                <p><input type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="查  询"></p>
-					                </li>
 					            </ul>
 					         </div>
 					   	<!--查询结束-->   

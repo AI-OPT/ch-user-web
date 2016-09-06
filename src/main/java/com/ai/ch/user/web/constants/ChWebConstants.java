@@ -24,6 +24,10 @@ public class ChWebConstants {
     
     public static final String ELECTRONIC_CONTRACT_SHOP="40002";
     
+    public static final String INFOTYPE_SUPPLIER="30";
+    
+    public static final String INFOTYPE_SHOP="40";
+    
 	public final static class Tenant {
 		private Tenant() {
 		}

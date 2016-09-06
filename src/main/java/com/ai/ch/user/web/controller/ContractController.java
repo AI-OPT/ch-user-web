@@ -80,6 +80,40 @@ public class ContractController {
 	 		response.setUserId(userId);
 	 		Map<String, Object> model = new HashMap<String, Object>();
 	 		model.put("contactInfo", response);
+	 		if(response.getActiveTime()!=null){
+	 			model.put("startTime", DateUtil.getDateString(response.getActiveTime(),"yyyy-MM-dd"));
+	 		}
+	 		if(response.getInactiveTime()!=null){
+	 		  model.put("endTime", DateUtil.getDateString(response.getInactiveTime(),"yyyy-MM-dd"));
+	 		}
+	 		model.put("userId", userId);
+	 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
+	 		custFileExtRequest.setTenantId(userClient.getTenantId());
+	 		custFileExtRequest.setUsreId(userId);
+	 		custFileExtRequest.setInfoType(ChWebConstants.INFOTYPE_SUPPLIER);
+	 		ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
+	 		QueryCustFileExtResponse custFileExtResponse = custFileSV.queryCustFileExt(custFileExtRequest);
+	 		List<CmCustFileExtVo> list = custFileExtResponse.getList();
+	 		
+	 		for(int i=0;i<list.size();i++){
+	 			CmCustFileExtVo extVp = list.get(i);
+	 			/**
+	 			 * 扫描件合同
+	 			 */
+	 			String infoName = extVp.getInfoName();
+	 			String attrValue = extVp.getAttrValue();
+	 			String infoItem = extVp.getInfoItem();
+	 			
+	 			if(ChWebConstants.SCAN_CONTRACT_SUPPLIER.equals(extVp.getInfoItem())){
+		 			model.put("scanContractInfoName",infoName);
+		 			model.put("scanContractAttrValue",attrValue);
+		 			model.put("scanContractInfoItem",infoItem);
+	 			}else{
+	 				model.put("electronicContractInfoName",infoName);
+		 			model.put("electronicContractAttrValue",attrValue);
+		 			model.put("electronicContractInfoItem",infoItem);
+	 			}
+	 		}
 	        return new ModelAndView("/jsp/contract/supplier/contractManager",model);
 	 }
 	 /**
@@ -99,6 +133,40 @@ public class ContractController {
 	 		ContactInfoResponse response = contract.queryContractInfo(contactInfo);
 	 		Map<String, Object> model = new HashMap<String, Object>();
 	 		model.put("contactInfo", response);
+	 		if(response.getActiveTime()!=null){
+	 			model.put("startTime", DateUtil.getDateString(response.getActiveTime(),"yyyy-MM-dd"));
+	 		}
+	 		if(response.getInactiveTime()!=null){
+	 		  model.put("endTime", DateUtil.getDateString(response.getInactiveTime(),"yyyy-MM-dd"));
+	 		}
+	 		model.put("userId", userId);
+	 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
+	 		custFileExtRequest.setTenantId(user.getTenantId());
+	 		custFileExtRequest.setUsreId(userId);
+	 		custFileExtRequest.setInfoType(ChWebConstants.INFOTYPE_SUPPLIER);
+	 		ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
+	 		QueryCustFileExtResponse custFileExtResponse = custFileSV.queryCustFileExt(custFileExtRequest);
+	 		List<CmCustFileExtVo> list = custFileExtResponse.getList();
+	 		
+	 		for(int i=0;i<list.size();i++){
+	 			CmCustFileExtVo extVp = list.get(i);
+	 			/**
+	 			 * 扫描件合同
+	 			 */
+	 			String infoName = extVp.getInfoName();
+	 			String attrValue = extVp.getAttrValue();
+	 			String infoItem = extVp.getInfoItem();
+	 			
+	 			if(ChWebConstants.SCAN_CONTRACT_SUPPLIER.equals(extVp.getInfoItem())){
+		 			model.put("scanContractInfoName",infoName);
+		 			model.put("scanContractAttrValue",attrValue);
+		 			model.put("scanContractInfoItem",infoItem);
+	 			}else{
+	 				model.put("electronicContractInfoName",infoName);
+		 			model.put("electronicContractAttrValue",attrValue);
+		 			model.put("electronicContractInfoItem",infoItem);
+	 			}
+	 		}
 	        return new ModelAndView("/jsp/contract/shop/contractManager",model);
 	 }
 	 
@@ -119,12 +187,12 @@ public class ContractController {
 		 	GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		 	contactInfo.setTenantId(user.getTenantId());
 		 	contactInfo.setUserId(userId);
-		 	
 	 		ContactInfoResponse response = contract.queryContractInfo(contactInfo);
 	 		
 	 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
 	 		custFileExtRequest.setTenantId(user.getTenantId());
 	 		custFileExtRequest.setUsreId(userId);
+	 		custFileExtRequest.setInfoType(ChWebConstants.INFOTYPE_SUPPLIER);
 	 		QueryCustFileExtResponse custFileExtResponse = custFileSV.queryCustFileExt(custFileExtRequest);
 	 		List<CmCustFileExtVo> list = custFileExtResponse.getList();
 	 		
@@ -183,6 +251,7 @@ public class ContractController {
 	 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
 	 		custFileExtRequest.setTenantId(user.getTenantId());
 	 		custFileExtRequest.setUsreId(userId);
+	 		custFileExtRequest.setInfoType(ChWebConstants.INFOTYPE_SHOP);
 	 		QueryCustFileExtResponse custFileExtResponse = custFileSV.queryCustFileExt(custFileExtRequest);
 	 		List<CmCustFileExtVo> list = custFileExtResponse.getList();
 	 		
@@ -244,7 +313,7 @@ public class ContractController {
 	        	
 	 	        contract.insertContractInfo(contractInfo);
 	 	        
-	 	       //保存附件信息
+	 	        //保存附件信息
 	 	        UpdateCustFileExtRequest updateCustFileExtRequest = new UpdateCustFileExtRequest();
 	 	        updateCustFileExtRequest.setList(custFileListVo.getList());
 	            custFileSV.updateCustFileExtBycondition(updateCustFileExtRequest);
