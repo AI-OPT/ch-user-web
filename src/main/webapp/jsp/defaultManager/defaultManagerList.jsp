@@ -73,7 +73,7 @@
                                             <td>品类信息1</td>
                                             <td  id="operation">
                                             	<a href="${_base}/defaultManager/addDefaultInfo?userId=2&userName='username_login2'&custName='custName2'">扣款</a>
-                                            	<a href="${_base}/contract/defaultManagerCycleDetail?userId=2&userName='username_login2'&custName='custName2'">扣款历史</a>
+                                            	<a href="${_base}/defaultManager/defaultHistoryPager?userId=2&userName='username_login2'&custName='custName2'">扣款历史</a>
                                             </td>
                                         </tr>
                                          <tr>
@@ -82,7 +82,7 @@
                                             <td>品类信息1</td>
                                             <td  id="operation">
                                             	<a href="${_base}/defaultManager/addDefaultInfo?userId=3&userName='username_login3'&custName='custName3'">扣款</a>
-                                            	<a href="${_base}/defaultManager/defaultManagerCycleDetail?userId=3&userName='username_login3'&custName='custName3'">扣款历史</a>
+                                            	<a href="${_base}/defaultManager/defaultHistoryPager?userId=3&userName='username_login3'&custName='custName3'">扣款历史</a>
                                             </td>
                                         </tr>
                                     </tbody>
