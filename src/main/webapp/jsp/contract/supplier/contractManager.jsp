@@ -47,7 +47,7 @@
 									</li>
 									<li>
 									   <input type="text" class="int-text int-medium" placeholder="请输入账号" id="contractCode" name="contractCode" value="${contactInfo.contractCode }"/>
-									   <input type="hidden" name="userId" value="${contactInfo.userId }"/>
+									   <input type="hidden" name="userId" value="${userId }"/>
 									 </li>
 									<li><label id="contractCodeErrMsg" style="display: none;"><span class="ash" id="contractCodeText">1-12位字符，可用数字及"."</span></label></li>
 								</ul>
@@ -63,7 +63,7 @@
 								<ul>
 									<li>
 										<p class="word"><b class="red">*</b>开始时间:</p>
-										<p><input type="text" class="int-text int-medium" name="startTime" id="startTime">
+										<p><input type="text" class="int-text int-medium" value="${startTime}" name="startTime" id="startTime">
 											<span class="time"> <i class="fa  fa-calendar" ></i></span></p>
 									</li>
 									<li><label id="startTimeErrMsg" style="display: none;"><span class="ash" id="startTimeText">请输入时间</span></label></li>
@@ -72,7 +72,7 @@
 									</li>
 									<li>
 										<p class=""><b class="red">*</b>结束时间:</p>
-										<p><input type="text" class="int-text int-medium" name="endTime" id="endTime">
+										<p><input type="text" class="int-text int-medium" value="${endTime}" name="endTime" id="endTime">
 											<span class="time"> <i class="fa  fa-calendar" ></i></span></p>
 									</li>
 									<li><label id="endTimeTextErrMsg" style="display: none;"><span class="ash" id="endTimeTextShow">请输入时间</span></label></li>
@@ -81,13 +81,13 @@
 									<li>
 										<p class="word"><b class="red">*</b>扫描版合同:</p>
 										<span class="btn-upload">
-										   <input type="hidden" id="scanFileName" value="扫描版合同" name="list[0].infoName">
+										   <input type="hidden" id="scanFileName" value="" name="list[0].infoName">
 							               <input type="hidden" value="30" name="list[0].infoType">
 							               <input type="hidden" value="30001" name="list[0].infoItem">
-							               <input type="hidden" value="${contactInfo.userId}" name="list[0].userId"/>
-							               <input type="hidden" value="ch" name="list[0].tenantId"/>
+							               <input type="hidden" value="${userId}" name="list[0].userId"/>
+							               <input type="hidden" value="changhong" name="list[0].tenantId"/>
 							               
-										   <input class="int-text int-large" id="scanFileText" type="text">
+										   <input class="int-text int-large" value="${scanContractInfoName}" id="scanFileText" type="text">
 										   <input type="button" id="scanContract" class="btn-default btn-medium" value="浏览文件"/>
 										   <input type="file" name="scanFile" id="scanFile" onchange="uploadFile('scanFile','scanFileText','scanContractErrMsg','scanContractText','scanVersionContractFlag','ddsId1')"  class="int-file"/>
 										</span>
@@ -99,12 +99,12 @@
 										<p class="word">电子版合同:</p>
 										
 										 <span class="btn-upload">
-											 <input type="hidden" id="electronicFileName" value="电子版合同" name="list[1].infoName">
+											 <input type="hidden" id="electronicFileName" value="" name="list[1].infoName">
 								             <input type="hidden" id="electronicFileInfoType" value="30" name="list[1].infoType">
 								             <input type="hidden" id="electronicFileInfoItem" value="30002" name="list[1].infoItem">
-								             <input type="hidden" id="electronicFileUserId" value="${contactInfo.userId}" name="list[1].userId"/>
-								             <input type="hidden" id="electronicFileTennatId" value="ch" name="list[1].tenantId"/>
-											 <input class="int-text int-large" id="electronicContractText" type="text">
+								             <input type="hidden" id="electronicFileUserId" value="${userId}" name="list[1].userId"/>
+								             <input type="hidden" id="electronicFileTennatId" value="changhong" name="list[1].tenantId"/>
+											 <input class="int-text int-large" id="electronicContractText" value="${electronicContractInfoName }" type="text">
 											 <input type="button" id="electronicContract" class="btn-default btn-medium" value="浏览文件"/>
 											 <input type="file" name="electronicFile" id="electronicFile" onchange="uploadFile('electronicFile','electronicContractText','electronicContractErrMsg','electronicContractText','electronicContractFlag','ddsId2')" class="int-file"/>
 										</span>
@@ -123,7 +123,7 @@
 										<input type="hidden" id="contractCodeFlag" value="0"/>
 										<input type="hidden" id="contractNameFlag" value="0"/>
 										<input type="hidden" id="startTimeFlag" value="0"/>
-										<input type="hidden" id="endTimeFlag" value="0"/>
+										<input type="hidden" id="endTimeTextFlag" value="0"/>
 										<input type="hidden" id="scanVersionContractFlag" value="0"/>
 										<input type="hidden" id="electronicContractFlag" value="0"/>
 										 <input type="hidden" id="ddsId1" name="list[0].attrValue">
