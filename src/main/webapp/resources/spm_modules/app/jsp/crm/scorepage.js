@@ -126,7 +126,7 @@ define('app/jsp/crm/scorepage', function (require, exports, module) {
 						this.close;
 					}
 				}).showModal();
-				return false;
+				return;
 			}
     	   $.ajax({
 			type:"post",

@@ -133,7 +133,7 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
 						this.close;
 					}
 				}).showModal();
-				return false;
+				return;
 			}
 			//debugger;
         	$.ajax({

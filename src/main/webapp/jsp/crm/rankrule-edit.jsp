@@ -117,7 +117,7 @@
 										</select>
 										<span>(2-20个等级之间)</span>
 									</div>
-									<table class="table table-border table-bordered" style="table-layout:fixed;" >
+									<table class="table table-border table-bordered">
 										<thead>
 											<tr>
 												<th>店铺评分等级</th>
@@ -174,7 +174,7 @@
 <script id="rankRuleInitImpl" type="text/x-jsrender">
 	{{for}}
 		<tr>
-			<td style="white-space:nowrap"><p class="f-14" style="font-weight:400;">等级 {{:rank}}:  <input type='hidden' value='{{:rank}}' name='list[{{:rank-1}}].rank'><input class="int-text int-mini" name="list[{{:rank-1}}].minScore" value="{{:minScore}}" id="min{{:rank}}" type="text" readonly="readonly" style='border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;'> - <input class="int-text int-mini" name="list[{{:rank-1}}].maxScore" value="{{:maxScore}}" type="text" id="max{{:rank}}" onblur="pager._changeValue('{{:rank}}')" maxlength="15" onkeydown="return doit()">分<input type='text' style='display:none;color:red' id='rankMsg{{:rank}}'></p></td>
+			<td style="white-space:nowrap"><p class="f-14" style="font-weight:400;">等级 {{:rank}}:  <input type='hidden' value='{{:rank}}' name='list[{{:rank-1}}].rank'><input class="int-text int-mini" name="list[{{:rank-1}}].minScore" value="{{:minScore}}" id="min{{:rank}}" type="text" readonly="readonly" style='border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;width:60px;'> - <input class="int-text int-mini" name="list[{{:rank-1}}].maxScore" value="{{:maxScore}}" type="text" id="max{{:rank}}" onblur="pager._changeValue('{{:rank}}')" maxlength="15" onkeydown="return doit()" style="width:60px;">分<input type='text' style='display:none;color:red' id='rankMsg{{:rank}}'></p></td>
 			<td style="white-space:nowrap"><p class="f-14">等级名称 :  <input class="int-text int-mini" name="list[{{:rank-1}}].rankName" value="{{:rankName}}" id="name{{:rank}}" type="text" onblur="pager._valideName({{:rank}})" maxlength='40'><input type='text' id='nameMsg{{:rank}}' style='display:none;color:red'></p></td>
 			<td style="white-space:nowrap"><p class="f-14">图片名称 :  <input class="int-text int-mini" name="list[{{:rank-1}}].rankLogo" id="rankLogo{{:rank}}" value="" type="text" readonly="readonly" style='border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;'>&nbsp;&nbsp;&nbsp;<span class="btn-upload">
 				<input type="button" class="btn-default btn-medium" value="浏览文件"/>
@@ -185,9 +185,9 @@
 <script id="rankRuleImpl" type="text/x-jsrender">
 	{{for id}}
 		<tr>
-			<td><p class="f-14" style="font-weight:400;">等级 {{:index}}:  <input class="int-text int-mini" name="list[{{:index-1}}].minScore" id="min{{:index}}" type="text" value="0" readonly="readonly" style='border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;'><input type='hidden' name=list[{{:index-1}}].rank value='{{:index}}'> - <input class="int-text int-mini" name="list[{{:index-1}}].maxScore" type="text" id="max{{:index}}" onblur="pager._changeValue('{{:index}}')" maxlength="15" onkeydown="return doit()">分<input type='text' style='display:none;color:red' id='rankMsg{{:index}}'></p></td>
-			<td><p class="f-14">等级名称 :  <input class="int-text int-mini" name="list[{{:index-1}}].rankName" type="text" id="name{{:index}}" onblur="pager._valideName('{{:index}}')" maxlength='40'><input type='text' id='nameMsg{{:index}}' style='display:none;color:red'></p></td>
-			<td><p class="f-14">图片名称 :  <input class="int-text int-mini" name="list[{{:index-1}}].rankLogo" id="rankLogo{{:index}}" readonly="readonly" type="text" style="border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;">&nbsp;&nbsp;&nbsp;<span class="btn-upload">
+			<td style="white-space:nowrap"><p class="f-14" style="font-weight:400;">等级 {{:index}}:  <input class="int-text int-mini" name="list[{{:index-1}}].minScore" id="min{{:index}}" type="text" value="0" readonly="readonly" style='border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;width:60px'><input type='hidden' name=list[{{:index-1}}].rank value='{{:index}}'> - <input class="int-text int-mini" name="list[{{:index-1}}].maxScore" type="text" id="max{{:index}}" onblur="pager._changeValue('{{:index}}')" maxlength="15" onkeydown="return doit()" style="width:60px">分<input type='text' style='display:none;color:red' id='rankMsg{{:index}}'></p></td>
+			<td style="white-space:nowrap"><p class="f-14">等级名称 :  <input class="int-text int-mini" name="list[{{:index-1}}].rankName" type="text" id="name{{:index}}" onblur="pager._valideName('{{:index}}')" maxlength='40'><input type='text' id='nameMsg{{:index}}' style='display:none;color:red'></p></td>
+			<td style="white-space:nowrap"><p class="f-14">图片名称 :  <input class="int-text int-mini" name="list[{{:index-1}}].rankLogo" id="rankLogo{{:index}}" readonly="readonly" type="text" style="border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;">&nbsp;&nbsp;&nbsp;<span class="btn-upload">
 				<input type="button" class="btn-default btn-medium" value="浏览文件"/>
 				<input type="file" class="int-file" id='img{{:index}}' name='img{{:index}}' onchange="pager._imgName('{{:index}}')"/></span><input type='text' id='picErr{{:index}}' style='display:none;color:red'></p></td>
 		</tr>

@@ -93,7 +93,7 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
 						this.close;
 					}
 				}).showModal();
-				return false;
+				return;
 			}
 			$.ajax({
 			type:"post",
