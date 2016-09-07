@@ -143,7 +143,15 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     			data:$("#serviceFee").serialize(),
     	        success: function(data) {
     	        	if(data.responseHeader.resultCode='000000'){
-    	        		window.location.href=_base+"/billing/billingpager"
+    	        		Dialog({
+    						title : '提示',
+    						content : "保存成功",
+    						okValue : "确定",
+    						ok : function() {
+    							window.location.href=_base+"/billing/billingpager"
+    							this.close;
+    						}
+    					}).showModal();
     	        	}
     	            },
     				error: function(error) {

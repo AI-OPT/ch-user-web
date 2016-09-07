@@ -32,7 +32,7 @@
                         <div class="main-box clearfix"><!--白色背景-->
                         <!--标题-->
                             <header class="main-box-header clearfix">
-                            <h2 class="pull-left">保证金设置</h2>
+                            <h2 class="pull-left">查看详情</h2>
                             </header>
                         <!--标题结束-->   
                             <div class="main-box-body clearfix">
@@ -55,11 +55,11 @@
 								 	</ul>
 								 	<ul>
 								 	<li><p class="word">保证金</p></li>
-								 	<li><p class="word">${deposit }</p></li>
+								 	<li><p class="word" style="white-space:nowrap;">${deposit }</p></li>
 								 	</ul>
 								 	<ul>
 								 	<li><p class="word">固定金额服务费 </p></li>
-								 	<li><p class="word">${rentFeeStr }</p></li>
+								 	<li><p class="word" style="white-space:nowrap;">${rentFeeStr }</p></li>
 								 	</ul>
 								 	<ul>
 								 	<li><p class="word">实时划扣服务费 </p></li>
