@@ -47,42 +47,15 @@
                                                 <th>操作</th>
                                             </tr>
                                         </thead>
-                                    <tbody>
-                                        <tr>
-                                        	<td>店铺test1</td>
-                                            <td>test1营业执照</td>
-                                            <td>未上传</td>
-                                            <td  id="operation"><a href="${_base}/contract/contractShopManagerPager?userId=1">管理</a><a href="${_base}/contract/contractShopDetailPager?userId=1">查看</a></td>
-                                        </tr>
-                                        <tr>
-                                        	<td>店铺test2</td>
-                                            <td>test2营业执照</td>
-                                            <td>未上传</td>
-                                            <td  id="operation"><a href="${_base}/contract/contractShopManagerPager?userId=2">管理</a><a href="${_base}/contract/contractShopDetailPager?userId=2">查看</a></td>
-                                        </tr>
-                                         <tr>
-                                        	<td>店铺test2</td>
-                                            <td>test3营业执照</td>
-                                            <td>未上传</td>
-                                            <td  id="operation"><a href="${_base}/contract/contractShopManagerPager?userId=3">管理</a><a href="${_base}/contract/contractShopDetailPager?userId=3">查看</a></td>
-                                        </tr>
-                                       
-                                    </tbody>
+                                    	<tbody id="TBODY_DEFAULTLIST">
+                                     	</tbody>
                                     </table>
                                </div>
                                 </div>
                             <!--/table表格结束-->
-                                <!--分页-->
+                               <!--分页-->
                                 <div class="paging">
-                            		<ul class="pagination">
-									<li class="disabled"><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-									<li class="active"><a href="#">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li><a href="#">5</a></li>
-									<li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-								</ul>
+                            		<ul id="pagination-ul"></ul>
 								</div>
 								<!--分页结束-->
 					   	 </div>
@@ -98,9 +71,27 @@
    		 <p id="footer-copyright" class="col-xs-12">亚信</p>
     </footer>
    <!--/底部结束-->
-    </div>
-    </div>
-</div>
-</div>
+<script type="text/javascript">
+var pager;
+(function () {
+	seajs.use('app/jsp/contract/contractShopList', function (ContractListPager) {
+		pager = new ContractListPager({element: document.body});
+		pager.render();
+	});
+})();
+</script>
+<script id="contractImpl" type="text/x-jsrender">
+{{for result ~pageSize=pageSize ~pageNo=pageNo}}
+	<tr>
+		<td>{{:userName}}</td>
+		<td>{{:custName}}</td>
+		<td>{{:uploadStatus}}</td>
+		<td  id="operation">
+			<a href="${_base}/contract/contractSupplierManagerPager?userId={{:userId}}">管理</a>
+            <a href="${_base}/contract/contractSupplierDetailPager?userId={{:userId}}">查看</a>
+		</td>
+	</tr>
+{{/for}}
+</script>
 </body>
 </html>
