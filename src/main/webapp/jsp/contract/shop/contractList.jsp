@@ -87,8 +87,8 @@ var pager;
 		<td>{{:custName}}</td>
 		<td>{{:uploadStatus}}</td>
 		<td  id="operation">
-			<a href="${_base}/contract/contractSupplierManagerPager?userId={{:userId}}">管理</a>
-            <a href="${_base}/contract/contractSupplierDetailPager?userId={{:userId}}">查看</a>
+			<a href="${_base}/contract/contractSupplierManagerPager?userId={{:userId}}&userName={{:userName}}&custName={{:custName}}">管理</a>
+            <a href="${_base}/contract/contractSupplierDetailPager?userId={{:userId}}&userName={{:userName}}&custName={{:custName}}">查看</a>
 		</td>
 	</tr>
 {{/for}}

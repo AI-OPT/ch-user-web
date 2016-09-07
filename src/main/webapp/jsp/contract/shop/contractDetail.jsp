@@ -23,11 +23,11 @@
 						           	<ul>
 						                <li class="col-md-6" style="width: 40%">
 						                    <p class="word" style="font-size: 20px;margin-left: 30px">用户名:</p>
-						                    <p>aaa</p>
+						                    <p>${userName }</p>
 						                </li>
 						                <li  class="col-md-6">
 						                    <p class="word" style="font-size: 20px">企业名称:</p>
-						                    <p>bbb</p>
+						                    <p>${custName }</p>
 						                </li>  
 						            </ul>
 						            <ul>
