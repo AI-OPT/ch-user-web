@@ -19,7 +19,9 @@ import com.ai.ch.user.api.shopinfo.params.QueryShopInfoRequest;
 import com.ai.ch.user.api.shopinfo.params.QueryShopInfoResponse;
 import com.ai.ch.user.api.shopinfo.params.UpdateShopInfoRequest;
 import com.ai.ch.user.web.constants.ChWebConstants;
+import com.ai.ch.user.web.constants.ChWebConstants.ExceptionCode;
 import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
+import com.ai.ch.user.web.vo.BusinessListInfo;
 import com.ai.ch.user.web.vo.ShopManageVo;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
@@ -220,6 +222,35 @@ public class BillingController {
 		return new ModelAndView("/jsp/billing/billingCycleList");
 	}
 	
+	@RequestMapping("/getBillingCycleList")
+	 @ResponseBody
+	 public ResponseData<PageInfo<BusinessListInfo>> getBillingCycleList(HttpServletRequest request) {
+		 ResponseData<PageInfo<BusinessListInfo>> responseData = null;
+		 try {
+			 PageInfo<BusinessListInfo> pageInfo = new PageInfo<BusinessListInfo>();
+			 pageInfo.setCount(5);
+			 pageInfo.setPageCount(1);
+			 pageInfo.setPageNo(1);
+			 pageInfo.setPageSize(5);
+			 List<BusinessListInfo> list = new ArrayList<BusinessListInfo>();
+			 for(int i=0;i<5;i++){
+				BusinessListInfo businessInfo = new BusinessListInfo();
+				businessInfo.setUserId(i+"");
+				businessInfo.setUserName("cycleTest_"+i);
+				businessInfo.setCustName("custNameTest_"+i);
+				businessInfo.setUserType(ChWebConstants.CONTRACT_TYPE_SHOP);
+				businessInfo.setBusinessCategory("usiness"+i);
+				list.add(businessInfo);
+			 }
+			 pageInfo.setResult(list);
+			 responseData = new ResponseData<PageInfo<BusinessListInfo>>(ChWebConstants.OperateCode.SUCCESS, "查询成功", pageInfo);
+			} catch (Exception e) {
+				e.printStackTrace();
+				responseData = new ResponseData<PageInfo<BusinessListInfo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
+			}
+      return responseData;
+	 }
+	
 	@RequestMapping("/billingCycleSetting")
 	public ModelAndView billingCycleSetting(HttpServletRequest request,String userId,String userName,String custName) {
 		IShopInfoSV shopInfo = DubboConsumerFactory.getService("iShopInfoSV");
@@ -250,6 +281,7 @@ public class BillingController {
 			insertShopInfo.setTenantId(tenantId);
 			insertShopInfo.setUserId(userId);
 			insertShopInfo.setPeriodType(periodType);
+			insertShopInfo.setStatus(0);
 			shopInfo.insertShopInfo(insertShopInfo);
 		}else{
 			UpdateShopInfoRequest updateShopInfoRequest = new UpdateShopInfoRequest();
@@ -259,6 +291,7 @@ public class BillingController {
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("periodType", periodType);
+		model.put("shopInfo", response);
 		model.put("userName", userName);
 		model.put("custName", custName);
 		return new ModelAndView("/jsp/billing/billingCycleDetail",model);
