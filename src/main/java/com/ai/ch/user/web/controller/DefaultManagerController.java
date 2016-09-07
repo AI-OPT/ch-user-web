@@ -1,8 +1,10 @@
 package com.ai.ch.user.web.controller;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ import com.ai.ch.user.api.defaultlog.params.QueryDefaultLogResponse;
 import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.constants.ChWebConstants.ExceptionCode;
 import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
+import com.ai.ch.user.web.vo.BusinessListInfo;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
@@ -45,6 +48,35 @@ public class DefaultManagerController {
 	public ModelAndView defaultManager() {
 		return new ModelAndView("/jsp/defaultManager/defaultManagerList");
 	}
+	
+	@RequestMapping("/getDefaultManagerList")
+	 @ResponseBody
+	 public ResponseData<PageInfo<BusinessListInfo>> getBillingCycleList(HttpServletRequest request) {
+		 ResponseData<PageInfo<BusinessListInfo>> responseData = null;
+		 try {
+			 PageInfo<BusinessListInfo> pageInfo = new PageInfo<BusinessListInfo>();
+			 pageInfo.setCount(5);
+			 pageInfo.setPageCount(1);
+			 pageInfo.setPageNo(1);
+			 pageInfo.setPageSize(5);
+			 List<BusinessListInfo> list = new ArrayList<BusinessListInfo>();
+			 for(int i=0;i<5;i++){
+				BusinessListInfo businessInfo = new BusinessListInfo();
+				businessInfo.setUserId(i+"");
+				businessInfo.setUserName("defaultTest_"+i);
+				businessInfo.setCustName("custNameTest_"+i);
+				businessInfo.setUserType(ChWebConstants.CONTRACT_TYPE_SHOP);
+				businessInfo.setBusinessCategory("usiness"+i);
+				list.add(businessInfo);
+			 }
+			 pageInfo.setResult(list);
+			 responseData = new ResponseData<PageInfo<BusinessListInfo>>(ChWebConstants.OperateCode.SUCCESS, "查询成功", pageInfo);
+			} catch (Exception e) {
+				e.printStackTrace();
+				responseData = new ResponseData<PageInfo<BusinessListInfo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
+			}
+      return responseData;
+	 }
 	
 	@RequestMapping("/addDefaultInfo")
 	public ModelAndView addDefaultInfo(HttpServletRequest request,String userId,String userName,String custName) {
