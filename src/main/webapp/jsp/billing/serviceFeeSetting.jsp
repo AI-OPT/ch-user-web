@@ -67,7 +67,7 @@ label.error {
 								 	<ul>
 								 		<li>
 								 			<p class="word">固定金额服务费</p>
-								 			<p class="word">${rentFeeStr }</p>
+								 			<p class="word" style="white-space:nowrap;">${rentFeeStr }</p>
 								 		</li>
 								 	</ul>
 								 	<ul>

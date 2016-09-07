@@ -63,13 +63,13 @@ label.error {
 								 	</ul>
 								 	<ul>
 								 		<li><p class="word"><strong>当前保证金:</strong></p>
-								 		<p>${deposit }</p></li>
+								 		<p>${deposit }元</p></li>
 								 	</ul>
 								 	<form id="depositForm">
 								 	<ul>
 								 	<li>
 								 	<p class="word">保证金:</p>
-								 	<p class="word"><input type="text" class="int-text int-mini"  placeholder="" name="depositBalance" id="depositBalance" maxlength="10" onkeydown="return doit()"/></p>
+								 	<p class="word"><input type="text" class="int-text int-mini"  placeholder="" name="depositBalance" id="depositBalance" maxlength="15" onkeydown="return doit()"/></p>
 								 	<p class="word">元(一次性收取)</p><p class="input-group"></p>
 								 	<input type="hidden" value="${userId }" name="userId" id="userId">
 								 	</li>
