@@ -41,6 +41,11 @@ public class BusinessListInfo {
 	 */
 	public String uploadStatus;
 	
+	/**
+	 * 经营品类 
+	 */
+	public String BusinessCategory ;
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -95,5 +100,12 @@ public class BusinessListInfo {
 	public void setUploadStatus(String uploadStatus) {
 		this.uploadStatus = uploadStatus;
 	}
+	public String getBusinessCategory() {
+		return BusinessCategory;
+	}
+	public void setBusinessCategory(String businessCategory) {
+		BusinessCategory = businessCategory;
+	}
+	
 	
 }
