@@ -42,27 +42,27 @@
 								 <div class="form-label pl-40">
 								 	<ul>
 								 		<li>
-								 			<p class="word">用户名:</p>
+								 			<p class="word"><strong>用户名:</strong></p>
 								 			<p>${userName }</p>
 								 		</li>
 								 		<li>
-								 			<p class="word">企业名称:</p>
+								 			<p class="word"><strong>企业名称:</strong></p>
 								 			<p>${shopName }</p>
 								 		</li>
 								 	</ul>
 								 	<ul>
-								 		<li><p class="word">当前结算设置</p>
+								 		<li><p class="word"><strong>当前结算设置:</strong></p>
 								 	</ul>
 								 	<ul>
-								 	<li><p class="word">保证金:</p></li>
+								 	<li><p class="word">保证金</p></li>
 								 	<li><p class="word">${deposit }</p></li>
 								 	</ul>
 								 	<ul>
-								 	<li><p class="word">固定金额服务费: </p></li>
+								 	<li><p class="word">固定金额服务费 </p></li>
 								 	<li><p class="word">${rentFeeStr }</p></li>
 								 	</ul>
 								 	<ul>
-								 	<li><p class="word">实时划扣服务费: </p></li>
+								 	<li><p class="word">实时划扣服务费 </p></li>
 								 	<li><p class="word">${ratioStr }</p></li>
 								 	</ul>
 								 </div>

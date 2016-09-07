@@ -53,16 +53,16 @@ label.error {
 								 <div class="form-label pl-40">
 								 	<ul>
 								 		<li>
-								 			<p class="word">用户名:</p>
+								 			<p class="word"><strong>用户名:</strong></p>
 								 			<p>${userName }</p>
 								 		</li>
 								 		<li>
-								 			<p class="word">企业名称:</p>
+								 			<p class="word"><strong>企业名称:</strong></p>
 								 			<p>${shopName }</p>
 								 		</li>
 								 	</ul>
 								 	<ul>
-								 		<li><p class="word">当前保证金:</p>
+								 		<li><p class="word"><strong>当前保证金:</strong></p>
 								 		<p>${deposit }</p></li>
 								 	</ul>
 								 	<form id="depositForm">

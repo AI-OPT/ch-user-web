@@ -53,16 +53,16 @@ label.error {
 								 <div class="form-label pl-40">
 								 	<ul>
 								 		<li>
-								 			<p class="word">用户名:</p>
+								 			<p class="word"><strong>用户名:</strong></p>
 								 			<p>${userName }</p>
 								 		</li>
 								 		<li>
-								 			<p class="word">企业名称:</p>
+								 			<p class="word"><strong>企业名称:</strong></p>
 								 			<p>${shopName }</p>
 								 		</li>
 								 	</ul>
 								 	<ul>
-								 		<li><p class="word">当前结算设置</p>
+								 		<li><p class="word"><strong>当前结算设置:</strong></p>
 								 	</ul>
 								 	<ul>
 								 		<li>
@@ -77,6 +77,11 @@ label.error {
 								 		</li>
 								 	</ul>
 								 <form id="serviceFee">
+								 <div>
+								  <ul>
+								 		<li><p class="word"><strong>服务费设置:</strong></p>
+								 	</ul>
+								 </div>
 								 <div class="mt-20 skin-minimal">
 									  <div class="radio-box">
 									  		<p class="word">固定金额服务费:  
