@@ -2,6 +2,7 @@ package com.ai.ch.user.web.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,17 +21,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.ch.user.api.contract.interfaces.IContractSV;
 import com.ai.ch.user.api.contract.param.ContactInfoRequest;
-import com.ai.ch.user.api.contract.param.ContactInfoResponse;
+import com.ai.ch.user.api.contract.param.ContractInfoResponse;
 import com.ai.ch.user.api.custfile.interfaces.ICustFileSV;
 import com.ai.ch.user.api.custfile.params.CmCustFileExtVo;
-import com.ai.ch.user.api.custfile.params.InsertCustFileExtRequest;
 import com.ai.ch.user.api.custfile.params.QueryCustFileExtRequest;
 import com.ai.ch.user.api.custfile.params.QueryCustFileExtResponse;
 import com.ai.ch.user.api.custfile.params.UpdateCustFileExtRequest;
+import com.ai.ch.user.api.defaultlog.params.DefaultLogVo;
 import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.constants.ChWebConstants.ExceptionCode;
 import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.model.user.CustFileListVo;
+import com.ai.ch.user.web.vo.BusinessListInfo;
+import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.dss.DSSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
@@ -54,14 +57,86 @@ public class ContractController {
 	 }
 	 
 	 
-	 	/**
-		 * 合同店铺列表信息
-		 * 
-		 */
-		 @RequestMapping("/contractShopPager")
-		 public ModelAndView contractShopPager() {
-	        return new ModelAndView("/jsp/contract/shop/contractList");
-		 }
+ 	/**
+	 * 合同店铺列表信息
+	 * 
+	 */
+	 @RequestMapping("/contractShopPager")
+	 public ModelAndView contractShopPager() {
+        return new ModelAndView("/jsp/contract/shop/contractList");
+	 }
+	
+	 @RequestMapping("/getContractSupplierList")
+	 @ResponseBody
+	 public ResponseData<PageInfo<BusinessListInfo>> getContractSupplierList(HttpServletRequest request) {
+		 ResponseData<PageInfo<BusinessListInfo>> responseData = null;
+		 try {
+			 PageInfo<BusinessListInfo> pageInfo = new PageInfo<BusinessListInfo>();
+			 pageInfo.setCount(5);
+			 pageInfo.setPageCount(1);
+			 pageInfo.setPageNo(1);
+			 pageInfo.setPageSize(5);
+			 List<BusinessListInfo> list = new ArrayList<BusinessListInfo>();
+			 GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+			 Map<String,ContractInfoResponse> map = getContractList(userClient.getTenantId());
+			 for(int i=0;i<5;i++){
+				BusinessListInfo businessInfo = new BusinessListInfo();
+				businessInfo.setUserId(i+"");
+				businessInfo.setUserName("suppliertTest_"+i);
+				businessInfo.setCustName("custNameTest_"+i);
+				businessInfo.setUserType(ChWebConstants.CONTRACT_TYPE_SUPPLIER);
+				if(map.get(i+businessInfo.getUserType())!=null){
+					businessInfo.setUploadStatus("已上传");
+				}else{
+					businessInfo.setUploadStatus("未上传");
+				}
+				list.add(businessInfo);
+			 }
+			 pageInfo.setResult(list);
+			 responseData = new ResponseData<PageInfo<BusinessListInfo>>(ChWebConstants.OperateCode.SUCCESS, "查询成功", pageInfo);
+			} catch (Exception e) {
+				e.printStackTrace();
+				responseData = new ResponseData<PageInfo<BusinessListInfo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
+			}
+        return responseData;
+	 }
+	 
+	 
+	 @RequestMapping("/getContractShopList")
+	 @ResponseBody
+	 public ResponseData<PageInfo<BusinessListInfo>> getContractShopList(HttpServletRequest request) {
+		 ResponseData<PageInfo<BusinessListInfo>> responseData = null;
+		 try {
+			 PageInfo<BusinessListInfo> pageInfo = new PageInfo<BusinessListInfo>();
+			 pageInfo.setCount(5);
+			 pageInfo.setPageCount(1);
+			 pageInfo.setPageNo(1);
+			 pageInfo.setPageSize(5);
+			 List<BusinessListInfo> list = new ArrayList<BusinessListInfo>();
+			 GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+			 Map<String,ContractInfoResponse> map = getContractList(userClient.getTenantId());
+			 for(int i=0;i<5;i++){
+				BusinessListInfo businessInfo = new BusinessListInfo();
+				businessInfo.setUserId(i+"");
+				businessInfo.setUserName("shopTest_"+i);
+				businessInfo.setCustName("custNameTest_"+i);
+				businessInfo.setUserType(ChWebConstants.CONTRACT_TYPE_SHOP);
+				if(map.get(i+businessInfo.getUserType())!=null){
+					businessInfo.setUploadStatus("已上传");
+				}else{
+					businessInfo.setUploadStatus("未上传");
+				}
+				list.add(businessInfo);
+			 }
+			 pageInfo.setResult(list);
+			 responseData = new ResponseData<PageInfo<BusinessListInfo>>(ChWebConstants.OperateCode.SUCCESS, "查询成功", pageInfo);
+			} catch (Exception e) {
+				e.printStackTrace();
+				responseData = new ResponseData<PageInfo<BusinessListInfo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
+			}
+        return responseData;
+	 }
+	 
 	 /**
 	  * 供应商管理页面信息
 	  * @param request
@@ -76,7 +151,7 @@ public class ContractController {
 		 	GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		 	contactInfo.setTenantId(userClient.getTenantId());
 		 	contactInfo.setUserId(userId);
-	 		ContactInfoResponse response = contract.queryContractInfo(contactInfo);
+	 		ContractInfoResponse response = contract.queryContractInfo(contactInfo);
 	 		response.setUserId(userId);
 	 		Map<String, Object> model = new HashMap<String, Object>();
 	 		model.put("contactInfo", response);
@@ -130,7 +205,7 @@ public class ContractController {
 		 	contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SHOP);
 		 	contactInfo.setTenantId(user.getTenantId());
 		 	contactInfo.setUserId(userId);
-	 		ContactInfoResponse response = contract.queryContractInfo(contactInfo);
+	 		ContractInfoResponse response = contract.queryContractInfo(contactInfo);
 	 		Map<String, Object> model = new HashMap<String, Object>();
 	 		model.put("contactInfo", response);
 	 		if(response.getActiveTime()!=null){
@@ -187,7 +262,7 @@ public class ContractController {
 		 	GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		 	contactInfo.setTenantId(user.getTenantId());
 		 	contactInfo.setUserId(userId);
-	 		ContactInfoResponse response = contract.queryContractInfo(contactInfo);
+	 		ContractInfoResponse response = contract.queryContractInfo(contactInfo);
 	 		
 	 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
 	 		custFileExtRequest.setTenantId(user.getTenantId());
@@ -244,7 +319,7 @@ public class ContractController {
 		 	contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SHOP);
 		 	contactInfo.setTenantId(user.getTenantId());
 		 	contactInfo.setUserId(userId);
-	 		ContactInfoResponse response = contract.queryContractInfo(contactInfo);
+	 		ContractInfoResponse response = contract.queryContractInfo(contactInfo);
 	 		/**
 	 		 * 附件信息
 	 		 */
@@ -421,4 +496,18 @@ public class ContractController {
 		}
 
 	}
+    
+    public Map<String,ContractInfoResponse> getContractList(String tenantId){
+    	IContractSV contract = DubboConsumerFactory.getService("iContractSV");
+	 	ContactInfoRequest contactInfo = new ContactInfoRequest();
+	    contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SUPPLIER);
+	 	contactInfo.setTenantId(tenantId);
+	 	Map<String,ContractInfoResponse> map = new HashMap<String,ContractInfoResponse>();
+	 	List<ContractInfoResponse> responseList = contract.queryAllContractInfo(contactInfo);
+	 	for(int i=0;i<responseList.size();i++){
+	 		ContractInfoResponse contractInfo = responseList.get(i);
+	 		map.put(contractInfo.getUserId()+contractInfo.getContractType(), contractInfo);
+	 	}
+	 	return map;
+    }
 }
