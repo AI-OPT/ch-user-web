@@ -71,8 +71,14 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
         			$("#amountFlag").val("1");
     			}else{
     				$("#amountErrMsg").show();
-        			$("#amountText").show();;
-        			$("#amountText").text("请输入数字，最多有两位小数");
+        			$("#amountText").show();
+    				if(amount.length>15){
+    					$("#amountText").text("不能超过15个字符");
+    				}else{
+    					$("#amountText").text("请输入数字，最多有两位小数");
+    				}
+    				
+        			
         			$("#amountFlag").val("0");
     			}
     		}
