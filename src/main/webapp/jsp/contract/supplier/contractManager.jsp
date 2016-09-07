@@ -63,7 +63,7 @@
 								<ul>
 									<li>
 										<p class="word"><b class="red">*</b>开始时间:</p>
-										<p><input type="text" class="int-text int-medium" value="${startTime}" name="startTime" id="startTime">
+										<p><input type="text" class="int-text int-medium" readonly="readonly" value="${startTime}" name="startTime" id="startTime">
 											<span class="time"> <i class="fa  fa-calendar" ></i></span></p>
 									</li>
 									<li><label id="startTimeErrMsg" style="display: none;"><span class="ash" id="startTimeText">请输入时间</span></label></li>
@@ -72,7 +72,7 @@
 									</li>
 									<li>
 										<p class=""><b class="red">*</b>结束时间:</p>
-										<p><input type="text" class="int-text int-medium" value="${endTime}" name="endTime" id="endTime">
+										<p><input type="text" class="int-text int-medium" readonly="readonly" value="${endTime}" name="endTime" id="endTime">
 											<span class="time"> <i class="fa  fa-calendar" ></i></span></p>
 									</li>
 									<li><label id="endTimeTextErrMsg" style="display: none;"><span class="ash" id="endTimeTextShow">请输入时间</span></label></li>
