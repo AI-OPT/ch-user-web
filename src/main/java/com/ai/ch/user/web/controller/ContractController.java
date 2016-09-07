@@ -27,7 +27,6 @@ import com.ai.ch.user.api.custfile.params.CmCustFileExtVo;
 import com.ai.ch.user.api.custfile.params.QueryCustFileExtRequest;
 import com.ai.ch.user.api.custfile.params.QueryCustFileExtResponse;
 import com.ai.ch.user.api.custfile.params.UpdateCustFileExtRequest;
-import com.ai.ch.user.api.defaultlog.params.DefaultLogVo;
 import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.constants.ChWebConstants.ExceptionCode;
 import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
@@ -144,7 +143,7 @@ public class ContractController {
 	  * @return
 	  */
 	 @RequestMapping("/contractSupplierManagerPager")
-	 public ModelAndView contractManagerPager(HttpServletRequest request,String userId) {
+	 public ModelAndView contractManagerPager(HttpServletRequest request,String userId,String userName,String custName) {
 		 	IContractSV contract = DubboConsumerFactory.getService("iContractSV");
 		 	ContactInfoRequest contactInfo = new ContactInfoRequest();
 		 	contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SUPPLIER);
@@ -189,6 +188,8 @@ public class ContractController {
 		 			model.put("electronicContractInfoItem",infoItem);
 	 			}
 	 		}
+	 		model.put("userName", userName);
+	 		model.put("custName", custName);
 	        return new ModelAndView("/jsp/contract/supplier/contractManager",model);
 	 }
 	 /**
@@ -198,7 +199,7 @@ public class ContractController {
 	  * @return
 	  */
 	 @RequestMapping("/contractShopManagerPager")
-	 public ModelAndView contractShopManagerPager(HttpServletRequest request,String userId) {
+	 public ModelAndView contractShopManagerPager(HttpServletRequest request,String userId,String userName,String custName) {
 		 	IContractSV contract = DubboConsumerFactory.getService("iContractSV");
 		 	ContactInfoRequest contactInfo = new ContactInfoRequest();
 		 	GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
@@ -242,6 +243,8 @@ public class ContractController {
 		 			model.put("electronicContractInfoItem",infoItem);
 	 			}
 	 		}
+	 		model.put("userName", userName);
+	 		model.put("custName", custName);
 	        return new ModelAndView("/jsp/contract/shop/contractManager",model);
 	 }
 	 
@@ -253,7 +256,7 @@ public class ContractController {
 	  */
 	 
 	 @RequestMapping("/contractSupplierDetailPager")
-	 public ModelAndView contractSupplierDetailPager(HttpServletRequest request,String userId) {
+	 public ModelAndView contractSupplierDetailPager(HttpServletRequest request,String userId,String userName,String custName) {
 		    IContractSV contract = DubboConsumerFactory.getService("iContractSV");
 		    ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
 		    
@@ -300,7 +303,9 @@ public class ContractController {
 	 		if(response.getInactiveTime()!=null){
 	 		  model.put("endTime", DateUtil.getDateString(response.getInactiveTime(),"yyyy-MM-dd"));
 	 		}
-	 		  return new ModelAndView("/jsp/contract/supplier/contractDetail",model);
+	 		model.put("userName", userName);
+	 		model.put("custName", custName);
+	 		return new ModelAndView("/jsp/contract/supplier/contractDetail",model);
 	 }
 	 
 	 /**
@@ -311,7 +316,7 @@ public class ContractController {
 	  */
 	 
 	 @RequestMapping("/contractShopDetailPager")
-	 public ModelAndView contractShopDetailPager(HttpServletRequest request,String userId) {
+	 public ModelAndView contractShopDetailPager(HttpServletRequest request,String userId,String userName,String custName) {
 		    IContractSV contract = DubboConsumerFactory.getService("iContractSV");
 		    ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
 		 	ContactInfoRequest contactInfo = new ContactInfoRequest();
@@ -360,6 +365,8 @@ public class ContractController {
 	 		if(response.getInactiveTime()!=null){
 	 		  model.put("endTime", DateUtil.getDateString(response.getInactiveTime(),"yyyy-MM-dd"));
 	 		}
+	 		model.put("userName", userName);
+	 		model.put("custName", custName);
 	        return new ModelAndView("/jsp/contract/shop/contractDetail",model);
 	 }
 	 /**
