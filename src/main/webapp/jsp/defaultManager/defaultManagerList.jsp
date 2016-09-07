@@ -57,51 +57,16 @@
                                                 <th>违约操作</th>
                                             </tr>
                                      </thead>
-                                    <tbody id="TBODY_BILLLIST">
-                                    	 <tr>
-                                        	<td>username_login1</td>
-                                            <td>custName1</td>
-                                            <td>品类信息1</td>
-                                            <td  id="operation">
-                                            	<a href="${_base}/defaultManager/addDefaultInfo?userId=1&userName='username_login1'&custName='custName1'">扣款</a>
-                                            	<a href="${_base}/defaultManager/defaultHistoryPager?userId=1&userName='username_login1'&custName='custName1'">扣款历史</a>
-                                            </td>
-                                        </tr>
-                                         <tr>
-                                        	<td>username_login2</td>
-                                            <td>custName2</td>
-                                            <td>品类信息1</td>
-                                            <td  id="operation">
-                                            	<a href="${_base}/defaultManager/addDefaultInfo?userId=2&userName='username_login2'&custName='custName2'">扣款</a>
-                                            	<a href="${_base}/defaultManager/defaultHistoryPager?userId=2&userName='username_login2'&custName='custName2'">扣款历史</a>
-                                            </td>
-                                        </tr>
-                                         <tr>
-                                        	<td>username_login1</td>
-                                            <td>custName3</td>
-                                            <td>品类信息1</td>
-                                            <td  id="operation">
-                                             	<a href="${_base}/defaultManager/addDefaultInfo?userId=3&userName='username_login3'&custName='custName3'">扣款</a>
-                                            	<a href="${_base}/defaultManager/defaultHistoryPager?userId=3&userName='username_login3'&custName='custName3'">扣款历史</a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                                     <tbody id="TBODY_DEFAULTLIST">
+                                     </tbody>
                                     </table>
                                     </div>
                                 	<!--/table表格结束-->
-					            	<!--分页-->
-                                <div class="paging">
-                            		<ul class="pagination">
-									<li class="disabled"><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-									<li class="active"><a href="#">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li><a href="#">5</a></li>
-									<li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-								</ul>
-								</div>
-								<!--分页结束-->
+					            	 <!--分页-->
+	                                <div class="paging">
+	                            		<ul id="pagination-ul"></ul>
+									</div>
+									<!--分页结束-->
                         </div>
                     </div>
                 </div>
@@ -109,5 +74,26 @@
             </div>
     </div>
   </div>   
+<script type="text/javascript">
+(function () {
+	seajs.use('app/jsp/billing/defaultManagerList', function (DefaultManagerListPager) {
+		pager = new DefaultManagerListPager({element: document.body});
+		pager.render();
+	});
+})();
+</script>
+<script id="defaultManagerImpl" type="text/x-jsrender">
+{{for result ~pageSize=pageSize ~pageNo=pageNo}}
+	<tr>
+		<td>{{:userName}}</td>
+		<td>{{:custName}}</td>
+		<td>{{:BusinessCategory}}</td>
+		<td>
+			<a href="${_base}/defaultManager/addDefaultInfo?userId={{:userId}}&userName={{:userName}}&custName={{:custName}}">扣款</a>
+            <a href="${_base}/defaultManager/defaultHistoryPager?userId={{:userId}}&userName={{:userName}}&custName={{:custName}}">扣款历史</a>
+		</td>
+	</tr>
+{{/for}}
+</script>
 </body>
 </html>
