@@ -274,12 +274,16 @@ function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
 		$("#"+contractText).text('文件格式不对，只允许上传pdf、png、jpg、doc、docx');
 		$("#"+contractFlag).val("0");
 		return false;
-	}else if(fileTest.size>=(20.05*1024*1024)-1){
+	}else if(document.getElementById(fileId).files[0].size>20*1024*1024){
 		$("#"+errMsg).show();
 		$("#"+contractText).show();
 		$("#"+contractText).text('文档太大，不能超过20M');
 		$("#"+contractFlag).val("0");
 		return false;
+	}else{
+		$("#"+errMsg).hide();
+		$("#"+contractText).hide();
+		$("#"+contractFlag).val("1");
 	}
 	 $.ajaxFileUpload({  
          url:_base+"/contract/uploadFile?contractFileId="+fileId,  
