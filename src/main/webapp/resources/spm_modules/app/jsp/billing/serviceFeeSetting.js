@@ -102,14 +102,14 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     		if(radioValue==0){
     			//debugger;
     			document.getElementById(divId).style.display="";
-    			if(divId=='rentPay'){
+    			if(divId=='payRent'){
     				$("#rentFee").attr("disabled",false);
     				$("#rentCycleType").attr("disabled",false);
     			}else if(divId=='payCycle')
     				$("#ratio").attr("disabled",false);
     		}else if(radioValue==1){
     			document.getElementById(divId).style.display="none";
-    			if(divId=='rentPay'){
+    			if(divId=='payRent'){
     				$("#rentFee").attr("disabled",true);
     				$("#rentCycleType").attr("disabled",true);
     			}else if(divId=='payCycle')
