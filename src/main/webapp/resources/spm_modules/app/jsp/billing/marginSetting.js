@@ -53,7 +53,7 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
     					digits:true,
     					min:0,
     					max:999999999999999,
-    					pattern:/^(0|[1-9]\d{0,9})$/
+    					pattern:/^\+?(0|[1-9][0-9]*)$/
     					}
     			},
     			messages: {
