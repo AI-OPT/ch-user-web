@@ -76,6 +76,13 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     					min:"最小值为{0}",
     					max:"最大值为{0}",
     					}
+    			},
+    			errorPlacement: function (error, element) {
+    				if (element.hasClass("input-group")) {
+    					error.appendTo(element.parent());
+                  }
+                  else
+                	  error.appendTo(element.parent());
     			}
     		});
     		

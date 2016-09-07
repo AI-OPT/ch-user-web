@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.ch.user.api.shopinfo.interfaces.IShopInfoSV;
 import com.ai.ch.user.api.shopinfo.params.InsertShopInfoRequst;
+import com.ai.ch.user.api.shopinfo.params.QueryShopDepositRequest;
 import com.ai.ch.user.api.shopinfo.params.QueryShopInfoRequest;
 import com.ai.ch.user.api.shopinfo.params.QueryShopInfoResponse;
 import com.ai.ch.user.api.shopinfo.params.UpdateShopInfoRequest;
@@ -41,18 +44,11 @@ public class BillingController {
 		ModelAndView model = new ModelAndView("/jsp/billing/marginSetting");
 		String url=request.getQueryString();
 		String userId=url.substring(url.lastIndexOf("=")+1);
-		QueryShopInfoRequest shopInfoRequest = new QueryShopInfoRequest();
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
-		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-		shopInfoRequest.setTenantId(user.getTenantId());
-		shopInfoRequest.setUserId(userId);
-		QueryShopInfoResponse shopInfoResponse = shopInfoSV.queryShopInfo(shopInfoRequest);
-		Long deposit=0L;
-		if(shopInfoResponse.getDepositBalance()!=null)
-			deposit=shopInfoResponse.getDepositBalance();
-		else{
-			deposit=2000L;
-		}
+		QueryShopDepositRequest queryShopDepositRequest = new QueryShopDepositRequest();
+		queryShopDepositRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+		queryShopDepositRequest.setUserId(userId);
+		Long deposit=shopInfoSV.queryShopDeposit(queryShopDepositRequest);
 		model.addObject("userName", "长虹");
 		model.addObject("shopName", "亚信");
 		model.addObject("deposit", deposit);
@@ -128,8 +124,13 @@ public class BillingController {
 		}
 		if(shopInfoResponse.getDepositBalance()!=null)
 			deposit =shopInfoResponse.getDepositBalance()+"元";
-		else
-			deposit="1234元";
+		else{
+			QueryShopDepositRequest queryShopDepositRequest = new QueryShopDepositRequest();
+			queryShopDepositRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+			queryShopDepositRequest.setUserId(userId);
+			Long depositBalance = shopInfoSV.queryShopDeposit(queryShopDepositRequest);
+			deposit = depositBalance.toString()+"元";
+		}
 		model.addObject("rentFeeStr", rentFeeStr);
 		model.addObject("ratioStr", ratioStr);
 		model.addObject("deposit", deposit);
@@ -145,11 +146,10 @@ public class BillingController {
 				ChWebConstants.OperateCode.SUCCESS, "成功");
 		PageInfo<ShopManageVo> pageInfo = new PageInfo<ShopManageVo>();
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
-		QueryShopInfoRequest shopInfoRequest = new QueryShopInfoRequest();
-		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-		shopInfoRequest.setTenantId(user.getTenantId());
-		shopInfoRequest.setUserId("1");
-		QueryShopInfoResponse shopInfoResponse = shopInfoSV.queryShopInfo(shopInfoRequest);
+		QueryShopDepositRequest queryShopDepositRequest = new QueryShopDepositRequest();
+		queryShopDepositRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+		queryShopDepositRequest.setUserId("00002");
+		Long deposit = shopInfoSV.queryShopDeposit(queryShopDepositRequest);
 		pageInfo.setCount(20);
 		pageInfo.setPageCount(4);
 		pageInfo.setPageNo(1);
@@ -158,8 +158,8 @@ public class BillingController {
 		for (int i = 0; i < 5; i++) {
 			ShopManageVo shopManageVo = new ShopManageVo();
 			shopManageVo.setShopName("亚信");
-			shopManageVo.setDeposit(shopInfoResponse.getDepositBalance());
-			shopManageVo.setUserId("1");
+			shopManageVo.setDeposit(deposit);
+			shopManageVo.setUserId("00002");
 			shopManageVo.setUserName("长虹");
 			shopManageVo.setBusiType("家电");
 			list.add(shopManageVo);

@@ -51,7 +51,7 @@
 								 		</li>
 								 	</ul>
 								 	<ul>
-								 		<li><p class="word">当前结算设置:</p>
+								 		<li><p class="word">当前结算设置</p>
 								 	</ul>
 								 	<ul>
 								 	<li><p class="word">保证金:</p></li>

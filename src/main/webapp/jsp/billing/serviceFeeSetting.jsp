@@ -62,7 +62,7 @@ label.error {
 								 		</li>
 								 	</ul>
 								 	<ul>
-								 		<li><p class="word">当前结算设置:</p>
+								 		<li><p class="word">当前结算设置</p>
 								 	</ul>
 								 	<ul>
 								 		<li>
@@ -94,6 +94,7 @@ label.error {
 									  	<option value="M">月</option>
 									  	</select>
 									  	</p>
+									  	<p class="input-group"></p>
 									  </div>
 								</div>
 									  <div class="radio-box">
@@ -107,6 +108,7 @@ label.error {
 									  	<p><input type="text" class="int-text int-mini" name="ratio" id="ratio"/>% * 订单金额
 									  	<input type="hidden" id="userId" name="userId" value="${userId }"/>
 									  	</p>
+									  	<p class="input-group"></p>
 										</div>
 									</form>
 									<div>

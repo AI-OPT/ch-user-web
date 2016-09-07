@@ -64,6 +64,13 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
     					max:"最大值为{0}",
     					pattern:"数据格式不对"
     					}
+    			},
+    			errorPlacement: function (error, element) {
+    				if (element.hasClass("input-group")) {
+    					error.appendTo(element.parent());
+                  }
+                  else
+                	  error.appendTo(element.parent());
     			}
     		});
     		
