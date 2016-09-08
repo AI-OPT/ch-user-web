@@ -202,7 +202,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			}else{
 				$("#scanContractErrMsg").show();
 				$("#scanContractText").show();
-				$("#scanContractText").text('扫描件合同不能为空');
+				$("#scanContractText").text('合同附件不能为空');
 				$("#scanVersionContractFlag").val("0");
 			}
 			
