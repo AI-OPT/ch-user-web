@@ -68,8 +68,16 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 	    		$("#contractCodeFlag").val("0");
 			}else{
 				if(contractCode.length>=1&&contractCode.length<=64){
-    				$('#contractCodeErrMsg').hide();
-    				$("#contractCodeFlag").val("1");
+					if(/\s/.test(contractCode)){
+						$('#contractCodeErrMsg').show();
+	    				$("#contractCodeText").show();
+	        			$('#contractCodeText').text('输入的字符不能有空格');
+	        			$("#contractCodeFlag").val("0");
+					}else{
+						$('#contractCodeErrMsg').hide();
+	    				$("#contractCodeFlag").val("1");
+					}
+    				
 				}else{
 					$('#contractCodeErrMsg').show();
     				$("#contractCodeText").show();
@@ -87,8 +95,16 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 	    		$("#contractNameFlag").val("0");
 			}else{
 				if(contractName.length>=1&&contractName.length<=256){
-    				$('#contractNameErrMsg').hide();
-    				$("#contractNameFlag").val("1");
+					if(/\s/.test(contractCode)){
+						$("#contractNameErrMsg").show();
+						$("#contractNameText").show();
+						$("#contractNameText").text('输入的字符不能有空格');
+			    		$("#contractNameFlag").val("0");
+					}else{
+						$('#contractNameErrMsg').hide();
+	    				$("#contractNameFlag").val("1");
+					}
+    				
 				}else{
 					$('#contractNameErrMsg').show();
     				$("#contractNameText").show();
