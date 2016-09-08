@@ -38,21 +38,19 @@
                             <div class="main-box-body clearfix">
                             	<!--table表格-->
                                 <div class="table-responsive clearfix">
-								
-								 <div class="form-label pl-40">
-								 	<ul>
-								 		<li>
-								 			<p class="word">用户名:</p>
-								 			<p><input type="text" class="int-text int-medium"/></p>
-								 		</li>
-								 		<li>
-								 			<p class="word">企业名称:</p>
-								 			<p><input type="text" class="int-text int-medium"/></p>
-								 			<p><input type="button" class="btn-default btn-blue btn-mini" value="查询" /></p>
-								 		</li>
-								 	</ul>
-								 </div>
-
+								<div class="form-label">
+					           	<ul>
+					                <li class="col-md-6">
+					                    <p class="word">用户名</p>
+					                    <p><input name="control_date" class="int-text int-medium " type="text">
+					                    </p>
+					                </li>
+					                <li class="col-md-6">
+					                    <p class="word">企业名称</p>
+					                    <p><input class="int-text int-medium" type="text"></p>
+					                    <p><input class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="查  询" type="button"></p>
+					            </ul>
+					         </div>
                                     <table class="table table-border table-bordered">
                                         <thead>
                                             <tr>

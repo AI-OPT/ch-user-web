@@ -102,6 +102,9 @@ define('app/jsp/crm/scorepage', function (require, exports, module) {
     					max:"最大值为{0}",
     					pattern:'格式不对'
     					}
+    			},
+    			errorPlacement: function (error, element) {
+                	  error.appendTo(element.parent().next());
     			}
     		});
     		
@@ -121,11 +124,12 @@ define('app/jsp/crm/scorepage', function (require, exports, module) {
 				Dialog({
 					title : '提示',
 					content : '验证不通过',
+					icon:'fail',
 					okValue : "确定",
 					ok : function() {
 						this.close;
 					}
-				}).showModal();
+				}).show();
 				return;
 			}
     	   $.ajax({

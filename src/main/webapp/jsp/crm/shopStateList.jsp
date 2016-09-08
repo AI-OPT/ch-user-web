@@ -38,20 +38,19 @@
                             <div class="main-box-body clearfix">
                             	<!--table表格-->
                                 <div class="table-responsive clearfix">
-								
-								 <div class="form-label pl-40">
-								 	<ul>
-								 		<li>
-								 			<p class="word">用户名:</p>
-								 			<p><input type="text" class="int-text int-medium"/></p>
-								 		</li>
-								 		<li>
-								 			<p class="word">企业名称:</p>
-								 			<p><input type="text" class="int-text int-medium"/></p>
-								 			<p><input type="button" class="btn-default btn-blue btn-mini" value="查询" /></p>
-								 		</li>
-								 	</ul>
-								 </div>
+								<div class="form-label">
+					           	<ul>
+					                <li class="col-md-6">
+					                    <p class="word">用户名</p>
+					                    <p><input name="control_date" class="int-text int-medium " type="text">
+					                    </p>
+					                </li>
+					                <li class="col-md-6">
+					                    <p class="word">企业名称</p>
+					                    <p><input class="int-text int-medium" type="text"></p>
+					                    <p><input class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="查  询" type="button"></p>
+					            </ul>
+					         </div>
 
                                     <table class="table table-border table-bordered">
                                         <thead>
@@ -96,10 +95,10 @@ var pager;
 			<td id='userId{{:userId}}'>{{:userName}}</td>
 			<td>{{:groupName}}</td>
 			<td>{{:stateValue}}</td>
-			<td><input class="biu-btn border-default btn-small radius" id="freeze_{{:userId}}" style="display:none;" type="button" value="冻结" onclick="pager._toFreeze('{{:userId}}')">
-				<input class="biu-btn border-default btn-small radius" id="thraw_{{:userId}}" style="display:none;" type="button" value="解冻" onclick="pager._toThraw('{{:userId}}')">
-				<input class="biu-btn border-default btn-small radius" id="cancel_{{:userId}}" style="display:none;" type="button" value="注销" onclick="pager._toCancel('{{:userId}}')">
-				<input class="biu-btn border-default btn-small radius" id="recovery_{{:userId}}" style="display:none;" type="button" value="恢复" onclick="pager._toRecovery('{{:userId}}')"></td>
+			<td><a href="javascript:void(0)" id="freeze_{{:userId}}" style="display:none;" onclick="pager._toFreeze('{{:userId}}')">冻结</a>
+				<a href="javascript:void(0)" id="thraw_{{:userId}}" style="display:none;" onclick="pager._toThraw('{{:userId}}')">解冻</a>
+				<a href="javascript:void(0)" id="cancel_{{:userId}}" style="display:none;" onclick="pager._toCancel('{{:userId}}')">注销</a>
+				<a href="javascript:void(0)" id="recovery_{{:userId}}" style="display:none;" onclick="pager._toRecovery('{{:userId}}')">恢复</a></td>
 		</tr>
 	{{/for}}
 </script>

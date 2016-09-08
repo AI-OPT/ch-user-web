@@ -84,11 +84,11 @@ label.error {
 											</c:forEach>
 										</form>
 										<ul>
-											<li style="margin-left: 50px"><input type="button"
-												id="submitScore" class="biu-btn btn-blue btn-mini  radius"
-												value="提交评价"></li>
 											<li style="margin-left: 70px"><input type="button"
-												onclick="backup();" class="biu-btn btn-blue btn-mini  radius"
+												id="submitScore" class="biu-btn  btn-primary btn-blue btn-mini  ml-5"
+												value="提交评价"></li>
+											<li><input type="button"
+												onclick="backup();" class="biu-btn  btn-primary btn-blue btn-mini  ml-5"
 												value="返回"></li>
 										</ul>
 									</div>

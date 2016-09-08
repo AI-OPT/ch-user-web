@@ -59,7 +59,7 @@
 										<span>店铺级数:</span>
 										<span>${rank }</span>
 									</div>
-									<div class="text-r"><input type="button" id="toEdit" class="biu-btn btn-blue btn-mini radius" value="修改">
+									<div class="text-r"><input type="button" id="toEdit" class="biu-btn  btn-primary btn-blue btn-mini  ml-5" value="修改">
 									</div>
 									<table class="table table-border table-bordered">
 										<thead>
