@@ -303,7 +303,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 
 function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
 	var contractFile = $("#"+fileId).val();
-	var subString = contractFile.substring(contractFile.lastIndexOf("\\"),contractFile.length);
+	var subString = contractFile.substring(contractFile.lastIndexOf("\\")+1,contractFile.length);
 	$("#"+inputText).val(subString);
 	var fileTest = $("#"+inputText).val();
 	if(fileTest==""){
