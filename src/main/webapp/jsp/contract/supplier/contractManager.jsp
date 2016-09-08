@@ -106,10 +106,10 @@
 								             <input type="hidden" id="electronicFileTennatId" value="changhong" name="list[1].tenantId"/>
 											 <input class="int-text int-large" id="electronicContractText" value="${electronicContractInfoName }" type="text">
 											 <input type="button" id="electronicContract" class="btn-default btn-medium" value="浏览文件"/>
-											 <input type="file" name="electronicFile" id="electronicFile" onchange="uploadFile('electronicFile','electronicContractText','electronicContractErrMsg','electronicContractText','electronicContractFlag','ddsId2')" class="int-file"/>
+											 <input type="file" name="electronicFile" id="electronicFile" onchange="uploadFile('electronicFile','electronicContractText','electronicContractErrMsg','electronicContractFileText','electronicContractFlag','ddsId2')" class="int-file"/>
 										</span>
 									</li>
-									<li><label id="electronicContractErrMsg" style="display: none;"><span class="ash" id="electronicContractText">扫描件不能为空</span></label></li>
+									<li><label id="electronicContractErrMsg" style="display: none;"><span class="ash" id="electronicContractFileText">扫描件不能为空</span></label></li>
 								</ul>
 								<ul>
 									<li>
