@@ -92,7 +92,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				}else{
 					$('#contractNameErrMsg').show();
     				$("#contractNameText").show();
-        			$('#contractNameText').text('1-64位字符');
+        			$('#contractNameText').text('1-256位字符');
         			$("#contractNameFlag").val("0");
 				}
 			}
@@ -340,7 +340,7 @@ function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
         		$("#"+contractFlag).val("1");
         	 }else{
         		 alert("上传失败");
-        		 $("#"+contractFlag).val("1");
+        		 $("#"+contractFlag).val("0");
         	 }
          },
          error: function (data, status, e) {  
