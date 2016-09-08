@@ -303,7 +303,8 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 
 function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
 	var contractFile = $("#"+fileId).val();
-	$("#"+inputText).val(contractFile);
+	var subString = contractFile.substring(contractFile.indexOf("\\"),contractFile.length);
+	$("#"+inputText).val(subString);
 	var fileTest = $("#"+inputText).val();
 	if(fileTest==""){
 		$("#"+errMsg).show();
@@ -346,5 +347,5 @@ function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
          error: function (data, status, e) {  
              alert(e);  
          }
-     }); 
+     });
 }
