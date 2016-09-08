@@ -171,6 +171,18 @@ $.views.helpers({
 	}
 });
 
+/**
+ * 金额的转换类（厘->元） 无数据不转换
+ */
+$.views.helpers({
+	"liToYuan2":function(li){
+		if(isNaN(li) || !li){
+			return null;
+		}
+        return fmoney(parseInt(li)/1000, 2);
+	}
+});
+
 RegExp.prototype.liToYuan = function(li) {
 	var result = '0.00';
 	if(isNaN(li) || !li){
@@ -368,5 +380,22 @@ function subStrLessThan30(str){
 	}
 	return str;
 }
+$.views.helpers({
+	"subStr": function(strlength,str){
+		return subStr(strlength,str);
+	}
+});
 
+function subStr(strlength,str){
+	if(str!=null){
+		var strLength = str.length;
+		if(strLength > strlength){
+			var beginIndex = strlength;
+			str = str.substr(0, strlength) + '...';
+		}else{
+			str = str;
+		}
+	}
+	return str;
+}
 });
