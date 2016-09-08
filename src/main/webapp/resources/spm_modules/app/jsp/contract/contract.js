@@ -95,7 +95,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 	    		$("#contractNameFlag").val("0");
 			}else{
 				if(contractName.length>=1&&contractName.length<=256){
-					if(/\s/.test(contractCode)){
+					if(/\s/.test(contractName)){
 						$("#contractNameErrMsg").show();
 						$("#contractNameText").show();
 						$("#contractNameText").text('输入的字符不能有空格');
