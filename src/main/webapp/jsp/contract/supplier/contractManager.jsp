@@ -26,10 +26,12 @@
 					                <li class="col-md-6" style="width: 40%">
 					                    <p class="word" style="font-size: 20px;margin-left: 30px">用户名:</p>
 					                    <p>${userName}</p>
+					                    <input type="hidden" value="${userName}" id="userName"/>
 					                </li>
 					                <li  class="col-md-6">
 					                    <p class="word" style="font-size: 20px">企业名称:</p>
 					                    <p>${custName}</p>
+					                     <input type="hidden" value="${custName}" id="custName"/>
 					                </li>  
 					            </ul>
 					            <ul>

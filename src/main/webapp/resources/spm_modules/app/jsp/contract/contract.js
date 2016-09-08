@@ -203,14 +203,17 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			var startTimeFlag = $("#startTimeFlag").val();
 			var endTimeFlag  = $("#endTimeTextFlag").val();
 			var scanVersionContractFlag = $("#scanVersionContractFlag").val();
-			var electronicContractFlag = $("#electronicContractFlag").val();
-			if(contractCodeFlag!="0"&&contractNameFlag!="0"&&startTimeFlag!="0"&&endTimeFlag!="0"&&scanVersionContractFlag!="0"&&electronicContractFlag!="0"){
+			if(contractCodeFlag!="0"&&contractNameFlag!="0"&&startTimeFlag!="0"&&endTimeFlag!="0"&&scanVersionContractFlag!="0"){
+				
+				var userName = $("#userName").val();
+				var custName = $("#custName").val();
 				
 				$("#scanFileName").val($("#scanFileText").val());
 				if($("#electronicContractText").val()!=""&&$("#electronicContractText").val()!=null){
 					$("#electronicFileName").attr("name","list[1].infoName");
 					$("#electronicFileName").val($("#electronicContractText").val());
 				}
+				
 				$.ajax({
 					type:"post",
 					url:_base+"/contract/addSupplierContractInfo",
@@ -221,7 +224,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			        		alert("失败了");
 			        		return false;
 			        	}else if(data.responseHeader.resultCode=="000000"){
-			        		window.location.href=_base+"/contract/contractSupplierDetailPager?userId="+userId;
+			        		window.location.href=_base+"/contract/contractSupplierDetailPager?userId="+userId+"&userName="+userName+"&custName="+custName;
 			        	}
 			          },
 					error: function(error) {
@@ -267,8 +270,10 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			var startTimeFlag = $("#startTimeFlag").val();
 			var endTimeFlag = $("#endTimeTextFlag").val();
 			var scanVersionContractFlag = $("#scanVersionContractFlag").val();
-			var electronicContractFlag = $("#electronicContractFlag").val();
-			if(contractCodeFlag!="0"&&contractNameFlag!="0"&&startTimeFlag!="0"&&endTimeFlag!="0"&&scanVersionContractFlag!="0"&&electronicContractFlag!="0"){
+			if(contractCodeFlag!="0"&&contractNameFlag!="0"&&startTimeFlag!="0"&&endTimeFlag!="0"&&scanVersionContractFlag!="0"){
+				
+				var userName = $("#userName").val();
+				var custName = $("#custName").val();
 				
 				$("#scanFileName").val($("#scanFileText").val());
 				
@@ -287,7 +292,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			        		alert("失败了");
 			        		return false;
 			        	}else if(data.responseHeader.resultCode=="000000"){
-			        		window.location.href=_base+"/contract/contractShopDetailPager?userId="+userId;
+			        		window.location.href=_base+"/contract/contractShopDetailPager?userId="+userId+"&userName="+userName+"&custName="+custName;
 			        	}
 			          },
 					error: function(error) {
