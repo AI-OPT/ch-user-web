@@ -154,17 +154,58 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				}
 			}
 		},
+		_checkFileFormat:function(){
+			var electronicFileTest = $("#electronicContractText").val();
+			var scanFileText = $("#scanFileText").val();
+			if(electronicFileTest!=null&&electronicFileTest!=""){
+				if(!/\.(PDF|PNG|JPG|DOC|pdf|png|jpg|doc|docx)$/.test(electronicFileTest)){
+					$("#electronicContractErrMsg").show();
+					$("#electronicContractFileText").show();
+					$("#electronicContractFileText").text('文件格式不对，只允许上传pdf、png、jpg、doc、docx');
+					$("#electronicContractFlag").val("0");
+				}else{
+					$("#electronicContractErrMsg").hide();
+					$("#electronicContractFileText").hide();
+					$("#electronicContractFlag").val("1");
+				}
+			}else{
+				$("#electronicContractErrMsg").hide();
+				$("#electronicContractFileText").hide();
+			}
+			if(scanFileText!=null&&scanFileText!=""){
+				if(!/\.(PDF|PNG|JPG|DOC|pdf|png|jpg|doc|docx)$/.test(scanFileText)){
+					$("#scanContractErrMsg").show();
+					$("#scanContractText").show();
+					$("#scanContractText").text('文件格式不对，只允许上传pdf、png、jpg、doc、docx');
+					$("#scanVersionContractFlag").val("0");
+				}else{
+					$("#scanContractErrMsg").hide();
+					$("#scanContractText").hide();
+					$("#scanVersionContractFlag").val("1");
+				}
+			}else{
+				$("#scanContractErrMsg").show();
+				$("#scanContractText").show();
+				$("#scanContractText").text('扫描件合同不能为空');
+				$("#scanVersionContractFlag").val("0");
+			}
+			
+		},
 		_saveSupplierContract:function(){
 			this._checkContractCodeValue();
 			this._checkContractNameValue();
 			this._checkStartTime();
 			this._checkEndTimeText();
 			this._checkScanFileText();
+			this._checkFileFormat();
 			var contractCodeFlag = $("#contractCodeFlag").val();
 			var contractNameFlag = $("#contractNameFlag").val();
 			var startTimeFlag = $("#startTimeFlag").val();
 			var endTimeFlag  = $("#endTimeTextFlag").val();
-			if(contractCodeFlag!="0"&&contractNameFlag!="0"&&startTimeFlag!="0"&&endTimeFlag!="0"&&scanVersionContractFlag!="0"){
+			var scanVersionContractFlag = $("#scanVersionContractFlag").val();
+			var electronicContractFlag = $("#electronicContractFlag").val();
+			if(contractCodeFlag!="0"&&contractNameFlag!="0"&&startTimeFlag!="0"&&endTimeFlag!="0"&&scanVersionContractFlag!="0"&&electronicContractFlag!="0"){
+				
 				$("#scanFileName").val($("#scanFileText").val());
 				if($("#electronicContractText").val()!=""&&$("#electronicContractText").val()!=null){
 					$("#electronicFileName").attr("name","list[1].infoName");
@@ -195,9 +236,10 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			this._checkStartTime();
 			this._checkEndTimeText();
 			this._checkScanFileText();
-			
+			this._checkFileFormat();
 			var contractCodeFlag = $("#contractCodeFlag").val();
 			var contractNameFlag = $("#contractNameFlag").val();
+			
 			
 			var startTime = $("#startTime").val();
 			var endTime = $("#endTime").val();
@@ -224,8 +266,9 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			
 			var startTimeFlag = $("#startTimeFlag").val();
 			var endTimeFlag = $("#endTimeTextFlag").val();
-			
-			if(contractCodeFlag!="0"&&contractNameFlag!="0"&&startTimeFlag!="0"&&endTimeFlag!="0"&&scanVersionContractFlag!="0"){
+			var scanVersionContractFlag = $("#scanVersionContractFlag").val();
+			var electronicContractFlag = $("#electronicContractFlag").val();
+			if(contractCodeFlag!="0"&&contractNameFlag!="0"&&startTimeFlag!="0"&&endTimeFlag!="0"&&scanVersionContractFlag!="0"&&electronicContractFlag!="0"){
 				
 				$("#scanFileName").val($("#scanFileText").val());
 				
@@ -265,7 +308,7 @@ function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
 	if(fileTest==""){
 		$("#"+errMsg).show();
 		$("#"+contractText).show();
-		$("#"+contractText).text('扫描件合同不能为空');
+		$("#"+contractText).text('合同附件不能为空');
 		$("#"+contractFlag).val("0");
 		return false;
 	}else if(!/\.(PDF|PNG|JPG|DOC|pdf|png|jpg|doc|docx)$/.test(fileTest)){
