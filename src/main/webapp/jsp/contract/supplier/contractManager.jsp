@@ -48,7 +48,7 @@
 									  <p class="word" style="font-style: "><b class="red">*</b>合同编号:</p>
 									</li>
 									<li>
-									   <input type="text" class="int-text int-medium" placeholder="请输入账号" id="contractCode" name="contractCode" value="${contactInfo.contractCode }"/>
+									   <input type="text" class="int-text int-medium" placeholder="请输入合同编号" id="contractCode" name="contractCode" value="${contactInfo.contractCode }"/>
 									   <input type="hidden" name="userId" value="${userId }"/>
 									 </li>
 									<li><label id="contractCodeErrMsg" style="display: none;"><span class="ash" id="contractCodeText">1-12位字符，可用数字及"."</span></label></li>
@@ -58,7 +58,7 @@
 									<li>
 									  <p class="word"><b class="red">*</b>合同名称:</p>
 									</li>
-									<li><input type="text" class="int-text int-medium" placeholder="请输入名称" id="contractName" name="contractName" value="${contactInfo.contractName }"/></li>
+									<li><input type="text" class="int-text int-medium" placeholder="请输入合同名称" id="contractName" name="contractName" value="${contactInfo.contractName }"/></li>
 									<li><label id="contractNameErrMsg" style="display: none;"><span class="ash" id="contractNameText">1-256个字符</span></label></li>
 								</ul>
 
