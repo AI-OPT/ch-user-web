@@ -66,7 +66,16 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
 		},
     	
     	_getScoreList:function(){
-    		var _this = this;
+    		var d = Dialog({
+				content:"获取类目信息出错:",
+				icon:'fail',
+				okValue: '确 定',
+				ok:function(){
+					this.close();
+				}
+			});
+			d.show();
+    		/*var _this = this;
     		$("#pagination-ul").runnerPagination({
     			url: 'http://10.19.13.16:28151/opaas/http/srv_up_user_searchcompanylist_qry',
 	 			method: "POST",
@@ -88,7 +97,7 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
 	                    $("#TBODY_SCORELIST").html(htmlOutput);
 	            	}
 	            }
-    		}); 
+    		}); */
 	    	}
     	
     });
