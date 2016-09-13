@@ -57,7 +57,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     	_showContractNameTip:function(){
     		$("#contractNameErrMsg").show();
 			$("#contractNameText").show();
-			$("#contractNameText").text('1-256位字符');
+			$("#contractNameText").text('1-64位字符');
     	},
     	_checkContractCodeValue:function(){
 			var contractCode = $("#contractCode").val();
@@ -68,10 +68,10 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 	    		$("#contractCodeFlag").val("0");
 			}else{
 				if(contractCode.length>=1&&contractCode.length<=64){
-					if(/\s/.test(contractCode)){
+					if(contractCode.match(/^\s+$/)){
 						$('#contractCodeErrMsg').show();
 	    				$("#contractCodeText").show();
-	        			$('#contractCodeText').text('输入的字符不能有空格');
+	        			$('#contractCodeText').text('必填项');
 	        			$("#contractCodeFlag").val("0");
 					}else{
 						$('#contractCodeErrMsg').hide();
@@ -91,14 +91,14 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			if(contractName==""||contractName==null){
 				$("#contractNameErrMsg").show();
 				$("#contractNameText").show();
-				$("#contractNameText").text('1-256位字符');
+				$("#contractNameText").text('1-64位字符');
 	    		$("#contractNameFlag").val("0");
 			}else{
-				if(contractName.length>=1&&contractName.length<=256){
-					if(/\s/.test(contractName)){
+				if(contractName.length>=1&&contractName.length<=64){
+					if(contractName.match(/^\s+$/)){
 						$("#contractNameErrMsg").show();
 						$("#contractNameText").show();
-						$("#contractNameText").text('输入的字符不能有空格');
+						$("#contractNameText").text('必填项');
 			    		$("#contractNameFlag").val("0");
 					}else{
 						$('#contractNameErrMsg').hide();
@@ -108,7 +108,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				}else{
 					$('#contractNameErrMsg').show();
     				$("#contractNameText").show();
-        			$('#contractNameText').text('1-256位字符');
+        			$('#contractNameText').text('1-64位字符');
         			$("#contractNameFlag").val("0");
 				}
 			}
@@ -142,18 +142,20 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 						$("#scanContractText").show();
 						$("#scanContractText").text('文件格式不对，只允许上传pdf、png、jpg、doc、docx');
 						$("#scanVersionContractFlag").val("0");
-					}
-					var reg = /^[\u4e00-\u9fa5a-zA-Z0-9\.]{1,20}$/;
-					if(scanFileInput.match(reg)){
-						$("#scanContractErrMsg").hide();
-						$("#scanContractErrMsg").hide();
-						$("#scanVersionContractFlag").val("1");
 					}else{
-						$("#scanContractErrMsg").show();
-						$("#scanContractText").show();
-						$("#scanContractText").text('1-20个字符，允许使用汉字、字母、数字');
-						$("#scanVersionContractFlag").val("0");
+						var reg = /^[\u4e00-\u9fa5a-zA-Z0-9\.]{1,20}$/;
+						if(scanFileInput.match(reg)){
+							$("#scanContractErrMsg").hide();
+							$("#scanContractErrMsg").hide();
+							$("#scanVersionContractFlag").val("1");
+						}else{
+							$("#scanContractErrMsg").show();
+							$("#scanContractText").show();
+							$("#scanContractText").text('1-20个字符，允许使用汉字、字母、数字');
+							$("#scanVersionContractFlag").val("0");
+						}
 					}
+					
 				}
 			}
 			
@@ -164,16 +166,23 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 					$("#electronicContractFileText").text('文件格式不对，只允许上传pdf、png、jpg、doc、docx');
 					$("#electronicContractFlag").val("0");
 				}else{
-					$("#electronicContractErrMsg").hide();
-					$("#electronicContractFileText").hide();
-					$("#electronicContractFlag").val("1");
+					var reg = /^[\u4e00-\u9fa5a-zA-Z0-9\.]{1,20}$/;
+					if(electronicContractText.match(reg)){
+						$("#electronicContractErrMsg").hide();
+						$("#electronicContractFileText").hide();
+						$("#electronicContractFlag").val("1");
+					}else{
+						$("#electronicContractErrMsg").show();
+						$("#electronicContractFileText").show();
+						$("#electronicContractFileText").text('1-20个字符，允许使用汉字、字母、数字');
+						$("#electronicContractFlag").val("0");
+					}
 				}
+				
 			}else{
 				$("#electronicContractErrMsg").hide();
 				$("#electronicContractFileText").hide();
 			}
-			
-			
 		},
 		_checkFileValue:function(fileId,fileValue,errMsg,contractText,contractFlag){
 			if(fileValue.length>20){
@@ -270,8 +279,12 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			var startTimeFlag = $("#startTimeFlag").val();
 			var endTimeFlag  = $("#endTimeTextFlag").val();
 			var scanVersionContractFlag = $("#scanVersionContractFlag").val();
+			var electronicContractFlag = $("#electronicContractFlag").val();
 			if(contractCodeFlag!="0"&&contractNameFlag!="0"&&startTimeFlag!="0"&&endTimeFlag!="0"&&scanVersionContractFlag!="0"){
-				
+				var electronicFileTest = $("#electronicContractText").val();
+				if(electronicFileTest!=null&&electronicFileTest!=""&&electronicContractFlag=="0"){
+					return;
+				}
 				var userName = $("#userName").val();
 				var custName = $("#custName").val();
 				
@@ -349,7 +362,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 					$("#electronicFileName").val($("#electronicContractText").val());
 				}
 				
-				/*$.ajax({
+				$.ajax({
 					type:"post",
 					url:_base+"/contract/addShopContractInfo",
 					dataType: "json",
@@ -365,7 +378,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 					error: function(error) {
 							alert("error:"+ error);
 						}
-					});*/
+					});
 			}
 		}
 		
