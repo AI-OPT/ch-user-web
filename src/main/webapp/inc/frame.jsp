@@ -4,26 +4,13 @@
 <!DOCTYPE html>
 <html style="overflow-x:auto;overflow-y:auto;">
 <head>
-	<title>运营管理平台<sitemesh:title/></title>
+	<title>运营管理平台</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 	<%@include file="/inc/inc.jsp" %>
-	<script type="text/javascript" language="javascript">   
-	
-/* 	$(window).resize(function(){
-		iFrameHeight();
-     }) 
-	function iFrameHeight() {   
-		var ifm= document.getElementById("mainFrame");   
-		var subWeb = document.frames ? document.frames["mainFrame"].document : ifm.contentDocument;   
-		if(ifm != null && subWeb != null) {
-		   ifm.height = subWeb.body.scrollHeight;
-		   ifm.width = subWeb.body.scrollWidth;
-		}   
-	}   */
-	</script>	
+
 </head>
-<body>
+<body class="theme-white">
  <!--/提示弹出框操作结束-->
 <div id="theme-wrapper">
     <header class="navbar" id="header-navbar">
@@ -130,7 +117,7 @@
             </li>
          <!--/用户信息结束-->
          <!--退出icon-->    
-            <li class="hidden-xxs"><a class="btn" href="${_base}/ssologout"><i class="fa fa-power-off"></i></a></li>
+            <li class="hidden-xxs"><a class="btn"><i class="fa fa-power-off"></i></a></li>
          <!--/退出icon-->       
             </ul>
             </div>
@@ -173,26 +160,56 @@
      </div>	
      <!--右侧-->
      
-     <iframe class="content-wrapper-iframe" id="mainFrame" name="mainFrame"  src="" style="overflow:visible;"  frameborder="0"  scrolling="no" marginheight="0" width="100%" marginwidth="0" ></iframe>
+     <iframe class="content-wrapper-iframe" id="mainFrame" name="mainFrame"  src="" style="overflow:visible;"
+             frameborder="0"  scrolling="no" marginheight="0" width="100%" marginwidth="0" ></iframe>
      
-   <%@include file="/inc/foot.jsp" %>
-   
+    <%@include file="/inc/foot.jsp" %>
     </div>
     </div>
 </div>
 </div>
- <script src="${uedroot}/scripts/modular/iFrame-height-auto.js"></script> 
- 
- 
- 
- 
- 
-
-
-
-
-
-
-
 </body>
+<script type="text/javascript" language="javascript">
+    var browserVersion = window.navigator.userAgent.toUpperCase();
+    var isOpera = browserVersion.indexOf("OPERA") > -1 ? true : false;
+    var isFireFox = browserVersion.indexOf("FIREFOX") > -1 ? true : false;
+    var isChrome = browserVersion.indexOf("CHROME") > -1 ? true : false;
+    var isSafari = browserVersion.indexOf("SAFARI") > -1 ? true : false;
+    var isIE = (!!window.ActiveXObject || "ActiveXObject" in window);
+    var isIE9More = (! -[1, ] == false);
+    function reinitIframe(iframeId, minHeight) {
+        try {
+            var iframe = document.getElementById(iframeId);
+            var bHeight = 0;
+            if (isChrome == false && isSafari == false)
+                bHeight = iframe.contentWindow.document.body.scrollHeight;
+
+            var dHeight = 0;
+            if (isFireFox == true)
+                dHeight = iframe.contentWindow.document.documentElement.offsetHeight + 2;
+            else if (isIE == false && isOpera == false)
+                dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
+            else if (isIE == true && isIE9More) {//ie9+
+                var heightDeviation = bHeight - eval("window.IE9MoreRealHeight" + iframeId);
+                if (heightDeviation == 0) {
+                    bHeight += 3;
+                } else if (heightDeviation != 3) {
+                    eval("window.IE9MoreRealHeight" + iframeId + "=" + bHeight);
+                    bHeight += 3;
+                }
+            }
+            else//ie[6-8]、OPERA
+                bHeight += 3;
+
+            var height = Math.max(bHeight, dHeight);
+            if (height < minHeight) height = minHeight;
+            iframe.style.height = height + "px";
+        } catch (ex) { }
+    }
+    function startInit(iframeId, minHeight) {
+        eval("window.IE9MoreRealHeight" + iframeId + "=0");
+        window.setInterval("reinitIframe('" + iframeId + "'," + minHeight + ")", 200);
+    }
+    startInit('mainFrame', 1000);
+</script>
 </html>

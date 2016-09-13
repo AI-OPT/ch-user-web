@@ -9,6 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <title>店铺状态管理</title>
 <%@include file="/inc/inc.jsp" %>
+<script type="text/javascript">  
+    function getResult(data){  
+        alert("through jsonp,receive data from other domain : "+data);  
+    }  
+</script>
 </head>
 <body>
    <div class="content-wrapper-iframe" ><!--右侧灰色背景-->
