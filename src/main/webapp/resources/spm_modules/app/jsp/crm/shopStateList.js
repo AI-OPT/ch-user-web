@@ -87,8 +87,34 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
 				okValue : "确定",
 				ok : function() {
 					this.close;
+					 $.ajax({
+						type:"post",
+						url:'http://10.19.13.16:28151/opaas/http/srv_up_user_updatecompanystate_update',
+						dataType: "json",
+						data:{
+						    "companyState": 1,
+						    "companyId": "832c736ddad34172",
+						    "appkey":"3a83ed361ebce978731b736328a97ea8"
+						},
+				        success: function(data) {
+				        	alert("23425");
+				        	if(data.responseHeader.resultCode='000000'){
+				        		window.location.href=_base+"/score/scorelist";
+				        	}
+				            },
+							error: function(error) {
+								Dialog({
+									title : '提示',
+									content : error,
+									okValue : "确定",
+									ok : function() {
+										this.close;
+									}
+								}).show();
+							}
+							});
 				}
-			}).showModal();
+			}).show();
     	},
     	_toThraw:function(userId){
     		Dialog({

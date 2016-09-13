@@ -28,7 +28,7 @@ define('app/jsp/crm/scorepage', function (require, exports, module) {
     	},
     	//事件代理
     	events: {
-    		"click #submitScore":"_submitScore",
+    		"click #submitScore":"_submitScore"
         },
     	//重写父类
     	setup: function () {
@@ -121,7 +121,7 @@ define('app/jsp/crm/scorepage', function (require, exports, module) {
 			var formValidator=_this._initValidate();
 			formValidator.form();
 			if(!$("#scorePage").valid()){
-				Dialog({
+			var d = Dialog({
 					title : '提示',
 					content : '验证不通过',
 					icon:'fail',
@@ -129,7 +129,8 @@ define('app/jsp/crm/scorepage', function (require, exports, module) {
 					ok : function() {
 						this.close;
 					}
-				}).show();
+				});
+				d.show();
 				return;
 			}
     	   $.ajax({
