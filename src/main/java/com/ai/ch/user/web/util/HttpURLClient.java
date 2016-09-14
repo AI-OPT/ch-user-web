@@ -40,7 +40,7 @@ public class HttpURLClient {
             in = new BufferedReader(  new InputStreamReader(connection.getInputStream()));  
             String line;  
             while ((line = in.readLine()) != null) {  
-                apiData += "/n" + line;  
+                apiData +=  line;  
             }  
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
