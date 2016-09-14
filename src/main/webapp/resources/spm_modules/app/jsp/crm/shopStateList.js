@@ -80,46 +80,88 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
 	            }
     		}); 
     	},
-    	
 
-    /*	$.getJSON("http://api.taobao.com/apitools/ajax_props.do&jsoncallback=?",
-    	    function (data) {
-    	        alert(data);
-    	    }
-    	);*/
-    	
     	_toFreeze:function(userId){
-    		
+    		var d = Dialog({
+				title : '提示',
+				content : '确定要冻结此账户?',
+				icon:'warning',
+				okValue : "确定",
+				ok : function() {
+					this.close;
+					$.ajax({
+		    			type:"post",
+		    			url:_base+"/status/changeShopStatus",
+		    			dataType: "json",
+		    			data:{},
+		    	        success: function(data) {
+		    	        	if(data.responseHeader.resultCode='000000'){
+		    	        		var d = Dialog({
+		    	    				title : '提示',
+		    	    				content : '保存成功',
+		    	    				icon:'success',
+		    	    				okValue : "确定",
+		    	    				ok : function() {
+		    	    					this.close;
+		    	    					window.location.href=_base+"/billing/billingpager";
+		    	    				}
+		    	    			});
+		    	    			d.show();
+		    	        	}
+		    	            },
+		    				error: function(error) {
+		    					var d = Dialog({
+		    	    				title : '提示',
+		    	    				content : '保存失败',
+		    	    				icon:'fail',
+		    	    				okValue : "确定",
+		    	    				ok : function() {
+		    	    					this.close;
+		    	    					window.location.href=_base+"/billing/billingpager";
+		    	    				}
+		    	    			});
+		    	    			d.show();
+		    				}
+		    				});
+				}
+			});
+			d.show();
     	},
     	_toThraw:function(userId){
-    		Dialog({
+    		var d = Dialog({
 				title : '提示',
-				content : '确定要解冻此账户吗?',
+				content : '确定要解冻此账户?',
+				icon:'warning',
 				okValue : "确定",
 				ok : function() {
 					this.close;
 				}
-			}).showModal();
+			});
+			d.show();
     	},
     	_toCancel:function(userId){
-    		Dialog({
+    		var d = Dialog({
 				title : '提示',
-				content : '确定要注销此账户吗?',
+				content : '确定要注销此账户?',
+				icon:'warning',
 				okValue : "确定",
 				ok : function() {
 					this.close;
 				}
-			}).showModal();
+			});
+			d.show();
     	},
     	_toRecovery:function(userId){
-    		Dialog({
+    		var d = Dialog({
 				title : '提示',
-				content : '确定要恢复此账户吗?',
+				content : '确定要恢复此账户?',
+				icon:'warning',
 				okValue : "确定",
 				ok : function() {
 					this.close;
 				}
-			}).showModal();
+			});
+			d.show();
     	}
     	
     });

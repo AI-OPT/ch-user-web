@@ -1,6 +1,5 @@
 package com.ai.ch.user.web.controller;
 
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -77,6 +76,7 @@ public class BillingController {
 			rentFeeStr="未设置";
 		}else{
 			if("Y".equals(shopInfoResponse.getRentCycleType()))
+				
 			rentFeeStr=shopInfoResponse.getRentFee()+"元/年";
 			if("Q".equals(shopInfoResponse.getRentCycleType()))
 				rentFeeStr=shopInfoResponse.getRentFee()+"元/季度";

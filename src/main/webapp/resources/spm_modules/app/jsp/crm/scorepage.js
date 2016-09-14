@@ -147,14 +147,17 @@ define('app/jsp/crm/scorepage', function (require, exports, module) {
 	        	}
 	            },
 				error: function(error) {
-					Dialog({
+					var d = Dialog({
 						title : '提示',
-						content : error,
+						content : '错误信息:'+error,
+						icon:'fail',
 						okValue : "确定",
 						ok : function() {
 							this.close;
+							window.location.href=_base+"/score/scorelist";
 						}
-					}).showModal();
+					});
+					d.show();
 				}
 				});
     	}
@@ -162,10 +165,6 @@ define('app/jsp/crm/scorepage', function (require, exports, module) {
     
     module.exports = scorePagePager
 });
-
-function backup(){
-	window.location.href=_base+"/score/scorelist";
-}
 
 function getEvent() {
     if (document.all) {

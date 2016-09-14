@@ -103,26 +103,31 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
 			data:$("#depositForm").serialize(),
 	        success: function(data) {
 	        	if(data.responseHeader.resultCode='000000'){
-	        		Dialog({
-						title : '提示',
-						content : "保存成功",
-						okValue : "确定",
-						ok : function() {
-							window.location.href=_base+"/billing/billingpager";
-							this.close;
-						}
-					}).showModal();
+	        		var d = Dialog({
+	    				title : '提示',
+	    				content : '保存成功',
+	    				icon:'success',
+	    				okValue : "确定",
+	    				ok : function() {
+	    					this.close;
+	    					window.location.href=_base+"/billing/billingpager";
+	    				}
+	    			});
+	    			d.show();
 	        	}
 	            },
 				error: function(error) {
-					Dialog({
-						title : '提示',
-						content : error,
-						okValue : "确定",
-						ok : function() {
-							this.close;
-						}
-					}).showModal();
+					var d = Dialog({
+	    				title : '提示',
+	    				content : '保存失败',
+	    				icon:'fail',
+	    				okValue : "确定",
+	    				ok : function() {
+	    					this.close;
+	    					window.location.href=_base+"/billing/billingpager";
+	    				}
+	    			});
+	    			d.show();
 				}
 				});
     	}
