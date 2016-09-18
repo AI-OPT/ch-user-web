@@ -48,7 +48,7 @@
 					                <li class="col-md-6">
 					                    <p class="word">企业名称</p>
 					                    <p><input class="int-text int-medium" type="text"></p>
-					                    <p><input class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="查  询" type="button"></p>
+					                    <p><input class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="查  询" onclick="pager._getList();" type="button"></p>
 					            </ul>
 					         </div>
 

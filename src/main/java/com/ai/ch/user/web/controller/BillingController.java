@@ -1,7 +1,10 @@
 package com.ai.ch.user.web.controller;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -26,9 +29,13 @@ import com.ai.ch.user.web.vo.ShopManageVo;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.opt.sdk.util.BeanUtils;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 @RestController
 @RequestMapping("/billing")
@@ -311,5 +318,140 @@ public class BillingController {
  		model.put("userName", userName);
  		model.put("custName", custName);
 		return new ModelAndView("/jsp/billing/billingCycleDetail",model);
+	}
+	
+	//查询结算周期和违约管理列表
+	@RequestMapping("/getList")
+	@ResponseBody
+	public ResponseData<PageInfo<BusinessListInfo>> getList(HttpServletRequest request){
+		ResponseData<PageInfo<BusinessListInfo>> response = null;
+		PageInfo<BusinessListInfo> pageInfo =null;
+		ResponseHeader header = null;
+		Map<String, String> map = new HashMap<>();
+		Map<String, String> mapHeader = new HashMap<>();
+		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+		map.put("pageNo", "1");
+		map.put("pageSize", "10");
+		//map.put("companyType", "1");
+		//map.put("auditState", "1");
+		//map.put("username", "ac_PgU9g");
+		map.put("companyName", "长");
+		String str ="";
+		try {
+			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_searchcompanylist_qry", JSON.toJSONString(map),mapHeader);
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
+		JSONObject json = JSON.parseObject(str);
+		if (!"000000".equals(json.getString("resultCode"))){
+			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
+			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
+		}
+		else {
+			//获取返回操作码
+			JSONObject data = (JSONObject) JSON.parse(json.getString("data"));
+			String result = data.getString("success");
+			if ("false".equals(result)){
+				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
+			}
+			else{
+				Integer pageNo = Integer.valueOf(data.getString("pages"));
+				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
+				Integer total = Integer.valueOf(data.getString("total"));
+				Integer pageCount = Integer.valueOf(data.getString("pageNum"));
+				pageInfo = new PageInfo<>();
+				pageInfo.setCount(total);
+				pageInfo.setPageCount(pageCount);
+				pageInfo.setPageNo(pageNo);
+				pageInfo.setPageSize(pageSize);
+				List<BusinessListInfo> responseList = new ArrayList<>();
+				JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
+				Iterator<Object> iterator = list.iterator();
+				while(iterator.hasNext()){
+					BusinessListInfo businessListInfo = new BusinessListInfo(); 
+					 JSONObject object = (JSONObject) iterator.next();
+					 businessListInfo.setUserId(object.getString("uid"));
+					 businessListInfo.setUserName(object.getString("username"));
+					 businessListInfo.setCustName(object.getString("name"));
+					 businessListInfo.setBusinessCategory("无数据");
+					 responseList.add(businessListInfo);
+				}
+				pageInfo.setResult(responseList);
+				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+			}
+			response.setResponseHeader(header);
+			response.setData(pageInfo);
+		}
+		return response;
+	}
+	
+	//查询保证金/服务费列表
+	@RequestMapping("/getBillingList")
+	@ResponseBody
+	public ResponseData<PageInfo<ShopManageVo>> getBillingList(HttpServletRequest request){
+		ResponseData<PageInfo<ShopManageVo>> response = null;
+		PageInfo<ShopManageVo> pageInfo =null;
+		ResponseHeader header = null;
+		Map<String, String> map = new HashMap<>();
+		Map<String, String> mapHeader = new HashMap<>();
+		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+		map.put("pageNo", "1");
+		map.put("pageSize", "10");
+		//map.put("companyType", "1");
+		//map.put("auditState", "1");
+		//map.put("username", "ac_PgU9g");
+		map.put("companyName", "长");
+		String str ="";
+		try {
+			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_searchcompanylist_qry", JSON.toJSONString(map),mapHeader);
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
+		JSONObject json = JSON.parseObject(str);
+		if (!"000000".equals(json.getString("resultCode"))){
+			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
+			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
+		}
+		else {
+			//获取返回操作码
+			JSONObject data = (JSONObject) JSON.parse(json.getString("data"));
+			String result = data.getString("success");
+			if ("false".equals(result)){
+				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
+			}
+			else{
+				Integer pageNo = Integer.valueOf(data.getString("pages"));
+				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
+				Integer total = Integer.valueOf(data.getString("total"));
+				Integer pageCount = Integer.valueOf(data.getString("pageNum"));
+				pageInfo = new PageInfo<>();
+				pageInfo.setCount(total);
+				pageInfo.setPageCount(pageCount);
+				pageInfo.setPageNo(pageNo);
+				pageInfo.setPageSize(pageSize);
+				List<ShopManageVo> responseList = new ArrayList<>();
+				JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
+				Iterator<Object> iterator = list.iterator();
+				while(iterator.hasNext()){
+					ShopManageVo shopManageVo = new ShopManageVo(); 
+					 JSONObject object = (JSONObject) iterator.next();
+					 shopManageVo.setUserId(object.getString("uid"));
+					 shopManageVo.setBusiType("无数据");
+					 shopManageVo.setShopName(object.getString("name"));
+					 shopManageVo.setUserName(object.getString("username"));
+					 shopManageVo.setDeposit(0L);
+					 responseList.add(shopManageVo);
+				}
+				pageInfo.setResult(responseList);
+				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+			}
+			response.setResponseHeader(header);
+			response.setData(pageInfo);
+		}
+		return response;
 	}
 }

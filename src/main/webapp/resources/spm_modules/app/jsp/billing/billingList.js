@@ -61,6 +61,28 @@ define('app/jsp/billing/billingList', function (require, exports, module) {
     		}); 
     	},
     	
+    	_getList:function(){
+    	var _this = this;
+		$("#pagination-ul").runnerPagination({
+			url: _base+"/billing/getBillingList",
+ 			method: "POST",
+ 			dataType: "json",
+ 			renderId:"TBODY_BILLLIST",
+            data : {
+				tenantId: 'ch',
+			},
+           	pageSize: BillingListPager.DEFAULT_PAGE_SIZE,
+           	visiblePages:5,
+            message: "正在为您查询数据..",
+            callback: function(data){
+              	if(data.result != null && data.result != 'undefined' && data.result.length>0){
+            		var template = $.templates("#bailListImpl");
+                    var htmlOutput = template.render(data);
+                    $("#TBODY_BILLLIST").html(htmlOutput);
+            	}
+            }
+		});
+    	},
     	_toMarginPage:function(userId){
     		window.location.href= _base+"/billing/marginsetting?userId="+userId;
     	},

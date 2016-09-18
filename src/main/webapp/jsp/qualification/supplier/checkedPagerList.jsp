@@ -29,20 +29,13 @@
 					                <li  class="col-md-6">
 					                    <p class="word">企业名称</p>
 					                    <p><input type="text" class="int-text int-medium"></p>
-					               		<p><input type="button" class="btn-default btn-blue btn-mini" value="查询" /></p>
+					               		<p><input type="button" class="btn-default btn-blue btn-mini" value="查询" onclick="pager._getList();"/></p>
 					                </li>  
 					            </ul>
 					         </div>
 					   	<!--查询结束-->   
 					 	<!--table表格-->
 					 	<div class="main-box-body clearfix">
-							<div class="order-list-table">
-					           <ul>
-						           <li><a href="#" class="current">已通过</a></li>
-						           <li><a href="#">被拒绝</a></li>
-					           </ul>                                        
-					     	</div>
-					     	<!--选项卡第一个-->
 					     	<div id="date1">
                                 <div class="table-responsive clearfix">
                                     <table class="table table-hover table-border table-bordered">
@@ -54,78 +47,20 @@
                                                 <th>操作</th>
                                             </tr>
                                         </thead>
-                                    <tbody>
-                                        <tr>
-                                        	<td>xionger</td>
-                                            <td>企业营业执照注册名称</td>
-                                            <td>2016-07-11</td>
-                                            <td  id="operation"><a href="${_base}/qualification/toSuplierDetailPager">查看</a></td>
-                                        </tr>
-                                        <tr>
-                                        	<td>xionger</td>
-                                            <td>企业营业执照注册名称</td>
-                                            <td>2016-07-11</td>
-                                            <td  id="operation"><a href="${_base}/qualification/toSuplierDetailPager">查看</a></td>
-                                        </tr>
-                                         <tr>
-                                        	<td>xionger</td>
-                                            <td>企业营业执照注册名称</td>
-                                            <td>2016-07-11</td>
-                                            <td  id="operation"><a href="${_base}/qualification/toSuplierDetailPager">查看</a></td>
-                                        </tr>
+                                    <tbody id="TBODY_CHECKED">
                                        
                                     </tbody>
                                     </table>
                                </div>
                                 </div>
-                            <!--选项卡第一个-->
-                            <div id="date2" style="display:none;">
-                                <div class="table-responsive clearfix">
-                                    <table class="table table-hover table-border table-bordered">
-                                        <thead>      
-                                            <tr>
-                                            	<th>用户名</th>
-                                                <th>企业名称</th>
-                                                <th>审核时间</th>
-                                                <th>操作</th>
-                                            </tr>
-                                        </thead>
-                                    <tbody>
-                                        <tr>
-                                        	<td>xionger</td>
-                                            <td>企业营业执照注册名称1</td>
-                                            <td>2016-07-11</td>
-                                            <td  id="operation"><a href="#">查看</a></td>
-                                        </tr>
-                                        <tr>
-                                        	<td>xionger</td>
-                                            <td>企业营业执照注册名称</td>
-                                            <td>2016-07-11</td>
-                                            <td  id="operation"><a href="#">查看</a></td>
-                                        </tr>
-                                         <tr>
-                                        	<td>xionger</td>
-                                            <td>企业营业执照注册名称</td>
-                                            <td>2016-07-11</td>
-                                            <td  id="operation"><a href="#">查看</a></td>
-                                        </tr>
-                                       
                                     </tbody>
                                     </table>
                                </div>
                              </div>
                             <!--/table表格结束-->
                                 <!--分页-->
-                                <div class="paging">
-                            		<ul class="pagination">
-									<li class="disabled"><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-									<li class="active"><a href="#">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li><a href="#">5</a></li>
-									<li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-								</ul>
+                                  <div class="paging">
+                            		<ul id="pagination-ul"></ul>
 								</div>
 								<!--分页结束-->
 					   	 </div>
@@ -133,8 +68,28 @@
                     </div>
                 </div>
             
-            </div>
-    </div>
+       <script type="text/javascript">
+		var pager;
+		(function () {
+			seajs.use('app/jsp/qualification/checkedPagerList', function (CheckedPagerListPager) {
+				pager = new CheckedPagerListPager({element: document.body});
+				pager.render();
+			});
+		})();
+	</script>
+    
+    	<script id="checkedImpl" type="text/x-jsrender">
+{{for result ~pageSize=pageSize ~pageNo=pageNo}}
+	<tr>
+		<td>{{:userName}}</td>
+		<td>{{:custName}}</td>
+		<td>{{:createTime}}</td>
+		<td>
+            <a href="javascript:void(0)" onclick="pager._toViewPage('{{:userId}}');">查看</a>
+		</td>
+	</tr>
+{{/for}}
+</script>
     
     <!--底部-->
     <footer id="footer-bar" class="row">

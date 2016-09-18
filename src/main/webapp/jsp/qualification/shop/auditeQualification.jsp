@@ -303,11 +303,11 @@
 								</ul>
 								<ul>
 									<li>
-									  <input type="button" class="biu-btn btn-green btn-xlarge  radius" value="通过" style="margin-left: 60%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									  <input type="button" class="biu-btn btn-green btn-xlarge  radius" value="通过" onclick="pager._updateAudit('10');" style="margin-left: 60%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									</li>
 									
 									<li> 
-									   <input type="button" class="biu-btn btn-red btn-xlarge  radius" value="拒绝">
+									   <input type="button" class="biu-btn btn-red btn-xlarge  radius" value="拒绝" onclick="pager._updateAudit('11');">
 									</li>
 								</ul>
                              </div>
@@ -317,6 +317,14 @@
             
             </div>
     </div>
-    
+<script type="text/javascript">
+var pager;
+(function () {
+	seajs.use('app/jsp/qualification/auditeQualification', function (AuditeQualificationPager) {
+		pager = new AuditeQualificationPager({element: document.body});
+		pager.render();
+	});
+})();
+</script>
 </body>
 </html>

@@ -1,7 +1,13 @@
+
 package com.ai.ch.user.web.controller;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,8 +30,12 @@ import com.ai.ch.user.web.vo.SupplierScoreVo;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 @RestController
 @RequestMapping("/score")
@@ -40,44 +50,28 @@ public class ScoreController {
 		return model;
 	}
 	
-	//获取供货商列表
-	@RequestMapping("/getscorelist")
-	@ResponseBody
-	public ResponseData<PageInfo<SupplierScoreVo>> getScoreList(HttpServletRequest request) {
-		PageInfo<SupplierScoreVo> pageInfo = new PageInfo<SupplierScoreVo>();
-		pageInfo.setCount(20);
-		pageInfo.setPageCount(4);
-		pageInfo.setPageNo(1);
-		pageInfo.setPageSize(5);
-		IScoreSV scoreSV = DubboConsumerFactory.getService("iScoreSV");
-		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-		CountScoreAvgRequest scoreAvgRequest = new CountScoreAvgRequest();
-		scoreAvgRequest.setTenantId(user.getTenantId());
-		scoreAvgRequest.setUserId("1");
-		float avgScore = scoreSV.countScoreAvg(scoreAvgRequest);
-		List<SupplierScoreVo> list = new ArrayList<SupplierScoreVo>();
-		for(int i=0;i<5;i++){
-			SupplierScoreVo sl = new SupplierScoreVo();
-			sl.setGroupName("yaxin");
-			sl.setTenantId("changhong");
-			sl.setUserName("ww");
-			sl.setTotalScore(Integer.valueOf((int)avgScore));
-			sl.setUserId("1234567");
-			list.add(sl);
-		}
-		pageInfo.setResult(list);
-		ResponseData<PageInfo<SupplierScoreVo>> response = new ResponseData<PageInfo<SupplierScoreVo>>("000000", "1");
-		response.setData(pageInfo);
-		return response;
-	}
-	
 	//评价供货商页面
 	@RequestMapping("/scorepage")
-	public ModelAndView scorePage(HttpServletRequest request,String userId) {
+	public ModelAndView scorePage(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/jsp/crm/scorepage"); 
-		model.addObject("supplier_name", "wuda");
-		model.addObject("company_name", "wuwer");
+		String url=request.getQueryString();
+		String userId=url.substring(url.lastIndexOf("=")+1);
 		
+		//查询商户信息
+		Map<String, String> map = new HashMap<>();
+		Map<String, String> mapHeader = new HashMap<>();
+		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+		map.put("companyId", userId);
+		String str ="";
+		try {
+			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_findbycompanyid_qry", JSON.toJSONString(map),mapHeader);
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
+		JSONObject data = (JSONObject) JSON.parse(str);
+		model.addObject("supplier_name", data.getString("username"));
+		model.addObject("company_name", data.getString("name"));
+		model.addObject("userId", "d512de5b33de4c97");
 		//调dubbo服务
 		IScoreSV scoreSV = DubboConsumerFactory.getService("iScoreSV");
 		QueryScoreKpiRequest queryScoreKpiRequest = new QueryScoreKpiRequest();
@@ -95,7 +89,7 @@ public class ScoreController {
 	
 	//提交供货商评价
 	@RequestMapping("/savescore")
-	public ResponseData<String> saveScore(HttpServletRequest request) {
+	public ResponseData<String> saveScore(HttpServletRequest request,String userId) {
 		ResponseData<String> response = new ResponseData<String>(null, null);
 		ResponseHeader responseHeader = null;
 		InsertCurrentScoreRequest currentScoreRequest = new InsertCurrentScoreRequest();
@@ -103,8 +97,6 @@ public class ScoreController {
 		//调dubbo服务
 		//tenantId
 		String tenantId ="changhong";
-		//供货商ID
-		String userId = "1";
 		//操作员ID
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		String operId = user.getUserId();
@@ -139,6 +131,80 @@ public class ScoreController {
 		LOG.error("保存失败");
 		}
 		response.setResponseHeader(responseHeader);
+		return response;
+	}
+	
+	@RequestMapping("/getList")
+	@ResponseBody
+	public ResponseData<PageInfo<SupplierScoreVo>> getList(HttpServletRequest request){
+		ResponseData<PageInfo<SupplierScoreVo>> response = null;
+		PageInfo<SupplierScoreVo> pageInfo =null;
+		ResponseHeader header = null;
+		Map<String, String> map = new HashMap<>();
+		Map<String, String> mapHeader = new HashMap<>();
+		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+		map.put("pageNo", request.getParameter("pageNo"));
+		map.put("pageSize", request.getParameter("pageSize"));
+		//map.put("companyType", "1");
+		//map.put("auditState", "1");
+		//map.put("username", "ac_PgU9g");
+		map.put("companyName", "长");
+		String str ="";
+		try {
+			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_searchcompanylist_qry", JSON.toJSONString(map),mapHeader);
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
+		JSONObject json = JSON.parseObject(str);
+		if (!"000000".equals(json.getString("resultCode"))){
+			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
+			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
+		}
+		else {
+			//获取返回操作码
+			JSONObject data = (JSONObject) JSON.parse(json.getString("data"));
+			String result = data.getString("success");
+			if ("false".equals(result)){
+				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
+			}
+			else{
+				Integer pageNo = Integer.valueOf(data.getString("pages"));
+				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
+				Integer total = Integer.valueOf(data.getString("total"));
+				Integer pageCount = Integer.valueOf(data.getString("pageNum"));
+				pageInfo = new PageInfo<>();
+				pageInfo.setCount(total);
+				pageInfo.setPageCount(pageCount);
+				pageInfo.setPageNo(pageNo);
+				pageInfo.setPageSize(pageSize);
+				List<SupplierScoreVo> responseList = new ArrayList<>();
+				JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
+				Iterator<Object> iterator = list.iterator();
+				while(iterator.hasNext()){
+					SupplierScoreVo supplierScoreVo = new SupplierScoreVo(); 
+					
+					 JSONObject object = (JSONObject) iterator.next();
+					 //查询综合分
+					 IScoreSV scoreSV = DubboConsumerFactory.getService("iScoreSV");
+					 GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+					 CountScoreAvgRequest scoreAvgRequest = new CountScoreAvgRequest();
+					 scoreAvgRequest.setTenantId(user.getTenantId());
+					 scoreAvgRequest.setUserId(object.getString("uid"));
+					 int avgScore = (int)scoreSV.countScoreAvg(scoreAvgRequest);
+					 supplierScoreVo.setUserId(object.getString("uid"));
+					 supplierScoreVo.setUserName(object.getString("username"));
+					 supplierScoreVo.setGroupName(object.getString("name"));
+					 supplierScoreVo.setTotalScore(Integer.valueOf(avgScore));
+					 responseList.add(supplierScoreVo);
+				}
+				pageInfo.setResult(responseList);
+				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+			}
+			response.setResponseHeader(header);
+			response.setData(pageInfo);
+		}
 		return response;
 	}
 	

@@ -29,7 +29,7 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
     	},
     	//事件代理
     	events: {
-    		"click #scoreListForm":"_getScoreList"
+    		"click #scoreListForm":"_getList"
         },
     	//重写父类
     	setup: function () {
@@ -41,7 +41,7 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
     	_queryScoreList: function(){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({
-    			url: _base+"/score/getscorelist",
+    			url: _base+"/score/getList",
 	 			method: "POST",
 	 			dataType: "json",
 	 			renderId:"TBODY_SCORELIST",
@@ -62,43 +62,31 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
     	},
 
 		_toScorePage:function(userId){
-			window.location.href = _base+'/score/scorepage?'+userId;
+			window.location.href = _base+'/score/scorepage?userId='+userId;
 		},
     	
-    	_getScoreList:function(){
-    		var d = Dialog({
-				content:"获取类目信息出错:",
-				icon:'fail',
-				okValue: '确 定',
-				ok:function(){
-					this.close();
-				}
-			});
-			d.show();
-    		/*var _this = this;
+    	_getList:function(){
+    		var _this = this;
     		$("#pagination-ul").runnerPagination({
-    			url: 'http://10.19.13.16:28151/opaas/http/srv_up_user_searchcompanylist_qry',
+    			url: _base+"/score/getList",
 	 			method: "POST",
 	 			dataType: "json",
 	 			renderId:"TBODY_SCORELIST",
-	            data : {"pageNo": 1,
-					"pageSize": 10,
-				    "companyType": "1",
-				    "auditState": "1",
-				    "username": "ac_ew23",
-				    "companyName": "长虹",
-				    'appkey':"3a83ed361ebce978731b736328a97ea8"},
+	            data : {
+					tenantId: 'changhong',
+				},
+	           	pageSize: scoreListPager.DEFAULT_PAGE_SIZE,
+	           	visiblePages:5,
 	            message: "正在为您查询数据..",
 	            callback: function(data){
-	            	alert(data);
 	              	if(data.result != null && data.result != 'undefined' && data.result.length>0){
 	            		var template = $.templates("#scoreListImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_SCORELIST").html(htmlOutput);
 	            	}
 	            }
-    		}); */
-	    	}
+    		}); 
+    	}
     	
     });
     

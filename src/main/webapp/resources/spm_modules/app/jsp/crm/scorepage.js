@@ -113,7 +113,6 @@ define('app/jsp/crm/scorepage', function (require, exports, module) {
     	
     	//提交供货商评价
     	_submitScore: function(){
-    		
     		var _this= this;
 			//父类目
 			var catArr = [];

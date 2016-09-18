@@ -60,6 +60,29 @@ define('app/jsp/contract/contractSupplierList', function (require, exports, modu
     		}); 
     	},
 
+
+    	_getList:function(){
+    		var _this = this;
+    		$("#pagination-ul").runnerPagination({
+    			url: _base+"/contract/getList",
+	 			method: "POST",
+	 			dataType: "json",
+	 			renderId:"TBODY_DEFAULTLIST",
+	            data : {
+					"tenantId": 'changhong',
+				},
+	           	pageSize: ContractListPager.DEFAULT_PAGE_SIZE,
+	           	visiblePages:5,
+	            message: "正在为您查询数据..",
+	            callback: function(data){
+	              	if(data.result != null && data.result != 'undefined' && data.result.length>0){
+	            		var template = $.templates("#contractImpl");
+	                    var htmlOutput = template.render(data);
+	                    $("#TBODY_DEFAULTLIST").html(htmlOutput);
+	            	}
+	            }
+    		});
+    	}
     	
     });
     

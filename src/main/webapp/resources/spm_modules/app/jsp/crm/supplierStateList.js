@@ -81,47 +81,290 @@ define('app/jsp/crm/supplierStateList', function (require, exports, module) {
     	},
     	
     	_toFreeze:function(userId){
-    		Dialog({
+    		var d = Dialog({
 				title : '提示',
-				content : '确定要冻结此账户吗?',
+				content : '确定要冻结此账户?',
+				icon:'warning',
 				okValue : "确定",
 				ok : function() {
 					this.close;
+					$.ajax({
+		    			type:"post",
+		    			url:_base+"/status/changeStatus",
+		    			dataType: "json",
+		    			data:{
+		    				"companyState":"11",
+		    				"companyId":userId
+		    			},
+		    	        success: function(data) {
+		    	        	if(data.responseHeader.resultCode='000000'){
+		    	        		var d = Dialog({
+		    	    				title : '提示',
+		    	    				content : '保存成功',
+		    	    				icon:'success',
+		    	    				okValue : "确定",
+		    	    				ok : function() {
+		    	    					this.close;
+		    	    					window.location.href=_base+"/crm/shopStatePager";
+		    	    				}
+		    	    			});
+		    	    			d.show();
+		    	        	}else
+		    	        		var d = Dialog({
+		    	    				title : '提示',
+		    	    				content : '保存失败',
+		    	    				icon:'fail',
+		    	    				okValue : "确定",
+		    	    				ok : function() {
+		    	    					this.close;
+		    	    					window.location.href=_base+"/crm/shopStatePager";
+		    	    				}
+		    	    			});
+		    	    			d.show();
+		    	            },
+		    				error: function(error) {
+		    					var d = Dialog({
+		    	    				title : '提示',
+		    	    				content : '网络错误:'+JSON.stringify(error),
+		    	    				icon:'fail',
+		    	    				okValue : "确定",
+		    	    				ok : function() {
+		    	    					this.close;
+		    	    					window.location.href=_base+"/crm/shopStatePager";
+		    	    				}
+		    	    			});
+		    	    			d.show();
+		    				}
+		    				});
 				}
-			}).showModal();
+			});
+			d.show();
     	},
     	_toThraw:function(userId){
-    		Dialog({
+    		var d = Dialog({
 				title : '提示',
-				content : '确定要解冻此账户吗?',
+				content : '确定要解冻此账户?',
+				icon:'warning',
 				okValue : "确定",
 				ok : function() {
 					this.close;
+					$.ajax({
+		    			type:"post",
+		    			url:_base+"/status/changeStatus",
+		    			dataType: "json",
+		    			data:{
+		    				"companyState":"10",
+		    				"companyId":userId
+		    			},
+		    	        success: function(data) {
+		    	        	if(data.responseHeader.resultCode='000000'){
+		    	        		var d = Dialog({
+		    	    				title : '提示',
+		    	    				content : '保存成功',
+		    	    				icon:'success',
+		    	    				okValue : "确定",
+		    	    				ok : function() {
+		    	    					this.close;
+		    	    					window.location.href=_base+"/crm/shopStatePager";
+		    	    				}
+		    	    			});
+		    	    			d.show();
+		    	        	}else
+		    	        		var d = Dialog({
+		    	    				title : '提示',
+		    	    				content : '保存失败',
+		    	    				icon:'fail',
+		    	    				okValue : "确定",
+		    	    				ok : function() {
+		    	    					this.close;
+		    	    					window.location.href=_base+"/crm/shopStatePager";
+		    	    				}
+		    	    			});
+		    	    			d.show();
+		    	            },
+		    				error: function(error) {
+		    					var d = Dialog({
+		    	    				title : '提示',
+		    	    				content : '网络错误:'+JSON.stringify(error),
+		    	    				icon:'fail',
+		    	    				okValue : "确定",
+		    	    				ok : function() {
+		    	    					this.close;
+		    	    					window.location.href=_base+"/crm/shopStatePager";
+		    	    				}
+		    	    			});
+		    	    			d.show();
+		    				}
+		    				});
 				}
-			}).showModal();
+			});
+			d.show();
     	},
     	_toCancel:function(userId){
-    		Dialog({
+    		var d = Dialog({
 				title : '提示',
-				content : '确定要注销此账户吗?',
+				content : '确定要注销此账户?',
+				icon:'warning',
 				okValue : "确定",
 				ok : function() {
 					this.close;
+					$.ajax({
+		    			type:"post",
+		    			url:_base+"/status/changeStatus",
+		    			dataType: "json",
+		    			data:{
+		    				"companyState":"12",
+		    				"companyId":userId
+		    			},
+		    	        success: function(data) {
+		    	        	if(data.responseHeader.resultCode='000000'){
+		    	        		var d = Dialog({
+		    	    				title : '提示',
+		    	    				content : '保存成功',
+		    	    				icon:'success',
+		    	    				okValue : "确定",
+		    	    				ok : function() {
+		    	    					this.close;
+		    	    					window.location.href=_base+"/crm/shopStatePager";
+		    	    				}
+		    	    			});
+		    	    			d.show();
+		    	        	}else
+		    	        		var d = Dialog({
+		    	    				title : '提示',
+		    	    				content : '保存失败',
+		    	    				icon:'fail',
+		    	    				okValue : "确定",
+		    	    				ok : function() {
+		    	    					this.close;
+		    	    					window.location.href=_base+"/crm/shopStatePager";
+		    	    				}
+		    	    			});
+		    	    			d.show();
+		    	            },
+		    				error: function(error) {
+		    					var d = Dialog({
+		    	    				title : '提示',
+		    	    				content : '网络错误:'+JSON.stringify(error),
+		    	    				icon:'fail',
+		    	    				okValue : "确定",
+		    	    				ok : function() {
+		    	    					this.close;
+		    	    					window.location.href=_base+"/crm/shopStatePager";
+		    	    				}
+		    	    			});
+		    	    			d.show();
+		    				}
+		    				});
 				}
-			}).showModal();
+			});
+			d.show();
     	},
     	_toRecovery:function(userId){
-    		Dialog({
+    		var d = Dialog({
 				title : '提示',
 				content : '确定要恢复此账户吗?',
+				icon:'warning',
 				okValue : "确定",
 				ok : function() {
 					this.close;
+					$.ajax({
+		    			type:"post",
+		    			url:_base+"/status/changeStatus",
+		    			dataType: "json",
+		    			data:{
+		    				"companyState":"10",
+		    				"companyId":userId
+		    			},
+		    	        success: function(data) {
+		    	        	if(data.responseHeader.resultCode='000000'){
+		    	        		var d = Dialog({
+		    	    				title : '提示',
+		    	    				content : '保存成功',
+		    	    				icon:'success',
+		    	    				okValue : "确定",
+		    	    				ok : function() {
+		    	    					this.close;
+		    	    					window.location.href=_base+"/crm/shopStatePager";
+		    	    				}
+		    	    			});
+		    	    			d.show();
+		    	        	}else
+		    	        		var d = Dialog({
+		    	    				title : '提示',
+		    	    				content : '保存失败',
+		    	    				icon:'fail',
+		    	    				okValue : "确定",
+		    	    				ok : function() {
+		    	    					this.close;
+		    	    					window.location.href=_base+"/crm/shopStatePager";
+		    	    				}
+		    	    			});
+		    	    			d.show();
+		    	            },
+		    				error: function(error) {
+		    					var d = Dialog({
+		    	    				title : '提示',
+		    	    				content : '网络错误:'+JSON.stringify(error),
+		    	    				icon:'fail',
+		    	    				okValue : "确定",
+		    	    				ok : function() {
+		    	    					this.close;
+		    	    					window.location.href=_base+"/crm/shopStatePager";
+		    	    				}
+		    	    			});
+		    	    			d.show();
+		    				}
+		    				});
 				}
-			}).showModal();
+			});
+			d.show();
+    	},
+    	
+    	_getList:function(){
+    		var _this = this;
+    		$("#pagination-ul").runnerPagination({
+    			url: _base+"/status/getList",
+	 			method: "POST",
+	 			dataType: "json",
+	 			renderId:"TBODY_SUPLLIER",
+	            data : {
+	            	
+				},
+	           	pageSize: supplierStateListPager.DEFAULT_PAGE_SIZE,
+	           	visiblePages:5,
+	            message: "正在为您查询数据..",
+	            callback: function(data){
+	              	if(data.result != null && data.result != 'undefined' && data.result.length>0){
+	            		var template = $.templates("#scoreListImpl");
+	                    var htmlOutput = template.render(data);
+	                    $("#TBODY_SUPLLIER").html(htmlOutput);
+	                    var result=data.result;
+	                    for(var i=0;i<result.length;i++){
+	                    	if(result[i].state=='10'){
+	                    		//debugger;
+	                    		$("#freeze_"+result[i].userId).show();
+	                    		$("#thraw_"+result[i].userId).hide();
+	                    		$("#cancel_"+result[i].userId).show();
+	                    		$("#recovery_"+result[i].userId).hide();
+	                    	}else if(result[i].state=='11'){
+	                    		$("#freeze_"+result[i].userId).hide();
+	                    		$("#thraw_"+result[i].userId).show();
+	                    		$("#cancel_"+result[i].userId).show();
+	                    		$("#recovery_"+result[i].userId).hide();
+	                    	}else if(result[i].state=='12'){
+	                    		$("#freeze_"+result[i].userId).hide();
+	                    		$("#thraw_"+result[i].userId).hide();
+	                    		$("#cancel_"+result[i].userId).hide();
+	                    		$("#recovery_"+result[i].userId).show();
+	                    	}
+	                    }
+	            	}
+	            }
+    		}); 
     	}
     	
     });
-
-    module.exports = supplierStateListPager
+    
+      module.exports = supplierStateListPager
 });

@@ -317,6 +317,14 @@
             
             </div>
     </div>
-    
+   <script type="text/javascript">
+var pager;
+(function () {
+	seajs.use('app/jsp/qualification/auditeQualification', function (AuditeQualificationPager) {
+		pager = new AuditeQualificationPager({element: document.body});
+		pager.render();
+	});
+})();
+</script> 
 </body>
 </html>

@@ -82,6 +82,7 @@ label.error {
 													<li>注:${ctScoreKpiVo.kpiDesc }</li>
 												</ul>
 											</c:forEach>
+											<input type="hidden" value="${userId }" name="userId"/>
 										</form>
 										<ul>
 											<li style="margin-left: 70px"><input type="button"

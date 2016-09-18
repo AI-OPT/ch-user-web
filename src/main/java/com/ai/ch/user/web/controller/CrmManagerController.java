@@ -36,8 +36,6 @@ public class CrmManagerController {
 			ResponseData<PageInfo<GroupStateVo>> response = new ResponseData<PageInfo<GroupStateVo>>(
 					ChWebConstants.OperateCode.SUCCESS, "成功");
 			PageInfo<GroupStateVo> pageInfo = new PageInfo<GroupStateVo>();
-			//IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
-			//GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 			pageInfo.setCount(20);
 			pageInfo.setPageCount(4);
 			pageInfo.setPageNo(1);

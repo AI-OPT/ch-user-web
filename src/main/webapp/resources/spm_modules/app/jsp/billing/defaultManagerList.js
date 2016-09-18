@@ -59,6 +59,29 @@ define('app/jsp/billing/defaultManagerList', function (require, exports, module)
 	            }
     		}); 
     	},
+    	
+    	_getList:function(){
+    		var _this = this;
+    		$("#pagination-ul").runnerPagination({
+    			url: _base+"/defaultManager/getList",
+	 			method: "POST",
+	 			dataType: "json",
+	 			renderId:"TBODY_DEFAULTLIST",
+	            data : {
+					"tenantId": 'changhong',
+				},
+	           	pageSize: DefaultManagerListPager.DEFAULT_PAGE_SIZE,
+	           	visiblePages:5,
+	            message: "正在为您查询数据..",
+	            callback: function(data){
+	              	if(data.result != null && data.result != 'undefined' && data.result.length>0){
+	            		var template = $.templates("#defaultManagerImpl");
+	                    var htmlOutput = template.render(data);
+	                    $("#TBODY_DEFAULTLIST").html(htmlOutput);
+	            	}
+	            }
+    		}); 
+    	}
 
     	
     });
