@@ -36,68 +36,6 @@ define('app/jsp/qualification/noCheckedPagerList', function (require, exports, m
     		noCheckedPagerListPager.superclass.setup.call(this);
     		this._getInitList();
     	},
-    	
-    	_updateAudit:function(auditCode){
-    		var d = Dialog({
-				title : '提示',
-				content : '审核通过此资质信息吗？',
-				icon:'warning',
-				okValue : "确定",
-				ok : function() {
-					this.close;
-					$.ajax({
-		    			type:"post",
-		    			url:_base+"/status/updateAudit",
-		    			dataType: "json",
-		    			data:{
-		    				"openId":'1',
-		    				"auditStat":"auditCode",
-		    				"companyId":'ac_ew23'
-		    			},
-		    	        success: function(data) {
-		    	        	if(data.responseHeader.resultCode='000000'){
-		    	        		var d = Dialog({
-		    	    				title : '提示',
-		    	    				content : '保存成功',
-		    	    				icon:'success',
-		    	    				okValue : "确定",
-		    	    				ok : function() {
-		    	    					this.close;
-		    	    					window.location.href=_base+"/crm/shopStatePager";
-		    	    				}
-		    	    			});
-		    	    			d.show();
-		    	        	}else
-		    	        		var d = Dialog({
-		    	    				title : '提示',
-		    	    				content : '保存失败',
-		    	    				icon:'fail',
-		    	    				okValue : "确定",
-		    	    				ok : function() {
-		    	    					this.close;
-		    	    					window.location.href=_base+"/crm/shopStatePager";
-		    	    				}
-		    	    			});
-		    	    			d.show();
-		    	            },
-		    				error: function(error) {
-		    					var d = Dialog({
-		    	    				title : '提示',
-		    	    				content : '网络错误:'+JSON.stringify(error),
-		    	    				icon:'fail',
-		    	    				okValue : "确定",
-		    	    				ok : function() {
-		    	    					this.close;
-		    	    					window.location.href=_base+"/crm/shopStatePager";
-		    	    				}
-		    	    			});
-		    	    			d.show();
-		    				}
-		    				});
-				}
-			});
-			d.show();
-    	},
 
     	_getInitList:function(){
     		var _this = this;
@@ -123,7 +61,7 @@ define('app/jsp/qualification/noCheckedPagerList', function (require, exports, m
     	},
     	
     	_toAuditPage:function(userId){
-			window.location.href = _base+'/score/scorepage?userId='+userId;
+			window.location.href = _base+'/qualification/toShopCheckPager?userId='+userId;
 		},
 		
 		_getList:function(){
@@ -134,7 +72,9 @@ define('app/jsp/qualification/noCheckedPagerList', function (require, exports, m
 	 			dataType: "json",
 	 			renderId:"UN_CHECKED",
 	            data : {
-					"tenantId": 'changhong',
+	            	"username":$("#username").val(),
+					"companyName":$("#companyName").val(),
+					"companyType":"1"
 				},
 	           	pageSize: noCheckedPagerListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,

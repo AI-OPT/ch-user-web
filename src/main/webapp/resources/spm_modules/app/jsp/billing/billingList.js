@@ -34,14 +34,14 @@ define('app/jsp/billing/billingList', function (require, exports, module) {
     	//重写父类
     	setup: function () {
     		BillingListPager.superclass.setup.call(this);
-    		this._queryBill();
+    		this._getInitList();
     	},
     	
     	//获取已设置保证金列表
-    	_queryBill: function(){
+    	_getInitList: function(){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({
-    			url: _base+"/billing/getbilllist",
+    			url: _base+"/billing/getList",
 	 			method: "POST",
 	 			dataType: "json",
 	 			renderId:"TBODY_BILLLIST",

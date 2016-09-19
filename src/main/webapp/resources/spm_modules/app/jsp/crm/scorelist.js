@@ -73,7 +73,8 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
 	 			dataType: "json",
 	 			renderId:"TBODY_SCORELIST",
 	            data : {
-					tenantId: 'changhong',
+					"username":$("#username").val(),
+					"companyName":$("#companyName").val()
 				},
 	           	pageSize: scoreListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,

@@ -33,19 +33,19 @@ define('app/jsp/crm/supplierStateList', function (require, exports, module) {
     	//重写父类
     	setup: function () {
     		supplierStateListPager.superclass.setup.call(this);
-    		this._getGroupStateList();
+    		this._getInitList();
     	},
     	
     	//获取供货商管理列表
-    	_getGroupStateList: function(){
+    	_getInitList: function(){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({
-    			url: _base+"/crm/getGroupStateList",
+    			url: _base+"/status/getList",
 	 			method: "POST",
 	 			dataType: "json",
 	 			renderId:"TBODY_SUPLLIER",
 	            data : {
-					tenantId: 'changhong',
+	            	//"companyType":"1"
 				},
 	           	pageSize: supplierStateListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
@@ -329,7 +329,9 @@ define('app/jsp/crm/supplierStateList', function (require, exports, module) {
 	 			dataType: "json",
 	 			renderId:"TBODY_SUPLLIER",
 	            data : {
-	            	
+	            	"username":$("#username").val(),
+					"companyName":$("#companyName").val(),
+					//"companyType":"1"
 				},
 	           	pageSize: supplierStateListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,

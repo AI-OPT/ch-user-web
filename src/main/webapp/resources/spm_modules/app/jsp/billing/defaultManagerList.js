@@ -40,7 +40,7 @@ define('app/jsp/billing/defaultManagerList', function (require, exports, module)
     	_queryDefaultManagerList: function(){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({
-    			url: _base+"/defaultManager/getDefaultManagerList",
+    			url: _base+"/defaultManager/getList",
 	 			method: "POST",
 	 			dataType: "json",
 	 			renderId:"TBODY_DEFAULTLIST",

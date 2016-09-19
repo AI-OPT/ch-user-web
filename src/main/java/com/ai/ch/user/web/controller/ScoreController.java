@@ -136,7 +136,7 @@ public class ScoreController {
 	
 	@RequestMapping("/getList")
 	@ResponseBody
-	public ResponseData<PageInfo<SupplierScoreVo>> getList(HttpServletRequest request){
+	public ResponseData<PageInfo<SupplierScoreVo>> getList(HttpServletRequest request,String companyName,String username,String companyType){
 		ResponseData<PageInfo<SupplierScoreVo>> response = null;
 		PageInfo<SupplierScoreVo> pageInfo =null;
 		ResponseHeader header = null;
@@ -145,10 +145,12 @@ public class ScoreController {
 		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
 		map.put("pageNo", request.getParameter("pageNo"));
 		map.put("pageSize", request.getParameter("pageSize"));
-		//map.put("companyType", "1");
-		//map.put("auditState", "1");
-		//map.put("username", "ac_PgU9g");
-		map.put("companyName", "长");
+		if(username!=null&&username.length()!=0)
+			map.put("username", username);
+		if(companyName!=null&&companyName.length()!=0)
+			map.put("companyName", companyName);
+		if(companyType!=null&&companyType.length()!=0)
+			map.put("companyType", companyType);
 		String str ="";
 		try {
 			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_searchcompanylist_qry", JSON.toJSONString(map),mapHeader);

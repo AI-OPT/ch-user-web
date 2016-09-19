@@ -38,11 +38,11 @@
 								 	<ul>
 								 		<li>
 								 			<p class="word">用户名:</p>
-								 			<p><input type="text" class="int-text int-medium"/></p>
+								 			<p><input type="text" class="int-text int-medium" id="username"/></p>
 								 		</li>
 								 		<li>
 								 			<p class="word">企业名称:</p>
-								 			<p><input type="text" class="int-text int-medium"/></p>
+								 			<p><input type="text" class="int-text int-medium" id="companyName"/></p>
 								 			<p><input type="button" class="btn-default btn-blue btn-mini" value="查询" onclick="pager._getList();"/></p>
 								 		</li>
 								 	</ul>

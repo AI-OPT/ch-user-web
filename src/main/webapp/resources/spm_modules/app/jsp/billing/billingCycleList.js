@@ -40,7 +40,7 @@ define('app/jsp/billing/billingCycleList', function (require, exports, module) {
     	_queryBillingCycleList: function(){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({
-    			url: _base+"/billing/getBillingCycleList",
+    			url: _base+"/billing/getList",
 	 			method: "POST",
 	 			dataType: "json",
 	 			renderId:"TBODY_DEFAULTLIST",

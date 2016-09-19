@@ -40,7 +40,7 @@ define('app/jsp/contract/contractSupplierList', function (require, exports, modu
     	_queryContractList: function(){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({
-    			url: _base+"/contract/getContractSupplierList",
+    			url: _base+"/contract/getList",
 	 			method: "POST",
 	 			dataType: "json",
 	 			renderId:"TBODY_DEFAULTLIST",
@@ -69,7 +69,9 @@ define('app/jsp/contract/contractSupplierList', function (require, exports, modu
 	 			dataType: "json",
 	 			renderId:"TBODY_DEFAULTLIST",
 	            data : {
-					"tenantId": 'changhong',
+	            	"username":$("#username").val(),
+					"companyName":$("#companyName").val(),
+					"companyType":"1"
 				},
 	           	pageSize: ContractListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,

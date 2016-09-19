@@ -47,12 +47,12 @@
 					           	<ul>
 					                <li class="col-md-6">
 					                    <p class="word">用户名</p>
-					                    <p><input name="control_date" class="int-text int-medium " type="text">
+					                    <p><input name="control_date" class="int-text int-medium " id="username " type="text">
 					                    </p>
 					                </li>
 					                <li class="col-md-6">
 					                    <p class="word">企业名称</p>
-					                    <p><input class="int-text int-medium" type="text"></p>
+					                    <p><input class="int-text int-medium" type="text" id="companyName"></p>
 					                    <p><input class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="查  询" type="button" onclick="pager._getList();"></p>
 					            </ul>
 					         </div>

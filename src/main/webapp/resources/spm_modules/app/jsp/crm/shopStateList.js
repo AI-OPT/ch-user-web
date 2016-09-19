@@ -33,20 +33,19 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
     	//重写父类
     	setup: function () {
     		shopStateListPager.superclass.setup.call(this);
-    		this._queryGroupStateList();
+    		this._getInitList();
     	},
     	
     	//获取企业管理列表
-    	_queryGroupStateList: function(){
+    	_getInitList: function(){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({
-    			url: _base+"/crm/getGroupStateList",
+    			url: _base+"/status/getList",
 	 			method: "POST",
 	 			dataType: "json",
 	 			renderId:"TBODY_SHOPSTATE",
 	            data : {
-					tenantId: 'changhong',
-					userType:'10'
+	            	//"companyType":"1"
 				},
 	           	pageSize: shopStateListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
@@ -330,7 +329,9 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
 	 			dataType: "json",
 	 			renderId:"TBODY_SHOPSTATE",
 	            data : {
-	            	
+	            	"username":$("#username").val(),
+					"companyName":$("#companyName").val(),
+					//"companyType":"1"
 				},
 	           	pageSize: shopStateListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,

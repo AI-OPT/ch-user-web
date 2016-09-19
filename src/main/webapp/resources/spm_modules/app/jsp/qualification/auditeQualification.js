@@ -36,7 +36,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
     		auditeQualificationPager.superclass.setup.call(this);
     	},
     	
-    	_updateAudit:function(auditCode){
+    	_passAudit:function(auditCode){
     		var d = Dialog({
 				title : '提示',
 				content : '审核通过此资质信息吗？',
@@ -50,7 +50,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    			dataType: "json",
 		    			data:{
 		    				"openId":'1',
-		    				"auditStat":"auditCode",
+		    				"auditStat":"10",
 		    				"companyId":'ac_ew23'
 		    			},
 		    	        success: function(data) {
@@ -62,7 +62,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    	    				okValue : "确定",
 		    	    				ok : function() {
 		    	    					this.close;
-		    	    					window.location.href=_base+"/crm/shopStatePager";
+		    	    					window.location.href=_base+"/qualification/toNoCheckedSupplierPager";
 		    	    				}
 		    	    			});
 		    	    			d.show();
@@ -74,7 +74,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    	    				okValue : "确定",
 		    	    				ok : function() {
 		    	    					this.close;
-		    	    					window.location.href=_base+"/crm/shopStatePager";
+		    	    					window.location.href=_base+"/qualification/toNoCheckedSupplierPager";
 		    	    				}
 		    	    			});
 		    	    			d.show();
@@ -87,7 +87,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    	    				okValue : "确定",
 		    	    				ok : function() {
 		    	    					this.close;
-		    	    					window.location.href=_base+"/crm/shopStatePager";
+		    	    					window.location.href=_base+"/qualification/toNoCheckedSupplierPager";
 		    	    				}
 		    	    			});
 		    	    			d.show();
@@ -98,9 +98,67 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 			d.show();
     	},
 
-		_toScorePage:function(userId){
-			window.location.href = _base+'/score/scorepage?'+userId;
-		}
+    	_rejectAudit:function(){
+    		var d = Dialog({
+				title : '提示',
+				content : '审核拒绝此资质信息吗？',
+				icon:'warning',
+				okValue : "确定",
+				ok : function() {
+					this.close;
+					$.ajax({
+		    			type:"post",
+		    			url:_base+"/status/updateAudit",
+		    			dataType: "json",
+		    			data:{
+		    				"openId":'1',
+		    				"auditStat":'11',
+		    				"companyId":'ac_ew23'
+		    			},
+		    	        success: function(data) {
+		    	        	if(data.responseHeader.resultCode='000000'){
+		    	        		var d = Dialog({
+		    	    				title : '提示',
+		    	    				content : '保存成功',
+		    	    				icon:'success',
+		    	    				okValue : "确定",
+		    	    				ok : function() {
+		    	    					this.close;
+		    	    					window.location.href=_base+"/qualification/toCheckedSupplierPager";
+		    	    				}
+		    	    			});
+		    	    			d.show();
+		    	        	}else
+		    	        		var d = Dialog({
+		    	    				title : '提示',
+		    	    				content : '保存失败',
+		    	    				icon:'fail',
+		    	    				okValue : "确定",
+		    	    				ok : function() {
+		    	    					this.close;
+		    	    					window.location.href=_base+"/qualification/toCheckedSupplierPager";
+		    	    				}
+		    	    			});
+		    	    			d.show();
+		    	            },
+		    				error: function(error) {
+		    					var d = Dialog({
+		    	    				title : '提示',
+		    	    				content : '网络错误:'+JSON.stringify(error),
+		    	    				icon:'fail',
+		    	    				okValue : "确定",
+		    	    				ok : function() {
+		    	    					this.close;
+		    	    					window.location.href=_base+"/qualification/toCheckedSupplierPager";
+		    	    				}
+		    	    			});
+		    	    			d.show();
+		    				}
+		    				});
+				}
+			});
+			d.show();
+    	}
     	
     });
     

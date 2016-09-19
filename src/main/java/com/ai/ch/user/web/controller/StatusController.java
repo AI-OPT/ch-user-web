@@ -28,9 +28,9 @@ import com.alibaba.fastjson.JSONObject;
 @RequestMapping("/status")
 public class StatusController {
 
-	@RequestMapping("/changeStatus")
+	@RequestMapping("/updateStatus")
 	@ResponseBody
-	public ResponseData<String> changeStatus(HttpServletRequest request,String companyState,String companyId){
+	public ResponseData<String> updateStatus(HttpServletRequest request,String companyState,String companyId){
 		ResponseData<String> response = null;
 		ResponseHeader header = null;
 		Map<String, String> map = new HashMap<>();
@@ -110,19 +110,21 @@ public class StatusController {
 	
 	@RequestMapping("/getList")
 	@ResponseBody
-	public ResponseData<PageInfo<StatusListVo>> getList(HttpServletRequest request){
+	public ResponseData<PageInfo<StatusListVo>> getList(HttpServletRequest request,String companyName,String username, String companyType){
 		ResponseData<PageInfo<StatusListVo>> response = null;
 		PageInfo<StatusListVo> pageInfo =null;
 		ResponseHeader header = null;
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
 		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
-		map.put("pageNo", "1");
-		map.put("pageSize", "10");
-		//map.put("companyType", "1");
-		//map.put("auditState", "1");
-		//map.put("username", "ac_PgU9g");
-		map.put("companyName", "长");
+		map.put("pageNo", request.getParameter("pageNo"));
+		map.put("pageSize", request.getParameter("pageSize"));
+		if(username!=null&&username.length()!=0)
+			map.put("username", username);
+		if(companyName!=null&&companyName.length()!=0)
+			map.put("companyName", companyName);
+		if(companyType!=null&&companyType.length()!=0)
+			map.put("companyType", companyType);
 		String str ="";
 		try {
 			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_searchcompanylist_qry", JSON.toJSONString(map),mapHeader);
@@ -150,18 +152,25 @@ public class StatusController {
 				pageInfo = new PageInfo<>();
 				pageInfo.setCount(total);
 				pageInfo.setPageCount(pageCount);
-				pageInfo.setPageNo(pageNo);
-				pageInfo.setPageSize(pageSize);
+				pageInfo.setPageNo(Integer.valueOf(pageNo));
+				pageInfo.setPageSize(Integer.valueOf(pageSize));
 				List<StatusListVo> responseList = new ArrayList<>();
 				JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
 				Iterator<Object> iterator = list.iterator();
 				while(iterator.hasNext()){
 					 StatusListVo statusListVo = new StatusListVo(); 
 					 JSONObject object = (JSONObject) iterator.next();
+					 String stateValue = "";
+					 if("10".equals(object.getString("companyState")))
+						 stateValue = "正常";
+					 else if("11".equals(object.getString("companyState")))
+						 stateValue = "冻结";
+					 else if("12".equals(object.getString("companyState")))
+						 stateValue = "注销";
 					 statusListVo.setUserId(object.getString("uid"));
 					 statusListVo.setUserName(object.getString("username"));
 					 statusListVo.setGroupName(object.getString("name"));
-					 statusListVo.setStateValue(object.getString("companyState"));
+					 statusListVo.setStateValue(stateValue);
 					 statusListVo.setState(object.getString("companyState"));
 					 responseList.add(statusListVo);
 				}
