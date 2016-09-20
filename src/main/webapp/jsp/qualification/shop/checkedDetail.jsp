@@ -308,14 +308,5 @@
             
             </div>
     </div>
-    <script type="text/javascript">
-		var pager;
-		(function () {
-			seajs.use('app/jsp/qualification/checkedDetail', function (CheckedDetailPager) {
-				pager = new CheckedDetailPager({element: document.body});
-				pager.render();
-			});
-		})();
-</script>
 </body>
 </html>

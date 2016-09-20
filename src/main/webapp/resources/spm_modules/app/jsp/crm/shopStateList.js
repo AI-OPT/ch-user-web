@@ -45,7 +45,7 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
 	 			dataType: "json",
 	 			renderId:"TBODY_SHOPSTATE",
 	            data : {
-	            	//"companyType":"1"
+	            	"companyType":"2"
 				},
 	           	pageSize: shopStateListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
@@ -57,18 +57,18 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
 	                    $("#TBODY_SHOPSTATE").html(htmlOutput);
 	                    var result=data.result;
 	                    for(var i=0;i<result.length;i++){
-	                    	if(result[i].state=='10'){
+	                    	if(result[i].state=='0'){
 	                    		//debugger;
 	                    		$("#freeze_"+result[i].userId).show();
 	                    		$("#thraw_"+result[i].userId).hide();
 	                    		$("#cancel_"+result[i].userId).show();
 	                    		$("#recovery_"+result[i].userId).hide();
-	                    	}else if(result[i].state=='11'){
+	                    	}else if(result[i].state=='1'){
 	                    		$("#freeze_"+result[i].userId).hide();
 	                    		$("#thraw_"+result[i].userId).show();
 	                    		$("#cancel_"+result[i].userId).show();
 	                    		$("#recovery_"+result[i].userId).hide();
-	                    	}else if(result[i].state=='12'){
+	                    	}else if(result[i].state=='2'){
 	                    		$("#freeze_"+result[i].userId).hide();
 	                    		$("#thraw_"+result[i].userId).hide();
 	                    		$("#cancel_"+result[i].userId).hide();
@@ -90,10 +90,10 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
 					this.close;
 					$.ajax({
 		    			type:"post",
-		    			url:_base+"/status/changeStatus",
+		    			url:_base+"/status/updateStatus",
 		    			dataType: "json",
 		    			data:{
-		    				"companyState":"11",
+		    				"companyState":"1",
 		    				"companyId":userId
 		    			},
 		    	        success: function(data) {
@@ -150,10 +150,10 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
 					this.close;
 					$.ajax({
 		    			type:"post",
-		    			url:_base+"/status/changeStatus",
+		    			url:_base+"/status/updateStatus",
 		    			dataType: "json",
 		    			data:{
-		    				"companyState":"10",
+		    				"companyState":"0",
 		    				"companyId":userId
 		    			},
 		    	        success: function(data) {
@@ -210,10 +210,10 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
 					this.close;
 					$.ajax({
 		    			type:"post",
-		    			url:_base+"/status/changeStatus",
+		    			url:_base+"/status/updateStatus",
 		    			dataType: "json",
 		    			data:{
-		    				"companyState":"12",
+		    				"companyState":"2",
 		    				"companyId":userId
 		    			},
 		    	        success: function(data) {
@@ -270,10 +270,10 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
 					this.close;
 					$.ajax({
 		    			type:"post",
-		    			url:_base+"/status/changeStatus",
+		    			url:_base+"/status/updateStatus",
 		    			dataType: "json",
 		    			data:{
-		    				"companyState":"10",
+		    				"companyState":"0",
 		    				"companyId":userId
 		    			},
 		    	        success: function(data) {
@@ -331,7 +331,7 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
 	            data : {
 	            	"username":$("#username").val(),
 					"companyName":$("#companyName").val(),
-					//"companyType":"1"
+					"companyType":"2"
 				},
 	           	pageSize: shopStateListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
@@ -343,24 +343,27 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
 	                    $("#TBODY_SHOPSTATE").html(htmlOutput);
 	                    var result=data.result;
 	                    for(var i=0;i<result.length;i++){
-	                    	if(result[i].state=='10'){
+	                    	if(result[i].state=='0'){
 	                    		//debugger;
 	                    		$("#freeze_"+result[i].userId).show();
 	                    		$("#thraw_"+result[i].userId).hide();
 	                    		$("#cancel_"+result[i].userId).show();
 	                    		$("#recovery_"+result[i].userId).hide();
-	                    	}else if(result[i].state=='11'){
+	                    	}else if(result[i].state=='1'){
 	                    		$("#freeze_"+result[i].userId).hide();
 	                    		$("#thraw_"+result[i].userId).show();
 	                    		$("#cancel_"+result[i].userId).show();
 	                    		$("#recovery_"+result[i].userId).hide();
-	                    	}else if(result[i].state=='12'){
+	                    	}else if(result[i].state=='2'){
 	                    		$("#freeze_"+result[i].userId).hide();
 	                    		$("#thraw_"+result[i].userId).hide();
 	                    		$("#cancel_"+result[i].userId).hide();
 	                    		$("#recovery_"+result[i].userId).show();
 	                    	}
 	                    }
+	            	}else{
+	            		$("#TBODY_SHOPSTATE").html("")
+	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 

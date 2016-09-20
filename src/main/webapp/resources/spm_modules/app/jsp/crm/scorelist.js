@@ -46,7 +46,7 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
 	 			dataType: "json",
 	 			renderId:"TBODY_SCORELIST",
 	            data : {
-					tenantId: 'changhong',
+	            	"companyType":"1"
 				},
 	           	pageSize: scoreListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
@@ -75,6 +75,7 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
 	            data : {
 					"username":$("#username").val(),
 					"companyName":$("#companyName").val()
+					
 				},
 	           	pageSize: scoreListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
@@ -84,6 +85,9 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
 	            		var template = $.templates("#scoreListImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_SCORELIST").html(htmlOutput);
+	            	}else{
+	            		$("#TBODY_SCORELIST").html("")
+	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 

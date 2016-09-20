@@ -52,6 +52,7 @@
                                     </table>
                                </div>
                                 </div>
+                                <div id="info" class="text-c"></div>
                             <!--/table表格结束-->
                                <!--分页-->
                                 <div class="paging">

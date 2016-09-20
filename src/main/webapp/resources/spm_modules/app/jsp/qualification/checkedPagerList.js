@@ -34,10 +34,9 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
     	//重写父类
     	setup: function () {
     		checkedPagerListPager.superclass.setup.call(this);
-    		this._getInitList();
     	},
 
-    	_getInitList:function(){
+    	_getInitList:function(companyType){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/qualification/getCheckedList",
@@ -45,7 +44,7 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
 	 			dataType: "json",
 	 			renderId:"TBODY_CHECKED",
 	            data : {
-					"tenantId": 'changhong',
+	            	"companyType":companyType
 				},
 	           	pageSize: checkedPagerListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
@@ -64,7 +63,7 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
 			window.location.href = _base+'/qualification/toShopDetailPager?userId='+userId;
 		},
 		
-		_getList:function(){
+		_getList:function(companyType){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/qualification/getCheckedList",
@@ -74,7 +73,7 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
 	            data : {
 	            	"username":$("#username").val(),
 					"companyName":$("#companyName").val(),
-					"companyType":"1"
+					"companyType":companyType
 				},
 	           	pageSize: checkedPagerListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
@@ -84,6 +83,9 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
 	            		var template = $.templates("#checkedImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_CHECKED").html(htmlOutput);
+	            	}else{
+	            		$("#TBODY_CHECKED").html("")
+	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 

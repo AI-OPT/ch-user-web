@@ -58,8 +58,21 @@ public class BillingController {
 		queryShopDepositRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
 		queryShopDepositRequest.setUserId(userId);
 		Long deposit=shopInfoSV.queryShopDeposit(queryShopDepositRequest);
-		model.addObject("userName", "长虹");
-		model.addObject("shopName", "亚信");
+		//查询账户信息
+		Map<String, String> map = new HashMap<>();
+		Map<String, String> mapHeader = new HashMap<>();
+		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+		map.put("companyId", userId);
+		String str ="";
+		try {
+			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_findbycompanyid_qry", JSON.toJSONString(map), mapHeader);
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
+		JSONObject data = (JSONObject) JSON.parse(str);
+		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+		model.addObject("userName", data2.getString("username"));
+		model.addObject("shopName", data2.getString("name"));
 		model.addObject("deposit", deposit);
 		model.addObject("userId", userId);
 		return model;
@@ -78,13 +91,13 @@ public class BillingController {
 		QueryShopInfoResponse shopInfoResponse = shopInfoSV.queryShopInfo(shopInfoRequest);
 		String rentFeeStr="";
 		String ratioStr="";
+		
 		if(shopInfoResponse.getRentFee()==null||shopInfoResponse.getRentFee()==0)
 		{
 			rentFeeStr="未设置";
 		}else{
 			if("Y".equals(shopInfoResponse.getRentCycleType()))
-				
-			rentFeeStr=shopInfoResponse.getRentFee()+"元/年";
+				rentFeeStr=shopInfoResponse.getRentFee()+"元/年";
 			if("Q".equals(shopInfoResponse.getRentCycleType()))
 				rentFeeStr=shopInfoResponse.getRentFee()+"元/季度";
 			if("M".equals(shopInfoResponse.getRentCycleType()))
@@ -95,8 +108,21 @@ public class BillingController {
 		else{
 			ratioStr=shopInfoResponse.getRatio()+"%";
 		}
-		model.addObject("userName", "长虹");
-		model.addObject("shopName", "亚信");
+		//查询账户信息
+		Map<String, String> map = new HashMap<>();
+		Map<String, String> mapHeader = new HashMap<>();
+		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+		map.put("companyId", userId);
+		String str ="";
+		try {
+			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_findbycompanyid_qry", JSON.toJSONString(map), mapHeader);
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
+		JSONObject data = (JSONObject) JSON.parse(str);
+		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+		model.addObject("userName", data2.getString("username"));
+		model.addObject("shopName", data2.getString("name"));
 		model.addObject("rentFeeStr", rentFeeStr);
 		model.addObject("ratioStr", ratioStr);
 		model.addObject("userId", userId);
@@ -141,12 +167,26 @@ public class BillingController {
 			Long depositBalance = shopInfoSV.queryShopDeposit(queryShopDepositRequest);
 			deposit = depositBalance.toString()+"元";
 		}
-		model.addObject("rentFeeStr", rentFeeStr);
-		model.addObject("ratioStr", ratioStr);
-		model.addObject("deposit", deposit);
-		model.addObject("userName", "长虹");
-		model.addObject("shopName", "亚信");
-		return model;
+		
+		//查询账户信息
+				Map<String, String> map = new HashMap<>();
+				Map<String, String> mapHeader = new HashMap<>();
+				mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+				map.put("companyId", userId);
+				String str ="";
+				try {
+					str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_findbycompanyid_qry", JSON.toJSONString(map), mapHeader);
+				} catch (IOException | URISyntaxException e) {
+					e.printStackTrace();
+				}
+				JSONObject data = (JSONObject) JSON.parse(str);
+				JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+				model.addObject("userName", data2.getString("username"));
+				model.addObject("shopName", data2.getString("name"));
+				model.addObject("rentFeeStr", rentFeeStr);
+				model.addObject("ratioStr", ratioStr);
+				model.addObject("deposit", deposit);
+				return model;
 	}
 
 	@RequestMapping("/getbilllist")
@@ -323,19 +363,21 @@ public class BillingController {
 	//查询结算周期和违约管理列表
 	@RequestMapping("/getList")
 	@ResponseBody
-	public ResponseData<PageInfo<BusinessListInfo>> getList(HttpServletRequest request){
+	public ResponseData<PageInfo<BusinessListInfo>> getList(HttpServletRequest request,String companyName,String username,String companyType){
 		ResponseData<PageInfo<BusinessListInfo>> response = null;
 		PageInfo<BusinessListInfo> pageInfo =null;
 		ResponseHeader header = null;
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
 		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
-		map.put("pageNo", "1");
-		map.put("pageSize", "10");
-		//map.put("companyType", "1");
-		//map.put("auditState", "1");
-		//map.put("username", "ac_PgU9g");
-		map.put("companyName", "长");
+		map.put("pageNo", request.getParameter("pageNo"));
+		map.put("pageSize", request.getParameter("pageSize"));
+		if(username!=null&&username.length()!=0)
+			map.put("username", username);
+		if(companyName!=null&&companyName.length()!=0)
+			map.put("companyName", companyName);
+		if(companyType!=null&&companyType.length()!=0)
+			map.put("companyType", companyType);
 		String str ="";
 		try {
 			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_searchcompanylist_qry", JSON.toJSONString(map),mapHeader);
@@ -350,12 +392,12 @@ public class BillingController {
 		else {
 			//获取返回操作码
 			JSONObject data = (JSONObject) JSON.parse(json.getString("data"));
-			String result = data.getString("success");
-			if ("false".equals(result)){
-				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
-			}
-			else{
+			JSONObject responseHeader = (JSONObject) JSON.parse(data.getString("responseHeader"));
+			//"SCORE02003".equals(responseHeader.getString("resultCode"))
+			if(responseHeader!=null){
+				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.ISNULL, "查询为空");
+			}else{
 				Integer pageNo = Integer.valueOf(data.getString("pages"));
 				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
 				Integer total = Integer.valueOf(data.getString("total"));
@@ -371,7 +413,7 @@ public class BillingController {
 				while(iterator.hasNext()){
 					BusinessListInfo businessListInfo = new BusinessListInfo(); 
 					 JSONObject object = (JSONObject) iterator.next();
-					 businessListInfo.setUserId(object.getString("uid"));
+					 businessListInfo.setUserId(object.getString("companyId"));
 					 businessListInfo.setUserName(object.getString("username"));
 					 businessListInfo.setCustName(object.getString("name"));
 					 businessListInfo.setBusinessCategory("无数据");
@@ -390,19 +432,21 @@ public class BillingController {
 	//查询保证金/服务费列表
 	@RequestMapping("/getBillingList")
 	@ResponseBody
-	public ResponseData<PageInfo<ShopManageVo>> getBillingList(HttpServletRequest request){
+	public ResponseData<PageInfo<ShopManageVo>> getBillingList(HttpServletRequest request,String companyName,String username,String companyType){
 		ResponseData<PageInfo<ShopManageVo>> response = null;
 		PageInfo<ShopManageVo> pageInfo =null;
 		ResponseHeader header = null;
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
 		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
-		map.put("pageNo", "1");
-		map.put("pageSize", "10");
-		//map.put("companyType", "1");
-		//map.put("auditState", "1");
-		//map.put("username", "ac_PgU9g");
-		map.put("companyName", "长");
+		map.put("pageNo", request.getParameter("pageNo"));
+		map.put("pageSize", request.getParameter("pageSize"));
+		if(username!=null&&username.length()!=0)
+			map.put("username", username);
+		if(companyName!=null&&companyName.length()!=0)
+			map.put("companyName", companyName);
+		if(companyType!=null&&companyType.length()!=0)
+			map.put("companyType", companyType);
 		String str ="";
 		try {
 			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_searchcompanylist_qry", JSON.toJSONString(map),mapHeader);
@@ -417,12 +461,12 @@ public class BillingController {
 		else {
 			//获取返回操作码
 			JSONObject data = (JSONObject) JSON.parse(json.getString("data"));
-			String result = data.getString("success");
-			if ("false".equals(result)){
-				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
-			}
-			else{
+			JSONObject responseHeader = (JSONObject) JSON.parse(data.getString("responseHeader"));
+			//"SCORE02003".equals(responseHeader.getString("resultCode"))
+			if(responseHeader!=null){
+				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.ISNULL, "查询为空");
+			}else{
 				Integer pageNo = Integer.valueOf(data.getString("pages"));
 				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
 				Integer total = Integer.valueOf(data.getString("total"));
@@ -438,14 +482,14 @@ public class BillingController {
 				while(iterator.hasNext()){
 					ShopManageVo shopManageVo = new ShopManageVo(); 
 					 JSONObject object = (JSONObject) iterator.next();
-					 shopManageVo.setUserId(object.getString("uid"));
-					 shopManageVo.setBusiType("无数据");
+					 shopManageVo.setUserId(object.getString("companyId"));
+					 shopManageVo.setBusiType(object.getString("brandNameCh"));
 					 shopManageVo.setShopName(object.getString("name"));
 					 shopManageVo.setUserName(object.getString("username"));
 					 shopManageVo.setDeposit(0L);
 					 responseList.add(shopManageVo);
 				}
-				pageInfo.setResult(responseList);
+ 				pageInfo.setResult(responseList);
 				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 			}

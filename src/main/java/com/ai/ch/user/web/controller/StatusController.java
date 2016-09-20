@@ -139,12 +139,12 @@ public class StatusController {
 		else {
 			//获取返回操作码
 			JSONObject data = (JSONObject) JSON.parse(json.getString("data"));
-			String result = data.getString("success");
-			if ("false".equals(result)){
-				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
-			}
-			else{
+			JSONObject responseHeader = (JSONObject) JSON.parse(data.getString("responseHeader"));
+			//"SCORE02003".equals(responseHeader.getString("resultCode"))
+			if(responseHeader!=null){
+				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.ISNULL, "查询为空");
+			}else{
 				Integer pageNo = Integer.valueOf(data.getString("pages"));
 				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
 				Integer total = Integer.valueOf(data.getString("total"));
@@ -161,13 +161,13 @@ public class StatusController {
 					 StatusListVo statusListVo = new StatusListVo(); 
 					 JSONObject object = (JSONObject) iterator.next();
 					 String stateValue = "";
-					 if("10".equals(object.getString("companyState")))
+					 if("0".equals(object.getString("companyState")))
 						 stateValue = "正常";
-					 else if("11".equals(object.getString("companyState")))
+					 else if("1".equals(object.getString("companyState")))
 						 stateValue = "冻结";
-					 else if("12".equals(object.getString("companyState")))
+					 else if("2".equals(object.getString("companyState")))
 						 stateValue = "注销";
-					 statusListVo.setUserId(object.getString("uid"));
+					 statusListVo.setUserId(object.getString("companyId"));
 					 statusListVo.setUserName(object.getString("username"));
 					 statusListVo.setGroupName(object.getString("name"));
 					 statusListVo.setStateValue(stateValue);

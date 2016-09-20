@@ -34,10 +34,9 @@ define('app/jsp/qualification/noCheckedPagerList', function (require, exports, m
     	//重写父类
     	setup: function () {
     		noCheckedPagerListPager.superclass.setup.call(this);
-    		this._getInitList();
     	},
 
-    	_getInitList:function(){
+    	_getInitList:function(companyType){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/qualification/getUncheckList",
@@ -45,7 +44,7 @@ define('app/jsp/qualification/noCheckedPagerList', function (require, exports, m
 	 			dataType: "json",
 	 			renderId:"UN_CHECKED",
 	            data : {
-					"tenantId": 'changhong',
+	            	"companyType":companyType
 				},
 	           	pageSize: noCheckedPagerListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
@@ -64,7 +63,7 @@ define('app/jsp/qualification/noCheckedPagerList', function (require, exports, m
 			window.location.href = _base+'/qualification/toShopCheckPager?userId='+userId;
 		},
 		
-		_getList:function(){
+		_getList:function(companyType){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/qualification/getUncheckList",
@@ -74,7 +73,7 @@ define('app/jsp/qualification/noCheckedPagerList', function (require, exports, m
 	            data : {
 	            	"username":$("#username").val(),
 					"companyName":$("#companyName").val(),
-					"companyType":"1"
+					"companyType":companyType
 				},
 	           	pageSize: noCheckedPagerListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
@@ -84,6 +83,9 @@ define('app/jsp/qualification/noCheckedPagerList', function (require, exports, m
 	            		var template = $.templates("#unCheckedImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#UN_CHECKED").html(htmlOutput);
+	            	}else{
+	            		$("#UN_CHECKED").html("")
+	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 

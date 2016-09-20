@@ -69,9 +69,10 @@ public class ScoreController {
 			e.printStackTrace();
 		}
 		JSONObject data = (JSONObject) JSON.parse(str);
-		model.addObject("supplier_name", data.getString("username"));
-		model.addObject("company_name", data.getString("name"));
-		model.addObject("userId", "d512de5b33de4c97");
+		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+		model.addObject("supplier_name", data2.getString("username"));
+		model.addObject("company_name", data2.getString("name"));
+		model.addObject("userId", userId);
 		//调dubbo服务
 		IScoreSV scoreSV = DubboConsumerFactory.getService("iScoreSV");
 		QueryScoreKpiRequest queryScoreKpiRequest = new QueryScoreKpiRequest();
@@ -165,12 +166,12 @@ public class ScoreController {
 		else {
 			//获取返回操作码
 			JSONObject data = (JSONObject) JSON.parse(json.getString("data"));
-			String result = data.getString("success");
-			if ("false".equals(result)){
-				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
-			}
-			else{
+			JSONObject responseHeader = (JSONObject) JSON.parse(data.getString("responseHeader"));
+			//"SCORE02003".equals(responseHeader.getString("resultCode"))
+			if(responseHeader!=null){
+				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.ISNULL, "查询为空");
+			}else{
 				Integer pageNo = Integer.valueOf(data.getString("pages"));
 				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
 				Integer total = Integer.valueOf(data.getString("total"));
@@ -192,9 +193,9 @@ public class ScoreController {
 					 GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 					 CountScoreAvgRequest scoreAvgRequest = new CountScoreAvgRequest();
 					 scoreAvgRequest.setTenantId(user.getTenantId());
-					 scoreAvgRequest.setUserId(object.getString("uid"));
+					 scoreAvgRequest.setUserId(object.getString("companyId"));
 					 int avgScore = (int)scoreSV.countScoreAvg(scoreAvgRequest);
-					 supplierScoreVo.setUserId(object.getString("uid"));
+					 supplierScoreVo.setUserId(object.getString("companyId"));
 					 supplierScoreVo.setUserName(object.getString("username"));
 					 supplierScoreVo.setGroupName(object.getString("name"));
 					 supplierScoreVo.setTotalScore(Integer.valueOf(avgScore));

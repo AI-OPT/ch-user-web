@@ -51,6 +51,10 @@ public class ChWebConstants {
 		 * 失败
 		 */
 		public static final String Fail = "999999";
+		/**
+		 * 数据为空
+		 */
+		public static final String ISNULL = "111111";
 	}
 	
 	public static final class ExceptionCode {

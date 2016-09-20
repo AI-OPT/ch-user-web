@@ -92,7 +92,7 @@ label.error {
   
 	<script type="text/javascript">
 		var pager;
-		var userId=${userId};
+		var userId='${userId}';
 		(function() {
 			seajs.use('app/jsp/billing/marginSetting', function(MarginSettingPager) {
 				pager = new MarginSettingPager({

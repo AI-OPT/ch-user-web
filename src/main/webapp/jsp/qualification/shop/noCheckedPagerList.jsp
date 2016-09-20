@@ -29,7 +29,7 @@
 					                <li  class="col-md-6">
 					                    <p class="word">企业名称</p>
 					                    <p><input type="text" class="int-text int-medium" id="companyName"></p>
-					                    <p><input type="button" class="btn-default btn-blue btn-mini" value="查询" onclick="pager._getList();"/></p>
+					                    <p><input type="button" class="btn-default btn-blue btn-mini" value="查询" onclick="pager._getList('2');"/></p>
 					                </li>  
 					            </ul>
 					         </div>
@@ -51,6 +51,7 @@
                                     </table>
                                </div>
                                 </div>
+                                <div id="info" class="text-c"></div>
                             <!--/table表格结束-->
                                 <!--分页-->
                                  <div class="paging">
@@ -70,6 +71,7 @@
 			seajs.use('app/jsp/qualification/noCheckedPagerList', function (NoCheckedPagerListPager) {
 				pager = new NoCheckedPagerListPager({element: document.body});
 				pager.render();
+				pager._getInitList('2');
 			});
 		})();
 </script>

@@ -45,7 +45,7 @@ define('app/jsp/contract/contractSupplierList', function (require, exports, modu
 	 			dataType: "json",
 	 			renderId:"TBODY_DEFAULTLIST",
 	            data : {
-					"tenantId": 'changhong',
+	            	"companyType":"1"
 				},
 	           	pageSize: ContractListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
@@ -81,6 +81,9 @@ define('app/jsp/contract/contractSupplierList', function (require, exports, modu
 	            		var template = $.templates("#contractImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_DEFAULTLIST").html(htmlOutput);
+	            	}else{
+	            		$("#TBODY_DEFAULTLIST").html("")
+	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		});

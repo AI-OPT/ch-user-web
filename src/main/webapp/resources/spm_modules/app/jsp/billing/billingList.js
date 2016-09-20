@@ -41,12 +41,12 @@ define('app/jsp/billing/billingList', function (require, exports, module) {
     	_getInitList: function(){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({
-    			url: _base+"/billing/getList",
+    			url: _base+"/billing/getBillingList",
 	 			method: "POST",
 	 			dataType: "json",
 	 			renderId:"TBODY_BILLLIST",
 	            data : {
-					tenantId: 'ch',
+	            	"companyType":"2"
 				},
 	           	pageSize: BillingListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
@@ -69,7 +69,7 @@ define('app/jsp/billing/billingList', function (require, exports, module) {
  			dataType: "json",
  			renderId:"TBODY_BILLLIST",
             data : {
-				tenantId: 'ch',
+            	"companyType":"2"
 			},
            	pageSize: BillingListPager.DEFAULT_PAGE_SIZE,
            	visiblePages:5,
@@ -79,6 +79,9 @@ define('app/jsp/billing/billingList', function (require, exports, module) {
             		var template = $.templates("#bailListImpl");
                     var htmlOutput = template.render(data);
                     $("#TBODY_BILLLIST").html(htmlOutput);
+            	}else{
+            		$("#TBODY_BILLLIST").html("")
+            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
             	}
             }
 		});

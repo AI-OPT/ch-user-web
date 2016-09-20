@@ -45,10 +45,11 @@ define('app/jsp/billing/billingCycleList', function (require, exports, module) {
 	 			dataType: "json",
 	 			renderId:"TBODY_DEFAULTLIST",
 	            data : {
-					"tenantId": 'changhong',
+	            	"companyType":"2"
 				},
 	           	pageSize: BillingCycleListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
+	           	processing: true,
 	            message: "正在为您查询数据..",
 	            callback: function(data){
 	              	if(data.result != null && data.result != 'undefined' && data.result.length>0){
@@ -68,7 +69,7 @@ define('app/jsp/billing/billingCycleList', function (require, exports, module) {
 	 			dataType: "json",
 	 			renderId:"TBODY_DEFAULTLIST",
 	            data : {
-					"tenantId": 'changhong',
+	            	"companyType":"2"
 				},
 	           	pageSize: BillingCycleListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
@@ -78,6 +79,9 @@ define('app/jsp/billing/billingCycleList', function (require, exports, module) {
 	            		var template = $.templates("#billingCycleImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_DEFAULTLIST").html(htmlOutput);
+	            	}else{
+	            		$("#TBODY_DEFAULTLIST").html("")
+	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		});
