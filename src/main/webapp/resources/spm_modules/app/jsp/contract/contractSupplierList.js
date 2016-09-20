@@ -66,6 +66,7 @@ define('app/jsp/contract/contractSupplierList', function (require, exports, modu
 
     	_getList:function(){
     		var _this = this;
+    		$("#info").html("");
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/contract/getList",
 	 			method: "POST",

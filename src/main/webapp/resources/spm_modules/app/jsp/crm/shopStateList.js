@@ -39,6 +39,7 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
     	//获取企业管理列表
     	_getInitList: function(){
     		var _this = this;
+    		$("#info").html("");
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/status/getList",
 	 			method: "POST",

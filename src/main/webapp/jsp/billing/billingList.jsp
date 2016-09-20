@@ -98,9 +98,9 @@
 			<td>{{:shopName}}</td>
 			<td id={{:busiType}}>{{:busiType}}</td>
 			<td id={{:deposit}}>{{:deposit}}</td>
-			<td><a href="javascript:void(0)" onclick="pager._toMarginPage('{{:userId}}')">保证金设置</a>
-				<a href="javascript:void(0)" onclick="pager._toServiceFeeSettingPage('{{:userId}}')">服务费设置</a>
-				<a href="javascript:void(0)" onclick="pager._toServiceFeePage('{{:userId}}')">查看详情</a></td>
+			<td><a href="javascript:void(0)" onclick="pager._toMarginPage('{{:userId}}','{{:userName}}')">保证金设置</a>
+				<a href="javascript:void(0)" onclick="pager._toServiceFeeSettingPage('{{:userId}}','{{:userName}}')">服务费设置</a>
+				<a href="javascript:void(0)" onclick="pager._toServiceFeePage('{{:userId}}','{{:userName}}')">查看详情</a></td>
 		</tr>
 	{{/for}}
 </script>

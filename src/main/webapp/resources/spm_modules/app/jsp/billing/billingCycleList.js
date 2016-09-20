@@ -66,6 +66,7 @@ define('app/jsp/billing/billingCycleList', function (require, exports, module) {
 
     	_getList:function(){
     		var _this = this;
+    		$("#info").html("");
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/billing/getList",
 	 			method: "POST",

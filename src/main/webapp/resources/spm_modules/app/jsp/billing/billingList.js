@@ -66,6 +66,7 @@ define('app/jsp/billing/billingList', function (require, exports, module) {
     	
     	_getList:function(){
     	var _this = this;
+    	$("#info").html("");
 		$("#pagination-ul").runnerPagination({
 			url: _base+"/billing/getBillingList",
  			method: "POST",
@@ -91,14 +92,14 @@ define('app/jsp/billing/billingList', function (require, exports, module) {
             }
 		});
     	},
-    	_toMarginPage:function(userId){
-    		window.location.href= _base+"/billing/marginsetting?userId="+userId;
+    	_toMarginPage:function(userId,username){
+    		window.location.href= _base+"/billing/marginsetting?userId="+userId+'&username='+username;
     	},
-    	_toServiceFeeSettingPage:function(userId){
-    		window.location.href= _base+"/billing/servicefeesetting?userId="+userId;
+    	_toServiceFeeSettingPage:function(userId,username){
+    		window.location.href= _base+"/billing/servicefeesetting?userId="+userId+'&username='+username;
     	},
-    	_toServiceFeePage:function(userId){
-    		window.location.href= _base+"/billing/servicefee?userId="+userId;
+    	_toServiceFeePage:function(userId,username){
+    		window.location.href= _base+"/billing/servicefee?userId="+userId+'&username='+username;
     	}
     	
     	

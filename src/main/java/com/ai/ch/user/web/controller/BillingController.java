@@ -52,7 +52,8 @@ public class BillingController {
 	public ModelAndView marginSetting(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/jsp/billing/marginSetting");
 		String url=request.getQueryString();
-		String userId=url.substring(url.lastIndexOf("=")+1);
+		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
+		String username = url.substring(url.lastIndexOf("username=")+9);
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopDepositRequest queryShopDepositRequest = new QueryShopDepositRequest();
 		queryShopDepositRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
@@ -71,7 +72,7 @@ public class BillingController {
 		}
 		JSONObject data = (JSONObject) JSON.parse(str);
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
-		model.addObject("userName", data2.getString("username"));
+		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
 		model.addObject("deposit", deposit);
 		model.addObject("userId", userId);
@@ -82,7 +83,8 @@ public class BillingController {
 	public ModelAndView serviceFeeSetting(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/jsp/billing/serviceFeeSetting");
 		String url=request.getQueryString();
-		String userId=url.substring(url.lastIndexOf("=")+1);
+		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
+		String username = url.substring(url.lastIndexOf("username=")+9);
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopInfoRequest shopInfoRequest = new QueryShopInfoRequest();
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
@@ -121,7 +123,7 @@ public class BillingController {
 		}
 		JSONObject data = (JSONObject) JSON.parse(str);
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
-		model.addObject("userName", data2.getString("username"));
+		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
 		model.addObject("rentFeeStr", rentFeeStr);
 		model.addObject("ratioStr", ratioStr);
@@ -133,7 +135,8 @@ public class BillingController {
 	public ModelAndView serviceFee(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/jsp/billing/serviceFee");
 		String url=request.getQueryString();
-		String userId=url.substring(url.lastIndexOf("=")+1);
+		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
+		String username = url.substring(url.lastIndexOf("username=")+9);
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopInfoRequest shopInfoRequest = new QueryShopInfoRequest();
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
@@ -168,57 +171,27 @@ public class BillingController {
 			deposit = depositBalance.toString()+"元";
 		}
 		
-		//查询账户信息
-				Map<String, String> map = new HashMap<>();
-				Map<String, String> mapHeader = new HashMap<>();
-				mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
-				map.put("companyId", userId);
-				String str ="";
-				try {
-					str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_findbycompanyid_qry", JSON.toJSONString(map), mapHeader);
-				} catch (IOException | URISyntaxException e) {
-					e.printStackTrace();
-				}
-				JSONObject data = (JSONObject) JSON.parse(str);
-				JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
-				model.addObject("userName", data2.getString("username"));
-				model.addObject("shopName", data2.getString("name"));
-				model.addObject("rentFeeStr", rentFeeStr);
-				model.addObject("ratioStr", ratioStr);
-				model.addObject("deposit", deposit);
-				return model;
+			//查询账户信息
+			Map<String, String> map = new HashMap<>();
+			Map<String, String> mapHeader = new HashMap<>();
+			mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+			map.put("companyId", userId);
+			String str ="";
+			try {
+				str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_findbycompanyid_qry", JSON.toJSONString(map), mapHeader);
+			} catch (IOException | URISyntaxException e) {
+				e.printStackTrace();
+			}
+			JSONObject data = (JSONObject) JSON.parse(str);
+			JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+			model.addObject("userName", username);
+			model.addObject("shopName", data2.getString("name"));
+			model.addObject("rentFeeStr", rentFeeStr);
+			model.addObject("ratioStr", ratioStr);
+			model.addObject("deposit", deposit);
+			return model;
 	}
 
-	@RequestMapping("/getbilllist")
-	@ResponseBody
-	public ResponseData<PageInfo<ShopManageVo>> getbillList(HttpServletRequest request) {
-		ResponseData<PageInfo<ShopManageVo>> response = new ResponseData<PageInfo<ShopManageVo>>(
-				ChWebConstants.OperateCode.SUCCESS, "成功");
-		PageInfo<ShopManageVo> pageInfo = new PageInfo<ShopManageVo>();
-		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
-		QueryShopDepositRequest queryShopDepositRequest = new QueryShopDepositRequest();
-		queryShopDepositRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
-		queryShopDepositRequest.setUserId("00002");
-		Long deposit = shopInfoSV.queryShopDeposit(queryShopDepositRequest);
-		pageInfo.setCount(20);
-		pageInfo.setPageCount(4);
-		pageInfo.setPageNo(1);
-		pageInfo.setPageSize(5);
-		List<ShopManageVo> list = new ArrayList<ShopManageVo>();
-		for (int i = 0; i < 5; i++) {
-			ShopManageVo shopManageVo = new ShopManageVo();
-			shopManageVo.setShopName("亚信");
-			shopManageVo.setDeposit(deposit);
-			shopManageVo.setUserId("00002");
-			shopManageVo.setUserName("长虹");
-			shopManageVo.setBusiType("家电");
-			list.add(shopManageVo);
-		}
-		pageInfo.setResult(list);
-		response.setData(pageInfo);
-		return response;
-	}
-	
 	@RequestMapping("/savemarginsetting")
 	@ResponseBody
 	public ResponseData<String> saveMarginSetting(HttpServletRequest request) {

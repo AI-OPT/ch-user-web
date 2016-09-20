@@ -39,6 +39,7 @@ define('app/jsp/crm/supplierStateList', function (require, exports, module) {
     	//获取供货商管理列表
     	_getInitList: function(){
     		var _this = this;
+    		$("#info").html("");
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/status/getList",
 	 			method: "POST",

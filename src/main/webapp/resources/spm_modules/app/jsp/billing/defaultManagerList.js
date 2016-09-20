@@ -65,6 +65,7 @@ define('app/jsp/billing/defaultManagerList', function (require, exports, module)
     	
     	_getList:function(){
     		var _this = this;
+    		$("#info").html("");
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/defaultManager/getList",
 	 			method: "POST",

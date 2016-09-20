@@ -70,6 +70,7 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
     	
     	_getList:function(){
     		var _this = this;
+    		$("#info").html("");
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/score/getList",
 	 			method: "POST",

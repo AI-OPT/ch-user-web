@@ -98,15 +98,18 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
 		
 		_getList:function(companyType){
     		var _this = this;
-    		$("#pagination-ul").runnerPagination({
+    		$("#info_pass").html("");
+    		$("#info_reject").html("");
+    		$("#pagination-ul-pass").runnerPagination({
     			url: _base+"/qualification/getCheckedList",
 	 			method: "POST",
 	 			dataType: "json",
-	 			renderId:"TBODY_CHECKED",
+	 			renderId:"TBODY_CHECKED_PASS",
 	            data : {
 	            	"username":$("#username").val(),
 					"companyName":$("#companyName").val(),
-					"companyType":companyType
+	            	"companyType":companyType,
+	            	"auditState":'2',
 				},
 	           	pageSize: checkedPagerListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
@@ -115,13 +118,38 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
 	              	if(data.result != null && data.result != 'undefined' && data.result.length>0){
 	            		var template = $.templates("#checkedImpl");
 	                    var htmlOutput = template.render(data);
-	                    $("#TBODY_CHECKED").html(htmlOutput);
+	                    $("#TBODY_CHECKED_PASS").html(htmlOutput);
 	            	}else{
-	            		$("#TBODY_CHECKED").html("")
-	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
+	            		$("#TBODY_CHECKED_PASS").html("")
+	            		$("#info_pass").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 
+    		$("#pagination-ul-reject").runnerPagination({
+    			url: _base+"/qualification/getCheckedList",
+	 			method: "POST",
+	 			dataType: "json",
+	 			renderId:"TBODY_CHECKED_REJECT",
+	            data : {
+	            	"username":$("#username").val(),
+					"companyName":$("#companyName").val(),
+	            	"companyType":companyType,
+	            	"auditState":'3',
+				},
+	           	pageSize: checkedPagerListPager.DEFAULT_PAGE_SIZE,
+	           	visiblePages:5,
+	            message: "正在为您查询数据..",
+	            callback: function(data){
+	              	if(data.result != null && data.result != 'undefined' && data.result.length>0){
+	            		var template = $.templates("#checkedImpl");
+	                    var htmlOutput = template.render(data);
+	                    $("#TBODY_CHECKED_REJECT").html(htmlOutput);
+	            	}else{
+	            		$("#TBODY_CHECKED_REJECT").html("")
+	            		$("#info_reject").html("<div class='text-c'>查询数据不存在</div>");
+	            	}
+	            }
+    		});
     	}
     	
     });
