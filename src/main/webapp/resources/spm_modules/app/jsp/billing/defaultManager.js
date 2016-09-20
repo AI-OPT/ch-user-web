@@ -66,9 +66,16 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     		}else{
     			var reg = /^(\d{1,15}|\d{1,12}\.\d{1,2})$/;
 				if(amount.match(reg)){
-    				$("#amountErrMsg").hide();
-        			$("#amountText").hide();
-        			$("#amountFlag").val("1");
+					if(amount<=balance){
+						$("#amountErrMsg").hide();
+	        			$("#amountText").hide();
+	        			$("#amountFlag").val("1");
+					}else{
+						$("#amountErrMsg").show();
+	        			$("#amountText").show();
+	        			$("#amountText").text("输入的金额不能大于剩余金额");
+					}
+    				
     			}else{
     				$("#amountErrMsg").show();
         			$("#amountText").show();
