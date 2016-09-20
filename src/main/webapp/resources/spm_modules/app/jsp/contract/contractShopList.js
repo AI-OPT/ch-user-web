@@ -55,6 +55,9 @@ define('app/jsp/contract/contractShopList', function (require, exports, module) 
 	            		var template = $.templates("#contractImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_DEFAULTLIST").html(htmlOutput);
+	            	}else{
+	            		$("#TBODY_DEFAULTLIST").html("")
+	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 

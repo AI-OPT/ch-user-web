@@ -75,6 +75,9 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
 	                    		$("#recovery_"+result[i].userId).show();
 	                    	}
 	                    }
+	            	}else{
+	            		$("#TBODY_SHOPSTATE").html("")
+	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 

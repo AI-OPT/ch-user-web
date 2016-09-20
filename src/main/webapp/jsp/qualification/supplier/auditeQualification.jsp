@@ -13,8 +13,7 @@
 <link rel="stylesheet" type="text/css" href="${uedroot}/css/modular/modular.css"/>
 </head>
 <body>
-
-  		  <div class="row" ><!--外围框架-->
+ 		  <div class="row" ><!--外围框架-->
             <div class="col-lg-12"><!--删格化-->
                 <div class="row"><!--内侧框架-->
                     <div class="col-lg-12"><!--删格化-->
@@ -33,19 +32,19 @@
 					 	 			<ul style="background:#e7e7e7 ">
 						                <li class="col-md-6" style="width: 25%">
 						                    <p class="word" style="font-size: 20px;">用户名:</p>
-						                    <p>aaa</p>
+						                    <p>${userName }</p>
 						                </li>
 						                <li  class="col-md-6" style="width: 25%">
 						                    <p class="word" style="font-size: 20px">企业名称:</p>
-						                    <p>bbb</p>
+						                    <p>${shopName }</p>
 						                </li> 
 						                <li class="col-md-6" style="width: 25%">
 						                    <p class="word" style="font-size: 20px;">提交时间:</p>
-						                    <p>aaa</p>
+						                    <p>${auditTime }</p>
 						                </li>
 						                <li  class="col-md-6" style="width: 25%">
 						                    <p class="word" style="font-size: 20px">提交类型:</p>
-						                    <p>bbb</p>
+						                    <p>无</p>
 						                </li>   
 						            </ul>
 						            
@@ -58,61 +57,61 @@
 									<li>
 									  <p class="word"><b class="red">*</b>行业:</p>
 									</li>
-									<li>制造者</li>
+									<li>${industryType }</li>
 								</ul>
 						    	<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>官网:</p>
 									</li>
-									<li>www.home.com</li>
+									<li>${officialWebsite }</li>
 								</ul>
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>公司人数:</p>
 									</li>
-									<li>1-50人</li>
+									<li>${companiesNumber }</li>
 								</ul>
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>公司性质:</p>
 									</li>
-									<li>民营企业</li>
+									<li>${companyNature }</li>
 								</ul>
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>通讯地址:</p>
 									</li>
-									<li>北京市 北京  朝阳区  大悦城9楼905</li>
+									<li>${companyNature }</li>
 								</ul>															
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>年营业额:</p>
 									</li>
-									<li>300万元</li>
+									<li>${annualTurnover }</li>
 								</ul>
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>占地面积:</p>
 									</li>
-									<li>2200  平方米</li>
+									<li>${areaCover }</li>
 								</ul>
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>电话:</p>
 									</li>
-									<li>010-86754632</li>
+									<li>${phone }</li>
 								</ul>
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>传真:</p>
 									</li>
-									<li>010-86754639</li>
+									<li>${fax }</li>
 								</ul>	
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>邮箱:</p>
 									</li>
-									<li>010-86754639</li>
+									<li>${email }</li>
 								</ul>		
 								<ul>
 									<li>
@@ -123,19 +122,19 @@
 									<li>
 									  <p class="word"><b class="red">*</b>企业名称:</p>
 									</li>
-									<li>北京华夏科技贸易有限公司</li>
+									<li>${shopName }</li>
 								</ul>	
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>企业注册地址:</p>
 									</li>
-									<li>北京市海淀区中关村北路21号昆泰大厦A座302</li>
+									<li>${businessAddress }</li>
 								</ul>
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>营业执照号:</p>
 									</li>
-									<li>23233489898000</li>
+									<li>${businessLicenseRegistrationNumber }</li>
 								</ul>	
 								<ul>
 									<li>
@@ -147,32 +146,32 @@
 									<li>
 									  <p class="word"><b class="red">*</b>成立日期:</p>
 									</li>
-									<li>2011年10月7日</li>
+									<li>${establishDate }</li>
 								</ul>	
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>注册资本:</p>
 									</li>
-									<li>40万元</li>
+									<li>${registerCapital }</li>
 								</ul>
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>经营范围:</p>
 									</li>
-									<li>五金交电，日用百货、针纺织品、洗涤用品、化妆品
+									<li>${businessScope }
 								    </li>
 								</ul>
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>法人姓名:</p>
 									</li>
-									<li>孙大伟</li>
+									<li>${legalRepresentative }</li>
 								</ul>
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>法人身份证号:</p>
 									</li>
-									<li>13331177069787878</li>
+									<li>${idNumber }</li>
 								</ul>
 								<ul>
 									<li>
@@ -194,19 +193,19 @@
 									<li>
 									  <p class="word"><b class="red">*</b>纳税人识别号:</p>
 									</li>
-									<li>1x5656767343X</li>
+									<li>${taxpayerNumber }</li>
 								</ul>
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>纳税人类型:</p>
 									</li>
-									<li>一般纳税人</li>
+									<li>${taxpayerType }</li>
 								</ul>
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>纳税类型税码:</p>
 									</li>
-									<li>6%</li>
+									<li>${taxCode }</li>
 								</ul>
 								<ul>
 									<li>
@@ -223,7 +222,7 @@
 									<li>
 									  <p class="word"><b class="red">*</b>组织机构代码证:</p>
 									</li>
-									<li> <p class="word" style="font-size: 16px">1x5656767343X</p></li>
+									<li> <p class="word" style="font-size: 16px">${organizationCode }</p></li>
 								</ul>
 								<ul>
 									<li>
@@ -240,13 +239,13 @@
 									<li>
 									  <p class="word"><b class="red">*</b>开户银行名称:</p>
 									</li>
-									<li> <p class="word" style="font-size: 16px">中国银行</p></li>
+									<li> <p class="word" style="font-size: 16px">${bankName }</p></li>
 								</ul>
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>公司银行账户:</p>
 									</li>
-									<li> <p class="word" style="font-size: 16px">62213545478788778</p></li>
+									<li> <p class="word" style="font-size: 16px">${bankAccount }</p></li>
 								</ul>
 								<ul>
 									<li>
@@ -263,19 +262,19 @@
 									<li>
 									  <p class="word"><b class="red">*</b>供应商品类型:</p>
 									</li>
-									<li> <p class="word" style="font-size: 16px">家纺纺织</p></li>
+									<li> <p class="word" style="font-size: 16px">${brandNameType }</p></li>
 								</ul>
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>品牌名称(中文):</p>
 									</li>
-									<li> <p class="word" style="font-size: 16px">温馨家纺</p></li>
+									<li> <p class="word" style="font-size: 16px">${brandNameCh }</p></li>
 								</ul>
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>品牌名称(英文):</p>
 									</li>
-									<li> <p class="word" style="font-size: 16px">Sweet texttile</p></li>
+									<li> <p class="word" style="font-size: 16px">${brandNameEn }</p></li>
 								</ul>
 								<ul>
 									<li>
@@ -303,11 +302,11 @@
 								</ul>
 								<ul>
 									<li>
-									  <input type="button" class="biu-btn btn-green btn-xlarge  radius" value="通过" style="margin-left: 60%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									  <input type="button" class="biu-btn btn-green btn-xlarge  radius" value="通过" onclick="pager._passAudit('${userId}');" style="margin-left: 60%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									</li>
 									
 									<li> 
-									   <input type="button" class="biu-btn btn-red btn-xlarge  radius" value="拒绝">
+									   <input type="button" class="biu-btn btn-red btn-xlarge  radius" value="拒绝" onclick="pager._rejectAudit('${userId}');">
 									</li>
 								</ul>
                              </div>
@@ -317,7 +316,7 @@
             
             </div>
     </div>
-   <script type="text/javascript">
+  <script type="text/javascript">
 var pager;
 (function () {
 	seajs.use('app/jsp/qualification/auditeQualification', function (AuditeQualificationPager) {

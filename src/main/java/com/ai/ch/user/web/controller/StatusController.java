@@ -69,16 +69,15 @@ public class StatusController {
 	
 	@RequestMapping("/updateAudit")
 	@ResponseBody
-	public ResponseData<String> updateAudit(HttpServletRequest request){
+	public ResponseData<String> updateAudit(HttpServletRequest request,String companyId,String auditState){
 		ResponseData<String> response = null;
 		ResponseHeader header = null;
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
 		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
 		map.put("openId", "1");
-		map.put("auditState","1");
-		map.put("companyId","ac_ew23");
-		//map.put("companyName","长");
+		map.put("auditState",auditState);
+		map.put("companyId",companyId);
 		String str ="";
 		try {
 			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_updateauditstate_update", JSON.toJSONString(map), mapHeader);

@@ -47,7 +47,7 @@ public class QualificationController {
 	 * @return
 	 */
 	@RequestMapping("/toCheckedShopPager")
-	public ModelAndView toCheckedShopPager() {
+	public ModelAndView toCheckedShopPager(HttpServletRequest request) {
 		return new ModelAndView("/jsp/qualification/shop/checkedPagerList");
 	}
 	/**
@@ -63,38 +63,222 @@ public class QualificationController {
 	 * @return
 	 */
 	@RequestMapping("/toSuplierCheckPager")
-	public ModelAndView toSuplierCheckPager() {
-		return new ModelAndView("/jsp/qualification/supplier/auditeQualification");
+	public ModelAndView toSuplierCheckPager(HttpServletRequest request) {
+		ModelAndView model = new ModelAndView("/jsp/qualification/supplier/auditeQualification");
+		String url=request.getQueryString();
+		String userId=url.substring(url.lastIndexOf("=")+1);
+		//查询账户信息
+		Map<String, String> map = new HashMap<>();
+		Map<String, String> mapHeader = new HashMap<>();
+		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+		map.put("companyId", userId);
+		String str ="";
+		try {
+			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_findbycompanyid_qry", JSON.toJSONString(map), mapHeader);
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
+		JSONObject data = (JSONObject) JSON.parse(str);
+		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+		model.addObject("userId", userId);
+		model.addObject("userName", data2.getString("username"));
+		model.addObject("shopName", data2.getString("name"));
+		model.addObject("auditTime",data2.getString("createTime"));
+		model.addObject("industryType", data2.getString("industryType"));
+		model.addObject("officialWebsite", data2.getString("officialWebsite"));
+		model.addObject("companiesNumber", data2.getString("companiesNumber"));
+		model.addObject("companyNature", data2.getString("companyNature"));
+		model.addObject("location", data2.getString("location"));
+		model.addObject("annualTurnover", data2.getString("annualTurnover"));
+		model.addObject("areaCover", data2.getString("areaCover"));
+		model.addObject("phone", data2.getString("phone"));
+		model.addObject("fax", data2.getString("fax"));
+		model.addObject("email", data2.getString("email"));
+		model.addObject("businessAddress", data2.getString("businessAddress"));
+		model.addObject("businessLicenseRegistrationNumber", data2.getString("businessLicenseRegistrationNumber"));
+		model.addObject("establishDate", data2.getString("establishDate"));
+		model.addObject("businessScope", data2.getString("businessScope"));
+		model.addObject("legalRepresentative", data2.getString("legalRepresentative"));
+		model.addObject("idNumber", data2.getString("idNumber"));
+		model.addObject("taxpayerNumber", data2.getString("taxpayerNumber"));
+		model.addObject("taxpayerType", data2.getString("taxpayerType"));
+		model.addObject("taxCode", data2.getString("taxCode"));
+		model.addObject("organizationCode", data2.getString("organizationCode"));
+		model.addObject("bankName", data2.getString("bankName"));
+		model.addObject("bankAccount", data2.getString("bankAccount"));
+		model.addObject("brandNameType", data2.getString("brandNameType"));
+		model.addObject("brandNameCh", data2.getString("brandNameCh"));
+		model.addObject("brandNameEn", data2.getString("brandNameEn"));
+		model.addObject("registerCapital", data2.getString("registerCapital"));
+		return model;
 	}
 	/**
 	 * 店铺审核页面
 	 * @return
 	 */
 	@RequestMapping("/toShopCheckPager")
-	public ModelAndView toShopCheckDetailPager() {
-		return new ModelAndView("/jsp/qualification/shop/auditeQualification");
+	public ModelAndView toShopCheckDetailPager(HttpServletRequest request) {
+		ModelAndView model = new ModelAndView("/jsp/qualification/shop/auditeQualification");
+		String url=request.getQueryString();
+		String userId=url.substring(url.lastIndexOf("=")+1);
+		//查询账户信息
+		Map<String, String> map = new HashMap<>();
+		Map<String, String> mapHeader = new HashMap<>();
+		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+		map.put("companyId", userId);
+		String str ="";
+		try {
+			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_findbycompanyid_qry", JSON.toJSONString(map), mapHeader);
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
+		JSONObject data = (JSONObject) JSON.parse(str);
+		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+		model.addObject("userId", userId);
+		model.addObject("userName", data2.getString("username"));
+		model.addObject("shopName", data2.getString("name"));
+		model.addObject("auditTime",data2.getString("createTime"));
+		model.addObject("industryType", data2.getString("industryType"));
+		model.addObject("officialWebsite", data2.getString("officialWebsite"));
+		model.addObject("companiesNumber", data2.getString("companiesNumber"));
+		model.addObject("companyNature", data2.getString("companyNature"));
+		model.addObject("location", data2.getString("location"));
+		model.addObject("annualTurnover", data2.getString("annualTurnover"));
+		model.addObject("areaCover", data2.getString("areaCover"));
+		model.addObject("phone", data2.getString("phone"));
+		model.addObject("fax", data2.getString("fax"));
+		model.addObject("email", data2.getString("email"));
+		model.addObject("businessAddress", data2.getString("businessAddress"));
+		model.addObject("businessLicenseRegistrationNumber", data2.getString("businessLicenseRegistrationNumber"));
+		model.addObject("establishDate", data2.getString("establishDate"));
+		model.addObject("businessScope", data2.getString("businessScope"));
+		model.addObject("legalRepresentative", data2.getString("legalRepresentative"));
+		model.addObject("idNumber", data2.getString("idNumber"));
+		model.addObject("taxpayerNumber", data2.getString("taxpayerNumber"));
+		model.addObject("taxpayerType", data2.getString("taxpayerType"));
+		model.addObject("taxCode", data2.getString("taxCode"));
+		model.addObject("organizationCode", data2.getString("organizationCode"));
+		model.addObject("bankName", data2.getString("bankName"));
+		model.addObject("bankAccount", data2.getString("bankAccount"));
+		model.addObject("brandNameType", data2.getString("brandNameType"));
+		model.addObject("brandNameCh", data2.getString("brandNameCh"));
+		model.addObject("brandNameEn", data2.getString("brandNameEn"));
+		model.addObject("registerCapital", data2.getString("registerCapital"));
+		return model;
 	}
 	/**
 	 * 供应商详情页面
 	 * @return
 	 */
 	@RequestMapping("/toSuplierDetailPager")
-	public ModelAndView toSuplierDetailPager() {
-		return new ModelAndView("/jsp/qualification/supplier/checkedDetail");
+	public ModelAndView toSuplierDetailPager(HttpServletRequest request) {
+		ModelAndView model = new ModelAndView("/jsp/qualification/supplier/checkedDetail");
+		String url=request.getQueryString();
+		String userId=url.substring(url.lastIndexOf("=")+1);
+		//查询账户信息
+		Map<String, String> map = new HashMap<>();
+		Map<String, String> mapHeader = new HashMap<>();
+		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+		map.put("companyId", userId);
+		String str ="";
+		try {
+			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_findbycompanyid_qry", JSON.toJSONString(map), mapHeader);
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
+		JSONObject data = (JSONObject) JSON.parse(str);
+		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+		model.addObject("userId", userId);
+		model.addObject("userName", data2.getString("username"));
+		model.addObject("shopName", data2.getString("name"));
+		model.addObject("auditTime",data2.getString("createTime"));
+		model.addObject("industryType", data2.getString("industryType"));
+		model.addObject("officialWebsite", data2.getString("officialWebsite"));
+		model.addObject("companiesNumber", data2.getString("companiesNumber"));
+		model.addObject("companyNature", data2.getString("companyNature"));
+		model.addObject("location", data2.getString("location"));
+		model.addObject("annualTurnover", data2.getString("annualTurnover"));
+		model.addObject("areaCover", data2.getString("areaCover"));
+		model.addObject("phone", data2.getString("phone"));
+		model.addObject("fax", data2.getString("fax"));
+		model.addObject("email", data2.getString("email"));
+		model.addObject("businessAddress", data2.getString("businessAddress"));
+		model.addObject("businessLicenseRegistrationNumber", data2.getString("businessLicenseRegistrationNumber"));
+		model.addObject("establishDate", data2.getString("establishDate"));
+		model.addObject("businessScope", data2.getString("businessScope"));
+		model.addObject("legalRepresentative", data2.getString("legalRepresentative"));
+		model.addObject("idNumber", data2.getString("idNumber"));
+		model.addObject("taxpayerNumber", data2.getString("taxpayerNumber"));
+		model.addObject("taxpayerType", data2.getString("taxpayerType"));
+		model.addObject("taxCode", data2.getString("taxCode"));
+		model.addObject("organizationCode", data2.getString("organizationCode"));
+		model.addObject("bankName", data2.getString("bankName"));
+		model.addObject("bankAccount", data2.getString("bankAccount"));
+		model.addObject("brandNameType", data2.getString("brandNameType"));
+		model.addObject("brandNameCh", data2.getString("brandNameCh"));
+		model.addObject("brandNameEn", data2.getString("brandNameEn"));
+		model.addObject("registerCapital", data2.getString("registerCapital"));
+		return model;
 	}
 	/**
 	 * 店铺详情页面
 	 * @return
 	 */
 	@RequestMapping("/toShopDetailPager")
-	public ModelAndView toShopDetailPager() {
-		return new ModelAndView("/jsp/qualification/shop/checkedDetail");
+	public ModelAndView toShopDetailPager(HttpServletRequest request) {
+		ModelAndView model = new ModelAndView("/jsp/qualification/shop/checkedDetail");
+		String url=request.getQueryString();
+		String userId=url.substring(url.lastIndexOf("=")+1);
+		//查询账户信息
+		Map<String, String> map = new HashMap<>();
+		Map<String, String> mapHeader = new HashMap<>();
+		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+		map.put("companyId", userId);
+		String str ="";
+		try {
+			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_findbycompanyid_qry", JSON.toJSONString(map), mapHeader);
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
+		JSONObject data = (JSONObject) JSON.parse(str);
+		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+		model.addObject("userId", userId);
+		model.addObject("userName", data2.getString("username"));
+		model.addObject("shopName", data2.getString("name"));
+		model.addObject("auditTime",data2.getString("createTime"));
+		model.addObject("industryType", data2.getString("industryType"));
+		model.addObject("officialWebsite", data2.getString("officialWebsite"));
+		model.addObject("companiesNumber", data2.getString("companiesNumber"));
+		model.addObject("companyNature", data2.getString("companyNature"));
+		model.addObject("location", data2.getString("location"));
+		model.addObject("annualTurnover", data2.getString("annualTurnover"));
+		model.addObject("areaCover", data2.getString("areaCover"));
+		model.addObject("phone", data2.getString("phone"));
+		model.addObject("fax", data2.getString("fax"));
+		model.addObject("email", data2.getString("email"));
+		model.addObject("businessAddress", data2.getString("businessAddress"));
+		model.addObject("businessLicenseRegistrationNumber", data2.getString("businessLicenseRegistrationNumber"));
+		model.addObject("establishDate", data2.getString("establishDate"));
+		model.addObject("businessScope", data2.getString("businessScope"));
+		model.addObject("legalRepresentative", data2.getString("legalRepresentative"));
+		model.addObject("idNumber", data2.getString("idNumber"));
+		model.addObject("taxpayerNumber", data2.getString("taxpayerNumber"));
+		model.addObject("taxpayerType", data2.getString("taxpayerType"));
+		model.addObject("taxCode", data2.getString("taxCode"));
+		model.addObject("organizationCode", data2.getString("organizationCode"));
+		model.addObject("bankName", data2.getString("bankName"));
+		model.addObject("bankAccount", data2.getString("bankAccount"));
+		model.addObject("brandNameType", data2.getString("brandNameType"));
+		model.addObject("brandNameCh", data2.getString("brandNameCh"));
+		model.addObject("brandNameEn", data2.getString("brandNameEn"));
+		model.addObject("registerCapital", data2.getString("registerCapital"));
+		return model;
 	}
 	
 	//查询未审核列表
 	@RequestMapping("/getUncheckList")
 	@ResponseBody
-	public ResponseData<PageInfo<BusinessListInfo>> getUncheckList(HttpServletRequest request,String companyName,String username,String companyType){
+	public ResponseData<PageInfo<BusinessListInfo>> getUncheckList(HttpServletRequest request,String auditState,String companyName,String username,String companyType){
 		ResponseData<PageInfo<BusinessListInfo>> response = null;
 		PageInfo<BusinessListInfo> pageInfo =null;
 		ResponseHeader header = null;
@@ -109,6 +293,8 @@ public class QualificationController {
 			map.put("companyName", companyName);
 		if(companyType!=null&&companyType.length()!=0)
 			map.put("companyType", companyType);
+		if(auditState!=null&&auditState.length()!=0)
+			map.put("auditState", auditState);
 		String str ="";
 		try {
 			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_searchcompanylist_qry", JSON.toJSONString(map),mapHeader);
@@ -162,7 +348,7 @@ public class QualificationController {
 		//查询已审核列表
 		@RequestMapping("/getCheckedList")
 		@ResponseBody
-		public ResponseData<PageInfo<BusinessListInfo>> getCheckedList(HttpServletRequest request,String companyName,String username,String companyType){
+		public ResponseData<PageInfo<BusinessListInfo>> getCheckedList(HttpServletRequest request,String companyName,String username,String auditState,String companyType){
 			ResponseData<PageInfo<BusinessListInfo>> response = null;
 			PageInfo<BusinessListInfo> pageInfo =null;
 			ResponseHeader header = null;
@@ -177,6 +363,8 @@ public class QualificationController {
 				map.put("companyName", companyName);
 			if(companyType!=null&&companyType.length()!=0)
 				map.put("companyType", companyType);
+			if(auditState!=null&&auditState.length()!=0)
+				map.put("auditState", auditState);
 			String str ="";
 			try {
 				str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_searchcompanylist_qry", JSON.toJSONString(map),mapHeader);

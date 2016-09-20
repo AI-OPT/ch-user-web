@@ -87,11 +87,5 @@
 	</tr>
 {{/for}}
 </script>
-    
-    <!--底部-->
-    <footer id="footer-bar" class="row">
-   		 <p id="footer-copyright" class="col-xs-12">亚信</p>
-    </footer>
-   <!--/底部结束-->
 </body>
 </html>

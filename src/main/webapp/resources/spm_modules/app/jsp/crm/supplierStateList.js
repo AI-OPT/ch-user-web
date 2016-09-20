@@ -75,6 +75,9 @@ define('app/jsp/crm/supplierStateList', function (require, exports, module) {
 	                    		$("#recovery_"+result[i].userId).show();
 	                    	}
 	                    }
+	            	}else{
+	            		$("#TBODY_SUPLLIER").html("")
+	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 

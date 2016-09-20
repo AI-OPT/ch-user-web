@@ -36,7 +36,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
     		auditeQualificationPager.superclass.setup.call(this);
     	},
     	
-    	_passAudit:function(auditCode){
+    	_passAudit:function(userId){
     		var d = Dialog({
 				title : '提示',
 				content : '审核通过此资质信息吗？',
@@ -49,9 +49,8 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    			url:_base+"/status/updateAudit",
 		    			dataType: "json",
 		    			data:{
-		    				"openId":'1',
-		    				"auditStat":"10",
-		    				"companyId":'ac_ew23'
+		    				"auditState":"2",
+		    				"companyId":userId
 		    			},
 		    	        success: function(data) {
 		    	        	if(data.responseHeader.resultCode='000000'){
@@ -98,7 +97,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 			d.show();
     	},
 
-    	_rejectAudit:function(){
+    	_rejectAudit:function(userId){
     		var d = Dialog({
 				title : '提示',
 				content : '审核拒绝此资质信息吗？',
@@ -111,9 +110,8 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    			url:_base+"/status/updateAudit",
 		    			dataType: "json",
 		    			data:{
-		    				"openId":'1',
-		    				"auditStat":'11',
-		    				"companyId":'ac_ew23'
+		    				"auditState":'3',
+		    				"companyId":userId
 		    			},
 		    	        success: function(data) {
 		    	        	if(data.responseHeader.resultCode='000000'){

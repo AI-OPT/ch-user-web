@@ -56,6 +56,9 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
 	            		var template = $.templates("#scoreListImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_SCORELIST").html(htmlOutput);
+	            	}else{
+	            		$("#TBODY_SCORELIST").html("")
+	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 

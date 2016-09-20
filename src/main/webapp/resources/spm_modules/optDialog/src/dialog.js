@@ -154,8 +154,6 @@ artDialog.create = function (options) {
 
     // 关闭按钮
     this._$('close')
-    .css('display', this.cancel === false ? 'none' : '')
-    .attr('title', this.cancelValue)
     .on('click', function (event) {
         that._trigger('cancel');
         event.preventDefault();
@@ -324,6 +322,19 @@ $.extend(prototype, {
      * @name artDialog.prototype.onblur
      * @event
      */
+	
+	/**
+	 * 关闭图标是否显示
+	 * @param {boolean} 
+	 */
+	closeIconShow:function(value){
+		var $close = this._$('close');
+		if(value){
+			$close.css("display","block");
+		}else{
+			$close.css("display","none");
+		}
+	},
 	
 	/**
 	 * 图标

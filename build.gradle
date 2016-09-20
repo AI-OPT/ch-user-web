@@ -54,6 +54,9 @@ dependencies {
     providedCompile "javax.servlet:javax.servlet-api:3.1.0"
     providedCompile "javax.servlet.jsp:javax.servlet.jsp-api:2.3.1"
 
+ 	//支付
+    compile "com.ai.opt.chpay:ch-payclient:1.0-SNAPSHOT"
+
     compile 'org.apache.curator:curator-framework:2.8.0'
     compile 'org.apache.curator:curator-recipes:2.8.0'
     compile "org.apache.zookeeper:zookeeper:3.4.6"
@@ -88,7 +91,7 @@ dependencies {
     //附件表
     compile "com.ai.ch.user:custfile:1.0-SNAPSHOT"
     //店铺信息
-    compile "com.ai.ch.user:shopinfo:1.0-SNAPSHOT"
+    compile "com.ai.ch.user:shopinfo:1.1-SNAPSHOT"
     //扣费设置
     compile "com.ai.ch.user:defaultlog:1.0-SNAPSHOT"
     

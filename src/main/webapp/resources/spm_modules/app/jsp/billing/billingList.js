@@ -56,6 +56,9 @@ define('app/jsp/billing/billingList', function (require, exports, module) {
 	            		var template = $.templates("#bailListImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_BILLLIST").html(htmlOutput);
+	            	}else{
+	            		$("#TBODY_BILLLIST").html("")
+	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 

@@ -36,6 +36,12 @@
 					   	<!--查询结束-->   
 					 	<!--table表格-->
 					 	<div class="main-box-body clearfix">
+					 	<div class="order-list-table">
+					           <ul>
+						           <li><a href="javascript:void(0)" class="current">已通过</a></li>
+						           <li><a href="javascript:void(0)">已拒绝</a></li>
+					           </ul>                                        
+					    </div>
 					     	<div id="date1">
                                 <div class="table-responsive clearfix">
                                     <table class="table table-hover table-border table-bordered">
@@ -47,10 +53,39 @@
                                                 <th>操作</th>
                                             </tr>
                                         </thead>
-                                    <tbody id="TBODY_CHECKED">
+                                    <tbody id="TBODY_CHECKED_PASS">
                                     </tbody>
                                     </table>
                                </div>
+                                 <!--分页-->
+                                  <div class="paging">
+                            		<ul id="pagination-ul-pass"></ul>
+								</div>
+								<!--分页结束-->
+								<div id="info_pass" class="text-c"></div>
+                                </div>
+                                <div id="date2" style="display:none;">
+                                <div class="table-responsive clearfix">
+                                    <table class="table table-hover table-border table-bordered">
+                                        <thead>      
+                                            <tr>
+                                            	<th>用户名</th>
+                                                <th>企业名称</th>
+                                                <th>审核时间</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                    <tbody id="TBODY_CHECKED_REJECT">
+                                    </tbody>
+                                    </table>
+                               </div>
+                                 <!--分页-->
+                                  <div class="paging">
+                            		<ul id="pagination-ul-reject"></ul>
+								</div>
+								<!--分页结束-->
+								<div id="info_reject" class="text-c"></div>
+                            	<!--/table表格结束-->
                              </div>
                              <div id="info" class="text-c"></div>
                             <!--/table表格结束-->
@@ -72,7 +107,7 @@
 			seajs.use('app/jsp/qualification/checkedPagerList', function (CheckedPagerListPager) {
 				pager = new CheckedPagerListPager({element: document.body});
 				pager.render();
-				pager._getInitList('2');
+				pager._getInitList('0');
 			});
 		})();
 	</script>
@@ -89,11 +124,5 @@
 	</tr>
 {{/for}}
 </script>
-	
-    <!--底部-->
-    <footer id="footer-bar" class="row">
-   		 <p id="footer-copyright" class="col-xs-12">亚信</p>
-    </footer>
-   <!--/底部结束-->
 </body>
 </html>
