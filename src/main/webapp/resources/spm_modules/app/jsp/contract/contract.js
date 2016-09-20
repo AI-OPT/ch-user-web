@@ -67,23 +67,64 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				$("#contractCodeText").text('1-64位字符');
 	    		$("#contractCodeFlag").val("0");
 			}else{
-				if(contractCode.length>=1&&contractCode.length<=64){
-					if(contractCode.match(/^\s+$/)){
-						$('#contractCodeErrMsg').show();
-	    				$("#contractCodeText").show();
-	        			$('#contractCodeText').text('必填项');
-	        			$("#contractCodeFlag").val("0");
-					}else{
-						$('#contractCodeErrMsg').hide();
-	    				$("#contractCodeFlag").val("1");
-					}
-    				
-				}else{
-					$('#contractCodeErrMsg').show();
-    				$("#contractCodeText").show();
-        			$('#contractCodeText').text('1-64位字符');
-        			$("#contractCodeFlag").val("0");
-				}
+				
+				var	param={
+						contractName:$("#contractCode").val(),
+    					userId:userId,
+    					tenantId:"changhong",
+    					contractType:$("#contractType").val()
+    				   };
+        		ajaxController.ajax({
+    			        type: "post",
+    			        processing: false,
+    			        url: _base+"/contract/checkContractCode",
+    			        dataType: "json",
+    			        data: param,
+    			        message: "正在加载数据..",
+    			        success: function (data) {
+    			         if(data.responseHeader.resultCode=="100005"){
+    			        	    $("#contractCodeErrMsg").show();
+    			        	 	$("#contractCodeText").show();
+    			        	 	$("#contractCodeText").text('合同编号已注册');
+					    		$("#contractCodeFlag").val("0");
+    							return false;
+    			        	}else if(data.responseHeader.resultCode=="000000"){
+    			        		if(contractCode.length>=1&&contractCode.length<=64){
+    			        			if(contractCode.length>=1&&contractCode.length<=64){
+    			    					if(contractCode.match(/^\s+$/)){
+    			    						$('#contractCodeErrMsg').show();
+    			    	    				$("#contractCodeText").show();
+    			    	        			$('#contractCodeText').text('必填项');
+    			    	        			$("#contractCodeFlag").val("0");
+    			    					}else{
+    			    						$('#contractCodeErrMsg').hide();
+    			    	    				$("#contractCodeFlag").val("1");
+    			    					}
+    			        				
+    			    				}else{
+    			    					$('#contractCodeErrMsg').show();
+    			        				$("#contractCodeText").show();
+    			            			$('#contractCodeText').text('1-64位字符');
+    			            			$("#contractCodeFlag").val("0");
+    			    				}
+    			    				
+    							}else{
+    								$('#contractCodeErrMsg').show();
+			        				$("#contractCodeText").show();
+			            			$('#contractCodeText').text('1-64位字符');
+			            			$("#contractCodeFlag").val("0");
+    							}
+    			        	}
+    			        	
+    			        },
+    			        error: function(XMLHttpRequest, textStatus, errorThrown) {
+    						 alert(XMLHttpRequest.status);
+    						 alert(XMLHttpRequest.readyState);
+    						 alert(textStatus);
+    						}
+    			        
+    			    }); 
+				
 			}
 		},
 		_checkContractNameValue:function(){
@@ -94,23 +135,56 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				$("#contractNameText").text('1-64位字符');
 	    		$("#contractNameFlag").val("0");
 			}else{
-				if(contractName.length>=1&&contractName.length<=64){
-					if(contractName.match(/^\s+$/)){
-						$("#contractNameErrMsg").show();
-						$("#contractNameText").show();
-						$("#contractNameText").text('必填项');
-			    		$("#contractNameFlag").val("0");
-					}else{
-						$('#contractNameErrMsg').hide();
-	    				$("#contractNameFlag").val("1");
-					}
-    				
-				}else{
-					$('#contractNameErrMsg').show();
-    				$("#contractNameText").show();
-        			$('#contractNameText').text('1-64位字符');
-        			$("#contractNameFlag").val("0");
-				}
+				
+				var	param={
+						contractName:$("#contractName").val(),
+    					userId:userId,
+    					tenantId:"changhong",
+    					contractType:$("#contractType").val()
+    				   };
+        		ajaxController.ajax({
+    			        type: "post",
+    			        processing: false,
+    			        url: _base+"/contract/checkContractName",
+    			        dataType: "json",
+    			        data: param,
+    			        message: "正在加载数据..",
+    			        success: function (data) {
+    			         if(data.responseHeader.resultCode=="100005"){
+    			        	    $("#contractNameErrMsg").show();
+    			        	 	$("#contractNameText").show();
+    			        	 	$("#contractNameText").text('合同名称已注册');
+					    		$("#contractNameFlag").val("0");
+    							return false;
+    			        	}else if(data.responseHeader.resultCode=="000000"){
+    			        		if(contractName.length>=1&&contractName.length<=64){
+    								if(contractName.match(/^\s+$/)){
+    									$("#contractNameErrMsg").show();
+    									$("#contractNameText").show();
+    									$("#contractNameText").text('必填项');
+    						    		$("#contractNameFlag").val("0");
+    								}else{
+    									$('#contractNameErrMsg').hide();
+    				    				$("#contractNameFlag").val("1");
+    								}
+    			    				
+    							}else{
+    								$('#contractNameErrMsg').show();
+    			    				$("#contractNameText").show();
+    			        			$('#contractNameText').text('1-64位字符');
+    			        			$("#contractNameFlag").val("0");
+    							}
+    			        	}
+    			        	
+    			        },
+    			        error: function(XMLHttpRequest, textStatus, errorThrown) {
+    						 alert(XMLHttpRequest.status);
+    						 alert(XMLHttpRequest.readyState);
+    						 alert(textStatus);
+    						}
+    			        
+    			    }); 
+				
 			}
 		},
 		_checkStartTime:function(){
