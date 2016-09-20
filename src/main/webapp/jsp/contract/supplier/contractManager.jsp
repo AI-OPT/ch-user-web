@@ -130,7 +130,7 @@
 										<input type="hidden" id="electronicContractFlag" value="0"/>
 										 <input type="hidden" id="ddsId1" name="list[0].attrValue">
 										 <input type="hidden" id="ddsId2" name="list[1].attrValue">
-										 
+										 <input type="hidden" id="contractType" value="1">
 									</li>
 								</ul>
                              </div>

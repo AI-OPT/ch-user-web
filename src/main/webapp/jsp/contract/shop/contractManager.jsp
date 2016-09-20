@@ -128,9 +128,9 @@
 										<input type="hidden" id="endTimeTextFlag" value="0"/>
 										<input type="hidden" id="scanVersionContractFlag" value="0"/>
 										<input type="hidden" id="electronicContractFlag" value="0"/>
-										 <input type="hidden" id="ddsId1" name="list[0].attrValue">
-										 <input type="hidden" id="ddsId2" name="list[1].attrValue">
-										 
+										<input type="hidden" id="ddsId1" name="list[0].attrValue">
+									    <input type="hidden" id="ddsId2" name="list[1].attrValue">
+										<input type="hidden" id="contractType" value="2">
 									</li>
 								</ul>
                              </div>
