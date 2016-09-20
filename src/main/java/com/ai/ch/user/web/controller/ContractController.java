@@ -510,7 +510,7 @@ public class ContractController {
 
 	}
     
-    public Map<String,ContractInfoResponse> getContractList(String tenantId){
+   public Map<String,ContractInfoResponse> getContractList(String tenantId){
     	IContractSV contract = DubboConsumerFactory.getService("iContractSV");
 	 	ContactInfoRequest contactInfo = new ContactInfoRequest();
 	    contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SUPPLIER);
@@ -523,6 +523,59 @@ public class ContractController {
 	 	}
 	 	return map;
     }
+    
+    @RequestMapping("/checkContractName")
+    @ResponseBody
+    public ResponseData<String> checkContractName(HttpServletRequest request,ContactInfoRequest contractRequest){
+    	ResponseData<String> responseData = null;
+        ResponseHeader header = null;
+        try {
+            IContractSV contractSV = DubboConsumerFactory.getService("iContractSV");
+            ContractInfoResponse accountQueryResponse = contractSV.queryContractInfo(contractRequest);
+            if (accountQueryResponse != null) {
+                String resultCode = accountQueryResponse.getResponseHeader().getResultCode();
+                if (resultCode.equals(ExceptionCode.SUCCESS_CODE)&&!accountQueryResponse.getUserId().equals(contractRequest.getUserId())) {
+                    header = new ResponseHeader(false, ExceptionCode.CONTRACT_NAME_ERROR, "该合同名称已经注册");
+                    responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该合同名称已经注册", null);
+                    responseData.setResponseHeader(header);
+                } else {
+                    header = new ResponseHeader(false, ExceptionCode.SUCCESS_CODE, "成功");
+                    responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "成功", null);
+                    responseData.setResponseHeader(header);
+                }
+            }
+        } catch (Exception e) {
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "合同名称校验失败", null);
+        }
+        return responseData;
+    }
+    
+    @RequestMapping("/checkContractCode")
+    @ResponseBody
+    public ResponseData<String> checkContractCode(HttpServletRequest request,ContactInfoRequest contractRequest){
+    	ResponseData<String> responseData = null;
+        ResponseHeader header = null;
+        try {
+            IContractSV contractSV = DubboConsumerFactory.getService("iContractSV");
+            ContractInfoResponse accountQueryResponse = contractSV.queryContractInfo(contractRequest);
+            if (accountQueryResponse != null) {
+                String resultCode = accountQueryResponse.getResponseHeader().getResultCode();
+                if (resultCode.equals(ExceptionCode.SUCCESS_CODE)&&!accountQueryResponse.getUserId().equals(contractRequest.getUserId())) {
+                    header = new ResponseHeader(false, ExceptionCode.CONTRACT_NAME_ERROR, "该合同名称已经注册");
+                    responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该合同名称已经注册", null);
+                    responseData.setResponseHeader(header);
+                } else {
+                    header = new ResponseHeader(false, ExceptionCode.SUCCESS_CODE, "成功");
+                    responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "成功", null);
+                    responseData.setResponseHeader(header);
+                }
+            }
+        } catch (Exception e) {
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "合同名称校验失败", null);
+        }
+        return responseData;
+    }
+    
     
 	//查询列表
 	@RequestMapping("/getList")
@@ -574,13 +627,19 @@ public class ContractController {
 				List<BusinessListInfo> responseList = new ArrayList<>();
 				JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
 				Iterator<Object> iterator = list.iterator();
+				GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+				Map<String,ContractInfoResponse> contractMap = getContractList(userClient.getTenantId());
 				while(iterator.hasNext()){
 					BusinessListInfo businessInfo = new BusinessListInfo(); 
 					 JSONObject object = (JSONObject) iterator.next();
 					 businessInfo.setUserId(object.getString("companyId"));
 					 businessInfo.setUserName(object.getString("username"));
 					 businessInfo.setCustName(object.getString("name"));
-					 businessInfo.setUploadStatus("没查");
+					 if(contractMap.get(businessInfo.getUserId()+companyType)!=null){
+							businessInfo.setUploadStatus("已上传");
+						}else{
+							businessInfo.setUploadStatus("未上传");
+						}
 					 responseList.add(businessInfo);
 				}
 				pageInfo.setResult(responseList);
