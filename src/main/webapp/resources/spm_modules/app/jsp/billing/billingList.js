@@ -72,6 +72,8 @@ define('app/jsp/billing/billingList', function (require, exports, module) {
  			dataType: "json",
  			renderId:"TBODY_BILLLIST",
             data : {
+            	"username":$("#username").val(),
+				"companyName":$("#companyName").val(),
             	"companyType":"2"
 			},
            	pageSize: BillingListPager.DEFAULT_PAGE_SIZE,

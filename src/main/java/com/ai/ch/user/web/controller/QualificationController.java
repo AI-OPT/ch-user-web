@@ -2,6 +2,7 @@ package com.ai.ch.user.web.controller;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -66,7 +67,8 @@ public class QualificationController {
 	public ModelAndView toSuplierCheckPager(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/jsp/qualification/supplier/auditeQualification");
 		String url=request.getQueryString();
-		String userId=url.substring(url.lastIndexOf("=")+1);
+		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
+		String username = url.substring(url.lastIndexOf("username=")+9);
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -80,10 +82,13 @@ public class QualificationController {
 		}
 		JSONObject data = (JSONObject) JSON.parse(str);
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+		//转换时间
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date = sdf.format(Long.parseLong(data2.getString("createTime")));
 		model.addObject("userId", userId);
-		model.addObject("userName", data2.getString("username"));
+		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
-		model.addObject("auditTime",data2.getString("createTime"));
+		model.addObject("auditTime",date);
 		model.addObject("industryType", data2.getString("industryType"));
 		model.addObject("officialWebsite", data2.getString("officialWebsite"));
 		model.addObject("companiesNumber", data2.getString("companiesNumber"));
@@ -120,7 +125,8 @@ public class QualificationController {
 	public ModelAndView toShopCheckDetailPager(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/jsp/qualification/shop/auditeQualification");
 		String url=request.getQueryString();
-		String userId=url.substring(url.lastIndexOf("=")+1);
+		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
+		String username = url.substring(url.lastIndexOf("username=")+9);
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -134,10 +140,13 @@ public class QualificationController {
 		}
 		JSONObject data = (JSONObject) JSON.parse(str);
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+		//转换时间
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date = sdf.format(Long.parseLong(data2.getString("createTime")));
 		model.addObject("userId", userId);
-		model.addObject("userName", data2.getString("username"));
+		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
-		model.addObject("auditTime",data2.getString("createTime"));
+		model.addObject("auditTime",date);
 		model.addObject("industryType", data2.getString("industryType"));
 		model.addObject("officialWebsite", data2.getString("officialWebsite"));
 		model.addObject("companiesNumber", data2.getString("companiesNumber"));
@@ -174,7 +183,8 @@ public class QualificationController {
 	public ModelAndView toSuplierDetailPager(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/jsp/qualification/supplier/checkedDetail");
 		String url=request.getQueryString();
-		String userId=url.substring(url.lastIndexOf("=")+1);
+		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
+		String username = url.substring(url.lastIndexOf("username=")+9);
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -188,10 +198,13 @@ public class QualificationController {
 		}
 		JSONObject data = (JSONObject) JSON.parse(str);
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+		//转换时间
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date = sdf.format(Long.parseLong(data2.getString("createTime")));
 		model.addObject("userId", userId);
-		model.addObject("userName", data2.getString("username"));
+		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
-		model.addObject("auditTime",data2.getString("createTime"));
+		model.addObject("auditTime",date);
 		model.addObject("industryType", data2.getString("industryType"));
 		model.addObject("officialWebsite", data2.getString("officialWebsite"));
 		model.addObject("companiesNumber", data2.getString("companiesNumber"));
@@ -228,7 +241,8 @@ public class QualificationController {
 	public ModelAndView toShopDetailPager(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/jsp/qualification/shop/checkedDetail");
 		String url=request.getQueryString();
-		String userId=url.substring(url.lastIndexOf("=")+1);
+		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
+		String username = url.substring(url.lastIndexOf("username=")+9);
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -242,10 +256,13 @@ public class QualificationController {
 		}
 		JSONObject data = (JSONObject) JSON.parse(str);
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+		//转换时间
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date = sdf.format(Long.parseLong(data2.getString("createTime")));
 		model.addObject("userId", userId);
-		model.addObject("userName", data2.getString("username"));
+		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
-		model.addObject("auditTime",data2.getString("createTime"));
+		model.addObject("auditTime",date);
 		model.addObject("industryType", data2.getString("industryType"));
 		model.addObject("officialWebsite", data2.getString("officialWebsite"));
 		model.addObject("companiesNumber", data2.getString("companiesNumber"));

@@ -86,8 +86,14 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
     		}); 
     	},
     	
-		_toViewPage:function(userId){
-			window.location.href = _base+'/qualification/toShopDetailPager?userId='+userId;
+		_toViewShopPage:function(userId,username){
+			window.location.href = _base+'/qualification/toShopDetailPager?userId='+userId+'&username='+username;
+			
+		},
+		
+		_toViewSupplierPage:function(userId,username){
+			window.location.href = _base+'/qualification/toSuplierDetailPager?userId='+userId+'&username='+username;
+			
 		},
 		
 		_getList:function(companyType){

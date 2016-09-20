@@ -77,8 +77,8 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
 	 			renderId:"TBODY_SCORELIST",
 	            data : {
 					"username":$("#username").val(),
-					"companyName":$("#companyName").val()
-					
+					"companyName":$("#companyName").val(),
+					"companyType":"1"
 				},
 	           	pageSize: scoreListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,

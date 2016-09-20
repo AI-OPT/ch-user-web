@@ -82,7 +82,7 @@
 		<td>{{:userName}}</td>
 		<td>{{:custName}}</td>
 		<td>
-            <a href="javascript:void(0)" onclick="pager._toAuditPage('{{:userId}}');">审核</a>
+            <a href="javascript:void(0)" onclick="pager._toAuditShopPage('{{:userId}}','{{:userName}}');">审核</a>
 		</td>
 	</tr>
 {{/for}}

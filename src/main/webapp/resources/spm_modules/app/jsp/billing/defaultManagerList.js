@@ -71,6 +71,8 @@ define('app/jsp/billing/defaultManagerList', function (require, exports, module)
 	 			dataType: "json",
 	 			renderId:"TBODY_DEFAULTLIST",
 	            data : {
+	            	"username":$("#username").val(),
+					"companyName":$("#companyName").val(),
 	            	"companyType":"2"
 				},
 	           	pageSize: DefaultManagerListPager.DEFAULT_PAGE_SIZE,
