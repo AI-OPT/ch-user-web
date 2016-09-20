@@ -81,6 +81,9 @@ public class ChWebConstants {
         public static final java.lang.String PARAM_VALUE_EXIST_ERROR = "000005";// 参数值重复错误
 
         public static final java.lang.String RESULT_IS_NULL = "000006";// 结果为空
+        
+        public static final java.lang.String CONTRACT_NAME_ERROR="100005";
+        public static final java.lang.String CONTRACT_CODE_ERROR="100005";
     }
 
        public static final class UploadImg{
