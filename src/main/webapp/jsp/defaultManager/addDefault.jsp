@@ -33,7 +33,7 @@
 					            <ul>
 					                <li class="col-md-6" style="width: 40%">
 					                    <p class="word" style="font-size: 20px;margin-left: 30px">保证金余额:</p>
-					                    <p>2000.00元</p>
+					                    <p>${balance}元</p>
 					                </li>
 					            </ul>
 				         	</div>
@@ -87,6 +87,7 @@
    <!--/底部结束-->
 <script type="text/javascript">
    var defaultPagerManager;
+   var balance = ${balance};
    seajs.use(['app/jsp/billing/defaultManager'], function(DefaultPagerManager) {
 	    defaultPagerManager = new DefaultPagerManager({
 		element : document.body
