@@ -43,6 +43,8 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/score/getList",
 	 			method: "POST",
+	 			processing: true,
+	 			messageId:"showMessageDiv",
 	 			dataType: "json",
 	 			renderId:"TBODY_SCORELIST",
 	            data : {
@@ -74,6 +76,8 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/score/getList",
 	 			method: "POST",
+	 			processing: true,
+	 			messageId:"showMessageDiv",
 	 			dataType: "json",
 	 			renderId:"TBODY_SCORELIST",
 	            data : {

@@ -141,8 +141,11 @@ public class QualificationController {
 		JSONObject data = (JSONObject) JSON.parse(str);
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
 		//转换时间
+		String date="";
+		if(data2.getString("createTime")!=null&&data2.getString("createTime").length()!=0){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String date = sdf.format(Long.parseLong(data2.getString("createTime")));
+		date = sdf.format(Long.parseLong(data2.getString("createTime")));
+		}
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));

@@ -87,7 +87,7 @@
 								<div id="info_reject" class="text-c"></div>
                             	<!--/table表格结束-->
                              </div>
-                             
+                             <div id="showMessageDiv"></div>
 					   	 </div>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
 		<td>{{:custName}}</td>
 		<td>{{:createTime}}</td>
 		<td>
-            <a href="javascript:void(0)" onclick="pager.__toViewSupplierPage('{{:userId}}','{{:userName}}');">查看</a>
+            <a href="javascript:void(0)" onclick="pager._toViewSupplierPage('{{:userId}}','{{:userName}}');">查看</a>
 		</td>
 	</tr>
 {{/for}}

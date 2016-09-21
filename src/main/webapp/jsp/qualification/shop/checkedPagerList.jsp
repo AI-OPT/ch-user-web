@@ -98,7 +98,7 @@
                         </div>
                     </div>
                 </div>
-            
+            <div id="showMessageDiv"></div>
             </div>
     </div>
         <script type="text/javascript">
@@ -107,7 +107,7 @@
 			seajs.use('app/jsp/qualification/checkedPagerList', function (CheckedPagerListPager) {
 				pager = new CheckedPagerListPager({element: document.body});
 				pager.render();
-				pager._getInitList('0');
+				pager._getInitList('2');
 			});
 		})();
 	</script>

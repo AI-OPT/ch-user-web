@@ -73,6 +73,7 @@
 									 <ul id="pagination-ul"></ul>
 								  </div>
 								<!--分页-->
+								<div id="showMessageDiv"></div>
                         </div>
                     </div>
                 </div>

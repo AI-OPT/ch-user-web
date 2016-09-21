@@ -43,6 +43,8 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/status/getList",
 	 			method: "POST",
+	 			processing: true,
+	 			messageId:"showMessageDiv",
 	 			dataType: "json",
 	 			renderId:"TBODY_SHOPSTATE",
 	            data : {
@@ -331,6 +333,8 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
     			url: _base+"/status/getList",
 	 			method: "POST",
 	 			dataType: "json",
+	 			processing: true,
+	 			messageId:"showMessageDiv",
 	 			renderId:"TBODY_SHOPSTATE",
 	            data : {
 	            	"username":$("#username").val(),

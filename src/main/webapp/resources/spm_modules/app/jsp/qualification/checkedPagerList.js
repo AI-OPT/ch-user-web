@@ -11,6 +11,7 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
     require("bootstrap-paginator/bootstrap-paginator.min");
+    require("bootstrap/js/modal")
     require("app/util/jsviews-ext");
     
     require("opt-paging/aiopt.pagination");
@@ -42,7 +43,9 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
     			url: _base+"/qualification/getCheckedList",
 	 			method: "POST",
 	 			dataType: "json",
+	 			processing: true,
 	 			renderId:"TBODY_CHECKED_PASS",
+	 			messageId:"showMessageDiv",
 	            data : {
 	            	"companyType":companyType,
 	            	"auditState":'2',
@@ -65,7 +68,9 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
     			url: _base+"/qualification/getCheckedList",
 	 			method: "POST",
 	 			dataType: "json",
+	 			processing: true,
 	 			renderId:"TBODY_CHECKED_REJECT",
+	 			messageId:"showMessageDiv",
 	            data : {
 	            	"companyType":companyType,
 	            	"auditState":'3',

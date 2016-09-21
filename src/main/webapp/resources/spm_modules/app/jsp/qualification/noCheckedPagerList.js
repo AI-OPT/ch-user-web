@@ -42,7 +42,9 @@ define('app/jsp/qualification/noCheckedPagerList', function (require, exports, m
     			url: _base+"/qualification/getUncheckList",
 	 			method: "POST",
 	 			dataType: "json",
+	 			processing: true,
 	 			renderId:"UN_CHECKED",
+	 			messageId:"showMessageDiv",
 	            data : {
 	            	"companyType":companyType,
 	            	"auditState":'1',
@@ -77,8 +79,10 @@ define('app/jsp/qualification/noCheckedPagerList', function (require, exports, m
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/qualification/getUncheckList",
 	 			method: "POST",
+	 			processing: true,
 	 			dataType: "json",
 	 			renderId:"UN_CHECKED",
+	 			messageId:"showMessageDiv",
 	            data : {
 	            	"username":$("#username").val(),
 					"companyName":$("#companyName").val(),

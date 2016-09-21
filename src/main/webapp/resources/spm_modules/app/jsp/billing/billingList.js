@@ -43,6 +43,8 @@ define('app/jsp/billing/billingList', function (require, exports, module) {
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/billing/getBillingList",
 	 			method: "POST",
+	 			processing: true,
+	 			messageId:"showMessageDiv",
 	 			dataType: "json",
 	 			renderId:"TBODY_BILLLIST",
 	            data : {
@@ -71,6 +73,8 @@ define('app/jsp/billing/billingList', function (require, exports, module) {
 			url: _base+"/billing/getBillingList",
  			method: "POST",
  			dataType: "json",
+ 			processing: true,
+ 			messageId:"showMessageDiv",
  			renderId:"TBODY_BILLLIST",
             data : {
             	"username":$("#username").val(),

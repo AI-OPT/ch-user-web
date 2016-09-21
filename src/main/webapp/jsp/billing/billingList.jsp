@@ -74,6 +74,7 @@
 								  </div>
 								<!--分页-->
                         </div>
+                        <div id="showMessageDiv"></div>
                     </div>
                 </div>
             </div>

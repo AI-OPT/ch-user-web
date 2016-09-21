@@ -12,7 +12,6 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
     require("jsviews/jsviews.min");
     require("bootstrap-paginator/bootstrap-paginator.min");
     require("app/util/jsviews-ext");
-    
     require("opt-paging/aiopt.pagination");
     require("twbs-pagination/jquery.twbsPagination.min");
     

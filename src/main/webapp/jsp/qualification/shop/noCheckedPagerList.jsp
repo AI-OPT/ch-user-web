@@ -62,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-            
+            <div id="showMessageDiv"></div>
             </div>
     </div>
         <script type="text/javascript">

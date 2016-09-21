@@ -10,7 +10,14 @@
 <title>合同管理页面</title>
 <%@include file="/inc/inc.jsp" %>
 <script src="${uedroot}/scripts/modular/frame.js"></script>  
+<script src="${_base}/resources/spm_modules/app/jsp/qualification/jquery.lightbox-0.5.min.js"></script>  
+<link rel="stylesheet" type="text/css" href="${uedroot}/css/lightbox/jquery.lightbox-0.5.css"/>
 <link rel="stylesheet" type="text/css" href="${uedroot}/css/modular/modular.css"/>
+<script type="text/javascript">
+	$(function() {
+		$(".popup").lightBox();
+    });
+</script>
 </head>
 <body>
  		  <div class="row" ><!--外围框架-->
@@ -140,7 +147,7 @@
 									<li>
 									  <p class="word"><b class="red">*</b>营业执照副本:</p>
 									</li>
-									<li> <p class="img"><img src="../images/fom-t.png"></p></li>
+									<li><a class="popup" title="点击看缩略图" href="http://img.blog.csdn.net/20160920155755921"><img src="http://img.blog.csdn.net/20160920155755921" width="80px" height="80px"></a></li>
 								</ul> 	
 								<ul>
 									<li>
@@ -177,12 +184,8 @@
 									<li>
 									  <p class="word"><b class="red">*</b>身份证复印件:</p>
 									</li>
-									<li> 
-									  <p class="img"><img src="../images/fom-t.png"></p>
-									</li>
-									<li> 
-									  <p class="img"><img src="../images/fom-t.png"></p>
-									</li>
+									<li><a class="popup" title="点击看缩略图" href="http://img.blog.csdn.net/20160920155755921"><img src="http://img.blog.csdn.net/20160920155755921" width="80px" height="80px"></a></li>
+									<li><a class="popup" title="点击看缩略图" href="http://img.blog.csdn.net/20160920155755921"><img src="http://img.blog.csdn.net/20160920155755921" width="80px" height="80px"></a></li>
 								</ul> 
 								<ul>
 									<li>
@@ -211,7 +214,7 @@
 									<li>
 									  <p class="word"><b class="red">*</b>税务登记证:</p>
 									</li>
-									<li> <p class="img"><img src="../images/fom-t.png"></p></li>
+									<li><a class="popup" title="点击看缩略图" href="http://img.blog.csdn.net/20160920155755921"><img src="http://img.blog.csdn.net/20160920155755921" width="80px" height="80px"></a></li>
 								</ul>
 								<ul>
 									<li>
@@ -228,7 +231,7 @@
 									<li>
 									  <p class="word"><b class="red">*</b>代码证电子版:</p>
 									</li>
-									<li> <p class="img"><img src="../images/fom-t.png"></p></li>
+									<li><a class="popup" title="点击看缩略图" href="http://img.blog.csdn.net/20160920155755921"><img src="http://img.blog.csdn.net/20160920155755921" width="80px" height="80px"></a></li>
 								</ul>
 								<ul>
 									<li>
@@ -251,7 +254,7 @@
 									<li>
 									  <p class="word"><b class="red">*</b>银行开户许可证:</p>
 									</li>
-									<li> <p class="img"><img src="../images/fom-t.png"></p></li>
+									<li><a class="popup" title="点击看缩略图" href="http://img.blog.csdn.net/20160920155755921"><img src="http://img.blog.csdn.net/20160920155755921" width="80px" height="80px"></a></li>
 								</ul>
 								<ul>
 									<li>
@@ -280,25 +283,25 @@
 									<li>
 									  <p class="word"><b class="red">*</b>商标注册证:</p>
 									</li>
-									<li> <p class="img"><img src="../images/fom-t.png"></p></li>
+									<li><a class="popup" title="点击看缩略图" href="http://img.blog.csdn.net/20160920155755921"><img src="http://img.blog.csdn.net/20160920155755921" width="80px" height="80px"></a></li>
 								</ul>
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>行业资质证明:</p>
 									</li>
-									<li> <p class="img"><img src="../images/fom-t.png"></p></li>
+									<li><a class="popup" title="点击看缩略图" href="http://img.blog.csdn.net/20160920155755921"><img src="http://img.blog.csdn.net/20160920155755921" width="80px" height="80px"></a></li>
 								</ul>
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>商品质检/检验报告:</p>
 									</li>
-									<li> <p class="img"><img src="../images/fom-t.png"></p></li>
+									<li><a class="popup" title="点击看缩略图" href="http://img.blog.csdn.net/20160920155755921"><img src="http://img.blog.csdn.net/20160920155755921" width="80px" height="80px"></a></li>
 								</ul>
 								<ul>
 									<li>
 									  <p class="word"><b class="red">*</b>卫生/生产许可证:</p>
 									</li>
-									<li> <p class="img"><img src="../images/fom-t.png"></p></li>
+									<li><a class="popup" title="点击看缩略图" href="http://img.blog.csdn.net/20160920155755921"><img src="http://img.blog.csdn.net/20160920155755921" width="80px" height="80px"></a></li>
 								</ul>
 								<ul>
 									<li>
