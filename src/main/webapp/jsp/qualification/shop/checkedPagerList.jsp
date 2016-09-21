@@ -117,7 +117,7 @@
 		<td>{{:custName}}</td>
 		<td>{{:createTime}}</td>
 		<td>
-            <a class＝"btn-primary" href="javascript:void(0)" onclick="pager._toShopViewPage('{{:userId}}','{{:userName}}');">查看</a>
+            <a class＝"btn-primary" href="javascript:void(0)" onclick="pager._toViewShopPage('{{:userId}}','{{:userName}}');">查看</a>
 		</td>
 	</tr>
 {{/for}}
