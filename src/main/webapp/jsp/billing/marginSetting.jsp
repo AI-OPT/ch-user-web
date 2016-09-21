@@ -24,18 +24,6 @@ label.error {
 <body>
    <div class="content-wrapper-iframe" ><!--右侧灰色背景-->
      <!--框架标签结束-->
-      <div class="row"><!--外围框架-->
-     	<div class="col-lg-12"><!--删格化-->
-             <div class="row"><!--内侧框架-->
-	                 <div class="col-lg-12"><!--删格化-->
-	                    <div class="main-box clearfix"><!--白色背景-->
-					   	<!--查询结束-->      
-	         			</div>
-	                	</div>
-              </div>
-         </div>
-     </div>	
-     <!--框架标签结束-->
   		  <div class="row"><!--外围框架-->
             <div class="col-lg-12"><!--删格化-->
                 <div class="row"><!--内侧框架-->
@@ -77,7 +65,7 @@ label.error {
 								 	</form>
 								 	<ul>
 								 	<li>
-								 		<input type="button" id="saveSetting" style="margin-left:110px;" class="biu-btn btn-blue btn-xlarge  radius" value="保存">
+								 		<input type="button" id="saveSetting" style="margin-left:110px;" class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="保存">
 								 	</li>
 								 	</ul>
 								 </div>

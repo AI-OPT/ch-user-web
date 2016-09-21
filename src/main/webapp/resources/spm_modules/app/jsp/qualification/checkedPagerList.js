@@ -44,8 +44,8 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
 	 			method: "POST",
 	 			dataType: "json",
 	 			processing: true,
+	 			messageId:"showMessageDiv_pass",
 	 			renderId:"TBODY_CHECKED_PASS",
-	 			messageId:"showMessageDiv",
 	            data : {
 	            	"companyType":companyType,
 	            	"auditState":'2',
@@ -58,9 +58,6 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
 	            		var template = $.templates("#checkedImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_CHECKED_PASS").html(htmlOutput);
-	            	}else{
-	            		$("#TBODY_CHECKED_PASS").html("")
-	            		$("#info_pass").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 
@@ -69,8 +66,8 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
 	 			method: "POST",
 	 			dataType: "json",
 	 			processing: true,
+	 			messageId:"showMessageDiv_reject",
 	 			renderId:"TBODY_CHECKED_REJECT",
-	 			messageId:"showMessageDiv",
 	            data : {
 	            	"companyType":companyType,
 	            	"auditState":'3',
@@ -83,9 +80,6 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
 	            		var template = $.templates("#checkedImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_CHECKED_REJECT").html(htmlOutput);
-	            	}else{
-	            		$("#TBODY_CHECKED_REJECT").html("")
-	            		$("#info_reject").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 
@@ -109,6 +103,8 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
     			url: _base+"/qualification/getCheckedList",
 	 			method: "POST",
 	 			dataType: "json",
+	 			processing: true,
+	 			messageId:"showMessageDiv_pass",
 	 			renderId:"TBODY_CHECKED_PASS",
 	            data : {
 	            	"username":$("#username").val(),
@@ -124,9 +120,6 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
 	            		var template = $.templates("#checkedImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_CHECKED_PASS").html(htmlOutput);
-	            	}else{
-	            		$("#TBODY_CHECKED_PASS").html("")
-	            		$("#info_pass").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 
@@ -134,6 +127,8 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
     			url: _base+"/qualification/getCheckedList",
 	 			method: "POST",
 	 			dataType: "json",
+	 			processing: true,
+	 			messageId:"showMessageDiv_reject",
 	 			renderId:"TBODY_CHECKED_REJECT",
 	            data : {
 	            	"username":$("#username").val(),
@@ -149,9 +144,6 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
 	            		var template = $.templates("#checkedImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_CHECKED_REJECT").html(htmlOutput);
-	            	}else{
-	            		$("#TBODY_CHECKED_REJECT").html("")
-	            		$("#info_reject").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		});

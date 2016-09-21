@@ -43,6 +43,8 @@ define('app/jsp/contract/contractShopList', function (require, exports, module) 
     			url: _base+"/contract/getList",
 	 			method: "POST",
 	 			dataType: "json",
+	 			processing: true,
+	 			messageId:"showMessageDiv",
 	 			renderId:"TBODY_DEFAULTLIST",
 	            data : {
 	            	"companyType":"2"
@@ -55,9 +57,6 @@ define('app/jsp/contract/contractShopList', function (require, exports, module) 
 	            		var template = $.templates("#contractImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_DEFAULTLIST").html(htmlOutput);
-	            	}else{
-	            		$("#TBODY_DEFAULTLIST").html("")
-	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 
@@ -65,11 +64,12 @@ define('app/jsp/contract/contractShopList', function (require, exports, module) 
 
     	_getList:function(){
     		var _this = this;
-    		$("#info").html("");
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/contract/getList",
 	 			method: "POST",
 	 			dataType: "json",
+	 			processing: true,
+	 			messageId:"showMessageDiv",
 	 			renderId:"TBODY_DEFAULTLIST",
 	            data : {
 	            	"username":$("#username").val(),
@@ -84,9 +84,6 @@ define('app/jsp/contract/contractShopList', function (require, exports, module) 
 	            		var template = $.templates("#contractImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_DEFAULTLIST").html(htmlOutput);
-	            	}else{
-	            		$("#TBODY_DEFAULTLIST").html("")
-	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		});

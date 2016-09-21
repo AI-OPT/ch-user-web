@@ -116,13 +116,13 @@
 .relation-table-div ul li  p{float:left;margin-right:10px}
 
 /**选项卡**/
-.order-list-table{ width:100%;display:inline-block;border-bottom:1px solid #e4e4e4;padding-bottom:px;margin-top:25px;}
+.order-list-table{ width:100%;display:inline-block;padding-bottom:10px;border-bottom:1px solid #e4e4e4;padding-bottom:px;margin-top:25px;}
 .order-list-table ul{ width:100%; float:left;}
 .order-list-table ul li{ float:left;border-right:1px solid #ccc;padding:0 10px 0 10px;}
 .order-list-table ul li a{ font-size:14px; color:#333;padding:0 10px 0 10px;}
 .order-list-table ul li a:hover,.order-list-table ul p a:hover{ color:#1598f5;}
 .order-list-table ul li .current{color:#1598f5;border-bottom:2px solid #1598f5;padding-bottom:11px;}
-.order-list-table ul li .current a{ }
+.order-list-table ul li .current a{}
 
 /**table td三行样式**/
 .table  tr .new-td{ border:none;border-bottom: 1px solid #ddd;height:40px;margin:0;padding: 0;}

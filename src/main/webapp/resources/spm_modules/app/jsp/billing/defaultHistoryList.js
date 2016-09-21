@@ -43,6 +43,8 @@ define('app/jsp/billing/defaultHistoryList', function (require, exports, module)
     			url: _base+"/defaultManager/getDefaultHistoryList",
 	 			method: "POST",
 	 			dataType: "json",
+	 			processing: true,
+	 			messageId:"showMessageDiv",
 	 			renderId:"TBODY_DEFAULTLIST",
 	            data : {
 					"tenantId": 'ch',

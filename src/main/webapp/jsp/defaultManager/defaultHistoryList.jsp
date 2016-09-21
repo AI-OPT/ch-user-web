@@ -52,6 +52,7 @@
                                 </div>
                             <!--/table表格结束-->
                                 <!--分页-->
+                                <div id="showMessageDiv" class="text-c"></div>
                                 <div class="paging">
                             		<ul id="pagination-ul"></ul>
 								</div>
@@ -72,9 +73,9 @@
    
 <script type="text/javascript">
 var pager;
-var userId=${userId};
-var loginNameInfo=${userName};
-var custNameInfo=${custName};
+var userId='${userId}';
+var loginNameInfo='${userName}';
+var custNameInfo='${custName}';
 (function () {
 	seajs.use('app/jsp/billing/defaultHistoryList', function (DefaultHistoryPager) {
 		pager = new DefaultHistoryPager({element: document.body});

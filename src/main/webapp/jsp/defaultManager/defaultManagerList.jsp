@@ -13,18 +13,6 @@
 <body>
    <div class="content-wrapper-iframe" ><!--右侧灰色背景-->
      <!--框架标签结束-->
-      <div class="row"><!--外围框架-->
-     	<div class="col-lg-12"><!--删格化-->
-             <div class="row"><!--内侧框架-->
-	                 <div class="col-lg-12"><!--删格化-->
-	                    <div class="main-box clearfix"><!--白色背景-->
-					   	<!--查询结束-->      
-	         			</div>
-	                	</div>
-              </div>
-         </div>
-     </div>	
-     <!--框架标签结束-->
   		  <div class="row"><!--外围框架-->
             <div class="col-lg-12"><!--删格化-->
                 <div class="row"><!--内侧框架-->
@@ -33,20 +21,19 @@
                             <div class="main-box-body clearfix">
                             	<!--table表格-->
                                 <div class="table-responsive clearfix">
-								
-								 <div class="form-label pl-40">
-								 	<ul>
-								 		<li>
-								 			<p class="word">用户名:</p>
-								 			<p><input type="text" class="int-text int-medium" id="username"/></p>
-								 		</li>
-								 		<li>
-								 			<p class="word">企业名称:</p>
-								 			<p><input type="text" class="int-text int-medium" id="companyName"/></p>
-								 			<p><input type="button" class="btn-default btn-blue btn-mini" onclick="pager._getList();" value="查询" /></p>
-								 		</li>
-								 	</ul>
-								 </div>
+								<div class="form-label">
+					           	<ul>
+					                <li class="col-md-6">
+					                    <p class="word">用户名</p>
+					                    <p><input name="control_date" class="int-text int-medium " id="username" type="text">
+					                    </p>
+					                </li>
+					                <li class="col-md-6">
+					                    <p class="word">企业名称</p>
+					                    <p><input class="int-text int-medium" type="text" id="companyName"></p>
+					                    <p><input class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="查  询" type="button" onclick="pager._getList();"></p>
+					            </ul>
+					         </div>
 
                                     <table class="table table-border table-bordered">
                                     <thead>
@@ -61,7 +48,7 @@
                                      </tbody>
                                     </table>
                                     </div>
-                                    <div id="info" class="text-c"></div>
+                                    <div id="showMessageDiv" class="text-c"></div>
                                 	<!--/table表格结束-->
 					            	 <!--分页-->
 	                                <div class="paging">
@@ -90,8 +77,8 @@
 		<td>{{:custName}}</td>
 		<td>{{:BusinessCategory}}</td>
 		<td>
-			<a href="${_base}/defaultManager/addDefaultInfo?userId={{:userId}}&userName={{:userName}}&custName={{:custName}}">扣款</a>
-            <a href="${_base}/defaultManager/defaultHistoryPager?userId={{:userId}}&userName={{:userName}}&custName={{:custName}}">扣款历史</a>
+			<a class＝"btn-primary" href="${_base}/defaultManager/addDefaultInfo?userId={{:userId}}&userName={{:userName}}&custName={{:custName}}">扣款</a>
+            <a class＝"btn-primary" href="${_base}/defaultManager/defaultHistoryPager?userId={{:userId}}&userName={{:userName}}&custName={{:custName}}">扣款历史</a>
 		</td>
 	</tr>
 {{/for}}

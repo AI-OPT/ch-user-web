@@ -13,18 +13,6 @@
 <body>
    <div class="content-wrapper-iframe" ><!--右侧灰色背景-->
      <!--框架标签结束-->
-      <div class="row"><!--外围框架-->
-     	<div class="col-lg-12"><!--删格化-->
-             <div class="row"><!--内侧框架-->
-	                 <div class="col-lg-12"><!--删格化-->
-	                    <div class="main-box clearfix"><!--白色背景-->
-					   	<!--查询结束-->      
-	         			</div>
-	                	</div>
-              </div>
-         </div>
-     </div>	
-     <!--框架标签结束-->
   		  <div class="row"><!--外围框架-->
             <div class="col-lg-12"><!--删格化-->
                 <div class="row"><!--内侧框架-->
@@ -65,16 +53,14 @@
                                     </tbody>
                                     </table>
                                 </div>
-                                <div id="info" class="text-c"></div>
                                 	<!--/table表格结束-->
-                                	
+                        </div>
 					            <!--分页-->          
+								<div id="showMessageDiv"></div>
 						          <div style="text-align: center">
 									 <ul id="pagination-ul"></ul>
 								  </div>
 								<!--分页-->
-								<div id="showMessageDiv"></div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -97,10 +83,10 @@ var pager;
 			<td id='userId{{:userId}}'>{{:userName}}</td>
 			<td>{{:groupName}}</td>
 			<td>{{:stateValue}}</td>
-			<td><a href="javascript:void(0)" id="freeze_{{:userId}}" style="display:none;" onclick="pager._toFreeze('{{:userId}}')">冻结</a>
-				<a href="javascript:void(0)" id="thraw_{{:userId}}" style="display:none;" onclick="pager._toThraw('{{:userId}}')">解冻</a>
-				<a href="javascript:void(0)" id="cancel_{{:userId}}" style="display:none;" onclick="pager._toCancel('{{:userId}}')">注销</a>
-				<a href="javascript:void(0)" id="recovery_{{:userId}}" style="display:none;" onclick="pager._toRecovery('{{:userId}}')">恢复</a></td>
+			<td><a class＝"btn-primary" href="javascript:void(0)" id="freeze_{{:userId}}" style="display:none;" onclick="pager._toFreeze('{{:userId}}')">冻结</a>
+				<a class＝"btn-primary" href="javascript:void(0)" id="thraw_{{:userId}}" style="display:none;" onclick="pager._toThraw('{{:userId}}')">解冻</a>
+				<a class＝"btn-primary" href="javascript:void(0)" id="cancel_{{:userId}}" style="display:none;" onclick="pager._toCancel('{{:userId}}')">注销</a>
+				<a class＝"btn-primary" href="javascript:void(0)" id="recovery_{{:userId}}" style="display:none;" onclick="pager._toRecovery('{{:userId}}')">恢复</a></td>
 		</tr>
 	{{/for}}
 </script>

@@ -20,7 +20,6 @@
 </script>
 </head>
 <body>
-
   		  <div class="row" ><!--外围框架-->
             <div class="col-lg-12"><!--删格化-->
                 <div class="row" ><!--内侧框架-->
@@ -307,11 +306,11 @@
 								</ul>
 								<ul>
 									<li>
-									  <input type="button" class="biu-btn btn-green btn-xlarge  radius" value="通过" onclick="pager._passAudit('${userId}');" style="margin-left: 60%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									  <input type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10 btn-green" value="通过" onclick="pager._passAudit('${userId}');" style="margin-left: 60%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									</li>
 									
 									<li> 
-									   <input type="button" class="biu-btn btn-red btn-xlarge  radius" value="拒绝" onclick="pager._rejectAudit('${userId}');">
+									   <input type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10 btn-red" value="拒绝" onclick="pager._rejectAudit('${userId}');">
 									</li>
 								</ul>
                              </div>

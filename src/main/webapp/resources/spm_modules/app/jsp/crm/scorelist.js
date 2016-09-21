@@ -58,9 +58,6 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
 	            		var template = $.templates("#scoreListImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_SCORELIST").html(htmlOutput);
-	            	}else{
-	            		$("#TBODY_SCORELIST").html("")
-	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 
@@ -72,7 +69,6 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
     	
     	_getList:function(){
     		var _this = this;
-    		$("#info").html("");
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/score/getList",
 	 			method: "POST",
@@ -93,9 +89,6 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
 	            		var template = $.templates("#scoreListImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_SCORELIST").html(htmlOutput);
-	            	}else{
-	            		$("#TBODY_SCORELIST").html("")
-	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 

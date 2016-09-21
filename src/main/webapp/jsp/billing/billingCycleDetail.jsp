@@ -13,8 +13,6 @@
 <link rel="stylesheet" type="text/css" href="${uedroot}/css/modular/modular.css"/>
 </head>
 <body>
-
-
   		  <div class="row"><!--外围框架-->
             <div class="col-lg-12"><!--删格化-->
                 <div class="row"><!--内侧框架-->

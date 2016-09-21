@@ -453,14 +453,20 @@ public class BillingController {
 				JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
 				Iterator<Object> iterator = list.iterator();
 				while(iterator.hasNext()){
+					JSONObject object = (JSONObject) iterator.next();
+					//查询应缴保证金
+					IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
+					QueryShopDepositRequest queryShopDepositRequest = new QueryShopDepositRequest();
+					queryShopDepositRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+					queryShopDepositRequest.setUserId(object.getString("companyId"));
+					Long deposit=shopInfoSV.queryShopDeposit(queryShopDepositRequest);
 					ShopManageVo shopManageVo = new ShopManageVo(); 
-					 JSONObject object = (JSONObject) iterator.next();
-					 shopManageVo.setUserId(object.getString("companyId"));
-					 shopManageVo.setBusiType(object.getString("brandNameCh"));
-					 shopManageVo.setShopName(object.getString("name"));
-					 shopManageVo.setUserName(object.getString("username"));
-					 shopManageVo.setDeposit(0L);
-					 responseList.add(shopManageVo);
+					shopManageVo.setUserId(object.getString("companyId"));
+					shopManageVo.setBusiType(object.getString("brandNameCh"));
+					shopManageVo.setShopName(object.getString("name"));
+					shopManageVo.setUserName(object.getString("username"));
+					shopManageVo.setDeposit(deposit);
+					responseList.add(shopManageVo);
 				}
  				pageInfo.setResult(responseList);
 				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");

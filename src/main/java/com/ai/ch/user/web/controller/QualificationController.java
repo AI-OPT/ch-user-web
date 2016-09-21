@@ -420,10 +420,15 @@ public class QualificationController {
 					while(iterator.hasNext()){
 						BusinessListInfo businessInfo = new BusinessListInfo(); 
 						 JSONObject object = (JSONObject) iterator.next();
+						 String date = "";
+						 if(object.getString("createTime")!=null&&object.getString("createTime").length()!=0){
+								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+								date = sdf.format(Long.parseLong(object.getString("createTime")));
+							}
 						 businessInfo.setUserId(object.getString("companyId"));
 						 businessInfo.setUserName(object.getString("username"));
 						 businessInfo.setCustName(object.getString("name"));
-						 businessInfo.setCreateTime(object.getString("createTime"));
+						 businessInfo.setCreateTime(date);
 						 responseList.add(businessInfo);
 					}
 					pageInfo.setResult(responseList);

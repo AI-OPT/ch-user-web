@@ -13,8 +13,6 @@
 <link rel="stylesheet" type="text/css" href="${uedroot}/css/modular/modular.css"/>
 </head>
 <body>
-
-
   		  <div class="row"><!--外围框架-->
             <div class="col-lg-12"><!--删格化-->
                 <div class="row"><!--内侧框架-->
@@ -76,15 +74,13 @@
 									  <input type="radio" class="radio-1" value="R" id="billingCycle" name="periodType">
 									  <label for="radio-1">实时</label>	
 									</li>
-									
-								</ul>
-								
-							    <ul>
-									<li class="form-btn" >
-										<input type="button" class="biu-btn border-green btn-xlarge  radius" style="margin-left: 55%;" id="saveShopInfo" onclick="saveShopInfo()" value="保存">	
-									</li>
 								</ul>
 							</div>
+							    <ul>
+									<li class="form-btn" >
+										<input type="button" class="biu-btn btn-primary btn-blue btn-medium ml-10" style="margin-left: 55%;" id="saveShopInfo" onclick="saveShopInfo()" value="保存">	
+									</li>
+								</ul>
 					   	 </div>
                         </div>
                     </div>

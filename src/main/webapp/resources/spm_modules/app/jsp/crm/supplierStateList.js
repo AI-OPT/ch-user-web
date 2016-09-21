@@ -39,7 +39,6 @@ define('app/jsp/crm/supplierStateList', function (require, exports, module) {
     	//获取供货商管理列表
     	_getInitList: function(){
     		var _this = this;
-    		$("#info").html("");
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/status/getList",
 	 			method: "POST",
@@ -78,9 +77,6 @@ define('app/jsp/crm/supplierStateList', function (require, exports, module) {
 	                    		$("#recovery_"+result[i].userId).show();
 	                    	}
 	                    }
-	            	}else{
-	            		$("#TBODY_SUPLLIER").html("")
-	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 
@@ -369,9 +365,6 @@ define('app/jsp/crm/supplierStateList', function (require, exports, module) {
 	                    		$("#recovery_"+result[i].userId).show();
 	                    	}
 	                    }
-	            	}else{
-	            		$("#TBODY_SUPLLIER").html("")
-	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 

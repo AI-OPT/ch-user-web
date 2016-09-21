@@ -26,23 +26,6 @@
 						<!--删格化-->
 						<div class="main-box clearfix">
 							<!--白色背景-->
-							<!--查询结束-->
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--框架标签结束-->
-		<div class="row">
-			<!--外围框架-->
-			<div class="col-lg-12">
-				<!--删格化-->
-				<div class="row">
-					<!--内侧框架-->
-					<div class="col-lg-12">
-						<!--删格化-->
-						<div class="main-box clearfix">
-							<!--白色背景-->
 							<!--标题-->
 							<header class="main-box-header clearfix">
 								<h2 class="pull-left">设置评级规则</h2>
@@ -77,8 +60,8 @@
 								</div>
 								</div>
 								
-								<div id="edit" class="table-responsive clearfix" style="display:none;">
 								<form:form method="post" id="rankRule" enctype="multipart/form-data" action="${_base}/rank/updaterule">
+								<div id="edit" class="table-responsive clearfix" style="display:none;">
 									<div class="radio-box">
 										<c:choose>
 										<c:when test="${periodType=='月'}">
@@ -129,15 +112,15 @@
 										
 										</tbody>
 									</table>
+								</div>
 									<div class="text-c">
-									<input type="button" id="updateRule" class="biu-btn btn-blue btn-xlarge  radius" value="保存">
+									<input type="button" id="updateRule" class="biu-btn btn-primary btn-blue btn-medium ml-10" value="保存">
 									<input type="hidden" id="rankFlag" value="">
 									<input type="hidden" id="nameFlag" value="">
 									<input type="hidden" id="picFlag" value="">
 									</div>
 									</form:form>
 								<!--/table表格结束-->
-								</div>
 							</div>
 							</div>
 					</div>

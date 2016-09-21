@@ -26,32 +26,15 @@
 						<!--删格化-->
 						<div class="main-box clearfix">
 							<!--白色背景-->
-							<!--查询结束-->
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--框架标签结束-->
-		<div class="row">
-			<!--外围框架-->
-			<div class="col-lg-12">
-				<!--删格化-->
-				<div class="row">
-					<!--内侧框架-->
-					<div class="col-lg-12">
-						<!--删格化-->
-						<div class="main-box clearfix">
-							<!--白色背景-->
 							<!--标题-->
 							<header class="main-box-header clearfix">
 								<h2 class="pull-left">设置评级规则</h2>
 							</header>
 							<!--标题结束-->
+							<form:form id="rankForm" method="post" enctype="multipart/form-data" action="${_base}/rank/saverule">
 							<div class="main-box-body clearfix">
 								<!--table表格-->
 								<div class="table-responsive clearfix">
-									<form:form id="rankForm" method="post" enctype="multipart/form-data" action="${_base}/rank/saverule">
 									<div class="radio-box">
 										<span>请选择评级周期:</span> <input type="radio" class="radio-2"
 											name="periodType_" checked value="M"> <label for="radio-2">月</label>
@@ -82,16 +65,16 @@
 										
 										</tbody>
 									</table>
+								</div>
+								</div>
 									<div class="text-c">
-									<input type="button" id="saveRule" class="biu-btn btn-blue btn-xlarge  radius" value="保存">
+									<input type="button" id="saveRule" class="biu-btn btn-primary btn-blue btn-medium ml-10" value="保存">
 									<input type="hidden" id="rankFlag" value="">
 									<input type="hidden" id="nameFlag" value="">
 									<input type="hidden" id="picFlag" value="">
 									</div>
 									</form:form>
 								<!--/table表格结束-->
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>

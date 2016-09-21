@@ -29,7 +29,7 @@
 					                <li  class="col-md-6">
 					                    <p class="word">企业名称</p>
 					                    <p><input type="text" class="int-text int-medium" id="companyName"></p>
-					                    <p><input type="button" class="btn-default btn-blue btn-mini" value="查询" onclick="pager._getList('2');"/></p>
+					                    <p><input type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="查询" onclick="pager._getList('2');"/></p>
 					                </li>  
 					            </ul>
 					         </div>
@@ -62,7 +62,7 @@
                             		<ul id="pagination-ul-pass"></ul>
 								</div>
 								<!--分页结束-->
-								<div id="info_pass" class="text-c"></div>
+								<div id="showMessageDiv_pass" class="text-c"></div>
                                 </div>
                                 <div id="date2" style="display:none;">
                                 <div class="table-responsive clearfix">
@@ -84,10 +84,9 @@
                             		<ul id="pagination-ul-reject"></ul>
 								</div>
 								<!--分页结束-->
-								<div id="info_reject" class="text-c"></div>
+								<div id="showMessageDiv_reject" class="text-c"></div>
                             	<!--/table表格结束-->
                              </div>
-                             <div id="info" class="text-c"></div>
                             <!--/table表格结束-->
                                 <!--分页-->
                                 <div class="paging">
@@ -98,7 +97,6 @@
                         </div>
                     </div>
                 </div>
-            <div id="showMessageDiv"></div>
             </div>
     </div>
         <script type="text/javascript">
@@ -119,7 +117,7 @@
 		<td>{{:custName}}</td>
 		<td>{{:createTime}}</td>
 		<td>
-            <a href="javascript:void(0)" onclick="pager._toShopViewPage('{{:userId}}','{{:userName}}');">查看</a>
+            <a class＝"btn-primary" href="javascript:void(0)" onclick="pager._toShopViewPage('{{:userId}}','{{:userName}}');">查看</a>
 		</td>
 	</tr>
 {{/for}}

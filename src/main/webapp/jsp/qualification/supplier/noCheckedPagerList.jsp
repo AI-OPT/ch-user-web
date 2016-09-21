@@ -29,7 +29,7 @@
 					                <li  class="col-md-6">
 					                    <p class="word">企业名称</p>
 					                    <p><input type="text" class="int-text int-medium" id="companyName"></p>
-					                	<p><input type="button" class="btn-default btn-blue btn-mini" value="查询" onclick="pager._getList('1');"/></p>
+					                	<p><input type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="查询" onclick="pager._getList('1');"/></p>
 					                </li>  
 					            </ul>
 					         </div>
@@ -52,7 +52,7 @@
                                     </table>
                                </div>
                                 </div>
-                                <div id="info" class="text-c"></div>
+                                <div id="showMessageDiv" class="text-c"></div>
                             <!--/table表格结束-->
                                 <!--分页-->
                                    <div class="paging">
@@ -63,7 +63,6 @@
                         </div>
                     </div>
                 </div>
-            <div id="showMessageDiv"></div>
             </div>
     </div>
     
@@ -83,7 +82,7 @@
 		<td>{{:userName}}</td>
 		<td>{{:custName}}</td>
 		<td>
-            <a href="javascript:void(0)" onclick="pager._toAuditSupplierPage('{{:userId}}','{{:userName}}');">审核</a>
+            <a class＝"btn-primary" href="javascript:void(0)" onclick="pager._toAuditSupplierPage('{{:userId}}','{{:userName}}');">审核</a>
 		</td>
 	</tr>
 {{/for}}

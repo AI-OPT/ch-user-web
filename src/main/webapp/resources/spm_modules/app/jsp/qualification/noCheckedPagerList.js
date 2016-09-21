@@ -57,9 +57,6 @@ define('app/jsp/qualification/noCheckedPagerList', function (require, exports, m
 	            		var template = $.templates("#unCheckedImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#UN_CHECKED").html(htmlOutput);
-	            	}else{
-	            		$("#UN_CHECKED").html("")
-	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 
@@ -79,10 +76,10 @@ define('app/jsp/qualification/noCheckedPagerList', function (require, exports, m
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/qualification/getUncheckList",
 	 			method: "POST",
-	 			processing: true,
 	 			dataType: "json",
-	 			renderId:"UN_CHECKED",
+	 			processing: true,
 	 			messageId:"showMessageDiv",
+	 			renderId:"UN_CHECKED",
 	            data : {
 	            	"username":$("#username").val(),
 					"companyName":$("#companyName").val(),
@@ -97,9 +94,6 @@ define('app/jsp/qualification/noCheckedPagerList', function (require, exports, m
 	            		var template = $.templates("#unCheckedImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#UN_CHECKED").html(htmlOutput);
-	            	}else{
-	            		$("#UN_CHECKED").html("")
-	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 

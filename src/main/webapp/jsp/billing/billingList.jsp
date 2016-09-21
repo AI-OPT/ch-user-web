@@ -13,18 +13,6 @@
 <body>
    <div class="content-wrapper-iframe" ><!--右侧灰色背景-->
      <!--框架标签结束-->
-      <div class="row"><!--外围框架-->
-     	<div class="col-lg-12"><!--删格化-->
-             <div class="row"><!--内侧框架-->
-	                 <div class="col-lg-12"><!--删格化-->
-	                    <div class="main-box clearfix"><!--白色背景-->
-					   	<!--查询结束-->      
-	         			</div>
-	                	</div>
-              </div>
-         </div>
-     </div>	
-     <!--框架标签结束-->
   		  <div class="row"><!--外围框架-->
             <div class="col-lg-12"><!--删格化-->
                 <div class="row"><!--内侧框架-->
@@ -66,15 +54,14 @@
                                     </tbody>
                                     </table>
                                     </div>
-                                    <div id="info" class="text-c"></div>
+                                      <div id="showMessageDiv" class="text-c"></div>
                                 	<!--/table表格结束-->
+                        </div>
 					            	<!--分页-->          
 						          <div style="text-align: center">
 									 <ul id="pagination-ul"></ul>
 								  </div>
 								<!--分页-->
-                        </div>
-                        <div id="showMessageDiv"></div>
                     </div>
                 </div>
             </div>
@@ -99,9 +86,9 @@
 			<td>{{:shopName}}</td>
 			<td id={{:busiType}}>{{:busiType}}</td>
 			<td id={{:deposit}}>{{:deposit}}</td>
-			<td><a href="javascript:void(0)" onclick="pager._toMarginPage('{{:userId}}','{{:userName}}')">保证金设置</a>
-				<a href="javascript:void(0)" onclick="pager._toServiceFeeSettingPage('{{:userId}}','{{:userName}}')">服务费设置</a>
-				<a href="javascript:void(0)" onclick="pager._toServiceFeePage('{{:userId}}','{{:userName}}')">查看详情</a></td>
+			<td><a class＝"btn-primary" href="javascript:void(0)" onclick="pager._toMarginPage('{{:userId}}','{{:userName}}')">保证金设置</a>
+				<a class＝"btn-primary" href="javascript:void(0)" onclick="pager._toServiceFeeSettingPage('{{:userId}}','{{:userName}}')">服务费设置</a>
+				<a class＝"btn-primary" href="javascript:void(0)" onclick="pager._toServiceFeePage('{{:userId}}','{{:userName}}')">查看详情</a></td>
 		</tr>
 	{{/for}}
 </script>

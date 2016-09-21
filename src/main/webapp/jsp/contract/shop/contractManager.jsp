@@ -12,10 +12,8 @@
 <%@include file="/inc/inc.jsp" %>
 <script src="${uedroot}/scripts/modular/frame.js"></script>  
 <link rel="stylesheet" type="text/css" href="${uedroot}/css/modular/modular.css"/>
-
 </head>
 <body>
-
   		  <div class="row"><!--外围框架-->
             <div class="col-lg-12"><!--删格化-->
                 <div class="row"><!--内侧框架-->
@@ -121,7 +119,7 @@
 								</ul>
 								<ul>
 									<li class="form-btn" >
-										<input type="button" class="biu-btn border-green btn-xlarge  radius" id="shopSave"  style="margin-left: 60%"  value="保存">	
+										<input type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10" id="shopSave"  style="margin-left: 60%"  value="保存">	
 										<input type="hidden" id="contractCodeFlag" value="0"/>
 										<input type="hidden" id="contractNameFlag" value="0"/>
 										<input type="hidden" id="startTimeFlag" value="0"/>

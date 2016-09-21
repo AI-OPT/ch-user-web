@@ -29,7 +29,7 @@
 					                <li  class="col-md-6">
 					                    <p class="word">企业名称</p>
 					                    <p><input type="text" class="int-text int-medium" id="companyName"></p>
-					                    <p><input type="button" class="btn-default btn-blue btn-mini" value="查询" onclick="pager._getList();"/></p>
+					                    <p><input type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="查询" onclick="pager._getList();"/></p>
 					                </li>  
 					            </ul>
 					         </div>
@@ -52,7 +52,7 @@
                                     </table>
                                </div>
                                 </div>
-                                <div id="info" class="text-c"></div>
+                                <div id="showMessageDiv" class="text-c"></div>
                             <!--/table表格结束-->
                                <!--分页-->
                                 <div class="paging">
@@ -88,8 +88,8 @@ var pager;
 		<td>{{:custName}}</td>
 		<td>{{:uploadStatus}}</td>
 		<td  id="operation">
-			<a href="${_base}/contract/contractSupplierManagerPager?userId={{:userId}}&userName={{:userName}}&custName={{:custName}}">管理</a>
-            <a href="${_base}/contract/contractSupplierDetailPager?userId={{:userId}}&userName={{:userName}}&custName={{:custName}}">查看</a>
+			<a class＝"btn-primary" href="${_base}/contract/contractSupplierManagerPager?userId={{:userId}}&userName={{:userName}}&custName={{:custName}}">管理</a>
+            <a class＝"btn-primary" href="${_base}/contract/contractSupplierDetailPager?userId={{:userId}}&userName={{:userName}}&custName={{:custName}}">查看</a>
 		</td>
 	</tr>
 {{/for}}

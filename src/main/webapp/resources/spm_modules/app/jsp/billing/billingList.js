@@ -43,9 +43,9 @@ define('app/jsp/billing/billingList', function (require, exports, module) {
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/billing/getBillingList",
 	 			method: "POST",
+	 			dataType: "json",
 	 			processing: true,
 	 			messageId:"showMessageDiv",
-	 			dataType: "json",
 	 			renderId:"TBODY_BILLLIST",
 	            data : {
 	            	"companyType":"2"
@@ -58,9 +58,6 @@ define('app/jsp/billing/billingList', function (require, exports, module) {
 	            		var template = $.templates("#bailListImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_BILLLIST").html(htmlOutput);
-	            	}else{
-	            		$("#TBODY_BILLLIST").html("")
-	            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
 	            	}
 	            }
     		}); 
@@ -68,7 +65,6 @@ define('app/jsp/billing/billingList', function (require, exports, module) {
     	
     	_getList:function(){
     	var _this = this;
-    	$("#info").html("");
 		$("#pagination-ul").runnerPagination({
 			url: _base+"/billing/getBillingList",
  			method: "POST",
@@ -89,9 +85,6 @@ define('app/jsp/billing/billingList', function (require, exports, module) {
             		var template = $.templates("#bailListImpl");
                     var htmlOutput = template.render(data);
                     $("#TBODY_BILLLIST").html(htmlOutput);
-            	}else{
-            		$("#TBODY_BILLLIST").html("")
-            		$("#info").html("<div class='text-c'>查询数据不存在</div>");
             	}
             }
 		});
