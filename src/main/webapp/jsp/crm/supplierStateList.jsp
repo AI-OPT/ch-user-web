@@ -79,13 +79,13 @@
                                     </table>
                                 </div>
                                 	<!--/table表格结束-->
-                        </div>
 					            <!--分页-->          
 								<div id="showMessageDiv"></div>
 						          <div style="text-align: center">
 									 <ul id="pagination-ul"></ul>
 								  </div>
 								<!--分页-->
+                        </div>
                     </div>
                 </div>
             </div>

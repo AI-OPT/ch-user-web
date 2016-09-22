@@ -86,7 +86,6 @@
 										</tbody>
 									</table>
 								</div>
-							</div>
 							<div id="showMessageDiv" class="text-c"></div>
 							<!--/table表格结束-->
 							<!--分页-->
@@ -94,6 +93,7 @@
 								<ul id="pagination-ul"></ul>
 							</div>
 							<!--分页结束-->
+							</div>
 						</div>
 					</div>
 				</div>

@@ -79,19 +79,17 @@
                                     </table>
                                 </div>
                                 	<!--/table表格结束-->
-                        </div>
 					            <!--分页--> 
 					            <div id="showMessageDiv" class="text-c"></div>         
 						          <div style="text-align: center">
 									 <ul id="pagination-ul"></ul>
 								  </div>
 								<!--分页-->
+                        </div>
                     </div>
                 </div>
             </div>
             </div>
-    </div>
-  </div>   
 <script type="text/javascript">
 var pager;
 (function () {
