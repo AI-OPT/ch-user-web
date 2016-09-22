@@ -28,22 +28,32 @@
 							<!--白色背景-->
 							<!--标题-->
 							<header class="main-box-header clearfix">
-								<h2 class="pull-left">设置评级规则</h2>
+								<h4 class="pull-left">设置评级规则</h4>
 							</header>
 							<!--标题结束-->
 							<div class="main-box-body clearfix">
 								<!--table表格-->
 								<div id="view" style="display:">
 								<div class="table-responsive clearfix">
-									<div class="radio-box">
-										<span>评级周期:</span><span>${ periodType}</span> 
-									</div>
-									<div>
-										<span>店铺级数:</span>
-										<span>${rank }</span>
-									</div>
-									<div class="text-r"><input type="button" id="toEdit" class="biu-btn  btn-primary btn-blue btn-mini  ml-5" value="修改">
-									</div>
+								<div class="form-label">
+							<div class="form-label  bd-bottom">
+					           	<ul>
+					                <li  class="col-md-6">
+					                    <p class="word">评级周期:</p>
+					                    <p>${ periodType}</p>
+					                </li>
+					                <li  class="col-md-6">
+					                    <p class="word">店铺级数:</p>
+					                    <p>${rank }</p>
+					                </li>  
+					            </ul>  
+					            <ul>
+					            	<li>
+					            		<div class="text-r"><input type="button" id="toEdit" class="biu-btn  btn-primary btn-blue btn-medium ml-5" value="修改"></div>
+					            	</li>
+					            </ul>
+					            </div>
+					            </div>
 									<table class="table table-border table-bordered">
 										<thead>
 											<tr>
@@ -53,52 +63,48 @@
 											</tr>
 										</thead>
 										<tbody id="TBODY_VIEW">
-										
 										</tbody>
 									</table>
 								<!--/table表格结束-->
 								</div>
 								</div>
-								
 								<form:form method="post" id="rankRule" enctype="multipart/form-data" action="${_base}/rank/updaterule">
-								<div id="edit" class="table-responsive clearfix" style="display:none;">
-									<div class="radio-box">
+									<div class="form-label" id="edit" style="display:none;">
+									<div class="form-label  bd-bottom">
+										<ul>
 										<c:choose>
-										<c:when test="${periodType=='月'}">
-										<span>请选择评级周期:</span> <input type="radio" class="radio-2"
-											name="periodType_" value="M" checked> <label for="radio-2">月</label>
-										<input type="radio" class="radio-1" name="periodType_" value="Q">
-										<label for="radio-1">季度</label> <input type="radio"
-											class="radio-1" name="periodType_" value="Y"> <label
-											for="radio-1">年</label>
-											 </c:when>
-											<c:when test="${periodType=='季度'}">
-											    <span>请选择评级周期:</span> <input type="radio" class="radio-2"
-											name="periodType_" value="M"> <label for="radio-2">月</label>
-										<input type="radio" class="radio-1" name="periodType_" value="Q" checked>
-										<label for="radio-1">季度</label> <input type="radio"
-											class="radio-1" name="periodType_" value="Y"> <label
-											for="radio-1">年</label>
-											 </c:when>
-											 <c:otherwise>
-											    <span>请选择评级周期:</span> <input type="radio" class="radio-2"
-											name="periodType_" value="M"> <label for="radio-2">月</label>
-										<input type="radio" class="radio-1" name="periodType_" value="Q">
-										<label for="radio-1">季度</label> <input type="radio"
-											class="radio-1" name="periodType_" value="Y" checked> <label
-											for="radio-1">年</label>
-											 </c:otherwise>
-											</c:choose>
-									</div>
-									<div>
-										<span>请选择评级周期:</span>
-										<select class="select select-mini" id="rankRegion">
-										<option value="">请选择</option>
-										<c:forEach var="i" begin="2" end="20">
-										<option>${i}</option>
-										</c:forEach>
-										</select>
-										<span>(2-20个等级之间)</span>
+											<c:when test="${periodType=='月'}">
+											<li><p class="word">请选择评级周期:</p>
+											<p><input type="radio" class="radio-2" name="periodType_" value="M" checked> <label for="radio-2">月</label></p>
+											<p><input type="radio" class="radio-1" name="periodType_" value="Q"> <label for="radio-1">季度</label></p>
+											<p><input type="radio" class="radio-1" name="periodType_" value="Y"> <label for="radio-1">年</label></p></li>
+										</c:when>
+										<c:when test="${periodType=='季度'}">
+											<li><p class="word">请选择评级周期:</p>
+											<p><input type="radio" class="radio-2" name="periodType_" value="M"> <label for="radio-2">月</label></p>
+											<p><input type="radio" class="radio-1" name="periodType_" value="Q" checked><label for="radio-1">季度</label></p> 
+											<p><input type="radio" class="radio-1" name="periodType_" value="Y"> <label for="radio-1">年</label></p></li>
+										</c:when>
+										<c:otherwise>
+											<li><p class="word">请选择评级周期:</p>
+											<p><input type="radio" class="radio-2" name="periodType_" value="M"> <label for="radio-2">月</label></p>
+											<p><input type="radio" class="radio-1" name="periodType_" value="Q"> <label for="radio-1">季度</label></p> 
+											<p><input type="radio" class="radio-1" name="periodType_" value="Y" checked> <label for="radio-1">年</label></p>
+										</c:otherwise>
+										</c:choose>
+										</ul>
+										<ul>
+										<li>
+											<p>请选择评级周期:</p>
+											<p><select class="select select-mini" id="rankRegion">
+												<option value="">请选择</option>
+												<c:forEach var="i" begin="2" end="20">
+												<option>${i}</option>
+											</c:forEach>
+										</select></p>
+										<p>(2-20个等级之间)</p>
+										</li>
+										</ul>
 									</div>
 									<table class="table table-border table-bordered">
 										<thead>
@@ -119,15 +125,15 @@
 									<input type="hidden" id="nameFlag" value="">
 									<input type="hidden" id="picFlag" value="">
 									</div>
-									</form:form>
 								<!--/table表格结束-->
+								</form:form>
 							</div>
 							</div>
 					</div>
 					</div>
 				</div>
 			</div>
-		</div>
+			</div>
 	<script type="text/javascript">
 		var pager;
 		var result=${result};

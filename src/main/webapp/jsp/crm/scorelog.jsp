@@ -20,7 +20,7 @@
                         <div class="main-box clearfix"><!--白色背景-->
                         <!--标题-->
                             <header class="main-box-header clearfix">
-                            <h2 class="pull-left">历史评价明细</h2>
+                            <h4 class="pull-left">历史评价明细</h4>
                             </header>
                         <!--标题结束-->   
                             <div class="main-box-body clearfix">

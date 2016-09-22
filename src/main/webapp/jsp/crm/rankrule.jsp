@@ -28,31 +28,37 @@
 							<!--白色背景-->
 							<!--标题-->
 							<header class="main-box-header clearfix">
-								<h2 class="pull-left">设置评级规则</h2>
+								<h4 class="pull-left">设置评级规则</h4>
 							</header>
 							<!--标题结束-->
 							<form:form id="rankForm" method="post" enctype="multipart/form-data" action="${_base}/rank/saverule">
+							<div class="form-label">
+							<div class="form-label  bd-bottom">
+				            <ul>
+				                 <li class="col-lg-12">
+				              		<p class="word">请选择评级周期:</p>
+				              		<p><input type="radio" class="radio-2" name="periodType_" checked value="M"> <label for="radio-2">月</label></p>
+									<p><input type="radio" class="radio-1" name="periodType_" value="Q"><label for="radio-1">季度</label></p> 
+									<p><input type="radio" class="radio-1" name="periodType_" value="Y"> <label for="radio-1">年</label></p>
+				                </li>
+				                </ul>
+				                <ul>
+								<li class="col-lg-12">
+									<p class="word">请选择店铺级数:</p>
+									<p><select class="select select-mini" id="rankRegion" name="rankRegion">
+									<option value="">请选择</option>
+									<c:forEach var="i" begin="2" end="20">
+									<option>${i}</option>
+									</c:forEach>
+									</select>
+									<p>(2-20个等级之间)</p>
+								</li>
+								</ul>
+								</div>
+								</div>
 							<div class="main-box-body clearfix">
 								<!--table表格-->
 								<div class="table-responsive clearfix">
-									<div class="radio-box">
-										<span>请选择评级周期:</span> <input type="radio" class="radio-2"
-											name="periodType_" checked value="M"> <label for="radio-2">月</label>
-										<input type="radio" class="radio-1" name="periodType_" value="Q">
-										<label for="radio-1">季度</label> <input type="radio"
-											class="radio-1" name="periodType_" value="Y"> <label
-											for="radio-1">年</label>
-									</div>
-									<div>
-										<span>请选择店铺级数:</span>
-										<select class="select select-mini" id="rankRegion" name="rankRegion">
-										<option value="">请选择</option>
-										<c:forEach var="i" begin="2" end="20">
-										<option>${i}</option>
-										</c:forEach>
-										</select>
-										<span>(2-20个等级之间)</span>
-									</div>
 									<table class="table table-border table-bordered">
 										<thead>
 											<tr>

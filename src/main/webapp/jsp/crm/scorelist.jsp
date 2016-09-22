@@ -20,7 +20,7 @@
                         <div class="main-box clearfix"><!--白色背景-->
                         <!--标题-->
                             <header class="main-box-header clearfix">
-                            <h2 class="pull-left">评价管理</h2>
+                            <h4 class="pull-left">评价管理</h4>
                             </header>
                         <!--标题结束-->   
                             <div class="main-box-body clearfix">
@@ -82,7 +82,7 @@ var pager;
 			<td id='userId{{:userId}}'>{{:userName}}</td>
 			<td>{{:groupName}}</td>
 			<td>{{:totalScore}}</td>
-			<td><a class＝"btn-primary" href="javascript:pager._toScorePage('{{:userId}}')" class="click">评价</a></td>
+			<td><a class＝"btn-primary" href="javascript:pager._toScorePage('{{:userId}}','{{:userName}}');" class="click">评价</a></td>
 		</tr>
 	{{/for}}
 </script>

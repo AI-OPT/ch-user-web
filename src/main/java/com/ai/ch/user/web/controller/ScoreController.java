@@ -55,8 +55,8 @@ public class ScoreController {
 	public ModelAndView scorePage(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/jsp/crm/scorepage"); 
 		String url=request.getQueryString();
-		String userId=url.substring(url.lastIndexOf("=")+1);
-		
+		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
+		String username = url.substring(url.lastIndexOf("username=")+9);
 		//查询商户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -70,7 +70,7 @@ public class ScoreController {
 		}
 		JSONObject data = (JSONObject) JSON.parse(str);
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
-		model.addObject("supplier_name", data2.getString("username"));
+		model.addObject("supplier_name", username);
 		model.addObject("company_name", data2.getString("name"));
 		model.addObject("userId", userId);
 		//调dubbo服务
@@ -97,7 +97,7 @@ public class ScoreController {
 		InsertScoreLogRequest scoreLogRequest = new InsertScoreLogRequest();
 		//调dubbo服务
 		//tenantId
-		String tenantId ="changhong";
+		String tenantId =ChWebConstants.COM_TENANT_ID;
 		//操作员ID
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		String operId = user.getUserId();

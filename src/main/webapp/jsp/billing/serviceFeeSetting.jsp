@@ -31,78 +31,87 @@ label.error {
                         <div class="main-box clearfix"><!--白色背景-->
                         <!--标题-->
                             <header class="main-box-header clearfix">
-                            <h2 class="pull-left">服务费设置</h2>
+                            <h4 class="pull-left">服务费设置</h4>
                             </header>
                         <!--标题结束-->   
                             <div class="main-box-body clearfix">
-                            	<!--table表格-->
-                                <div class="table-responsive clearfix">
-								
-								 <div class="form-label pl-40">
-								 	<ul>
-								 		<li>
-								 			<p class="word"><strong>用户名:</strong></p>
-								 			<p>${userName }</p>
-								 		</li>
-								 		<li>
-								 			<p class="word"><strong>企业名称:</strong></p>
-								 			<p>${shopName }</p>
-								 		</li>
-								 	</ul>
-								 	<ul>
-								 		<li><p class="word"><strong>当前结算设置:</strong></p>
-								 	</ul>
-								 	<ul>
-								 		<li>
-								 			<p class="word">固定金额服务费</p>
-								 			<p class="word" style="white-space:nowrap;">${rentFeeStr }</p>
-								 		</li>
-								 	</ul>
-								 	<ul>
-								 		<li>
-								 			<p class="word">实时划扣服务费</p>
-								 			<p class="word">${ratioStr }</p>
-								 		</li>
-								 	</ul>
+								 <div class="form-label  bd-bottom">
+								 	 	<ul>
+							                <li  class="col-md-6">
+							                    <p class="word">用户名:</p>
+							                    <p>${userName }</p>
+							                </li>
+							                <li  class="col-md-6">
+							                    <p class="word">企业名称:</p>
+							                    <p>${shopName }</p>
+							                </li>  
+							            </ul>  
+								 	</div>
+								 	<div class="form-label  bd-bottom">
+								 		<ul>
+								 			<li class="col-md-6">
+												<p class="word">当前结算设置:</p>								 			
+								 			</li>
+								 		</ul>
+								 		<ul>
+							                <li  class="col-md-6">
+							                    <p class="word">固定金额服务费:</p>
+							                    <p>${rentFeeStr }</p>
+							                </li>
+							                <li  class="col-md-6">
+							                    <p class="word">实时划扣服务费</p>
+							                    <p>${ratioStr }</p>
+							                </li>  
+							            </ul>  
+								 	</div>
+								<!--table表格-->
 								 <form id="serviceFee">
-								 <div>
+								 <div class="form-label pl-40">
 								  <ul>
-								 		<li><p class="word"><strong>服务费设置:</strong></p>
-								 	</ul>
-								 </div>
-								 <div class="mt-20 skin-minimal">
-									  <div class="radio-box">
-									  		<p class="word">固定金额服务费:  
-										    <input type="radio" class="radio-1" value="0" name="needPayRent" onclick="pager._change('needPayRent','payRent');" checked>
-										    <label for="radio-1">需缴纳</label>
-										    <input type="radio" class="radio-1" value="1" name="needPayRent" onclick="pager._change('needPayRent','payRent');">
-										    <label for="radio-1">无需缴纳</label>
-										    </p>
-									  </div>
-									  <div id="payRent" style="display:">
-									  	<p><input type="text" class="int-text int-mini" id="rentFee" name="rentFee" maxlength="15" onkeydown="return doit()"/>元/
-									  	<select class="select select-mini" id="rentCycleType" name="rentCycleType">
-									  	<option value="Y">年</option>
+								   <li class="col-lg-12">
+				              		<p class="word">服务费设置:</p>
+				                	</li>
+				                	</ul>
+				                	<ul>
+								 	<li class="col-lg-12">
+				              		<p class="word">固定金额服务费:</p>
+				                    <p><input type="radio" value="0" name="needPayRent" onclick="pager._change('needPayRent','payRent');" checked></p>
+				                    <p>需缴纳</p>
+				                    <p><input type="radio" value="1" name="needPayRent" onclick="pager._change('needPayRent','payRent');"></p>
+				                    <p>无需缴纳</p>
+				                </li>
+				                </ul>
+				                 <div id="payRent" style="display:">
+				                <ul>
+				                 <li class="col-lg-12">
+				                 	<p><input type="text" class="int-text int-mini" id="rentFee" name="rentFee" maxlength="15" onkeydown="return doit()"></p>
+				                 	<p>元/</p> 
+				              		<p><select class="select select-mini" id="rentCycleType" name="rentCycleType">
+				              			<option value="Y">年</option>
 									  	<option value="Q">季度</option>
-									  	<option value="M">月</option>
-									  	</select>
-									  	</p>
-									  	<p class="input-group"></p>
-									  </div>
-								</div>
-									  <div class="radio-box">
-									  <p class="word">实时划扣服务费: 
-										    <input type="radio" class="radio-1" value="0" name="needPayCycle" checked onclick="pager._change('needPayCycle','payCycle')">
-										    <label for="radio-1">需缴纳</label>
-										    <input type="radio" class="radio-1" value="1" name="needPayCycle" onclick="pager._change('needPayCycle','payCycle')">
-										    <label for="radio-1">无需缴纳</label>
-									  </div>
-									   <div id="payCycle">
-									  	<p><input type="text" class="int-text int-mini" name="ratio" id="ratio"/>% * 订单金额
+									  	<option value="M">月</option></select></p>
+				                	</li>
+				                	</ul>
+				                	</div>
+				                	</div>
+				                	<div class="form-label pl-40">
+								<ul>
+								 	<li class="col-lg-12">
+				              		<p class="word">实时划扣服务费: </p>
+				                    <p><input type="radio" value="0" name="needPayCycle" checked onclick="pager._change('needPayCycle','payCycle')">需缴纳</p>
+				                    <p><input type="radio" value="1" name="needPayCycle" onclick="pager._change('needPayCycle','payCycle')">无需缴纳</p>
+				                </li>
+				                </ul>
+				                 <div id="payCycle" style="display:">
+				                <ul>
+				                 <li class="col-lg-12">
+				                 	<p><input type="text" class="int-text int-mini" name="ratio" id="ratio"/>
+				                 	% * 订单金额</p>
 									  	<input type="hidden" id="userId" name="userId" value="${userId }"/>
-									  	</p>
-									  	<p class="input-group"></p>
-										</div>
+				                	</li>
+				                	</ul>
+				                	</div>
+								</div>
 									</form>
 									<div>
 										<ul>
@@ -111,16 +120,13 @@ label.error {
 								 		</li>
 								 		</ul>
 								 	</div>
-								 	
+								 	</div>
 								 </div>
 							</div>
                         </div>
                     </div>
                 </div>
             </div>
-            </div>
-            </div>
-    </div>
     
 	<script type="text/javascript">
 		var pager;

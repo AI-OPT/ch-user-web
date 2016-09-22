@@ -20,7 +20,7 @@
                         <div class="main-box clearfix"><!--白色背景-->
                         <!--标题-->
                             <header class="main-box-header clearfix">
-                            <h2 class="pull-left">保证金/服务费管理</h2>
+                            <h4 class="pull-left">保证金/服务费管理</h4>
                             </header>
                         <!--标题结束-->   
                             <div class="main-box-body clearfix">
@@ -46,7 +46,7 @@
                                                 <th>用户名</th>
                                                 <th>企业名称</th>
                                                 <th>经营品类</th>
-                                                <th>保证金</th>
+                                                <th>应缴保证金</th>
                                                 <th>操作</th>
                                             </tr>
                                         </thead>

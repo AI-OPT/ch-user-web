@@ -63,8 +63,8 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
     		}); 
     	},
 
-		_toScorePage:function(userId){
-			window.location.href = _base+'/score/scorepage?userId='+userId;
+		_toScorePage:function(userId,username){
+			window.location.href = _base+'/score/scorepage?userId='+userId+'&username='+username;
 		},
     	
     	_getList:function(){

@@ -31,41 +31,42 @@
 					<!--删格化-->
 					<div class="main-box clearfix">
 						<!--白色背景-->
-						<!--查询条件-->
+						<!--标题-->
+							<header class="main-box-header clearfix">
+								<h4 class="pull-left">资质审核</h4>
+							</header>
+							<!--标题结束-->
 						<div class="form-label">
+							<div class="form-label  bd-bottom">
+					           	<ul>
+					                <li  class="col-md-6">
+					                    <p class="word">用户名:</p>
+					                    <p>${userName }</p>
+					                </li>
+					                <li  class="col-md-6">
+					                    <p class="word">公司名称:</p>
+					                    <p>${shopName }</p>
+					                </li>  
+					            </ul>  
+					               	<ul>
+					                <li  class="col-md-6">
+					                    <p class="word">提交时间:</p>
+					                    <p>${auditTime }</p>
+					                </li>
+					                <li  class="col-md-6">
+					                    <p class="word">提交类型:</p>
+					                    <p>无</p>
+					                </li>  
+					            </ul>  
+					            </div>
+					            </div>
+							<div class="form-label">
 							<ul>
-								<li class="col-md-6"
-									style="border-bottom: 1px solid #e7e7e7; padding-bottom: 10px; width: 98%; margin-left: 30px">
-									<p class="word" style="font-size: 20px">资质审核</p>
+								<li><p>企业介绍信息</p>
 								</li>
 							</ul>
-						</div>
-						<!--查询结束-->
-						<!--table表格-->
-						<div class="form-label pl-40" style="height: 100%;" class="text-l">
-							<ul style="background: #e7e7e7">
-								<li class="col-md-6" style="width: 25%">
-									<p class="word" style="font-size: 20px;">用户名:</p>
-									<p>${userName }</p>
-								</li>
-								<li class="col-md-6" style="width: 25%">
-									<p class="word" style="font-size: 20px">企业名称:</p>
-									<p>${shopName }</p>
-								</li>
-								<li class="col-md-6" style="width: 25%">
-									<p class="word" style="font-size: 20px;">提交时间:</p>
-									<p>${auditTime }</p>
-								</li>
-								<li class="col-md-6" style="width: 25%">
-									<p class="word" style="font-size: 20px">提交类型:</p>
-									<p>无</p>
-								</li>
-							</ul>
-							<ul>
-								<li><label style="display: inline-block; font-size: 18px">企业介绍信息</label><span
-									style="display: inline-block; border-bottom: 1px solid #000; width: 900px; margin-left: 10px; margin-bottom: 5px"></span>
-								</li>
-							</ul>
+							</div>
+							<div class="form-label">
 							<ul>
 								<li>
 									<p class="word">

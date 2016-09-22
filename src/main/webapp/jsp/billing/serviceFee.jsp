@@ -20,34 +20,39 @@
                         <div class="main-box clearfix"><!--白色背景-->
                         <!--标题-->
                             <header class="main-box-header clearfix">
-                            <h2 class="pull-left">查看详情</h2>
+                            <h4 class="pull-left">查看详情</h4>
                             </header>
                         <!--标题结束-->   
                             <div class="main-box-body clearfix">
                             	<!--table表格-->
                                 <div class="table-responsive clearfix">
-								
 								 <div class="form-label pl-40">
+									<div class="form-label  bd-bottom">
+							           	<ul>
+							                <li  class="col-md-6">
+							                    <p class="word">用户名:</p>
+							                    <p>${userName }</p>
+							                </li>
+							                <li  class="col-md-6">
+							                    <p class="word">企业名称:</p>
+							                    <p>${shopName }</p>
+							                </li>  
+							            </ul>  
+							            </div>
+							            </div>
+							            <div class="form-label  bd-bottom">
 								 	<ul>
-								 		<li>
-								 			<p class="word"><strong>用户名:</strong></p>
-								 			<p>${userName }</p>
-								 		</li>
-								 		<li>
-								 			<p class="word"><strong>企业名称:</strong></p>
-								 			<p>${shopName }</p>
-								 		</li>
+								 		<li><p class="word">当前结算设置:</p>
 								 	</ul>
 								 	<ul>
-								 		<li><p class="word"><strong>当前结算设置:</strong></p>
+								 	<li><p class="word">保证金</p>
+								 	<p class="word">${deposit }</p>
+								 	</li>
 								 	</ul>
 								 	<ul>
-								 	<li><p class="word">保证金</p></li>
-								 	<li><p class="word" style="white-space:nowrap;">${deposit }</p></li>
-								 	</ul>
-								 	<ul>
-								 	<li><p class="word">固定金额服务费 </p></li>
-								 	<li><p class="word" style="white-space:nowrap;">${rentFeeStr }</p></li>
+								 	<li><p class="word">固定金额服务费 </p>
+								 	<p class="word">${rentFeeStr }</p>
+								 	</li>
 								 	</ul>
 								 	<ul>
 								 	<li><p class="word">实时划扣服务费 </p></li>

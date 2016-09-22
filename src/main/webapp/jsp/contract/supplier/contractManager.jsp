@@ -19,25 +19,29 @@
                 <div class="row"><!--内侧框架-->
                     <div class="col-lg-12"><!--删格化-->
                          <div class="main-box clearfix"><!--白色背景-->   
-                    		 <div class="form-label">
-					           	<ul>
-					                <li class="col-md-6" style="width: 40%">
-					                    <p class="word" style="font-size: 20px;margin-left: 30px">用户名:</p>
-					                    <p>${userName}</p>
-					                    <input type="hidden" value="${userName}" id="userName"/>
-					                </li>
-					                <li  class="col-md-6">
-					                    <p class="word" style="font-size: 20px">企业名称:</p>
-					                    <p>${custName}</p>
-					                     <input type="hidden" value="${custName}" id="custName"/>
-					                </li>  
-					            </ul>
-					            <ul>
-					                <li  class="col-md-6" style="border-bottom:1px  solid #e7e7e7;padding-bottom: 10px;width: 98%;margin-left: 30px">
-					                    <p class="word" style="font-size: 20px">合同管理</p>
-					                </li>  
-					            </ul>
-				         	</div>
+                    		   <div class="form-label pl-40">
+							<div class="form-label  bd-bottom">
+								<ul>
+									<li class="col-md-6">
+										<p class="word">用户名:</p>
+										<p>${userName }</p>
+										<input type="hidden" value="${userName}" id="userName"/>
+									</li>
+									<li class="col-md-6">
+										<p class="word">企业名称:</p>
+										<p>${custName}</p>
+										<input type="hidden" value="${custName}" id="custName"/>
+									</li>
+								</ul>
+                          		</div>
+                          		</div>
+                          		<div class="form-label">
+							<ul>
+								<li class="col-md-6">
+								<p class="word">合同管理</p>
+								</li>
+							</ul>
+						</div>
 					 	<!--form-->
 					 	<form:form id="contractInfo" method="post">
 					 	 	<div class="form-label pl-40">

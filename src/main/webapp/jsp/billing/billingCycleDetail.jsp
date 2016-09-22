@@ -18,42 +18,40 @@
                 <div class="row"><!--内侧框架-->
                     <div class="col-lg-12"><!--删格化-->
                         <div class="main-box clearfix"><!--白色背景-->   
-							<div class="form-label" style="margin-bottom: 20px ">
-								 <ul>
-						                <li  class="col-md-6" style="font-weight:bold;border-bottom:1px  solid #e7e7e7;padding-bottom: 10px;width: 98%;">
-						                    <p class="word" style="font-size: 16px">查看结算周期</p>
-						                </li>  
-						            </ul>
-					           	<ul>
-					                <li class="col-md-6" style="width: 40%">
-					                    <p class="word" style="font-size: 16px;margin-left: 30px">用户名:</p>
-					                    <p>${userName}</p>
-					                </li>
-					                <li  class="col-md-6">
-					                    <p class="word" style="font-size: 16px">企业名称:</p>
-					                    <p>${custName}</p>
-					                </li>  
-					            </ul>
-					            
-					            <ul>
-					                <li class="col-md-6" style="width: 40%">
-					                    <p class="word" style="font-size: 18px;margin-left: 30px">当前结算周期:</p>
-					                    <p>
-					                     <c:if test="${shopInfo.periodType=='M' }">
+							<div class="form-label pl-40">
+							<div class="form-label  bd-bottom">
+								<ul>
+									<li class="col-md-6">
+										<p class="word">用户名:</p>
+										<p>${userName }</p>
+									</li>
+									<li class="col-md-6">
+										<p class="word">企业名称:</p>
+										<p>${custName}</p>
+									</li>
+								</ul>
+								<ul>
+									<li class="col-md-6">
+										<p class="word">当前结算周期:</p>
+										<p>
+											<c:if test="${shopInfo.periodType=='M' }">
 					                     	月（自然月）
 					                     </c:if>
-					                     <c:if test="${shopInfo.periodType=='Q'}">
+											<c:if test="${shopInfo.periodType=='Q'}">
 					                     	季度（自然季度）
-					                     </c:if><c:if test="${shopInfo.periodType=='D'}">
+					                     </c:if>
+											<c:if test="${shopInfo.periodType=='D'}">
 					                     	T+1（日结）
-					                     </c:if><c:if test="${shopInfo.periodType=='R'}">
+					                     </c:if>
+											<c:if test="${shopInfo.periodType=='R'}">
 					                     	实时
 					                     </c:if>
-					                     </p>
-					                </li>
-					            </ul>
-				         	</div>
-                        </div>
+										</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+						</div>
                     </div>
                 </div>
             

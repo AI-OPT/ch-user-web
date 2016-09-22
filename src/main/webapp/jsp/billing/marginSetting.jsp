@@ -31,36 +31,41 @@ label.error {
                         <div class="main-box clearfix"><!--白色背景-->
                         <!--标题-->
                             <header class="main-box-header clearfix">
-                            <h2 class="pull-left">保证金设置</h2>
+                            <h4 class="pull-left">保证金设置</h4>
                             </header>
                         <!--标题结束-->   
                             <div class="main-box-body clearfix">
                             	<!--table表格-->
                                 <div class="table-responsive clearfix">
-								
 								 <div class="form-label pl-40">
-								 	<ul>
-								 		<li>
-								 			<p class="word"><strong>用户名:</strong></p>
-								 			<p>${userName }</p>
-								 		</li>
-								 		<li>
-								 			<p class="word"><strong>企业名称:</strong></p>
-								 			<p>${shopName }</p>
-								 		</li>
-								 	</ul>
-								 	<ul>
-								 		<li><p class="word"><strong>当前保证金:</strong></p>
-								 		<p>${deposit }元</p></li>
-								 	</ul>
+								<div class="form-label  bd-bottom">
+							           	<ul>
+							                <li  class="col-md-6">
+							                    <p class="word">用户名:</p>
+							                    <p>${userName }</p>
+							                </li>
+							                <li  class="col-md-6">
+							                    <p class="word">企业名称:</p>
+							                    <p>${shopName }</p>
+							                </li>  
+							            </ul>  
+							            <ul>
+							                <li  class="col-md-6">
+							                    <p class="word">当前保证金:</p>
+							                    <p>${deposit }元</p>
+							                </li>
+							            </ul>
+							  	</div>
+							  	</div>
+							 <div class="form-label">
 								 	<form id="depositForm">
 								 	<ul>
-								 	<li>
-								 	<p class="word">保证金:</p>
-								 	<p class="word"><input type="text" class="int-text int-mini"  placeholder="" name="depositBalance" id="depositBalance" maxlength="15" onkeydown="return doit()"/></p>
-								 	<p class="word">元(一次性收取)</p><p class="input-group"></p>
-								 	<input type="hidden" value="${userId }" name="userId" id="userId">
-								 	</li>
+								 	<li class="col-lg-12">
+				              		<p class="word">保证金:</p>
+				                    <p><input type="text" class="int-text int-mini" name="depositBalance" id="depositBalance" maxlength="15" onkeydown="return doit()"></p>
+				                    <p>元(一次性收取)</p>
+				                    <input type="hidden" value="${userId }" name="userId" id="userId">
+				                </li>
 								 	</ul>
 								 	</form>
 								 	<ul>

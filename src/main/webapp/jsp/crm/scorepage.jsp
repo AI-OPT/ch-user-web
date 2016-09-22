@@ -38,52 +38,57 @@ label.error {
 							<!--白色背景-->
 							<!--标题-->
 							<header class="main-box-header clearfix">
-								<h2 class="pull-left">供应商评价</h2>
+								<h4 class="pull-left">供应商评价</h4>
 							</header>
 							<!--标题结束-->
-							<div style="padding-left: 40px">
-								<p>
-									<span class="word">供应商用户名：${supplier_name }</span> <span
-										class="word">公司名称：${company_name }</span>
-								</p>
-							</div>
+							<div class="form-label">
+							<div class="form-label  bd-bottom">
+					           	<ul>
+					                <li  class="col-md-6">
+					                    <p class="word">供应商用户名:</p>
+					                    <p>${supplier_name }</p>
+					                </li>
+					                <li  class="col-md-6">
+					                    <p class="word">公司名称:</p>
+					                    <p>${company_name }</p>
+					                </li>  
+					            </ul>  
+					            </div>
+					            </div>
 							<div class="main-box-body clearfix">
-								<!--table表格-->
-								<div class="table-responsive clearfix">
 									<div class="form-label pl-40">
 										<form id="scorePage">
 											<c:forEach items="${scoreKpiList}" var="ctScoreKpiVo"
 												varStatus="status">
 												<ul>
-													<li class="word" style="font-weight: bold;">${status.count}.${ctScoreKpiVo.kpiName }</li>
+													<li class="word"><p>${status.count}.${ctScoreKpiVo.kpiName }</li>
 													<li><input type="text" class="int-text int-medium" maxlength="2"
 														placeholder="请输入评分" name='${status.count }'
 														id='${status.count }' onkeydown="return doit()"/></li>	
-													<li style="color: red">&nbsp;&nbsp;&nbsp;${ctScoreKpiVo.minScore }-${ctScoreKpiVo.maxScore }</li>
+													<li style="color: red">${ctScoreKpiVo.minScore }-${ctScoreKpiVo.maxScore }</li>
 												</ul>
 												<ul>
-													<li>注:${ctScoreKpiVo.kpiDesc }</li>
+													<li><p>注:${ctScoreKpiVo.kpiDesc }</p></li>
 												</ul>
 											</c:forEach>
 											<input type="hidden" value="${userId }" name="userId"/>
 										</form>
 										<ul>
 											<li style="margin-left: 70px"><input type="button"
-												id="submitScore" class="biu-btn  btn-primary btn-blue btn-mini  ml-5"
+												id="submitScore" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
 												value="提交评价"></li>
 											<li><input type="button"
-												onclick="backup();" class="biu-btn  btn-primary btn-blue btn-mini  ml-5"
+												onclick="backup();" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
 												value="返回"></li>
 										</ul>
+									</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 		</div>
-	</div>
 	<script type="text/javascript">
 		var pager;
 		(function() {

@@ -26,7 +26,7 @@ String.prototype.getParameter = function (key) {
 $(document).ready(function(){
 	var theme = document.URL.getParameter("theme");
 	if(theme !=null && theme!="null"){
-		setCookie("theme_index", theme, 30);	
+		setCookie("theme_index", theme, 60*60*24);	
 	}
 	if(theme== null|| theme=="null"){		
 		theme=getcookie("theme_index");		
