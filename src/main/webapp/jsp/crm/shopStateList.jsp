@@ -11,35 +11,60 @@
 <%@include file="/inc/inc.jsp" %>
 </head>
 <body>
-   <div class="content-wrapper-iframe" ><!--右侧灰色背景-->
-     <!--框架标签结束-->
-  		  <div class="row"><!--外围框架-->
-            <div class="col-lg-12"><!--删格化-->
-                <div class="row"><!--内侧框架-->
-                    <div class="col-lg-12"><!--删格化-->
-                        <div class="main-box clearfix"><!--白色背景-->
-                        <!--标题-->
-                            <header class="main-box-header clearfix">
-                            <h4 class="pull-left">状态管理</h4>
-                            </header>
-                        <!--标题结束-->   
-                            <div class="main-box-body clearfix">
-                            	<!--table表格-->
-                                <div class="table-responsive clearfix">
-								<div class="form-label">
-					           	<ul>
-					                <li class="col-md-6">
-					                    <p class="word">用户名</p>
-					                    <p><input name="control_date" class="int-text int-medium " id="username " type="text">
-					                    </p>
-					                </li>
-					                <li class="col-md-6">
-					                    <p class="word">企业名称</p>
-					                    <p><input class="int-text int-medium" type="text" id="companyName"></p>
-					                    <p><input class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="查  询" type="button" onclick="pager._getList();"></p>
-					            </ul>
-					         </div>
-
+     		<div class="row">
+		<!--外围框架-->
+		<div class="col-lg-12">
+			<!--删格化-->
+			<div class="row">
+				<!--内侧框架-->
+				<div class="col-lg-12">
+					<!--删格化-->
+					<div class="main-box clearfix">
+						<!--白色背景-->
+						<!--查询条件-->
+						<div class="form-label">
+							<ul>
+								<li class="col-md-6">
+									<p class="word">用户名</p>
+									<p>
+										<input name="control_date" class="int-text int-medium "
+											id="username" type="text" />
+									</p>
+								</li>
+								<li class="col-md-6">
+									<p class="word">企业名称</p>
+									<p>
+										<input type="text" class="int-text int-medium"
+											id="companyName">
+									</p>
+									<p>
+										<input type="button"
+											class="biu-btn  btn-primary btn-blue btn-medium ml-10"
+											value="查询" onclick="pager._getList();" />
+									</p>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--table表格-->
+	<div class="row">
+		<!--外围框架-->
+		<div class="col-lg-12">
+			<!--删格化-->
+			<div class="row">
+				<!--内侧框架-->
+				<div class="col-lg-12">
+					<!--删格化-->
+					<div class="main-box clearfix">
+						<!--白色背景-->
+						<div class="main-box-body clearfix">
+						<header class="main-box-header clearfix">
+								<h5 class="pull-left">店铺状态列表</h5>
+								</header>
                                     <table class="table table-border table-bordered">
                                         <thead>
                                             <tr>

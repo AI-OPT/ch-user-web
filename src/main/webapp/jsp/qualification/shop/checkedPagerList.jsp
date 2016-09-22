@@ -13,28 +13,60 @@
 <link rel="stylesheet" type="text/css" href="${uedroot}/css/modular/modular.css"/>
 </head>
 <body>
-  		  <div class="row"><!--外围框架-->
-            <div class="col-lg-12"><!--删格化-->
-                <div class="row"><!--内侧框架-->
-                    <div class="col-lg-12"><!--删格化-->
-                        <div class="main-box clearfix"><!--白色背景-->   
-							 	<!--查询条件-->
-	                    		 <div class="form-label">
-					           	<ul>
-					                <li class="col-md-6">
-					                    <p class="word">用户名</p>
-					                    <p><input name="control_date" class="int-text int-medium " type="text" id="username"/>
-					                    </p>
-					                </li>
-					                <li  class="col-md-6">
-					                    <p class="word">企业名称</p>
-					                    <p><input type="text" class="int-text int-medium" id="companyName"></p>
-					                    <p><input type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="查询" onclick="pager._getList('2');"/></p>
-					                </li>  
-					            </ul>
-					         </div>
-					   	<!--查询结束-->   
-					 	<!--table表格-->
+  		   		<div class="row">
+		<!--外围框架-->
+		<div class="col-lg-12">
+			<!--删格化-->
+			<div class="row">
+				<!--内侧框架-->
+				<div class="col-lg-12">
+					<!--删格化-->
+					<div class="main-box clearfix">
+						<!--白色背景-->
+						<!--查询条件-->
+						<div class="form-label">
+							<ul>
+								<li class="col-md-6">
+									<p class="word">用户名</p>
+									<p>
+										<input name="control_date" class="int-text int-medium "
+											id="username" type="text" />
+									</p>
+								</li>
+								<li class="col-md-6">
+									<p class="word">企业名称</p>
+									<p>
+										<input type="text" class="int-text int-medium"
+											id="companyName">
+									</p>
+									<p>
+										<input type="button"
+											class="biu-btn  btn-primary btn-blue btn-medium ml-10"
+											value="查询" onclick="pager._getList();" />
+									</p>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--table表格-->
+	<div class="row">
+		<!--外围框架-->
+		<div class="col-lg-12">
+			<!--删格化-->
+			<div class="row">
+				<!--内侧框架-->
+				<div class="col-lg-12">
+					<!--删格化-->
+					<div class="main-box clearfix">
+						<!--白色背景-->
+						<div class="main-box-body clearfix">
+						<header class="main-box-header clearfix">
+								<h5 class="pull-left">店铺已审核列表</h5>
+								</header>
 					 	<div class="main-box-body clearfix">
 					 	<div class="order-list-table">
 					           <ul>
@@ -96,6 +128,7 @@
 					   	 </div>
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
     </div>
