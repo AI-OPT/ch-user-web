@@ -16,10 +16,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ai.ch.user.api.shopinfo.interfaces.IShopInfoSV;
+import com.ai.ch.user.api.shopinfo.params.QueryShopInfoRequest;
+import com.ai.ch.user.api.shopinfo.params.QueryShopInfoResponse;
 import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.vo.BusinessListInfo;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
+import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.alibaba.fastjson.JSON;
@@ -142,6 +146,12 @@ public class QualificationController {
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
 		//转换时间
 		String date="";
+		//查询商户信息
+		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
+		QueryShopInfoRequest queryShopInfoRequest = new QueryShopInfoRequest();
+		queryShopInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+		queryShopInfoRequest.setUserId(userId);
+		QueryShopInfoResponse response=shopInfoSV.queryShopInfo(queryShopInfoRequest);
 		if(data2.getString("createTime")!=null&&data2.getString("createTime").length()!=0){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		date = sdf.format(Long.parseLong(data2.getString("createTime")));
@@ -175,7 +185,14 @@ public class QualificationController {
 		model.addObject("brandNameType", data2.getString("brandNameType"));
 		model.addObject("brandNameCh", data2.getString("brandNameCh"));
 		model.addObject("brandNameEn", data2.getString("brandNameEn"));
-		model.addObject("registerCapital", data2.getString("registerCapital"));
+		if(response!=null){
+			model.addObject("wantShopName", response.getShopName());
+			model.addObject("goodsName", response.getGoodsNum());
+			model.addObject("busiType", response.getBusiType());
+			model.addObject("hasExperi", response.getHasExperi());
+			model.addObject("ecommOwner", response.getEcommOwner());
+			model.addObject("shopDesc", response.getShopDesc());
+		}
 		return model;
 	}
 	/**
@@ -251,6 +268,12 @@ public class QualificationController {
 		Map<String, String> mapHeader = new HashMap<>();
 		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
 		map.put("companyId", userId);
+		//查询商户信息
+		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
+		QueryShopInfoRequest queryShopInfoRequest = new QueryShopInfoRequest();
+		queryShopInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+		queryShopInfoRequest.setUserId(userId);
+		QueryShopInfoResponse response=shopInfoSV.queryShopInfo(queryShopInfoRequest);
 		String str ="";
 		try {
 			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_findbycompanyid_qry", JSON.toJSONString(map), mapHeader);
@@ -292,6 +315,14 @@ public class QualificationController {
 		model.addObject("brandNameCh", data2.getString("brandNameCh"));
 		model.addObject("brandNameEn", data2.getString("brandNameEn"));
 		model.addObject("registerCapital", data2.getString("registerCapital"));
+		if(response!=null){
+			model.addObject("wantShopName", response.getShopName());
+			model.addObject("goodsNum", response.getGoodsNum());
+			model.addObject("busiType", response.getBusiType());
+			model.addObject("hasExperi", response.getHasExperi());
+			model.addObject("ecommOwner", response.getEcommOwner());
+			model.addObject("shopDesc", response.getShopDesc());
+		}
 		return model;
 	}
 	

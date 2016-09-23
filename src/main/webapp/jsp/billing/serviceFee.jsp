@@ -27,23 +27,23 @@
                             	<!--table表格-->
                                 <div class="table-responsive clearfix">
 								 <div class="form-label pl-40">
-									<div class="form-label  bd-bottom">
 							           	<ul>
-							                <li  class="col-md-6">
+							                <li  class="col-md-3">
 							                    <p class="word">用户名:</p>
 							                    <p>${userName }</p>
 							                </li>
-							                <li  class="col-md-6">
+							                <li  class="col-md-3">
 							                    <p class="word">企业名称:</p>
 							                    <p>${shopName }</p>
 							                </li>  
 							            </ul>  
 							            </div>
-							            </div>
 							            <div class="form-label  bd-bottom">
 								 	<ul>
 								 		<li><p class="word">当前结算设置:</p>
 								 	</ul>
+								 	</div>
+								 	<div class="form-label">
 								 	<ul>
 								 	<li><p class="word">保证金</p>
 								 	<p class="word">${deposit }</p>
@@ -59,7 +59,7 @@
 								 	<li><p class="word">${ratioStr }</p></li>
 								 	</ul>
 								 </div>
-							</div>
+                        </div>
                         </div>
                     </div>
                 </div>

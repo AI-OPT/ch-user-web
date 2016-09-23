@@ -38,29 +38,27 @@ label.error {
                             	<!--table表格-->
                                 <div class="table-responsive clearfix">
 								 <div class="form-label pl-40">
-								<div class="form-label  bd-bottom">
 							           	<ul>
-							                <li  class="col-md-6">
+							                <li  class="col-md-3">
 							                    <p class="word">用户名:</p>
 							                    <p>${userName }</p>
 							                </li>
-							                <li  class="col-md-6">
+							                <li  class="col-md-3">
 							                    <p class="word">企业名称:</p>
 							                    <p>${shopName }</p>
 							                </li>  
 							            </ul>  
 							            <ul>
-							                <li  class="col-md-6">
+							                <li class="col-md-3">
 							                    <p class="word">当前保证金:</p>
 							                    <p>${deposit }元</p>
 							                </li>
 							            </ul>
 							  	</div>
-							  	</div>
 							 <div class="form-label">
 								 	<form id="depositForm">
 								 	<ul>
-								 	<li class="col-lg-12">
+								 	<li class="col-md-6">
 				              		<p class="word">保证金:</p>
 				                    <p><input type="text" class="int-text int-mini" name="depositBalance" id="depositBalance" maxlength="15" onkeydown="return doit()"></p>
 				                    <p>元(一次性收取)</p>
@@ -70,7 +68,8 @@ label.error {
 								 	</form>
 								 	<ul>
 								 	<li>
-								 		<input type="button" id="saveSetting" style="margin-left:110px;" class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="保存">
+								 		<p class="word">&nbsp;</p>
+								 		<p><input type="button" id="saveSetting" class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="保存"></p>
 								 	</li>
 								 	</ul>
 								 </div>
