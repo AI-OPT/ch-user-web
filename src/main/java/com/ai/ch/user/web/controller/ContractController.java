@@ -555,7 +555,7 @@ public class ContractController {
             if (accountQueryResponse != null) {
                 String resultCode = accountQueryResponse.getResponseHeader().getResultCode();
                 if (resultCode.equals(ExceptionCode.SUCCESS_CODE)) {
-                    if(contractRequest.getUserId()!=null&&!contractRequest.getUserId().equals(accountQueryResponse.getUserId())){
+                    if(accountQueryResponse.getUserId()!=null&&!contractRequest.getUserId().equals(accountQueryResponse.getUserId())){
                     	header = new ResponseHeader(false, ExceptionCode.CONTRACT_NAME_ERROR, "该合同名称已经注册");
                         responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该合同名称已经注册", null);
                         responseData.setResponseHeader(header);
