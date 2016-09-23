@@ -534,7 +534,7 @@ public class ContractController {
             ContractInfoResponse accountQueryResponse = contractSV.queryContractInfo(contractRequest);
             if (accountQueryResponse != null) {
                 String resultCode = accountQueryResponse.getResponseHeader().getResultCode();
-                if (resultCode.equals(ExceptionCode.SUCCESS_CODE)&&!accountQueryResponse.getUserId().equals(contractRequest.getUserId())) {
+                if (resultCode.equals(ExceptionCode.SUCCESS_CODE)&&!contractRequest.getUserId().equals(accountQueryResponse.getUserId())) {
                     header = new ResponseHeader(false, ExceptionCode.CONTRACT_NAME_ERROR, "该合同名称已经注册");
                     responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该合同名称已经注册", null);
                     responseData.setResponseHeader(header);
@@ -560,9 +560,9 @@ public class ContractController {
             ContractInfoResponse accountQueryResponse = contractSV.queryContractInfo(contractRequest);
             if (accountQueryResponse != null) {
                 String resultCode = accountQueryResponse.getResponseHeader().getResultCode();
-                if (resultCode.equals(ExceptionCode.SUCCESS_CODE)&&!accountQueryResponse.getUserId().equals(contractRequest.getUserId())) {
-                    header = new ResponseHeader(false, ExceptionCode.CONTRACT_NAME_ERROR, "该合同名称已经注册");
-                    responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该合同名称已经注册", null);
+                if (resultCode.equals(ExceptionCode.SUCCESS_CODE)&&!contractRequest.getUserId().equals(accountQueryResponse.getUserId())) {
+                    header = new ResponseHeader(false, ExceptionCode.CONTRACT_NAME_ERROR, "该合同编号已经注册");
+                    responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该合同编号已经注册", null);
                     responseData.setResponseHeader(header);
                 } else {
                     header = new ResponseHeader(false, ExceptionCode.SUCCESS_CODE, "成功");
@@ -571,7 +571,7 @@ public class ContractController {
                 }
             }
         } catch (Exception e) {
-            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "合同名称校验失败", null);
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "合同编号校验失败", null);
         }
         return responseData;
     }
