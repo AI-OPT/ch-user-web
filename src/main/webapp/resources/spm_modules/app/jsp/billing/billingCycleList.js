@@ -62,7 +62,12 @@ define('app/jsp/billing/billingCycleList', function (require, exports, module) {
 	            }
     		}); 
     	},
-
+    	_toSettlementCycleSettings:function(userId,userName,custName){
+    		window.location.href = _base+"/billing/billingCycleSetting?userId="+userId+"&userName="+escape(encodeURIComponent(userName))+"&custName="+escape(encodeURIComponent(custName));
+    	},
+    	_toSettlementCycleDetail:function(userId,userName,custName){
+    		window.location.href = _base+"/billing/billingCycleDetail?userId="+userId+"&userName="+escape(encodeURIComponent(userName))+"&custName="+escape(encodeURIComponent(custName));
+    	},
     	_getList:function(){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({

@@ -110,8 +110,8 @@
 		<td>{{:custName}}</td>
 		<td>{{:BusinessCategory}}</td>
 		<td  id="operation">
-			<a class＝"btn-primary" href="${_base}/billing/billingCycleSetting?userId={{:userId}}&userName={{:userName}}&custName={{:custName}}">设置</a>
-            <a class＝"btn-primary" href="${_base}/billing/billingCycleDetail?userId={{:userId}}&userName={{:userName}}&custName={{:custName}}">查看</a>
+			<a class＝"btn-primary" href="#" onclick="pager._toSettlementCycleSettings('{{:userId}}','{{:userName}}','{{:custName}}')">设置</a>
+            <a class＝"btn-primary" href="#" onclick="pager._toSettlementCycleDetail('{{:userId}}','{{:userName}}','{{:custName}}')">查看</a>
 		</td>
 	</tr>
 {{/for}}

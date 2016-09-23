@@ -113,8 +113,8 @@
 		<td>{{:custName}}</td>
 		<td>{{:BusinessCategory}}</td>
 		<td>
-			<a class＝"btn-primary" href="${_base}/defaultManager/addDefaultInfo?userId={{:userId}}&userName={{:userName}}&custName={{:custName}}">扣款</a>
-            <a class＝"btn-primary" href="${_base}/defaultManager/defaultHistoryPager?userId={{:userId}}&userName={{:userName}}&custName={{:custName}}">扣款历史</a>
+			<a class＝"btn-primary" href="#" onclick="pager._toDefaultCutPayment('{{:userId}}','{{:userName}}','{{:custName}}')">扣款</a>
+            <a class＝"btn-primary" href="#" onclick="pager._toDefaultHistory('{{:userId}}','{{:userName}}','{{:custName}}')">扣款历史</a>
 		</td>
 	</tr>
 {{/for}}

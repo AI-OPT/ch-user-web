@@ -61,7 +61,12 @@ define('app/jsp/billing/defaultManagerList', function (require, exports, module)
 	            }
     		}); 
     	},
-    	
+    	_toDefaultCutPayment:function(userId,userName,custName){
+    		window.location.href = _base+"/defaultManager/addDefaultInfo?userId="+userId+"&userName="+escape(encodeURIComponent(userName))+"&custName="+escape(encodeURIComponent(custName));
+    	},
+    	_toDefaultHistory:function(userId,userName,custName){
+    		window.location.href = _base+"/defaultManager/defaultHistoryPager?userId="+userId+"&userName="+escape(encodeURIComponent(userName))+"&custName="+escape(encodeURIComponent(custName));
+    	},
     	_getList:function(){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({

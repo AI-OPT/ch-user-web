@@ -61,7 +61,12 @@ define('app/jsp/contract/contractShopList', function (require, exports, module) 
 	            }
     		}); 
     	},
-
+    	_toContractManager:function(userId,userName,custName){
+    		window.location.href = _base+"/contract/contractShopManagerPager?userId="+userId+"&userName="+escape(encodeURIComponent(userName))+"&custName="+escape(encodeURIComponent(custName));
+    	},
+    	_toContractDetail:function(userId,userName,custName){
+    		window.location.href = _base+"/contract/contractShopDetailPager?userId="+userId+"&userName="+escape(encodeURIComponent(userName))+"&custName="+escape(encodeURIComponent(custName));
+    	},
     	_getList:function(){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({
