@@ -548,6 +548,7 @@ public class ContractController {
     public ResponseData<String> checkContractName(HttpServletRequest request,ContactInfoRequest contractRequest){
     	ResponseData<String> responseData = null;
         ResponseHeader header = null;
+        
         try {
             IContractSV contractSV = DubboConsumerFactory.getService("iContractSV");
             ContractInfoResponse accountQueryResponse = contractSV.queryContractInfo(contractRequest);
