@@ -69,7 +69,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			}else{
 				
 				var	param={
-						contractName:$("#contractCode").val(),
+						contractCode:$("#contractCode").val(),
     					userId:userId,
     					tenantId:"changhong",
     					contractType:$("#contractType").val()
@@ -167,21 +167,20 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     									$('#contractNameErrMsg').hide();
     				    				$("#contractNameFlag").val("1");
     								}
-    			    				
     							}else{
     								$('#contractNameErrMsg').show();
     			    				$("#contractNameText").show();
     			        			$('#contractNameText').text('1-64位字符');
     			        			$("#contractNameFlag").val("0");
+    			        			
     							}
     			        	}
-    			        	
     			        },
     			        error: function(XMLHttpRequest, textStatus, errorThrown) {
     						 alert(XMLHttpRequest.status);
     						 alert(XMLHttpRequest.readyState);
     						 alert(textStatus);
-    						}
+    					}
     			        
     			    }); 
 				
