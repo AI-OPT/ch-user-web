@@ -554,10 +554,17 @@ public class ContractController {
             ContractInfoResponse accountQueryResponse = contractSV.queryContractInfo(contractRequest);
             if (accountQueryResponse != null) {
                 String resultCode = accountQueryResponse.getResponseHeader().getResultCode();
-                if (resultCode.equals(ExceptionCode.SUCCESS_CODE)&&!contractRequest.getUserId().equals(accountQueryResponse.getUserId())) {
-                    header = new ResponseHeader(false, ExceptionCode.CONTRACT_NAME_ERROR, "该合同名称已经注册");
-                    responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该合同名称已经注册", null);
-                    responseData.setResponseHeader(header);
+                if (resultCode.equals(ExceptionCode.SUCCESS_CODE)) {
+                    if(contractRequest.getUserId()!=null&&!contractRequest.getUserId().equals(accountQueryResponse.getUserId())){
+                    	header = new ResponseHeader(false, ExceptionCode.CONTRACT_NAME_ERROR, "该合同名称已经注册");
+                        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该合同名称已经注册", null);
+                        responseData.setResponseHeader(header);
+                    }else{
+                    	  header = new ResponseHeader(false, ExceptionCode.SUCCESS_CODE, "成功");
+                          responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "成功", null);
+                          responseData.setResponseHeader(header);
+                    }
+                	
                 } else {
                     header = new ResponseHeader(false, ExceptionCode.SUCCESS_CODE, "成功");
                     responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "成功", null);
@@ -580,10 +587,17 @@ public class ContractController {
             ContractInfoResponse accountQueryResponse = contractSV.queryContractInfo(contractRequest);
             if (accountQueryResponse != null) {
                 String resultCode = accountQueryResponse.getResponseHeader().getResultCode();
-                if (resultCode.equals(ExceptionCode.SUCCESS_CODE)&&!contractRequest.getUserId().equals(accountQueryResponse.getUserId())) {
-                    header = new ResponseHeader(false, ExceptionCode.CONTRACT_NAME_ERROR, "该合同编号已经注册");
-                    responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该合同编号已经注册", null);
-                    responseData.setResponseHeader(header);
+                if (resultCode.equals(ExceptionCode.SUCCESS_CODE)) {
+                    if(accountQueryResponse.getUserId()!=null&&!contractRequest.getUserId().equals(accountQueryResponse.getUserId())){
+                    	header = new ResponseHeader(false, ExceptionCode.CONTRACT_NAME_ERROR, "该合同编号已经注册");
+                        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该合同编号已经注册", null);
+                        responseData.setResponseHeader(header);
+                    }else{
+                    	 header = new ResponseHeader(false, ExceptionCode.SUCCESS_CODE, "成功");
+                         responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "成功", null);
+                         responseData.setResponseHeader(header);
+                    }
+                	
                 } else {
                     header = new ResponseHeader(false, ExceptionCode.SUCCESS_CODE, "成功");
                     responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "成功", null);
