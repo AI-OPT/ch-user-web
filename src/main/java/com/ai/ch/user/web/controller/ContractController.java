@@ -2,7 +2,9 @@ package com.ai.ch.user.web.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -194,13 +196,13 @@ public class ContractController {
 		 			model.put("electronicContractInfoItem",infoItem);
 	 			}
 	 		}
-	 		try{
-	 			model.put("userName", new String(userName.getBytes(),"utf-8"));
-		 		model.put("custName", new String(custName.getBytes(),"utf-8"));
-	 		}catch(Exception e){
-	 			e.printStackTrace();
-	 		}
-	 		
+	 		try {
+				model.put("userName", URLDecoder.decode(userName,"utf-8"));
+				model.put("custName", URLDecoder.decode(custName,"utf-8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		 	
 	        return new ModelAndView("/jsp/contract/supplier/contractManager",model);
 	 }
 	 /**
@@ -254,8 +256,12 @@ public class ContractController {
 		 			model.put("electronicContractInfoItem",infoItem);
 	 			}
 	 		}
-	 		model.put("userName", userName);
-	 		model.put("custName", custName);
+	 		try {
+				model.put("userName", URLDecoder.decode(userName,"utf-8"));
+				model.put("custName", URLDecoder.decode(custName,"utf-8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 	        return new ModelAndView("/jsp/contract/shop/contractManager",model);
 	 }
 	 
@@ -314,8 +320,12 @@ public class ContractController {
 	 		if(response.getInactiveTime()!=null){
 	 		  model.put("endTime", DateUtil.getDateString(response.getInactiveTime(),"yyyy-MM-dd"));
 	 		}
-	 		model.put("userName", userName);
-	 		model.put("custName", custName);
+	 		try {
+				model.put("userName", URLDecoder.decode(userName,"utf-8"));
+				model.put("custName", URLDecoder.decode(custName,"utf-8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 	 		return new ModelAndView("/jsp/contract/supplier/contractDetail",model);
 	 }
 	 
@@ -376,8 +386,12 @@ public class ContractController {
 	 		if(response.getInactiveTime()!=null){
 	 		  model.put("endTime", DateUtil.getDateString(response.getInactiveTime(),"yyyy-MM-dd"));
 	 		}
-	 		model.put("userName", userName);
-	 		model.put("custName", custName);
+	 		try {
+				model.put("userName", URLDecoder.decode(userName,"utf-8"));
+				model.put("custName", URLDecoder.decode(custName,"utf-8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 	        return new ModelAndView("/jsp/contract/shop/contractDetail",model);
 	 }
 	 /**
