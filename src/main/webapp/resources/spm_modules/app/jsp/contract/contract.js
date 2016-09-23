@@ -7,7 +7,6 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     Uploader = require('arale-upload/1.2.0/index'),
     AjaxController = require('opt-ajax/1.0.0/index'),
     Calendar = require('arale-calendar/1.1.2/index');
-    
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
     require("bootstrap-paginator/bootstrap-paginator.min");
