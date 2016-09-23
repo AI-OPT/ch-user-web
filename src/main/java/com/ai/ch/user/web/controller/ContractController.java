@@ -194,8 +194,13 @@ public class ContractController {
 		 			model.put("electronicContractInfoItem",infoItem);
 	 			}
 	 		}
-	 		model.put("userName", userName);
-	 		model.put("custName", custName);
+	 		try{
+	 			model.put("userName", new String(userName.getBytes(),"utf-8"));
+		 		model.put("custName", new String(custName.getBytes(),"utf-8"));
+	 		}catch(Exception e){
+	 			e.printStackTrace();
+	 		}
+	 		
 	        return new ModelAndView("/jsp/contract/supplier/contractManager",model);
 	 }
 	 /**
@@ -462,9 +467,9 @@ public class ContractController {
 	 
 	 
  	// 上传文件
-    @RequestMapping(value = "/uploadFile", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/uploadFile", produces = "text/html;charset=utf-8")
     @ResponseBody
-    public Map<String, Object> uploadFile(HttpServletRequest request,String contractFileId) {
+    public String uploadFile(HttpServletRequest request,String contractFileId) {
     	
     	 Map<String, Object> map = new HashMap<String, Object>();
          MultipartHttpServletRequest file = (MultipartHttpServletRequest) request;
@@ -479,7 +484,7 @@ public class ContractController {
         	 LOGGER.error("上传失败");
              map.put("isTrue", false);
         }
-        return map;
+        return JSON.toJSONString(map);
        }
     
     @RequestMapping("/download/{fileName}")
