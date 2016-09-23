@@ -8,7 +8,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>评价管理</title>
+<title>评分管理</title>
 <%@include file="/inc/inc.jsp"%>
 </head>
 <body>
@@ -64,7 +64,7 @@
 						<!--白色背景-->
 						<div class="main-box-body clearfix">
 						<header class="main-box-header clearfix">
-								<h5 class="pull-left">供货商评分列表</h5>
+								<h5 class="pull-left">供应商评分列表</h5>
 								</header>
 							<table class="table table-border table-bordered">
 								<thead>
@@ -109,7 +109,7 @@
 			<td id='userId{{:userId}}'>{{:userName}}</td>
 			<td>{{:groupName}}</td>
 			<td>{{:totalScore}}</td>
-			<td><a class＝"btn-primary" href="javascript:pager._toScorePage('{{:userId}}','{{:userName}}');" class="click">评价</a></td>
+			<td><a class＝"btn-primary" href="javascript:pager._toScorePage('{{:userId}}','{{:userName}}');" class="click">评分</a></td>
 		</tr>
 	{{/for}}
 </script>

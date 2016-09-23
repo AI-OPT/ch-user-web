@@ -65,6 +65,7 @@
 										</tbody>
 									</table>
 								</div>
+					</form:form>
 								</div>
 									<div class="text-c">
 									<input type="button" id="saveRule" class="biu-btn btn-primary btn-blue btn-medium ml-10" value="保存">
@@ -75,7 +76,6 @@
 								<!--/table表格结束-->
 						</div>
 					</div>
-					</form:form>
 				</div>
 			</div>
 		</div>
