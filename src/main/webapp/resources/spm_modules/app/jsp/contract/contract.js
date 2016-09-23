@@ -507,11 +507,12 @@ function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
          url:_base+"/contract/uploadFile?contractFileId="+fileId,  
          secureuri:false,  
          fileElementId:fileId,//file标签的id  
-         dataType: 'json',//返回数据的类型  
+         dataType: 'text',//返回数据的类型  
          data:{fileId:fileId},//一同上传的数据  
          success: function (data, status) {
-        	if(data.isTrue==true){
-        		$("#"+ddsId).val(data.dssId);
+        	var dataJson = $.parseJSON(data);  
+        	if(dataJson.isTrue==true){
+        		$("#"+ddsId).val(dataJson.dssId);
         		$("#"+contractFlag).val("1");
         	 }else{
         		 alert("上传失败");
