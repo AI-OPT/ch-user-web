@@ -1,7 +1,9 @@
 package com.ai.ch.user.web.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -282,8 +284,12 @@ public class BillingController {
 		QueryShopInfoResponse response = shopInfo.queryShopInfo(shopInfoRequest);
 		Map<String, Object> model = new HashMap<String, Object>();
  		model.put("shopInfo", response);
- 		model.put("userName", userName);
- 		model.put("custName", custName);
+ 		try {
+			model.put("userName", URLDecoder.decode(userName,"utf-8"));
+			model.put("custName", URLDecoder.decode(custName,"utf-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
  		model.put("userId", userId);
 		return new ModelAndView("/jsp/billing/billingCycle",model);
 	}
@@ -328,8 +334,12 @@ public class BillingController {
 		QueryShopInfoResponse response = shopInfo.queryShopInfo(shopInfoRequest);
 		Map<String, Object> model = new HashMap<String, Object>();
  		model.put("shopInfo", response);
- 		model.put("userName", userName);
- 		model.put("custName", custName);
+ 		try {
+			model.put("userName", URLDecoder.decode(userName,"utf-8"));
+			model.put("custName", URLDecoder.decode(custName,"utf-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		return new ModelAndView("/jsp/billing/billingCycleDetail",model);
 	}
 	
