@@ -319,8 +319,12 @@ public class BillingController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("periodType", periodType);
 		model.put("shopInfo", response);
-		model.put("userName", userName);
-		model.put("custName", custName);
+		try {
+			model.put("userName", URLDecoder.decode(userName,"utf-8"));
+			model.put("custName", URLDecoder.decode(custName,"utf-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		return new ModelAndView("/jsp/billing/billingCycleDetail",model);
 	}
 	
