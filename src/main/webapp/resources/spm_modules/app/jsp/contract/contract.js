@@ -99,7 +99,6 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     			    						$('#contractCodeErrMsg').hide();
     			    	    				$("#contractCodeFlag").val("1");
     			    					}
-    			        				
     			    				}else{
     			    					$('#contractCodeErrMsg').show();
     			        				$("#contractCodeText").show();
