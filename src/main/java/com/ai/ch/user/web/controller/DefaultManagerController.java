@@ -74,9 +74,8 @@ import com.ylink.upp.oxm.entity.upp_711_001_01.ReqsInfo;
 @RequestMapping("/defaultManager")
 public class DefaultManagerController {
 	
-	/*@Autowired
-	private OxmHandler oxmHandler;*/
-	
+	@Autowired
+	private OxmHandler oxmHandler;
 	
 	@RequestMapping("/defaultPager")
     public ModelAndView billingPager() {
@@ -119,7 +118,7 @@ public class DefaultManagerController {
 	
 	@RequestMapping("/addDefaultInfo")
 	public ModelAndView addDefaultInfo(HttpServletRequest request,String userId,String userName,String custName) {
-		/*//包装数据
+		//包装数据
 		GrpHdr hdr = new GrpHdr();
 		PayUtil payUtil = new PayUtil();
 		hdr.setMerNo("CO20160700000004");//设置一级平台商户号
@@ -180,7 +179,7 @@ public class DefaultManagerController {
             	throw new RuntimeException("系统异常.");
             }
             balance=receive.getGrpBody().getStsRsnInf().getBalance();
-        }*/
+        }
 		Map<String, Object> model = new HashMap<String, Object>();
  		model.put("userId", userId);
  		try {
@@ -189,12 +188,12 @@ public class DefaultManagerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
- 		//model.put("balance", Float.parseFloat(balance)/100);
- 		model.put("balance", 2000);
+ 		model.put("balance", Float.parseFloat(balance)/100);
+ 		//model.put("balance", 2000);
 		return new ModelAndView("/jsp/defaultManager/addDefault",model);
 	}
 	
-	/*public XmlBodyEntity receiveMsg(String msgHeader, String xmlMsg, String sign) {
+	public XmlBodyEntity receiveMsg(String msgHeader, String xmlMsg, String sign) {
 		try {
 			PayUtil payUtil = new PayUtil();
 			boolean verify = payUtil.verify(xmlMsg, sign);
@@ -210,8 +209,8 @@ public class DefaultManagerController {
 			throw new RuntimeException(e);
 		}
 
-	}*/
-	
+	}
+
 	@RequestMapping("/saveDefaultInfo")
 	@ResponseBody
 	public ResponseData<String> saveDefaultInfo(HttpServletRequest request,DefaultLogVo defaultLogInfo) {
@@ -235,7 +234,7 @@ public class DefaultManagerController {
 			defaultLogRequest.setTenantId(userClient.getTenantId());
 			defaultLog.insertDefaultLog(defaultLogRequest);
 			
-			/*//调用长虹扣款
+			//调用长虹扣款
 			//包装数据
 			PayUtil payUtil = new PayUtil();
 			com.ylink.upp.oxm.entity.upp_100_001_01.GrpHdr hdr = new com.ylink.upp.oxm.entity.upp_100_001_01.GrpHdr();
@@ -268,8 +267,8 @@ public class DefaultManagerController {
 			body.setPayOrderDetail(details);
 			body.setRemark("margindeposittest");
 
-			body.setNotifyUrl("http://chpay.ngrok.tech:7777/upp-simulation/pay/result/result.html");
-			body.setReturnUrl("http://chpay.ngrok.tech:7777/upp-simulation/pay/result/resultSuccess.html");
+			body.setNotifyUrl("http://124.207.3.100:8083/ch-user/defaultlogservice/paymentNotifications");
+			body.setReturnUrl("http://124.207.3.100:8083/ch-user/defaultlogservice/paymentNotifications");
 			
 			body.setProductTypeName("margindeposit");
 			body.setResv("test");
@@ -312,7 +311,7 @@ public class DefaultManagerController {
 				System.out.println(result);
 			} catch (Exception e) {
 				e.printStackTrace();
-			}*/
+			}
 			responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
             responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
         }catch(Exception e){
@@ -415,7 +414,7 @@ public class DefaultManagerController {
 					 businessListInfo.setUserId(object.getString("companyId"));
 					 businessListInfo.setUserName(object.getString("username"));
 					 businessListInfo.setCustName(object.getString("name"));
-					 businessListInfo.setBusinessCategory("无数据");
+					 businessListInfo.setBusinessCategory(object.getString("brandNameCh"));
 					 responseList.add(businessListInfo);
 				}
 				pageInfo.setResult(responseList);
