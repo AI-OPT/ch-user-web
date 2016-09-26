@@ -44,11 +44,11 @@ label.error {
 							<div class="form-label">
 							<div class="form-label  bd-bottom">
 					           	<ul>
-					                <li  class="col-md-6">
+					                <li  class="col-md-3">
 					                    <p class="word">供应商用户名:</p>
 					                    <p>${supplier_name }</p>
 					                </li>
-					                <li  class="col-md-6">
+					                <li  class="col-md-3">
 					                    <p class="word">公司名称:</p>
 					                    <p>${company_name }</p>
 					                </li>  
@@ -76,7 +76,7 @@ label.error {
 										<ul>
 											<li style="margin-left: 70px"><input type="button"
 												id="submitScore" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
-												value="提交评价"></li>
+												value="提交评分"></li>
 											<li><input type="button"
 												onclick="backup();" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
 												value="返回"></li>
