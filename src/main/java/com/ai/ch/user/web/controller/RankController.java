@@ -64,9 +64,11 @@ public class RankController {
 			ModelAndView model = new ModelAndView("/jsp/crm/rankrule-edit");
 			Map<String,String> urlMap=getUrlMap(user.getTenantId());
 			Map<String,String> nameMap=getNameMap(user.getTenantId());
+			Map<String,String> idpsMap=getIdpsMap(user.getTenantId());
 			model.addObject("periodType", periodType_);
 			model.addObject("urlMap", JSON.toJSONString(urlMap));
 			model.addObject("nameMap", JSON.toJSONString(nameMap));
+			model.addObject("idpsMap", JSON.toJSONString(idpsMap));
 			model.addObject("rank", response.getList().get(response.getList().size()-1).getRank());
 			model.addObject("result", JSON.toJSONString(response.getList()));
 			return model;
@@ -96,7 +98,7 @@ public class RankController {
 			     cmCustFileExtVo.setAttrValue(idpsId);
 			     cmCustFileExtVo.setTenantId(user.getTenantId());
 			     cmCustFileExtVo.setAttrId(String.valueOf(i));
-			     cmCustFileExtVo.setInfoName(rankRuleRequest.getList().get(i-1).getRankLogo());
+			     cmCustFileExtVo.setInfoName(request.getParameter("rankName"+i));
 			     rankRuleRequest.getList().get(i-1).setRankLogo(idpsId);
 			     list.add(cmCustFileExtVo);
 			}
@@ -112,10 +114,10 @@ public class RankController {
 			// 调dubbo服务
 			rankSV.insertRankRule(rankRuleRequest);
 			custfileSV.insertCustFileExt(custFileExtRequest);
-			view = new ModelAndView("/jsp/rank/success");
+			view = new ModelAndView("/jsp/crm/success");
 		} catch (Exception e) {
 			LOG.error("保存失败");
-			view = new ModelAndView("/jsp/rank/fail");
+			view = new ModelAndView("/jsp/crm/fail");
 		}
 		return view;
 	}
@@ -141,7 +143,7 @@ public class RankController {
 			     String idpsId= im.upLoadImage(image.getBytes(), UUIDUtil.genId32() + ".png");
 			     cmCustFileExtVo.setAttrValue(idpsId);
 			     cmCustFileExtVo.setTenantId(user.getTenantId());
-			     cmCustFileExtVo.setInfoName(rankRuleRequest.getList().get(i-1).getRankLogo());
+			     cmCustFileExtVo.setInfoName(request.getParameter("rankName"+i));
 			     cmCustFileExtVo.setAttrId(String.valueOf(i));
 			     rankRuleRequest.getList().get(i-1).setRankLogo(idpsId);
 			     list.add(cmCustFileExtVo);
@@ -160,10 +162,10 @@ public class RankController {
 			custFileExtRequest.setTenantId(user.getTenantId());
 			rankSV.updateRankRule(rankRuleRequest);
 			custfileSV.updateCustFileExt(custFileExtRequest);
-			view = new ModelAndView("/jsp/rank/success");
+			view = new ModelAndView("/jsp/crm/success");
 		} catch (Exception e) {
 			LOG.error("更新失败");
-			view = new ModelAndView("/jsp/rank/fail");
+			view = new ModelAndView("/jsp/crm/fail");
 		}
 		return view;
 	}
@@ -198,6 +200,20 @@ public class RankController {
 		if(!response.getList().isEmpty()){
 			for (CmCustFileExtVo cmCustFileExtVo : response.getList()) {
 				nameMap.put(cmCustFileExtVo.getAttrId(), cmCustFileExtVo.getInfoName());
+			}
+		}
+		return nameMap;
+	}
+	//获取图片url的Map
+	public Map<String,String> getIdpsMap(String tenantId){
+		ICustFileSV custfileSV = DubboConsumerFactory.getService("iCustfileSV");
+		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
+		custFileExtRequest.setTenantId(tenantId);
+		QueryCustFileExtResponse response = custfileSV.queryCustFileExt(custFileExtRequest);
+		Map<String,String> nameMap = new HashMap<String,String>();
+		if(!response.getList().isEmpty()){
+			for (CmCustFileExtVo cmCustFileExtVo : response.getList()) {
+				nameMap.put(cmCustFileExtVo.getAttrId(), cmCustFileExtVo.getAttrValue());
 			}
 		}
 		return nameMap;
