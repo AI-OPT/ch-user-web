@@ -584,6 +584,7 @@ public class ContractController {
     public ResponseData<String> checkContractCode(HttpServletRequest request,ContactInfoRequest contractRequest){
     	ResponseData<String> responseData = null;
         ResponseHeader header = null;
+        
         try {
             IContractSV contractSV = DubboConsumerFactory.getService("iContractSV");
             String userId = contractRequest.getUserId();
