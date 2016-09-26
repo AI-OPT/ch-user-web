@@ -403,7 +403,7 @@ public class BillingController {
 					 businessListInfo.setUserId(object.getString("companyId"));
 					 businessListInfo.setUserName(object.getString("username"));
 					 businessListInfo.setCustName(object.getString("name"));
-					 businessListInfo.setBusinessCategory(object.getString("brandNameCh"));
+					 businessListInfo.setBusinessCategory(object.getString("brandNameType"));
 					 responseList.add(businessListInfo);
 				}
 				pageInfo.setResult(responseList);
