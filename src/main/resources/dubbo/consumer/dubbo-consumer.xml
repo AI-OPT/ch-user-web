@@ -22,7 +22,10 @@
 		address="${dubbo.registry.address}" id="chRegistry" />
 	<dubbo:consumer timeout="${dubbo.provider.timeout}" />
 
-	<context:component-scan base-package="com.ai.ch" />
+	<context:component-scan base-package="com.ai.ch">
+        <context:exclude-filter expression="org.springframework.stereotype.Controller"
+                                type="annotation" />
+    </context:component-scan>
 
 	<dubbo:reference id="iNormProductSV" interface="com.ai.ch.product.api.normproduct.interfaces.INormProductSV"
 					 registry="chRegistry"/>
