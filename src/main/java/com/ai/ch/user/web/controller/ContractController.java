@@ -551,11 +551,13 @@ public class ContractController {
         
         try {
             IContractSV contractSV = DubboConsumerFactory.getService("iContractSV");
+            String userId = contractRequest.getUserId();
+            contractRequest.setUserId(null);
             ContractInfoResponse accountQueryResponse = contractSV.queryContractInfo(contractRequest);
             if (accountQueryResponse != null) {
                 String resultCode = accountQueryResponse.getResponseHeader().getResultCode();
                 if (resultCode.equals(ExceptionCode.SUCCESS_CODE)) {
-                    if(accountQueryResponse.getUserId()!=null&&!contractRequest.getUserId().equals(accountQueryResponse.getUserId())){
+                    if(accountQueryResponse.getUserId()!=null&&!userId.equals(accountQueryResponse.getUserId())){
                     	header = new ResponseHeader(false, ExceptionCode.CONTRACT_NAME_ERROR, "该合同名称已经注册");
                         responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该合同名称已经注册", null);
                         responseData.setResponseHeader(header);
@@ -584,11 +586,13 @@ public class ContractController {
         ResponseHeader header = null;
         try {
             IContractSV contractSV = DubboConsumerFactory.getService("iContractSV");
+            String userId = contractRequest.getUserId();
+            contractRequest.setUserId(null);
             ContractInfoResponse accountQueryResponse = contractSV.queryContractInfo(contractRequest);
             if (accountQueryResponse != null) {
                 String resultCode = accountQueryResponse.getResponseHeader().getResultCode();
                 if (resultCode.equals(ExceptionCode.SUCCESS_CODE)) {
-                    if(accountQueryResponse.getUserId()!=null&&!contractRequest.getUserId().equals(accountQueryResponse.getUserId())){
+                    if(accountQueryResponse.getUserId()!=null&&!userId.equals(accountQueryResponse.getUserId())){
                     	header = new ResponseHeader(false, ExceptionCode.CONTRACT_NAME_ERROR, "该合同编号已经注册");
                         responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该合同编号已经注册", null);
                         responseData.setResponseHeader(header);
