@@ -77,8 +77,8 @@ define('app/jsp/billing/defaultManagerList', function (require, exports, module)
 	 			messageId:"showMessageDiv",
 	 			renderId:"TBODY_DEFAULTLIST",
 	            data : {
-	            	"username":$("#username").val(),
-					"companyName":$("#companyName").val(),
+	            	"username":$("#username").val().replace(/(^\s*)|(\s*$)/g,""),
+					"companyName":$("#companyName").val().replace(/(^\s*)|(\s*$)/g,""),
 	            	"companyType":"2"
 				},
 	           	pageSize: DefaultManagerListPager.DEFAULT_PAGE_SIZE,

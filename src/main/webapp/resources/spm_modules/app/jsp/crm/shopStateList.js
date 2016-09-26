@@ -334,8 +334,8 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
 	 			messageId:"showMessageDiv",
 	 			renderId:"TBODY_SHOPSTATE",
 	            data : {
-	            	"username":$("#username").val(),
-					"companyName":$("#companyName").val(),
+	            	"username":$("#username").val().replace(/(^\s*)|(\s*$)/g,""),
+					"companyName":$("#companyName").val().replace(/(^\s*)|(\s*$)/g,""),
 					"companyType":"2"
 				},
 	           	pageSize: shopStateListPager.DEFAULT_PAGE_SIZE,

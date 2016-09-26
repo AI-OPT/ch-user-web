@@ -81,8 +81,8 @@ define('app/jsp/qualification/noCheckedPagerList', function (require, exports, m
 	 			messageId:"showMessageDiv",
 	 			renderId:"UN_CHECKED",
 	            data : {
-	            	"username":$("#username").val(),
-					"companyName":$("#companyName").val(),
+	            	"username":$("#username").val().replace(/(^\s*)|(\s*$)/g,""),
+					"companyName":$("#companyName").val().replace(/(^\s*)|(\s*$)/g,""),
 					"companyType":companyType,
 					"auditState":'1',
 				},

@@ -49,7 +49,7 @@ label.error {
 							                </li>  
 							            </ul>  
 							            <ul>
-							                <li class="col-md-3">
+							                <li class="col-md-6">
 							                    <p class="word">当前保证金:</p>
 							                    <p>${deposit }元</p>
 							                </li>
@@ -60,8 +60,8 @@ label.error {
 								 	<ul>
 								 	<li class="col-md-6">
 				              		<p class="word">保证金:</p>
-				                    <p><input type="text" class="int-text int-mini" name="depositBalance" id="depositBalance" maxlength="15" onkeydown="return doit()"></p>
-				                    <p>元(一次性收取)</p>
+				                    <p><input type="text" class="int-text int-mini" name="depositBalance" id="depositBalance" maxlength="15" onkeydown="return doit()">
+				                    	元(一次性收取)</p><p class="input-group"></p>
 				                    <input type="hidden" value="${userId }" name="userId" id="userId">
 				                </li>
 								 	</ul>
@@ -71,6 +71,9 @@ label.error {
 								 		<p class="word">&nbsp;</p>
 								 		<p><input type="button" id="saveSetting" class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="保存"></p>
 								 	</li>
+								 	<li><p><input type="button"
+												onclick="backup();" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
+												value="返回"></p></li>
 								 	</ul>
 								 </div>
 							</div>
@@ -82,7 +85,7 @@ label.error {
     </div>
   </div>   
   
-	<script type="text/javascript">
+		<script type="text/javascript">
 		var pager;
 		var userId='${userId}';
 		(function() {

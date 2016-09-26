@@ -51,7 +51,7 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
     				depositBalance: {
     					required:true,
     					digits:true,
-    					min:0,
+    					min:1,
     					max:999999999999999,
     					pattern:/^\+?(0|[1-9][0-9]*)$/
     					}
@@ -157,4 +157,8 @@ function doit(){
     if((ev.keyCode>=48&&ev.keyCode<=57)||ev.keyCode==8) 
     	return true;
     return false;
+}
+
+function backup(){
+	window.location.href=_base+"/billing/billingpager";
 }

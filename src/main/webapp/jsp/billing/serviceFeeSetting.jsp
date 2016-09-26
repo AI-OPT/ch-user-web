@@ -55,108 +55,112 @@ label.error {
 								</ul>
 							</div>
 							<div class="form-label">
-							<div class="nav-tplist-title bd-bottom pb-10">
+								<div class="nav-tplist-title bd-bottom pb-10">
+									<ul>
+										<li>当前结算设置</li>
+									</ul>
+								</div>
 								<ul>
-									<li>当前结算设置</li>
+									<li class="col-md-6">
+										<p class="word">固定金额服务费:</p>
+										<p>${rentFeeStr }</p>
+									</li>
 								</ul>
-							</div>
-							<ul>
-								<li class="col-md-6">
-									<p class="word">固定金额服务费:</p>
-									<p>${rentFeeStr }</p>
-								</li>
-								<li class="col-md-6">
-									<p class="word">实时划扣服务费</p>
-									<p>${ratioStr }</p>
-								</li>
-							</ul>
+								<ul>
+									<li class="col-md-6">
+										<p class="word">实时划扣服务费</p>
+										<p>${ratioStr }</p>
+									</li>
+								</ul>
 							</div>
 							<!--table表格-->
 							<form id="serviceFee">
-								<div class="form-label">
-								<div class="nav-tplist-title bd-bottom pb-10">
-									<ul>
-										<li>服务费设置</li>
-									</ul>
-								</div>
-								<ul>
-									<li class="col-lg-12">
-										<p class="word">固定金额服务费:</p>
-										<p>
-											<input type="radio" value="0" name="needPayRent"
-												onclick="pager._change('needPayRent','payRent');" checked>
-										</p>
-										<p>需缴纳</p>
-										<p>
-											<input type="radio" value="1" name="needPayRent"
-												onclick="pager._change('needPayRent','payRent');">
-										</p>
-										<p>无需缴纳</p>
-									</li>
-								</ul>
-								<div id="payRent" style="display:">
+								<div class="form-label pl-40">
+									<div class="nav-tplist-title bd-bottom pb-10">
+										<ul>
+											<li>服务费设置</li>
+										</ul>
+									</div>
 									<ul>
 										<li class="col-lg-12">
-											<p class="word">&nbsp;</p>
+											<p class="word">固定金额服务费:</p>
 											<p>
-												<input type="text" class="int-text int-mini" id="rentFee"
-													name="rentFee" maxlength="15" onkeydown="return doit()">
+												<input type="radio" value="0" name="needPayRent"
+													onclick="pager._change('needPayRent','payRent');" checked>
 											</p>
-											<p>元/</p>
+											<p>需缴纳</p>
 											<p>
-												<select class="select select-mini" id="rentCycleType"
-													name="rentCycleType">
-													<option value="Y">年</option>
-													<option value="Q">季度</option>
-													<option value="M">月</option>
-												</select>
+												<input type="radio" value="1" name="needPayRent"
+													onclick="pager._change('needPayRent','payRent');">
+											</p>
+											<p>无需缴纳</p>
+										</li>
+									</ul>
+									<div id="payRent" style="display:">
+										<ul>
+											<li class="col-lg-12">
+												<p class="word">&nbsp;</p>
+												<p>
+													<input type="text" class="int-text int-mini" id="rentFee"
+														name="rentFee" maxlength="15" onkeydown="return doit()">
+													元/ <select class="select select-mini" id="rentCycleType"
+														name="rentCycleType">
+														<option value="Y">年</option>
+														<option value="Q">季度</option>
+														<option value="M">月</option>
+													</select>
+												</p>
+												<p class="input-group"></p>
+											</li>
+										</ul>
+									</div>
+									<ul>
+										<li class="col-lg-12">
+											<p class="word">实时划扣服务费:</p>
+											<p>
+												<input type="radio" value="0" name="needPayCycle" checked
+													onclick="pager._change('needPayCycle','payCycle')">需缴纳
+											</p>
+											<p>
+												<input type="radio" value="1" name="needPayCycle"
+													onclick="pager._change('needPayCycle','payCycle')">无需缴纳
 											</p>
 										</li>
 									</ul>
+									<div id="payCycle" style="display:">
+										<ul>
+											<li class="col-lg-12">
+												<p class="word">&nbsp;</p>
+												<p>
+													<input type="text" class="int-text int-mini" name="ratio"
+														id="ratio" /> % * 订单金额
+												</p>
+												<p class="input-group"></p> <input type="hidden" id="userId"
+												name="userId" value="${userId }" />
+											</li>
+										</ul>
+									</div>
+									<ul>
+										<li>
+											<p class="word">&nbsp;</p>
+											<p>
+												<input type="button" id="saveSetting"
+													class="biu-btn  btn-primary btn-blue btn-medium ml-10"
+													value="保存">
+											</p>
+										</li>
+										<li><p>
+												<input type="button" onclick="backup();"
+													class="biu-btn  btn-primary btn-blue btn-medium ml-5"
+													value="返回">
+											</p></li>
+
+									</ul>
 								</div>
-						</div>
-						<div class="form-label pl-40">
-							<ul>
-								<li class="col-lg-12">
-									<p class="word">实时划扣服务费:</p>
-									<p>
-										<input type="radio" value="0" name="needPayCycle" checked
-											onclick="pager._change('needPayCycle','payCycle')">需缴纳
-									</p>
-									<p>
-										<input type="radio" value="1" name="needPayCycle"
-											onclick="pager._change('needPayCycle','payCycle')">无需缴纳
-									</p>
-								</li>
-							</ul>
-							<div id="payCycle" style="display:">
-								<ul>
-									<li class="col-lg-12">
-										<p class="word">&nbsp;</p>
-										<p>
-											<input type="text" class="int-text int-mini" name="ratio"
-												id="ratio" /> % * 订单金额
-										</p> <input type="hidden" id="userId" name="userId"
-										value="${userId }" />
-									</li>
-								</ul>
-							</div>
-							<ul>
-								<li>
-									<p class="word">&nbsp;</p>
-									<p>
-										<input type="button" id="saveSetting"
-											class="biu-btn  btn-primary btn-blue btn-medium ml-10"
-											value="保存">
-									</p>
-								</li>
-							</ul>
-							</div>
-						</form>
-						</div>
-						<div>
+							</form>
 						</div>
 					</div>
+					<div></div>
 				</div>
 			</div>
 		</div>

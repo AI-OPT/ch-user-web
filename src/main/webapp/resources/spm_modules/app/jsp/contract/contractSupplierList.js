@@ -77,8 +77,8 @@ define('app/jsp/contract/contractSupplierList', function (require, exports, modu
 	 			messageId:"showMessageDiv",
 	 			renderId:"TBODY_DEFAULTLIST",
 	            data : {
-	            	"username":$("#username").val(),
-					"companyName":$("#companyName").val(),
+	            	"username":$("#username").val().replace(/(^\s*)|(\s*$)/g,""),
+					"companyName":$("#companyName").val().replace(/(^\s*)|(\s*$)/g,""),
 					"companyType":"1"
 				},
 	           	pageSize: ContractListPager.DEFAULT_PAGE_SIZE,

@@ -333,8 +333,8 @@ define('app/jsp/crm/supplierStateList', function (require, exports, module) {
 	 			messageId:"showMessageDiv",
 	 			renderId:"TBODY_SUPLLIER",
 	            data : {
-	            	"username":$("#username").val(),
-					"companyName":$("#companyName").val(),
+	            	"username":$("#username").val().replace(/(^\s*)|(\s*$)/g,""),
+					"companyName":$("#companyName").val().replace(/(^\s*)|(\s*$)/g,""),
 					"companyType":"1"
 				},
 	           	pageSize: supplierStateListPager.DEFAULT_PAGE_SIZE,

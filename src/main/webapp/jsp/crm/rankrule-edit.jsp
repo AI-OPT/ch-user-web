@@ -45,15 +45,15 @@
 											</li>
 										</ul>
 									</div>
+											<div class="right pr-30">
 									<ul>
 										<li>
-											<div class="text-r">
 												<input type="button" id="toEdit"
 													class="biu-btn  btn-primary btn-blue btn-medium ml-5"
 													value="修改">
-											</div>
 										</li>
 									</ul>
+											</div>
 									<table class="table table-border table-bordered">
 										<thead>
 											<tr>
@@ -135,7 +135,7 @@
 														<p>(2-20个等级之间)</p>
 													</li>
 												</ul>
-											</div>
+												</div>
 											<div class="table-responsive clearfix">
 		                						<table class="table table-hover table-border table-bordered">
 												<thead>
@@ -149,16 +149,18 @@
 
 												</tbody>
 											</table>
+											</div>
 											<!--/table表格结束-->
 										</form:form>
-										</div>
-										<div class="text-c">
-											<input type="button" id="updateRule"
-												class="biu-btn btn-primary btn-blue btn-medium ml-10"
-												value="保存"> <input type="hidden" id="rankFlag"
-												value=""> <input type="hidden" id="nameFlag"
-												value=""> <input type="hidden" id="picFlag" value="">
-										</div>
+									<div class="text-c">
+										<input type="button" id="updateRule"
+											class="biu-btn btn-primary btn-blue btn-medium ml-10"
+											value="保存">
+											 <input type="hidden" id="rankFlag"
+											value=""> <input type="hidden" id="nameFlag" value="">
+										<input type="hidden" id="picFlag" value="">
+									</div>
+								</div>
 								</div>
 							</div>
 						</div>

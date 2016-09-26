@@ -77,8 +77,8 @@ define('app/jsp/crm/scorelist', function (require, exports, module) {
 	 			dataType: "json",
 	 			renderId:"TBODY_SCORELIST",
 	            data : {
-					"username":$("#username").val(),
-					"companyName":$("#companyName").val(),
+					"username":$("#username").val().replace(/(^\s*)|(\s*$)/g,""),
+					"companyName":$("#companyName").val().replace(/(^\s*)|(\s*$)/g,""),
 					"companyType":"1"
 				},
 	           	pageSize: scoreListPager.DEFAULT_PAGE_SIZE,

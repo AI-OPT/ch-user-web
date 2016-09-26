@@ -203,3 +203,7 @@ function doit(){
     	return true;
     return false;
 }
+
+function backup(){
+	window.location.href=_base+"/billing/billingpager";
+}
