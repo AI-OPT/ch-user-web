@@ -119,7 +119,7 @@ public class DefaultManagerController {
 	@RequestMapping("/addDefaultInfo")
 	public ModelAndView addDefaultInfo(HttpServletRequest request,String userId,String userName,String custName) {
 		//包装数据
-		GrpHdr hdr = new GrpHdr();
+		/*GrpHdr hdr = new GrpHdr();
 		PayUtil payUtil = new PayUtil();
 		hdr.setMerNo("CO20160700000004");//设置一级平台商户号
 		hdr.setTranType(TranType.PAY_GUARANTEE_MONEY_QUERY.getValue());//设置交易类型(保证金支付订单查询)
@@ -179,7 +179,7 @@ public class DefaultManagerController {
             	throw new RuntimeException("系统异常.");
             }
             balance=receive.getGrpBody().getStsRsnInf().getBalance();
-        }
+        }*/
 		Map<String, Object> model = new HashMap<String, Object>();
  		model.put("userId", userId);
  		try {
@@ -188,8 +188,8 @@ public class DefaultManagerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
- 		model.put("balance", Float.parseFloat(balance)/100);
- 		//model.put("balance", 2000);
+ 		//model.put("balance", Float.parseFloat(balance)/100);
+ 		model.put("balance", 2000);
 		return new ModelAndView("/jsp/defaultManager/addDefault",model);
 	}
 	
@@ -234,7 +234,7 @@ public class DefaultManagerController {
 			defaultLogRequest.setTenantId(userClient.getTenantId());
 			defaultLog.insertDefaultLog(defaultLogRequest);
 			
-			//调用长虹扣款
+			/*//调用长虹扣款
 			//包装数据
 			PayUtil payUtil = new PayUtil();
 			com.ylink.upp.oxm.entity.upp_100_001_01.GrpHdr hdr = new com.ylink.upp.oxm.entity.upp_100_001_01.GrpHdr();
@@ -311,7 +311,7 @@ public class DefaultManagerController {
 				System.out.println(result);
 			} catch (Exception e) {
 				e.printStackTrace();
-			}
+			}*/
 			responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
             responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
         }catch(Exception e){
