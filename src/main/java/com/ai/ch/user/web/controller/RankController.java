@@ -73,7 +73,7 @@ public class RankController {
 		}
 
 	}
-
+	
 	@RequestMapping("/saverule")
 	public ModelAndView saveRule(HttpServletRequest request, InsertRankRuleRequest rankRuleRequest) {
 		ModelAndView view=null;
@@ -112,10 +112,10 @@ public class RankController {
 			// 调dubbo服务
 			rankSV.insertRankRule(rankRuleRequest);
 			custfileSV.insertCustFileExt(custFileExtRequest);
-			view = new ModelAndView("redirect:/rank/rankrule");
+			view = new ModelAndView("/jsp/rank/success");
 		} catch (Exception e) {
 			LOG.error("保存失败");
-			view = new ModelAndView("redirect:/rank/rankrule");
+			view = new ModelAndView("/jsp/rank/fail");
 		}
 		return view;
 	}
@@ -160,10 +160,10 @@ public class RankController {
 			custFileExtRequest.setTenantId(user.getTenantId());
 			rankSV.updateRankRule(rankRuleRequest);
 			custfileSV.updateCustFileExt(custFileExtRequest);
-			view = new ModelAndView("redirect:/rank/rankrule");
+			view = new ModelAndView("/jsp/rank/success");
 		} catch (Exception e) {
 			LOG.error("更新失败");
-			view = new ModelAndView("redirect:/rank/rankrule");
+			view = new ModelAndView("/jsp/rank/fail");
 		}
 		return view;
 	}
