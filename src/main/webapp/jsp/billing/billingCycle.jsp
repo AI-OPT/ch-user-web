@@ -74,15 +74,56 @@
 										type="hidden" id="custName" value="${custName }" />
 										<p class="word" style="font-style:">
 											<b class="red">*</b>结算周期:
-										</p> <input type="radio" class="radio-1" id="billingCycle"
-										value="M" name="periodType" checked="checked"> <label
-										for="radio-1">月（自然月）</label> <input type="radio"
-										class="radio-1" id="billingCycle" value="Q" name="periodType">
-										<label for="radio-1">季度（自然季度）</label> <input type="radio"
-										class="radio-1" value="D" id="billingCycle" name="periodType">
-										<label for="radio-1">T+1（日结）</label> <input type="radio"
-										class="radio-1" value="R" id="billingCycle" name="periodType">
-										<label for="radio-1">实时</label></li>
+										</p> 
+										<c:choose>
+										<c:when test="${shopInfo.periodType==null||shopInfo.periodType==''||shopInfo.periodType=='M'}">
+											<input type="radio" class="radio-1" id="billingCycle"
+										  value="M" name="periodType" checked="checked"> <label
+										  for="radio-1">月（自然月）</label>
+										</c:when>
+										<c:otherwise>
+											<input type="radio" class="radio-1" id="billingCycle"
+										  value="M" name="periodType" > 
+										  <label for="radio-1">月（自然月）</label>
+										</c:otherwise>
+										 </c:choose>
+										 <c:choose>
+										<c:when test="${shopInfo.periodType=='Q'}">
+											<input type="radio" checked="checked"
+											class="radio-1" id="billingCycle" value="Q" name="periodType">
+											<label for="radio-1">季度（自然季度）</label> 
+										</c:when>
+										<c:otherwise>
+											<input type="radio" 
+											class="radio-1" id="billingCycle" value="Q" name="periodType">
+											<label for="radio-1">季度（自然季度）</label>
+										</c:otherwise>
+										</c:choose>
+										<c:choose>
+										<c:when test="${shopInfo.periodType=='D'}">
+											<input type="radio" checked="checked"
+											class="radio-1" value="D" id="billingCycle" name="periodType">
+											<label for="radio-1">T+1（日结）</label> 
+										</c:when>
+										<c:otherwise>
+											<input type="radio" 
+											class="radio-1" value="D" id="billingCycle" name="periodType">
+											<label for="radio-1">T+1（日结）</label>
+										</c:otherwise>
+										</c:choose>
+										<c:choose>
+										<c:when test="${shopInfo.periodType=='R'}">
+											<input type="radio" checked="checked"
+											class="radio-1" value="R" id="billingCycle" name="periodType">
+											<label for="radio-1">实时</label>
+										</c:when>
+										<c:otherwise>
+											<input type="radio"
+											class="radio-1" value="R" id="billingCycle" name="periodType">
+											<label for="radio-1">实时</label>
+										</c:otherwise>
+										</c:choose>
+										
 								</ul>
 							</div>
 								<div class="text-c">
@@ -107,8 +148,8 @@
 		var custName = $("#custName").val();
 		var billingCycle = $('input:radio:checked').val();
 		window.location.href = _base + "/billing/saveCycleSetting?userId="
-				+ userId + "&periodType=" + billingCycle + "&userName="
-				+ userName + "&custName=" + custName;
+				+ userId + "&periodType=" + billingCycle + "&userName="+
+				escape(encodeURIComponent(userName))+"&custName="+escape(encodeURIComponent(custName));
 
 	}
 </script>
