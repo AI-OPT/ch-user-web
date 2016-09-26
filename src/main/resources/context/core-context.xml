@@ -22,5 +22,5 @@
         <context:exclude-filter expression="org.springframework.stereotype.Controller"
                                 type="annotation" />
     </context:component-scan>
-
+	<import resource="classpath:application-context.xml" />
 </beans>
