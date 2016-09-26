@@ -35,7 +35,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
     		auditeQualificationPager.superclass.setup.call(this);
     	},
     	
-    	_passAudit:function(userId){
+    	_passAudit:function(userId,url){
     		var d = Dialog({
 				title : '提示',
 				content : '审核通过此资质信息吗？',
@@ -60,7 +60,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    	    				okValue : "确定",
 		    	    				ok : function() {
 		    	    					this.close;
-		    	    					window.location.href=_base+"/qualification/toNoCheckedSupplierPager";
+		    	    					window.location.href=url;
 		    	    				}
 		    	    			});
 		    	    			d.show();
@@ -72,7 +72,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    	    				okValue : "确定",
 		    	    				ok : function() {
 		    	    					this.close;
-		    	    					window.location.href=_base+"/qualification/toNoCheckedSupplierPager";
+		    	    					window.location.href=url;
 		    	    				}
 		    	    			});
 		    	    			d.show();
@@ -85,7 +85,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    	    				okValue : "确定",
 		    	    				ok : function() {
 		    	    					this.close;
-		    	    					window.location.href=_base+"/qualification/toNoCheckedSupplierPager";
+		    	    					window.location.href=url;
 		    	    				}
 		    	    			});
 		    	    			d.show();
@@ -96,7 +96,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 			d.show();
     	},
 
-    	_rejectAudit:function(userId){
+    	_rejectAudit:function(userId,url){
     		var d = Dialog({
 				title : '提示',
 				content : '审核拒绝此资质信息吗？',
@@ -121,7 +121,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    	    				okValue : "确定",
 		    	    				ok : function() {
 		    	    					this.close;
-		    	    					window.location.href=_base+"/qualification/toCheckedSupplierPager";
+		    	    					window.location.href=url;
 		    	    				}
 		    	    			});
 		    	    			d.show();
@@ -133,7 +133,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    	    				okValue : "确定",
 		    	    				ok : function() {
 		    	    					this.close;
-		    	    					window.location.href=_base+"/qualification/toCheckedSupplierPager";
+		    	    					window.location.href=url;
 		    	    				}
 		    	    			});
 		    	    			d.show();
@@ -146,7 +146,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    	    				okValue : "确定",
 		    	    				ok : function() {
 		    	    					this.close;
-		    	    					window.location.href=_base+"/qualification/toCheckedSupplierPager";
+		    	    					window.location.href=url;
 		    	    				}
 		    	    			});
 		    	    			d.show();

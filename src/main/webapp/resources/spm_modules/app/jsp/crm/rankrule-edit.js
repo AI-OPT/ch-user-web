@@ -63,7 +63,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		htmlOutput+=htmlOutputEnd;
             $("#TBODY_VIEW").html(htmlOutput);
             for(var t=2;t<count;t++)
-            	document.getElementById("imgView"+t).src=urlMap[t];
+            	$("#imgView"+t).attr("src",urlMap[t]);
     	},
     	
     	_initTable:function(){
@@ -145,6 +145,9 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     			this._valideName(i);
     			var pic = document.getElementById('picName'+i).value;
     			if(pic==""||pic==null){
+    				$("#picErr"+index).val("(图片不能为空)");
+       			 	$("#picErr"+index).show();
+       			 	$("#picName"+index).val("");
     				$("#picFlag").val('0');
     				return false;
     			}
@@ -179,14 +182,12 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     			document.getElementById('rankMsg'+index).value='(等级区间不能为空)';
     			document.getElementById('rankMsg'+index).style.display="";
     			$("#rankFlag").val('0');
-    			return false;
     			}
     		if(maxIndex<=minIndex){
     			document.getElementById('rankMsg'+index).value='(等级区间错误)';
     			document.getElementById('rankMsg'+index).style.display="";
     			document.getElementById('max'+index).value="";
     			$("#rankFlag").val('0');
-	        	return false;
     		}else{
     		document.getElementById('min'+(parseInt(index)+1)).value=maxIndex;
     		$("#rankFlag").val('1');
@@ -200,7 +201,6 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     			document.getElementById('nameMsg'+index).value='(等级名称不能为空)';
 				document.getElementById('nameMsg'+index).style.display="";
 				$("#nameFlag").val('0');
-				return false;
     		}
     		$("#nameFlag").val('1');
     	}

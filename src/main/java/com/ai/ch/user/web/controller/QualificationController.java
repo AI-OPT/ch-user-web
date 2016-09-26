@@ -85,10 +85,17 @@ public class QualificationController {
 			e.printStackTrace();
 		}
 		JSONObject data = (JSONObject) JSON.parse(str);
+		//System.out.println(data);
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
 		//转换时间
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String date = sdf.format(Long.parseLong(data2.getString("createTime")));
+        String taxpayerType = "";
+        if("1".equals(data2.getString("taxpayerType"))){
+        	taxpayerType = "个人";
+        }else if("2".equals(data2.getString("taxpayerType"))){
+        	taxpayerType = "企业";
+        }
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
@@ -110,7 +117,7 @@ public class QualificationController {
 		model.addObject("legalRepresentative", data2.getString("legalRepresentative"));
 		model.addObject("idNumber", data2.getString("idNumber"));
 		model.addObject("taxpayerNumber", data2.getString("taxpayerNumber"));
-		model.addObject("taxpayerType", data2.getString("taxpayerType"));
+		model.addObject("taxpayerType", taxpayerType);
 		model.addObject("taxCode", data2.getString("taxCode"));
 		model.addObject("organizationCode", data2.getString("organizationCode"));
 		model.addObject("bankName", data2.getString("bankName"));
@@ -156,6 +163,12 @@ public class QualificationController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		date = sdf.format(Long.parseLong(data2.getString("createTime")));
 		}
+		 String taxpayerType = "";
+	        if("1".equals(data2.getString("taxpayerType"))){
+	        	taxpayerType = "个人";
+	        }else if("2".equals(data2.getString("taxpayerType"))){
+	        	taxpayerType = "企业";
+	        }
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
@@ -177,7 +190,7 @@ public class QualificationController {
 		model.addObject("legalRepresentative", data2.getString("legalRepresentative"));
 		model.addObject("idNumber", data2.getString("idNumber"));
 		model.addObject("taxpayerNumber", data2.getString("taxpayerNumber"));
-		model.addObject("taxpayerType", data2.getString("taxpayerType"));
+		model.addObject("taxpayerType", taxpayerType);
 		model.addObject("taxCode", data2.getString("taxCode"));
 		model.addObject("organizationCode", data2.getString("organizationCode"));
 		model.addObject("bankName", data2.getString("bankName"));
@@ -186,10 +199,22 @@ public class QualificationController {
 		model.addObject("brandNameCh", data2.getString("brandNameCh"));
 		model.addObject("brandNameEn", data2.getString("brandNameEn"));
 		if(response!=null){
+			String busiType="";
+			if("0".equals(response.getBusiType())){
+				busiType="企业";
+			}else if("1".equals(response.getBusiType())){
+				busiType="商铺";
+			}
+			String hasExperi ="";
+			if("0".equals(response.getHasExperi())){
+				hasExperi = "无";
+			}else if("1".equals(response.getHasExperi()))
+				hasExperi = "有";
+				
 			model.addObject("wantShopName", response.getShopName());
-			model.addObject("goodsName", response.getGoodsNum());
-			model.addObject("busiType", response.getBusiType());
-			model.addObject("hasExperi", response.getHasExperi());
+			model.addObject("goodsNum", response.getGoodsNum());
+			model.addObject("busiType", busiType);
+			model.addObject("hasExperi", hasExperi);
 			model.addObject("ecommOwner", response.getEcommOwner());
 			model.addObject("shopDesc", response.getShopDesc());
 		}
@@ -221,6 +246,12 @@ public class QualificationController {
 		//转换时间
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String date = sdf.format(Long.parseLong(data2.getString("createTime")));
+        String taxpayerType = "";
+        if("1".equals(data2.getString("taxpayerType"))){
+        	taxpayerType = "个人";
+        }else if("2".equals(data2.getString("taxpayerType"))){
+        	taxpayerType = "企业";
+        }
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
@@ -242,7 +273,7 @@ public class QualificationController {
 		model.addObject("legalRepresentative", data2.getString("legalRepresentative"));
 		model.addObject("idNumber", data2.getString("idNumber"));
 		model.addObject("taxpayerNumber", data2.getString("taxpayerNumber"));
-		model.addObject("taxpayerType", data2.getString("taxpayerType"));
+		model.addObject("taxpayerType", taxpayerType);
 		model.addObject("taxCode", data2.getString("taxCode"));
 		model.addObject("organizationCode", data2.getString("organizationCode"));
 		model.addObject("bankName", data2.getString("bankName"));
@@ -285,6 +316,12 @@ public class QualificationController {
 		//转换时间
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String date = sdf.format(Long.parseLong(data2.getString("createTime")));
+        String taxpayerType = "";
+        if("1".equals(data2.getString("taxpayerType"))){
+        	taxpayerType = "个人";
+        }else if("2".equals(data2.getString("taxpayerType"))){
+        	taxpayerType = "企业";
+        }
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
@@ -306,7 +343,7 @@ public class QualificationController {
 		model.addObject("legalRepresentative", data2.getString("legalRepresentative"));
 		model.addObject("idNumber", data2.getString("idNumber"));
 		model.addObject("taxpayerNumber", data2.getString("taxpayerNumber"));
-		model.addObject("taxpayerType", data2.getString("taxpayerType"));
+		model.addObject("taxpayerType", taxpayerType);
 		model.addObject("taxCode", data2.getString("taxCode"));
 		model.addObject("organizationCode", data2.getString("organizationCode"));
 		model.addObject("bankName", data2.getString("bankName"));
@@ -316,10 +353,21 @@ public class QualificationController {
 		model.addObject("brandNameEn", data2.getString("brandNameEn"));
 		model.addObject("registerCapital", data2.getString("registerCapital"));
 		if(response!=null){
+			String busiType="";
+				if("0".equals(response.getBusiType())){
+					busiType="企业";
+				}else if("1".equals(response.getBusiType())){
+					busiType="商铺";
+				}
+			String hasExperi ="";
+			if("0".equals(response.getHasExperi())){
+				hasExperi = "无";
+			}else if("1".equals(response.getHasExperi()))
+				hasExperi = "有";
 			model.addObject("wantShopName", response.getShopName());
 			model.addObject("goodsNum", response.getGoodsNum());
-			model.addObject("busiType", response.getBusiType());
-			model.addObject("hasExperi", response.getHasExperi());
+			model.addObject("busiType", busiType);
+			model.addObject("hasExperi", hasExperi);
 			model.addObject("ecommOwner", response.getEcommOwner());
 			model.addObject("shopDesc", response.getShopDesc());
 		}

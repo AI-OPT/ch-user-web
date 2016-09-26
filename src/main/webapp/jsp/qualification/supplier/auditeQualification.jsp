@@ -326,29 +326,29 @@
 							</div>
 							<ul>
 								<li class="col-md-3">
-									<p class="word">
+									<p>
 										<b class="red">*</b>供应商品类型:
 									</p>
-									<p class="word">${brandNameType }</p>
+									<p>${brandNameType }</p>
 								</li>
 								</ul>
 								<ul>
 								<li class="col-md-3">
-									<p class="word">
+									<p>
 										<b class="red">*</b>品牌名称(中文):
 									</p>
-									<p class="word">${brandNameCh }</p>
+									<p>${brandNameCh }</p>
 								</li>
 								<li class="col-md-3">
-									<p class="word">
+									<p>
 										<b class="red">*</b>品牌名称(英文):
 									</p>
-									<p class="word">${brandNameEn }</p>
+									<p>${brandNameEn }</p>
 								</li>
 								</ul>
 								<ul>
 								<li class="col-md-3">
-									<p class="word">
+									<p>
 										<b class="red">*</b>商标注册证:
 									</p>
 									<p>
@@ -359,7 +359,7 @@
 									</p>
 								</li>
 								<li class="col-md-3">
-									<p class="word">
+									<p>
 										<b class="red">*</b>行业资质证明:
 									</p>
 									<p>
@@ -372,7 +372,7 @@
 								</ul>
 								<ul>
 								<li class="col-md-3">
-									<p class="word">
+									<p>
 										<b class="red">*</b>商品质检/检验报告:
 									</p>
 									<p>
@@ -383,7 +383,7 @@
 									</p>
 								</li>
 								<li class="col-md-3">
-									<p class="word">
+									<p>
 										<b class="red">*</b>卫生/生产许可证:
 									</p>
 									<p>
@@ -399,13 +399,13 @@
 									<p>
 										<input type="button"
 											class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="通过"
-											onclick="pager._passAudit();" style="margin-left: 60%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											onclick="pager._passAudit('${userId}','${_base}/qualification/toNoCheckedSupplierPager');" style="margin-left: 60%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									</p>
 								</li>
 								<li><p>
 										<input type="button"
 											class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="拒绝"
-											onclick="pager._rejectAudit();">
+											onclick="pager._rejectAudit('${userId}','${_base}/qualification/toNoCheckedSupplierPager');">
 									</p></li>
 							</ul>
                              </div>

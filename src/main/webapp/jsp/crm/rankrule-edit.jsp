@@ -189,7 +189,7 @@
 	<script id="rankRuleViewImpl" type="text/x-jsrender">
 	{{for}}
 		<tr>
-			<td><p class="f-14" style="font-weight:400;">等级{{:rank}}:  {{:minScore}} - {{:maxScore}}分</p></td>
+			<td><p class="f-14" style="font-weight:400;">等级{{:rank}}:{{:minScore}} - {{:maxScore}}分</p></td>
 			<td><p class="f-14">{{:rankName}}</p></td>
 			<td><image id='imgView{{:rank}}' src="" height="80px" width="80px"/></p></td>
 		</tr>

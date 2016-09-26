@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ai.ch.user.web.constants.ChWebConstants;
+import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.vo.StatusListVo;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -72,10 +74,11 @@ public class StatusController {
 	public ResponseData<String> updateAudit(HttpServletRequest request,String companyId,String auditState){
 		ResponseData<String> response = null;
 		ResponseHeader header = null;
+		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
 		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
-		map.put("openId", "1");
+		map.put("openId", user.getUserId());
 		map.put("auditState",auditState);
 		map.put("companyId",companyId);
 		String str ="";

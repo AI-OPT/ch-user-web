@@ -335,29 +335,29 @@
 							</div>
 							<ul>
 								<li class="col-md-3">
-									<p class="word">
+									<p>
 										<b class="red">*</b>供应商品类型:
 									</p>
-									<p class="word">${brandNameType }</p>
+									<p>${brandNameType }</p>
 								</li>
 								</ul>
 								<ul>
 								<li class="col-md-3">
-									<p class="word">
+									<p>
 										<b class="red">*</b>品牌名称(中文):
 									</p>
-									<p class="word">${brandNameCh }</p>
+									<p>${brandNameCh }</p>
 								</li>
 								<li class="col-md-3">
-									<p class="word">
+									<p>
 										<b class="red">*</b>品牌名称(英文):
 									</p>
-									<p class="word">${brandNameEn }</p>
+									<p>${brandNameEn }</p>
 								</li>
 								</ul>
 								<ul>
 								<li class="col-md-3">
-									<p class="word">
+									<p>
 										<b class="red">*</b>商标注册证:
 									</p>
 									<p>
@@ -368,7 +368,7 @@
 									</p>
 								</li>
 								<li class="col-md-3">
-									<p class="word">
+									<p>
 										<b class="red">*</b>行业资质证明:
 									</p>
 									<p>
@@ -381,7 +381,7 @@
 								</ul>
 								<ul>
 								<li class="col-md-3">
-									<p class="word">
+									<p>
 										<b class="red">*</b>商品质检/检验报告:
 									</p>
 									<p>
@@ -392,7 +392,7 @@
 									</p>
 								</li>
 								<li class="col-md-3">
-									<p class="word">
+									<p>
 										<b class="red">*</b>卫生/生产许可证:
 									</p>
 									<p>
@@ -405,46 +405,55 @@
 							</ul>
 							<ul>
 								<li class="col-md-3">
-								<p class="word"><b class="red">*</b>期望店铺名称</p>
-								<p class="word">${wantShopName }</p>
+								<p><b class="red">*</b>期望店铺名称</p>
+								<p>${wantShopName }</p>
 								</li>
 								<li class="col-md-3">
-								<p class="word"><b class="red">*</b>经营商品品类</p>
-								<p class="word">${busiType }</p>
-								</li>
-							</ul>
-							<ul>
-								<li class="col-md-3">
-								<p class="word"><b class="red">*</b>可售商品数量</p>
-								<p class="word">${goodsNum }</p>
-								</li>
-								<li class="col-md-3">
-								<p class="word"><b class="red">*</b>经营类型</p>
-								<p class="word">${hasExperi }</p>
+								<p><b class="red">*</b>经营商品品类</p>
+								<p>${brandNameEn }</p>
 								</li>
 							</ul>
 							<ul>
 								<li class="col-md-3">
-								<p class="word"><b class="red">*</b>有无电商经验</p>
-								<p class="word">${hasExperi }</p>
+								<p><b class="red">*</b>可售商品数量</p>
+								<p>${goodsNum }</p>
 								</li>
 								<li class="col-md-3">
-								<p class="word"><b class="red">*</b>现有电商平台</p>
-								<p class="word">${ecommOwner }</p>
+								<p><b class="red">*</b>经营类型</p>
+								<p>${busiType }</p>
+								</li>
+							</ul>
+							<ul>
+								<li class="col-md-3">
+								<p><b class="red">*</b>有无电商经验</p>
+								<p>${hasExperi }</p>
+								</li>
+								<li class="col-md-3">
+								<p><b class="red">*</b>现有电商平台</p>
+								<p>${ecommOwner }</p>
 								</li>
 							</ul>
 							<ul>
 								<li>
 								<p class="word">店铺介绍</p>
 								<p>${shopDesc }</p>
-								</li>
+									</li>
 							</ul>
-						</div>
+							<div>
+							<input type="button" style="margin-left:25%;"
+							onclick="backup();" class="biu-btn  btn-primary btn-blue btn-medium ml-5" value="返回">
+							</div>
+							</div>
 					</div>
 				</div>
 			</div>
 
 		</div>
 	</div>
+		<script type="text/javascript">
+			function backup(){
+				window.location.href=_base+"/qualification/toCheckedShopPager";
+			}
+	</script>
 </body>
 </html>

@@ -99,7 +99,7 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
     			 {
     			 document.getElementById('picName'+index).value=img[0].name;
     			 document.getElementById('rankName'+index).value=img[0].name;
-    			 document.getElementById('rankLogo'+index).value=img[0].name;
+    			 $("#picErr"+index).hide();
     			 }
     		 else{
     			 $("#picErr"+index).val("(图片格式不对)");
