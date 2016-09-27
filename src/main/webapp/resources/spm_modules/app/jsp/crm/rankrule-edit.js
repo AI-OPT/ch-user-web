@@ -91,9 +91,9 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
 	            $("#TBODY_RANKRULE").html(htmlOutput);
 	    		$("#rankRegion").val(rank);
 				for(var t=2;t<count;t++){
-					document.getElementById("picName"+t).value =nameMap[t];	
-					document.getElementById("rankLogo"+t).value =idpsMap[t];	
-					document.getElementById("rankName"+t).value =nameMap[t];	
+					$("#picName"+t).attr("src",nameMap[t]);
+					$("#rankLogo"+t).attr("src",idpsMap[t]);
+					$("#rankName"+t).attr("src",nameMap[t]);
     		}
     	},
     	
