@@ -99,7 +99,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     	
     	_changeTable:function(){
     		$("#TBODY_RANKRULE").html();
-    		var count = document.getElementById("rankRegion").value;
+    		var count = $("#rankRegion").val();
     		if(count==null||count=="")
     			count=result[result.length-1].rank;
     		//I am drunk
@@ -108,7 +108,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
             htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><input class='int-text int-mini' name='list[0].rankName' id='name1' type='text' onblur=\""+"pager._valideName('1')"+"\" maxlength='40'><input type='text' id='nameMsg1' style='display:none;color:red'></p></td>";
             htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><b class='red'>*</b>图片名称:<span class='btn-upload'><input class='int-text int-mini' disabled='disabled' id='picName1' style='border:none;background:none;width:60px;font-weight:400;'><input type='hidden' name='list[0].rankLogo' id='rankLogo1'><input type='hidden' name=rankName1' id='rankName1'>";
             htmlOutput+="&nbsp;<input type='button' class='btn-primary btn-default btn-medium' value='浏览文件'/>";
-            htmlOutput+="<input type='file' class='int-file' id='img1' name='img1' onchange=\""+"pager._imgName('1')\"/></p></span><input type='hidden' id='idpsId1' name='list[0].idpsId'><input type='text' id='picErr1' style='display:none;color:red;font-size:14px'></td></tr>";
+            htmlOutput+="<input type='file' class='int-file' id='img1' name='img1' onchange=\""+"pager._imgName('1')\"/></span><input type='hidden' id='idpsId1' name='list[0].idpsId'><input type='text' id='picErr1' style='display:none;color:red;font-size:14px'></p></td></tr>";
     		if(count>2){
     		var json = '[';
     		for(var i=2;i<=count-1;i++){
@@ -125,7 +125,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
             htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><input class='int-text int-mini' name='list["+count_+"].rankName' id='name"+count+"' type='text' onblur=\""+"pager._valideName('"+count+"')\" maxlength='40'><input type='text' id='nameMsg"+count+"' style='display:none;color:red'></p></td>";
             htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><b class='red'>*</b>图片名称:<span class='btn-upload'><input class='int-text int-mini' disabled='disabled' id='picName"+count+"' type='text' style='border: none;background:none;width:60px;font-weight:400;'><input type='hidden' name='list["+count_+"].rankLogo' id='rankLogo"+count_+"'><input type='hidden' name='rankName"+count+"' id='rankName"+count+"'>";
             htmlOutput+="&nbsp;<input type='button' class='btn-primary btn-default btn-medium' value='浏览文件'/>";
-            htmlOutput+="<input type='file' class='int-file' id='img"+count+"' name='img"+count+"' onchange=\""+"pager._imgName('"+count+"')\"/></p></span><input type='hidden' id='idpsId"+count+"' name='list["+count_+"].idpsId'><input type='text' id='picErr"+count+"' style='display:none;color:red;font-size:14px'></td></tr>";
+            htmlOutput+="<input type='file' class='int-file' id='img"+count+"' name='img"+count+"' onchange=\""+"pager._imgName('"+count+"')\"/></span><input type='hidden' id='idpsId"+count+"' name='list["+count_+"].idpsId'><input type='text' id='picErr"+count+"' style='display:none;color:red;font-size:14px'></p></td></tr>";
             $("#TBODY_RANKRULE").html(htmlOutput);
             $("#rankRegion").val(count);
     	},
@@ -140,20 +140,23 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		var count = $("#rankRegion").val();
     		if(count==null||count=="")
     			count=5;
-    		for(var i=1;i<count;i++){
-    			this._changeValue(i);
+    		for(var i=1;i<=count;i++){
+    			if(i<count)
+    				this._changeValue(i);
     			this._valideName(i);
-    			var pic = $("#picName"+i).val();
+    			var pic = $("#rankName"+i).val();
     			if(pic==""||pic==null){
-    				$("#picErr"+index).val("(图片不能为空)");
-       			 	$("#picErr"+index).show();
-       			 	$("#picName"+index).val("");
-    				$("#picFlag").val('0');
-    				return false;
+    				$("#picErr"+i).val("(图片格式不能为空)");
+		   			$("#picErr"+i).show();
+		   			$("#rankLogo"+i).val("");
+		   			$("#picFlag").val("0");
     			}
     		}
+    		var rankFlag = $("#rankFlag").val();
+    		var picFlag = $("#picFlag").val();
+    		var nameFlag = $("#nameFlag").val();
     		if(rankFlag!='0'&&nameFlag!='0'&&picFlag!='0')
-    		$("#rankRule").submit();
+    		$("#rankForm").submit();
     	},
     	
     	//获取上传图片名

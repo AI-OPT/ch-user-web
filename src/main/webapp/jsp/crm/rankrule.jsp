@@ -100,8 +100,8 @@
 			<td class="text-l pl-10" style="white-space:nowrap"><p class='f-14'><input class="int-text int-mini" name="list[{{:index-1}}].rankName" type="text" id="name{{:index}}" onblur="pager._valideName('{{:index}}')" maxlength='40'><input type='text' id='nameMsg{{:index}}' style='display:none;color:red'></p></td>
 			<td class="text-l pl-10" style="white-space:nowrap"><span class="btn-upload"><p class='f-14'><b class="red">*</b>图片名称 :<input class="int-text int-mini" disabled="disabled" id="picName{{:index}}" type="text" style="border: none;background:none;width:60px;"><input type="hidden" name="list[{{:index-1}}].rankLogo" id="rankLogo{{:index}}"><input type="hidden" name="rankName{{:index}}" id="rankName{{:index}}">
 				<input type="button" class="btn-primary btn-default btn-medium" value="浏览文件"/></p>
-				<input type="file" class="int-file" id='img{{:index}}' name='img{{:index}}' onchange="pager._imgName('{{:index}}')"/></p></span>
-				<input type='text' style='display:none;color:red' id='picErr{{:index}}'></td>
+				<input type="file" class="int-file" id='img{{:index}}' name='img{{:index}}' onchange="pager._imgName('{{:index}}')"/></span>
+				<input type='text' style='display:none;color:red;font-size:14px' id='picErr{{:index}}'></p></td>
 		</tr>
 	{{/for}}
 </script>
