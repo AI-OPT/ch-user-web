@@ -66,7 +66,7 @@
 								<div class="main-box clearfix">
 									<!--白色背景-->
 									<header class="main-box-header clearfix">
-								<h5 class="pull-left">扣款列表</h5>
+								<h5 class="pull-left">用户列表</h5>
 								</header>
 									<table class="table table-border table-bordered">
 										<thead>
