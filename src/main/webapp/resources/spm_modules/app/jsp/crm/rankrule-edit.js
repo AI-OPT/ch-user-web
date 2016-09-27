@@ -89,7 +89,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
 				htmlOutput += template.render(result);
 	    		htmlOutput+=htmlOutputEnd;
 	            $("#TBODY_RANKRULE").html(htmlOutput);
-	    		$("#rankRegion").val(rank);
+	    		$("#rankRegion").val(count);
 				for(var t=2;t<count;t++){
 					$("#picName"+t).val(nameMap[t]);
 					$("#rankLogo"+t).val(idpsMap[t]);
