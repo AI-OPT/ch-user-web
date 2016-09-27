@@ -443,7 +443,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			        		alert("失败了");
 			        		return false;
 			        	}else if(data.responseHeader.resultCode=="000000"){
-			        		window.location.href=_base+"/contract/contractShopDetailPager?userId="+userId+"&userName="+decodeURL(Server.URLEncode(Request.Form(userName)))+"&custName="+decodeURL(Server.URLEncode(Request.Form(custName)));;
+			        		window.location.href=_base+"/contract/contractShopDetailPager?userId="+userId+"&userName="+escape(encodeURIComponent(userName))+"&custName="+escape(encodeURIComponent(custName));
 			        	}
 			          },
 					error: function(error) {
