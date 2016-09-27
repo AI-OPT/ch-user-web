@@ -460,7 +460,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
 	var contractFile = $("#"+fileId).val();
 	var subString = contractFile.substring(contractFile.lastIndexOf("\\")+1,contractFile.length);
-	$("#"+inputText).val(subString);
+	$("#"+inputText).val(escape(encodeURIComponent(subString)));
 	/**
 	 * 校验字符数
 	 */
@@ -501,8 +501,14 @@ function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
 		$("#"+contractText).hide();
 		$("#"+contractFlag).val("1");
 	}
+	var url = "";
+	if(/\.(PNG|JPG|png|jpg)$/.test(fileTest)){
+		url= _base+"/contract/uploadImage?contractFileId="+fileId;
+	}else{
+		url = _base+"/contract/uploadFile?contractFileId="+fileId;
+	}
 	 $.ajaxFileUpload({  
-         url:_base+"/contract/uploadFile?contractFileId="+fileId,  
+         url:url,  
          secureuri:false,  
          fileElementId:fileId,//file标签的id  
          dataType: 'text',//返回数据的类型  
