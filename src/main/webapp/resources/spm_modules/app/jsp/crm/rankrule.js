@@ -41,7 +41,7 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
     	
     	_initTable:function(){
     		$("#TBODY_RANKRULE").html();
-    		var count = document.getElementById("rankRegion").value;
+    		var count = $("#rankRegion").val();
     		if(count==null||count=="")
     			count=5;
     		//I am drunk
@@ -73,7 +73,7 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
     	
     	_saveRule:function(){
     		var _this=this;
-    		var count = document.getElementById("rankRegion").value;
+    		var count = $("#rankRegion").val();
     		if(count==null||count=="")
     			count=5;
     		for(var i=1;i<count;i++){
@@ -92,55 +92,53 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
     		$("#rankForm").submit();
     	},
     	
-     	//获取上传图片名
+    	//获取上传图片名
     	_imgName:function(index) {
     		 var img = document.getElementById('img'+index).files;
-    		 if(/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(img[0].name))
-    			 {
-    			 document.getElementById('picName'+index).value=img[0].name;
-    			 document.getElementById('rankName'+index).value=img[0].name;
-    			 $("#picErr"+index).hide();
-    			 }
+    		 if(/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(img[0].name)){
+    			 $("#picName"+index).val(img[0].name)
+    			 $("#rankName"+index).val(img[0].name)
+				 $("#picErr"+index).hide();
+    		 }
     		 else{
     			 $("#picErr"+index).val("(图片格式不对)");
     			 $("#picErr"+index).show();
-    			 $("#rankLogo"+index).val("");
+    			 $("#picName"+index).val("");
     			 $("#picFlag").val("0");
     		 }
     	},
     	
-    	_changeValue:function(index){
+       	_changeValue:function(index){
     		document.getElementById('rankMsg'+index).style.display="none";
-    		var maxIndex = document.getElementById('max'+index).value;
-    		var minIndex = document.getElementById('min'+index).value;
+    		var maxIndex = $("#max"+index).val();
+    		var minIndex = $("#min"+index).val();
+    		//debugger;
     		if(maxIndex==""||maxIndex==null)
     		{
-    			document.getElementById('rankMsg'+index).value='(等级区间不能为空)';
+    			$("#rankMsg"+index).val('(等级区间不能为空)');
     			document.getElementById('rankMsg'+index).style.display="";
     			$("#rankFlag").val('0');
-    			return false;
     			}
     		if(maxIndex<=minIndex){
-    			document.getElementById('rankMsg'+index).value='(等级区间错误)';
+    			$("#rankMsg"+index).val('(等级区间错误)');
     			document.getElementById('rankMsg'+index).style.display="";
-    			document.getElementById('max'+index).value="";
+    			$("#max"+index).val("");
     			$("#rankFlag").val('0');
-	        	return false;
     		}else{
-    		document.getElementById('min'+(parseInt(index)+1)).value=maxIndex;
+    			$("#min"+(parseInt(index)+1)).val(maxIndex);
     		$("#rankFlag").val('1');
     		}
     	},
     	
     	_valideName:function(index){
     		document.getElementById('nameMsg'+index).style.display='none';
-    		var name = document.getElementById('name'+index).value;
+    		var name = $("#name"+index).val();
     		if(name==null||name==""){
-    			document.getElementById('nameMsg'+index).value='(等级名称不能为空)';
+    			$("#nameMsg"+index).val("(等级名称不能为空)");
 				document.getElementById('nameMsg'+index).style.display="";
 				$("#nameFlag").val('0');
-				return false;
     		}
+    		$("#nameFlag").val('1');
     	}
     	
     });

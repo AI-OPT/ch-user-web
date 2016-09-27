@@ -65,7 +65,7 @@
 						<!--白色背景-->
 						<div class="main-box-body clearfix">
 						<header class="main-box-header clearfix">
-								<h5 class="pull-left">店铺已审核列表</h5>
+								<h5 class="pull-left">已审核列表</h5>
 								</header>
 					 	<div class="main-box-body clearfix">
 					 	<div class="order-list-table">

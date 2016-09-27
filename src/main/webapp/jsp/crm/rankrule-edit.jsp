@@ -90,7 +90,7 @@
 																</p></li>
 														</c:when>
 														<c:when test="${periodType=='季度'}">
-															<li><p class="word">请选择评级周期:</p>
+															<li><p class="word">请选择评级等级:</p>
 																<p>
 																	<input type="radio" class="radio-2" name="periodType_"
 																		value="M"> <label for="radio-2">月</label>
@@ -191,7 +191,7 @@
 		<tr>
 			<td><p class="f-14" style="font-weight:400;">等级{{:rank}}:{{:minScore}} - {{:maxScore}}分</p></td>
 			<td><p class="f-14">{{:rankName}}</p></td>
-			<td><image id='imgView{{:rank}}' src="" height="80px" width="80px"/></p></td>
+			<td><p><image id='imgView{{:rank}}' src="" height="80px" width="80px"/></p></td>
 		</tr>
 	{{/for}}
 </script>
@@ -200,9 +200,9 @@
 		<tr>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14" style="font-weight:400;">等级{{:rank}}:<input type='hidden' value='{{:rank}}' name='list[{{:rank-1}}].rank'><input class="int-text int-mini" name="list[{{:rank-1}}].minScore" value="{{:minScore}}" id="min{{:rank}}" type="text" readonly="readonly" style='border:none;background:none;width:60px;font-weight:400;'>-<input class="int-text int-mini" name="list[{{:rank-1}}].maxScore" value="{{:maxScore}}" type="text" id="max{{:rank}}" onblur="pager._changeValue('{{:rank}}')" maxlength="15" onkeydown="return doit()" style="width:60px;">分<input type='text' style='display:none;color:red' id='rankMsg{{:rank}}'></p></td>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14"><input class="int-text int-mini" name="list[{{:rank-1}}].rankName" value="{{:rankName}}" id="name{{:rank}}" type="text" onblur="pager._valideName({{:rank}})" maxlength='40'><input type='text' id='nameMsg{{:rank}}' style='display:none;color:red'></p></td>
-			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14">图片名称:<span class="btn-upload"><input class="int-text int-mini" id="picName{{:rank}}" value="" type="text" readonly="readonly" style="border:none;background:none;width:60px;font-weight:400;"><input type="hidden" id=rankLogo{{:rank}} name="rankLogo{{:rank}}"><input type="hidden" id=rankName{{:rank}} name="rankName{{:rank}}">
+			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14">图片名称:<span class="btn-upload"><input class="int-text int-mini" id="picName{{:rank}}" value="" type="text" disabeld="disabled" style="border:none;background:none;width:60px;font-weight:400;"><input type="hidden" id=rankLogo{{:rank}} name="rankLogo{{:rank}}"><input type="hidden" id=rankName{{:rank}} name="rankName{{:rank}}">
 				<input type="button" class="btn-primary btn-default btn-medium" value="浏览文件"/>
-				<input type="file" class="int-file" id='img{{:rank}}' name='img{{:rank}}' onchange="pager._imgName('{{:rank}}')"/></p></span><input type='text' id='picErr{{:rank}}' style='display:none;color:red;font-size:14px'></td>
+				<input type="file" class="int-file" id='img{{:rank}}' name='img{{:rank}}' onchange="pager._imgName('{{:rank}}')"/></span><input type='text' id='picErr{{:rank}}' style='display:none;color:red;font-size:14px'></p></td>
 		</tr>
 	{{/for}}
 </script>
@@ -213,8 +213,8 @@
 			<td class="text-l pl-10" style="white-space:nowrap"><p class='f-14'><input class="int-text int-mini" name="list[{{:index-1}}].rankName" type="text" id="name{{:index}}" onblur="pager._valideName('{{:index}}')" maxlength='40'><input type='text' id='nameMsg{{:index}}' style='display:none;color:red'></p></td>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class='f-14'>图片名称:<span class="btn-upload"><input class="int-text int-mini" id="picName{{:index}}" disabled="disabled" type="text" style="border:none;background:none;width:60px;"><input type="hidden" id=rankLogo{{:index}} name="rankLogo{{:index}}"><input type="hidden" id=rankName{{:index}} name="rankName{{:index}}">
 				<input type="button" class="btn-primary btn-default btn-medium" value="浏览文件"/>
-				<input type="file" class="int-file" id='img{{:index}}' name='img{{:index}}' onchange="pager._imgName('{{:index}}')"/></p></span>
-				<input type='text' style='display:none;color:red;font-size:14px' id='picErr{{:index}}'></td>
+				<input type="file" class="int-file" id='img{{:index}}' name='img{{:index}}' onchange="pager._imgName('{{:index}}')"/></span>
+				<input type='text' style='display:none;color:red;font-size:14px' id='picErr{{:index}}'></p></td>
 		</tr>
 	{{/for}}
 </script>
