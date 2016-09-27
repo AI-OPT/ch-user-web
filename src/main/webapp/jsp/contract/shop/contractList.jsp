@@ -71,7 +71,7 @@
 							<div id="date1">
 								<div class="table-responsive clearfix">
 								<header class="main-box-header clearfix">
-								<h5 class="pull-left">店铺合同列表</h5>
+								<h5 class="pull-left">店铺用户列表</h5>
 								</header>
 									<table class="table table-hover table-border table-bordered">
 										<thead>
