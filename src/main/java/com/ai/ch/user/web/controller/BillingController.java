@@ -476,7 +476,7 @@ public class BillingController {
 					Long deposit=shopInfoSV.queryShopDeposit(queryShopDepositRequest);
 					ShopManageVo shopManageVo = new ShopManageVo(); 
 					shopManageVo.setUserId(object.getString("companyId"));
-					shopManageVo.setBusiType(object.getString("brandNameCh"));
+					shopManageVo.setBrandNameType(object.getString("brandNameType"));
 					shopManageVo.setShopName(object.getString("name"));
 					shopManageVo.setUserName(object.getString("username"));
 					shopManageVo.setDeposit(deposit);

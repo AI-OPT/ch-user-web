@@ -28,9 +28,9 @@ public class ShopManageVo {
 	private String shopName;
 
 	/**
-	 * 经营类型
+	 * 商品品类
 	 */
-	private String busiType;
+	private String brandNameType;
 
 	public String getTenantId() {
 		return tenantId;
@@ -72,12 +72,12 @@ public class ShopManageVo {
 		this.shopName = shopName;
 	}
 
-	public String getBusiType() {
-		return busiType;
+	public String getBrandNameType() {
+		return brandNameType;
 	}
 
-	public void setBusiType(String busiType) {
-		this.busiType = busiType;
+	public void setBrandNameType(String brandNameType) {
+		this.brandNameType = brandNameType;
 	}
 
 }

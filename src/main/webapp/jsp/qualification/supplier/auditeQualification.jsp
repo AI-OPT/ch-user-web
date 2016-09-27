@@ -213,9 +213,11 @@
 									</p>
 								</li>
 								<li class="col-md-3">
-									<p class="img">
-										<img width="80px" height="80px"
-											src="http://img.blog.csdn.net/20160920155755921">
+									<p>
+										<a class="popup" title="点击看缩略图"
+											href="http://img.blog.csdn.net/20160920155755921"><img
+											src="http://img.blog.csdn.net/20160920155755921" width="80px"
+											height="80px"></a>
 									</p>
 								</li>
 							</ul>
@@ -326,7 +328,7 @@
 							</div>
 							<ul>
 								<li class="col-md-3">
-									<p>
+									<p class="word">
 										<b class="red">*</b>供应商品类型:
 									</p>
 									<p>${brandNameType }</p>
@@ -334,13 +336,13 @@
 								</ul>
 								<ul>
 								<li class="col-md-3">
-									<p>
+									<p class="word">
 										<b class="red">*</b>品牌名称(中文):
 									</p>
 									<p>${brandNameCh }</p>
 								</li>
 								<li class="col-md-3">
-									<p>
+									<p class="word">
 										<b class="red">*</b>品牌名称(英文):
 									</p>
 									<p>${brandNameEn }</p>
@@ -348,7 +350,7 @@
 								</ul>
 								<ul>
 								<li class="col-md-3">
-									<p>
+									<p class="word">
 										<b class="red">*</b>商标注册证:
 									</p>
 									<p>
@@ -359,7 +361,7 @@
 									</p>
 								</li>
 								<li class="col-md-3">
-									<p>
+									<p class="word">
 										<b class="red">*</b>行业资质证明:
 									</p>
 									<p>
@@ -372,7 +374,7 @@
 								</ul>
 								<ul>
 								<li class="col-md-3">
-									<p>
+									<p class="word">
 										<b class="red">*</b>商品质检/检验报告:
 									</p>
 									<p>
@@ -383,7 +385,7 @@
 									</p>
 								</li>
 								<li class="col-md-3">
-									<p>
+									<p class="word">
 										<b class="red">*</b>卫生/生产许可证:
 									</p>
 									<p>
@@ -396,7 +398,7 @@
 							</ul>
 							<ul>
 								<li class="col-md-3">
-									<p>
+									<p class="word">
 										<input type="button"
 											class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="通过"
 											onclick="pager._passAudit('${userId}','${_base}/qualification/toNoCheckedSupplierPager');" style="margin-left: 60%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

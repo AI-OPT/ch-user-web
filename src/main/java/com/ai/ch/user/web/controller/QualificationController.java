@@ -504,10 +504,16 @@ public class QualificationController {
 								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 								date = sdf.format(Long.parseLong(object.getString("createTime")));
 							}
+						 String auditTime = "";
+						 if(object.getString("auditTime")!=null&&object.getString("auditTime").length()!=0){
+								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+								auditTime = sdf.format(Long.parseLong(object.getString("auditTime")));
+							}
 						 businessInfo.setUserId(object.getString("companyId"));
 						 businessInfo.setUserName(object.getString("username"));
 						 businessInfo.setCustName(object.getString("name"));
 						 businessInfo.setCreateTime(date);
+						 businessInfo.setAuditTime(auditTime);
 						 responseList.add(businessInfo);
 					}
 					pageInfo.setResult(responseList);

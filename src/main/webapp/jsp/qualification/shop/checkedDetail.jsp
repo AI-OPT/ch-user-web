@@ -222,9 +222,11 @@
 									</p>
 								</li>
 								<li class="col-md-3">
-									<p class="img">
-										<img width="80px" height="80px"
-											src="http://img.blog.csdn.net/20160920155755921">
+									<p>
+										<a class="popup" title="点击看缩略图"
+											href="http://img.blog.csdn.net/20160920155755921"><img
+											src="http://img.blog.csdn.net/20160920155755921" width="80px"
+											height="80px"></a>
 									</p>
 								</li>
 							</ul>
@@ -335,7 +337,7 @@
 							</div>
 							<ul>
 								<li class="col-md-3">
-									<p>
+									<p class="word">
 										<b class="red">*</b>供应商品类型:
 									</p>
 									<p>${brandNameType }</p>
@@ -343,13 +345,13 @@
 								</ul>
 								<ul>
 								<li class="col-md-3">
-									<p>
+									<p class="word">
 										<b class="red">*</b>品牌名称(中文):
 									</p>
 									<p>${brandNameCh }</p>
 								</li>
 								<li class="col-md-3">
-									<p>
+									<p class="word">
 										<b class="red">*</b>品牌名称(英文):
 									</p>
 									<p>${brandNameEn }</p>
@@ -357,7 +359,7 @@
 								</ul>
 								<ul>
 								<li class="col-md-3">
-									<p>
+									<p class="word">
 										<b class="red">*</b>商标注册证:
 									</p>
 									<p>
@@ -368,7 +370,7 @@
 									</p>
 								</li>
 								<li class="col-md-3">
-									<p>
+									<p class="word"> 
 										<b class="red">*</b>行业资质证明:
 									</p>
 									<p>
@@ -381,7 +383,7 @@
 								</ul>
 								<ul>
 								<li class="col-md-3">
-									<p>
+									<p class="word">
 										<b class="red">*</b>商品质检/检验报告:
 									</p>
 									<p>
@@ -392,7 +394,7 @@
 									</p>
 								</li>
 								<li class="col-md-3">
-									<p>
+									<p class="word">
 										<b class="red">*</b>卫生/生产许可证:
 									</p>
 									<p>
@@ -403,33 +405,34 @@
 									</p>
 								</li>
 							</ul>
+							<div class="form-label  bd-bottom">
+								<ul>
+									<li class="col-md-3">店铺及经营信息</li>
+								</ul>
+							</div>
 							<ul>
 								<li class="col-md-3">
-								<p><b class="red">*</b>期望店铺名称</p>
+								<p class="word"><b class="red">*</b>期望店铺名称</p>
 								<p>${wantShopName }</p>
 								</li>
 								<li class="col-md-3">
-								<p><b class="red">*</b>经营商品品类</p>
-								<p>${brandNameEn }</p>
+								<p class="word"><b class="red">*</b>可售商品数量</p>
+								<p >${goodsNum }</p>
 								</li>
-							</ul>
-							<ul>
+								</ul>
+								<ul>
 								<li class="col-md-3">
-								<p><b class="red">*</b>可售商品数量</p>
-								<p>${goodsNum }</p>
-								</li>
-								<li class="col-md-3">
-								<p><b class="red">*</b>经营类型</p>
+								<p class="word"><b class="red">*</b>经营类型</p>
 								<p>${busiType }</p>
 								</li>
-							</ul>
-							<ul>
 								<li class="col-md-3">
-								<p><b class="red">*</b>有无电商经验</p>
+								<p class="word"><b class="red">*</b>有无电商经验</p>
 								<p>${hasExperi }</p>
 								</li>
+								</ul>
+								<ul>
 								<li class="col-md-3">
-								<p><b class="red">*</b>现有电商平台</p>
+								<p class="word"><b class="red">*</b>现有电商平台</p>
 								<p>${ecommOwner }</p>
 								</li>
 							</ul>
@@ -437,7 +440,7 @@
 								<li>
 								<p class="word">店铺介绍</p>
 								<p>${shopDesc }</p>
-									</li>
+								</li>
 							</ul>
 							<div>
 							<input type="button" style="margin-left:25%;"

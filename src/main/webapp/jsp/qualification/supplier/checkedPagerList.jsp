@@ -140,7 +140,7 @@
 	<tr>
 		<td>{{:userName}}</td>
 		<td>{{:custName}}</td>
-		<td>{{:createTime}}</td>
+		<td>{{:auditTime}}</td>
 		<td>
             <a class＝"btn-primary" href="javascript:void(0)" onclick="pager._toViewSupplierPage('{{:userId}}','{{:userName}}');">查看</a>
 		</td>

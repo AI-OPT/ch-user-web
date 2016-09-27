@@ -109,7 +109,7 @@
 		<tr>
 			<td id={{:userId}}>{{:userName}}</td>
 			<td>{{:shopName}}</td>
-			<td id={{:busiType}}>{{:busiType}}</td>
+			<td id={{:brandNameType}}>{{:brandNameType}}</td>
 			<td id={{:deposit}}>{{:deposit}}</td>
 			<td><a class＝"btn-primary" href="javascript:void(0)" onclick="pager._toMarginPage('{{:userId}}','{{:userName}}')">保证金设置</a>
 				<a class＝"btn-primary" href="javascript:void(0)" onclick="pager._toServiceFeeSettingPage('{{:userId}}','{{:userName}}')">服务费设置</a>
