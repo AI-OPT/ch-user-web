@@ -245,34 +245,6 @@ public class BillingController {
 		return new ModelAndView("/jsp/billing/billingCycleList");
 	}
 	
-	@RequestMapping("/getBillingCycleList")
-	 @ResponseBody
-	 public ResponseData<PageInfo<BusinessListInfo>> getBillingCycleList(HttpServletRequest request) {
-		 ResponseData<PageInfo<BusinessListInfo>> responseData = null;
-		 try {
-			 PageInfo<BusinessListInfo> pageInfo = new PageInfo<BusinessListInfo>();
-			 pageInfo.setCount(5);
-			 pageInfo.setPageCount(1);
-			 pageInfo.setPageNo(1);
-			 pageInfo.setPageSize(5);
-			 List<BusinessListInfo> list = new ArrayList<BusinessListInfo>();
-			 for(int i=0;i<5;i++){
-				BusinessListInfo businessInfo = new BusinessListInfo();
-				businessInfo.setUserId(i+"");
-				businessInfo.setUserName("cycleTest_"+i);
-				businessInfo.setCustName("custNameTest_"+i);
-				businessInfo.setUserType(ChWebConstants.CONTRACT_TYPE_SHOP);
-				businessInfo.setBusinessCategory("usiness"+i);
-				list.add(businessInfo);
-			 }
-			 pageInfo.setResult(list);
-			 responseData = new ResponseData<PageInfo<BusinessListInfo>>(ChWebConstants.OperateCode.SUCCESS, "查询成功", pageInfo);
-			} catch (Exception e) {
-				e.printStackTrace();
-				responseData = new ResponseData<PageInfo<BusinessListInfo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
-			}
-      return responseData;
-	 }
 	
 	@RequestMapping("/billingCycleSetting")
 	public ModelAndView billingCycleSetting(HttpServletRequest request,String userId,String userName,String custName) {
@@ -325,7 +297,7 @@ public class BillingController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("/jsp/billing/billingCycleDetail",model);
+		return new ModelAndView("redirect:/billing/billingCyclePager");
 	}
 	
 	@RequestMapping("/billingCycleDetail")
