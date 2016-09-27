@@ -8,7 +8,7 @@
                  <li class="active"><a href="#"><i class="fa fa-home"></i><span>系统控制台</span><!--<span class="label label-info label-circle pull-right">28</span>--></a></li>
                  <li>
                     <a href="#" class="dropdown-toggle">
-                    <i class="fa fa-paste"></i>
+                    <i class="fa fa-list-alt"></i>
                     <span>资质审核</span>
                     <i class="fa fa-chevron-circle-right drop-icon"></i>
                     </a>
@@ -51,7 +51,7 @@
                 
                 <li>
                     <a href="#" class="dropdown-toggle">
-                    <i class="ui-icon fa fa-sitemap"></i>
+                    <i class="fa fa-users"></i>
                     <span>CRM</span><i class="fa fa-chevron-circle-right drop-icon"></i>
                     </a>
                 <!--二级菜单-->    
