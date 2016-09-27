@@ -96,7 +96,7 @@
 									<p class="word">
 										<b class="red">*</b>通讯地址:
 									</p>
-									<p>${companyNature }</p>
+									<p>${location }</p>
 								</li>
 								<li class="col-md-3">
 									<p class="word">

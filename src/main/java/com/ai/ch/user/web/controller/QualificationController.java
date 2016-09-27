@@ -85,7 +85,6 @@ public class QualificationController {
 			e.printStackTrace();
 		}
 		JSONObject data = (JSONObject) JSON.parse(str);
-		//System.out.println(data);
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
 		//转换时间
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -96,6 +95,32 @@ public class QualificationController {
         }else if("2".equals(data2.getString("taxpayerType"))){
         	taxpayerType = "企业";
         }
+        String legalRepresentative="";
+        String phone="";
+        String email = "";
+        String idNumber="";
+        String bankAccount = "";
+        String businessAddress = "";
+        String location = "";
+        //安全处理信息
+        if(data2.getString("legalRepresentative")!=null)
+        	legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"),1);
+        phone = getStarString(data2.getString("phone"),4,7);
+        email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
+        idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length()-10, data2.getString("idNumber").length()-4);
+        bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length()-7, data2.getString("bankAccount").length()-3);
+        if(data2.getString("businessAddress")!=null){
+        	if(data2.getString("businessAddress").length()<4)
+        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-1);
+        	else
+        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-4);		
+        }
+        if(data2.getString("location")!=null){
+        	if(data2.getString("location").length()<4)
+        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-1);
+        	else
+        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
+        }
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
@@ -104,24 +129,24 @@ public class QualificationController {
 		model.addObject("officialWebsite", data2.getString("officialWebsite"));
 		model.addObject("companiesNumber", data2.getString("companiesNumber"));
 		model.addObject("companyNature", data2.getString("companyNature"));
-		model.addObject("location", data2.getString("location"));
+		model.addObject("location", location);
 		model.addObject("annualTurnover", data2.getString("annualTurnover"));
 		model.addObject("areaCover", data2.getString("areaCover"));
-		model.addObject("phone", data2.getString("phone"));
+		model.addObject("phone", phone);
 		model.addObject("fax", data2.getString("fax"));
-		model.addObject("email", data2.getString("email"));
-		model.addObject("businessAddress", data2.getString("businessAddress"));
+		model.addObject("email", email);
+		model.addObject("businessAddress", businessAddress);
 		model.addObject("businessLicenseRegistrationNumber", data2.getString("businessLicenseRegistrationNumber"));
 		model.addObject("establishDate", data2.getString("establishDate"));
 		model.addObject("businessScope", data2.getString("businessScope"));
-		model.addObject("legalRepresentative", data2.getString("legalRepresentative"));
-		model.addObject("idNumber", data2.getString("idNumber"));
+		model.addObject("legalRepresentative", legalRepresentative);
+		model.addObject("idNumber", idNumber);
 		model.addObject("taxpayerNumber", data2.getString("taxpayerNumber"));
 		model.addObject("taxpayerType", taxpayerType);
 		model.addObject("taxCode", data2.getString("taxCode"));
 		model.addObject("organizationCode", data2.getString("organizationCode"));
 		model.addObject("bankName", data2.getString("bankName"));
-		model.addObject("bankAccount", data2.getString("bankAccount"));
+		model.addObject("bankAccount", bankAccount);
 		model.addObject("brandNameType", data2.getString("brandNameType"));
 		model.addObject("brandNameCh", data2.getString("brandNameCh"));
 		model.addObject("brandNameEn", data2.getString("brandNameEn"));
@@ -169,6 +194,33 @@ public class QualificationController {
 	        }else if("2".equals(data2.getString("taxpayerType"))){
 	        	taxpayerType = "企业";
 	        }
+	        
+	        String legalRepresentative="";
+	        String phone="";
+	        String email = "";
+	        String idNumber="";
+	        String bankAccount = "";
+	        String businessAddress = "";
+	        String location = "";
+	        //安全处理信息
+	        if(data2.getString("legalRepresentative")!=null)
+	        	legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"),1);
+	        phone = getStarString(data2.getString("phone"),4,7);
+	        email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
+	        idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length()-10, data2.getString("idNumber").length()-4);
+	        bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length()-7, data2.getString("bankAccount").length()-3);
+	        if(data2.getString("businessAddress")!=null){
+	        	if(data2.getString("businessAddress").length()<4)
+	        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-1);
+	        	else
+	        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-4);		
+	        }
+	        if(data2.getString("location")!=null){
+	        	if(data2.getString("location").length()<4)
+	        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-1);
+	        	else
+	        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
+	        }
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
@@ -177,24 +229,24 @@ public class QualificationController {
 		model.addObject("officialWebsite", data2.getString("officialWebsite"));
 		model.addObject("companiesNumber", data2.getString("companiesNumber"));
 		model.addObject("companyNature", data2.getString("companyNature"));
-		model.addObject("location", data2.getString("location"));
+		model.addObject("location", location);
 		model.addObject("annualTurnover", data2.getString("annualTurnover"));
 		model.addObject("areaCover", data2.getString("areaCover"));
-		model.addObject("phone", data2.getString("phone"));
+		model.addObject("phone", phone);
 		model.addObject("fax", data2.getString("fax"));
-		model.addObject("email", data2.getString("email"));
-		model.addObject("businessAddress", data2.getString("businessAddress"));
+		model.addObject("email", email);
+		model.addObject("businessAddress", businessAddress);
 		model.addObject("businessLicenseRegistrationNumber", data2.getString("businessLicenseRegistrationNumber"));
 		model.addObject("establishDate", data2.getString("establishDate"));
 		model.addObject("businessScope", data2.getString("businessScope"));
-		model.addObject("legalRepresentative", data2.getString("legalRepresentative"));
-		model.addObject("idNumber", data2.getString("idNumber"));
+		model.addObject("legalRepresentative", legalRepresentative);
+		model.addObject("idNumber", idNumber);
 		model.addObject("taxpayerNumber", data2.getString("taxpayerNumber"));
 		model.addObject("taxpayerType", taxpayerType);
 		model.addObject("taxCode", data2.getString("taxCode"));
 		model.addObject("organizationCode", data2.getString("organizationCode"));
 		model.addObject("bankName", data2.getString("bankName"));
-		model.addObject("bankAccount", data2.getString("bankAccount"));
+		model.addObject("bankAccount", bankAccount);
 		model.addObject("brandNameType", data2.getString("brandNameType"));
 		model.addObject("brandNameCh", data2.getString("brandNameCh"));
 		model.addObject("brandNameEn", data2.getString("brandNameEn"));
@@ -252,6 +304,33 @@ public class QualificationController {
         }else if("2".equals(data2.getString("taxpayerType"))){
         	taxpayerType = "企业";
         }
+        
+        String legalRepresentative="";
+        String phone="";
+        String email = "";
+        String idNumber="";
+        String bankAccount = "";
+        String businessAddress = "";
+        String location = "";
+        //安全处理信息
+        if(data2.getString("legalRepresentative")!=null)
+        	legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"),1);
+        phone = getStarString(data2.getString("phone"),4,7);
+        email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
+        idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length()-10, data2.getString("idNumber").length()-4);
+        bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length()-7, data2.getString("bankAccount").length()-3);
+        if(data2.getString("businessAddress")!=null){
+        	if(data2.getString("businessAddress").length()<4)
+        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-1);
+        	else
+        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-4);		
+        }
+        if(data2.getString("location")!=null){
+        	if(data2.getString("location").length()<4)
+        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-1);
+        	else
+        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
+        }
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
@@ -260,24 +339,24 @@ public class QualificationController {
 		model.addObject("officialWebsite", data2.getString("officialWebsite"));
 		model.addObject("companiesNumber", data2.getString("companiesNumber"));
 		model.addObject("companyNature", data2.getString("companyNature"));
-		model.addObject("location", data2.getString("location"));
+		model.addObject("location", location);
 		model.addObject("annualTurnover", data2.getString("annualTurnover"));
 		model.addObject("areaCover", data2.getString("areaCover"));
-		model.addObject("phone", data2.getString("phone"));
+		model.addObject("phone", phone);
 		model.addObject("fax", data2.getString("fax"));
-		model.addObject("email", data2.getString("email"));
-		model.addObject("businessAddress", data2.getString("businessAddress"));
+		model.addObject("email", email);
+		model.addObject("businessAddress", businessAddress);
 		model.addObject("businessLicenseRegistrationNumber", data2.getString("businessLicenseRegistrationNumber"));
 		model.addObject("establishDate", data2.getString("establishDate"));
 		model.addObject("businessScope", data2.getString("businessScope"));
-		model.addObject("legalRepresentative", data2.getString("legalRepresentative"));
-		model.addObject("idNumber", data2.getString("idNumber"));
+		model.addObject("legalRepresentative", legalRepresentative);
+		model.addObject("idNumber", idNumber);
 		model.addObject("taxpayerNumber", data2.getString("taxpayerNumber"));
 		model.addObject("taxpayerType", taxpayerType);
 		model.addObject("taxCode", data2.getString("taxCode"));
 		model.addObject("organizationCode", data2.getString("organizationCode"));
 		model.addObject("bankName", data2.getString("bankName"));
-		model.addObject("bankAccount", data2.getString("bankAccount"));
+		model.addObject("bankAccount", bankAccount);
 		model.addObject("brandNameType", data2.getString("brandNameType"));
 		model.addObject("brandNameCh", data2.getString("brandNameCh"));
 		model.addObject("brandNameEn", data2.getString("brandNameEn"));
@@ -322,6 +401,33 @@ public class QualificationController {
         }else if("2".equals(data2.getString("taxpayerType"))){
         	taxpayerType = "企业";
         }
+        
+        String legalRepresentative="";
+        String phone="";
+        String email = "";
+        String idNumber="";
+        String bankAccount = "";
+        String businessAddress = "";
+        String location = "";
+        //安全处理信息
+        if(data2.getString("legalRepresentative")!=null)
+        	legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"),1);
+        phone = getStarString(data2.getString("phone"),4,7);
+        email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
+        idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length()-10, data2.getString("idNumber").length()-4);
+        bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length()-7, data2.getString("bankAccount").length()-3);
+        if(data2.getString("businessAddress")!=null){
+        	if(data2.getString("businessAddress").length()<4)
+        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-1);
+        	else
+        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-4);		
+        }
+        if(data2.getString("location")!=null){
+        	if(data2.getString("location").length()<4)
+        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-1);
+        	else
+        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
+        }
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
@@ -330,24 +436,24 @@ public class QualificationController {
 		model.addObject("officialWebsite", data2.getString("officialWebsite"));
 		model.addObject("companiesNumber", data2.getString("companiesNumber"));
 		model.addObject("companyNature", data2.getString("companyNature"));
-		model.addObject("location", data2.getString("location"));
+		model.addObject("location", location);
 		model.addObject("annualTurnover", data2.getString("annualTurnover"));
 		model.addObject("areaCover", data2.getString("areaCover"));
-		model.addObject("phone", data2.getString("phone"));
+		model.addObject("phone", phone);
 		model.addObject("fax", data2.getString("fax"));
-		model.addObject("email", data2.getString("email"));
-		model.addObject("businessAddress", data2.getString("businessAddress"));
+		model.addObject("email", email);
+		model.addObject("businessAddress", businessAddress);
 		model.addObject("businessLicenseRegistrationNumber", data2.getString("businessLicenseRegistrationNumber"));
 		model.addObject("establishDate", data2.getString("establishDate"));
 		model.addObject("businessScope", data2.getString("businessScope"));
-		model.addObject("legalRepresentative", data2.getString("legalRepresentative"));
-		model.addObject("idNumber", data2.getString("idNumber"));
+		model.addObject("legalRepresentative", legalRepresentative);
+		model.addObject("idNumber", idNumber);
 		model.addObject("taxpayerNumber", data2.getString("taxpayerNumber"));
 		model.addObject("taxpayerType", taxpayerType);
 		model.addObject("taxCode", data2.getString("taxCode"));
 		model.addObject("organizationCode", data2.getString("organizationCode"));
 		model.addObject("bankName", data2.getString("bankName"));
-		model.addObject("bankAccount", data2.getString("bankAccount"));
+		model.addObject("bankAccount", bankAccount);
 		model.addObject("brandNameType", data2.getString("brandNameType"));
 		model.addObject("brandNameCh", data2.getString("brandNameCh"));
 		model.addObject("brandNameEn", data2.getString("brandNameEn"));
@@ -525,4 +631,61 @@ public class QualificationController {
 			}
 			return response;
 	}
+		
+		/** 
+	     * 对字符串处理:将指定位置到指定位置的字符以星号代替 
+	     *  
+	     * @param content 
+	     *            传入的字符串 
+	     * @param begin 
+	     *            开始位置 
+	     * @param end 
+	     *            结束位置 
+	     * @return 
+	     */  
+	    private static String getStarString(String content, int begin, int end) {  
+	  
+	        if (begin >= content.length() || begin < 0) {  
+	            return content;  
+	        }  
+	        if (end >= content.length() || end < 0) {  
+	            return content;  
+	        }  
+	        if (begin >= end) {  
+	            return content;  
+	        }  
+	        String starStr = "";  
+	        for (int i = begin; i < end; i++) {  
+	            starStr = starStr + "*";  
+	        }  
+	        return content.substring(0, begin) + starStr + content.substring(end, content.length());  
+	  
+	    }  
+	    /** 
+	     * 对字符串处理:将指定位置到指定位置的字符以星号代替 
+	     *  
+	     * @param content 
+	     *            传入的字符串 
+	     * @param begin 
+	     *            开始位置 
+	     * @param end 
+	     *            结束位置 
+	     * @return 
+	     */  
+	    private static String getStarStringNoEnd(String content, int begin) {  
+	  
+	        if (begin >= content.length() || begin < 0) {  
+	            return content;  
+	        }  
+	        if (begin >= content.length()) {  
+	            return content;  
+	        }  
+	        String starStr = "";  
+	        for (int i = begin; i < content.length(); i++) {  
+	            starStr = starStr + "*";  
+	        }  
+	        return content.substring(0, begin) + starStr;  
+	  
+	    }  
+		
 }
