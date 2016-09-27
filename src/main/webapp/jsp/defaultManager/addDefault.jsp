@@ -1,7 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="uedroot"
-	value="${pageContext.request.contextPath}/template/default" />
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<c:set var="uedroot" value="${pageContext.request.contextPath}/template/default" />
 <!DOCTYPE html>
 <html>
 <head>
