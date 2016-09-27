@@ -44,7 +44,7 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     			$("#defaultReasonText").text("请输入违款原因");
     			$("#defaultReasonFlag").val("0");
     		}else{
-    			if(defaultReason.length>=1&&defaultReason.length<=512){
+    			if(defaultReason.length>=1&&defaultReason.length<=256){
     				if(defaultReason.match(/^\s+$/)){
     					$("#defaultReasonErrMsg").show();
     	    			$("#defaultReasonText").show();
@@ -58,7 +58,7 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     			}else{
     				$("#defaultReasonErrMsg").show();
         			$("#defaultReasonText").show();;
-        			$("#defaultReasonText").text("1-512位字符");
+        			$("#defaultReasonText").text("1-256位字符");
         			$("#defaultReasonFlag").val("0");
     			}
     		}
