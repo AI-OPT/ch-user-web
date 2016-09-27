@@ -7,7 +7,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<title>店铺状态管理</title>
+<title>入驻商户状态管理</title>
 <%@include file="/inc/inc.jsp" %>
 </head>
 <body>
@@ -63,7 +63,7 @@
 						<!--白色背景-->
 						<div class="main-box-body clearfix">
 						<header class="main-box-header clearfix">
-								<h5 class="pull-left">店铺状态列表</h5>
+								<h5 class="pull-left">入驻商户状态列表</h5>
 								</header>
                                     <table class="table table-border table-bordered">
                                         <thead>

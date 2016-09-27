@@ -57,9 +57,9 @@
                 <!--二级菜单-->    
                     <ul class="submenu">
                         <li><a href="${_base}/score/scorelist" target="mainFrame">供应商评价</a></li>
-                        <li><a href="${_base}/crm/supplierStatePager" target="mainFrame">供应商状态管理</a></li>
+                        <li><a href="${_base}/crm/supplierStatePager" target="mainFrame">供应商账号管理</a></li>
                         <li><a href="${_base}/rank/rankrule" target="mainFrame">入驻商户评级规则</a></li>
-                        <li><a href="${_base}/crm/shopStatePager" target="mainFrame">店铺状态管理</a></li>
+                        <li><a href="${_base}/crm/shopStatePager" target="mainFrame">入驻商户账号管理</a></li>
                     </ul>
                 <!--二级菜单结束-->
                 </li>

@@ -152,10 +152,11 @@
 											</div>
 											<!--/table表格结束-->
 										</form:form>
-									<div class="text-c">
+									<div class="row">
+									 <p class="center mt-30">
 										<input type="button" id="updateRule"
 											class="biu-btn btn-primary btn-blue btn-medium ml-10"
-											value="保存">
+											value="保存"></p>
 											 <input type="hidden" id="rankFlag"
 											value=""> <input type="hidden" id="nameFlag" value="">
 										<input type="hidden" id="picFlag" value="">
