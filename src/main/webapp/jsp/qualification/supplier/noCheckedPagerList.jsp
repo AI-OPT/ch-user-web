@@ -42,7 +42,7 @@
 									<p>
 										<input type="button"
 											class="biu-btn  btn-primary btn-blue btn-medium ml-10"
-											value="查询" onclick="pager._getList();" />
+											value="查询" onclick="pager._getList('1');" />
 									</p>
 								</li>
 							</ul>

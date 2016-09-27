@@ -206,9 +206,9 @@ public class QualificationController {
 				busiType="商铺";
 			}
 			String hasExperi ="";
-			if("0".equals(response.getHasExperi())){
+			if("0".equals(response.getHasExperi()+"")){
 				hasExperi = "无";
-			}else if("1".equals(response.getHasExperi()))
+			}else if("1".equals(response.getHasExperi()+""))
 				hasExperi = "有";
 				
 			model.addObject("wantShopName", response.getShopName());
@@ -360,9 +360,9 @@ public class QualificationController {
 					busiType="商铺";
 				}
 			String hasExperi ="";
-			if("0".equals(response.getHasExperi())){
+			if("0".equals(response.getHasExperi()+"")){
 				hasExperi = "无";
-			}else if("1".equals(response.getHasExperi()))
+			}else if("1".equals(response.getHasExperi()+""))
 				hasExperi = "有";
 			model.addObject("wantShopName", response.getShopName());
 			model.addObject("goodsNum", response.getGoodsNum());
