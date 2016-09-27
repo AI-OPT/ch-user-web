@@ -115,8 +115,8 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
 	 			messageId:"showMessageDiv_pass",
 	 			renderId:"TBODY_CHECKED_PASS",
 	            data : {
-	            	"username":$("#username").val(),
-					"companyName":$("#companyName").val(),
+	            	"username":$("#username").val().replace(/(^\s*)|(\s*$)/g,""),
+					"companyName":$("#companyName").val().replace(/(^\s*)|(\s*$)/g,""),
 	            	"companyType":companyType,
 	            	"auditState":'2',
 				},

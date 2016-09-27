@@ -64,7 +64,7 @@
 					<div class="main-box clearfix">
 						<!--白色背景-->
 						<header class="main-box-header clearfix">
-								<h5 class="pull-left">供货商已审核列表</h5>
+								<h5 class="pull-left">供应商已审核列表</h5>
 								</header>
 					 	<div class="main-box-body clearfix">
 					 	<div class="order-list-table">

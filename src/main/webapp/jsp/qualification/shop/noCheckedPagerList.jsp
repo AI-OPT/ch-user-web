@@ -7,7 +7,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<title>合同管理</title>
+<title></title>
 <%@include file="/inc/inc.jsp" %>
 <script src="${uedroot}/scripts/modular/frame.js"></script>  
 <link rel="stylesheet" type="text/css" href="${uedroot}/css/modular/modular.css"/>
@@ -65,7 +65,7 @@
 						<!--白色背景-->
 						<div class="main-box-body clearfix">
 						<header class="main-box-header clearfix">
-								<h5 class="pull-left">店铺待审核列表</h5>
+								<h5 class="pull-left">入驻商户待审核列表</h5>
 								</header>
 					     	<div id="date1">
                                 <div class="table-responsive clearfix">

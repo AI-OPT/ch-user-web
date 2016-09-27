@@ -140,9 +140,9 @@
 		                						<table class="table table-hover table-border table-bordered">
 												<thead>
 													<tr>
-														<th>店铺评分等级</th>
-														<th>等级名称</th>
-														<th>等级图片</th>
+														<th class="text-l pl-10"width="30%">店铺评分等级</th>
+														<th class="text-l pl-10"width="30%">等级名称</th>
+														<th class="text-l pl-10"width="30%">等级图片</th>
 													</tr>
 												</thead>
 												<tbody id="TBODY_RANKRULE">
@@ -200,7 +200,7 @@
 		<tr>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14" style="font-weight:400;">等级{{:rank}}:<input type='hidden' value='{{:rank}}' name='list[{{:rank-1}}].rank'><input class="int-text int-mini" name="list[{{:rank-1}}].minScore" value="{{:minScore}}" id="min{{:rank}}" type="text" readonly="readonly" style='border:none;background:none;width:60px;font-weight:400;'>-<input class="int-text int-mini" name="list[{{:rank-1}}].maxScore" value="{{:maxScore}}" type="text" id="max{{:rank}}" onblur="pager._changeValue('{{:rank}}')" maxlength="15" onkeydown="return doit()" style="width:60px;">分<input type='text' style='display:none;color:red' id='rankMsg{{:rank}}'></p></td>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14"><input class="int-text int-mini" name="list[{{:rank-1}}].rankName" value="{{:rankName}}" id="name{{:rank}}" type="text" onblur="pager._valideName({{:rank}})" maxlength='40'><input type='text' id='nameMsg{{:rank}}' style='display:none;color:red'></p></td>
-			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14">图片名称:
+			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14"><b class="red">*</b>图片名称:
 				<span class="btn-upload">
 				<input class="int-text int-mini" id="picName{{:rank}}" value="" type="text" disabeld="disabled" style="border:none;background:none;width:60px;font-weight:400;"><input type="hidden" id=rankLogo{{:rank}} name="rankLogo{{:rank}}"><input type="hidden" id=rankName{{:rank}} name="rankName{{:rank}}">
 				<input type="button" class="btn-primary btn-default btn-medium" value="浏览文件"/>
@@ -215,7 +215,7 @@
 		<tr>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class='f-14' style='font-weight:400;'>等级{{:index}}:<input class="int-text int-mini" name="list[{{:index-1}}].minScore" id="min{{:index}}" type="text" value="0" readonly="readonly" style="border: none;background:none;width:60px;font-weight:400;"><input type='hidden' name=list[{{:index-1}}].rank value='{{:index}}'>-<input class="int-text int-mini" name="list[{{:index-1}}].maxScore" type="text" id="max{{:index}}" onblur="pager._changeValue('{{:index}}')" maxlength="15" onkeydown="return doit()" style="width:60px;font-weight:400;">分<input type='text' style='display:none;color:red' id='rankMsg{{:index}}'></p></td>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class='f-14'><input class="int-text int-mini" name="list[{{:index-1}}].rankName" type="text" id="name{{:index}}" onblur="pager._valideName('{{:index}}')" maxlength='40'><input type='text' id='nameMsg{{:index}}' style='display:none;color:red'></p></td>
-			<td class="text-l pl-10" style="white-space:nowrap"><p class='f-14'>图片名称:<span class="btn-upload"><input class="int-text int-mini" id="picName{{:index}}" disabled="disabled" type="text" style="border:none;background:none;width:60px;"><input type="hidden" id=rankLogo{{:index}} name="rankLogo{{:index}}"><input type="hidden" id=rankName{{:index}} name="rankName{{:index}}">
+			<td class="text-l pl-10" style="white-space:nowrap"><p class='f-14'><b class="red">*</b>图片名称:<span class="btn-upload"><input class="int-text int-mini" id="picName{{:index}}" disabled="disabled" type="text" style="border:none;background:none;width:60px;"><input type="hidden" id=rankLogo{{:index}} name="rankLogo{{:index}}"><input type="hidden" id=rankName{{:index}} name="rankName{{:index}}">
 				<input type="button" class="btn-primary btn-default btn-medium" value="浏览文件"/>
 				<input type="file" class="int-file" id='img{{:index}}' name='img{{:index}}' onchange="pager._imgName('{{:index}}')"/></span>
 				<input type='text' style='display:none;color:red;font-size:14px' id='picErr{{:index}}'></p></td>
