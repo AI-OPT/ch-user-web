@@ -39,12 +39,15 @@ import com.ai.ch.user.web.vo.BusinessListInfo;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.dss.DSSClientFactory;
+import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.opt.sdk.util.DateUtil;
+import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.paas.ipaas.dss.base.interfaces.IDSSClient;
+import com.ai.paas.ipaas.image.IImageClient;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -488,6 +491,7 @@ public class ContractController {
     	 Map<String, Object> map = new HashMap<String, Object>();
          MultipartHttpServletRequest file = (MultipartHttpServletRequest) request;
          MultipartFile multiFile = file.getFile(contractFileId);
+         System.out.println(file.getLocalName());
         String dssns = "ch-user-detail-dss";
         try{
         	IDSSClient client=DSSClientFactory.getDSSClient(dssns);
@@ -500,6 +504,28 @@ public class ContractController {
         }
         return JSON.toJSONString(map);
        }
+    
+ // 上传文件
+    @RequestMapping(value = "/uploadImage", produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String uploadImage(HttpServletRequest request,String contractFileId) {
+    	
+    	 Map<String, Object> map = new HashMap<String, Object>();
+         MultipartHttpServletRequest file = (MultipartHttpServletRequest) request;
+         MultipartFile multiFile = file.getFile(contractFileId);
+        String idpsns = "ch-user-web-idps";
+        try{
+        	IImageClient im = IDPSClientFactory.getImageClient(idpsns);
+        	String idpsId = im.upLoadImage(multiFile.getBytes(), UUIDUtil.genId32() + ".png");
+    		map.put("isTrue", true);
+    		map.put("dssId", idpsId);
+        }catch(Exception e){
+        	 LOGGER.error("上传失败");
+             map.put("isTrue", false);
+        }
+        return JSON.toJSONString(map);
+       }
+    
     
     @RequestMapping("/download/{fileName}")
 	public void downloadFile(HttpServletRequest request, HttpServletResponse response,String fileName, String attrValue) {
