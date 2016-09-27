@@ -53,7 +53,7 @@
 							</ul>
 						</div>
 						<!--查询结束-->
-						<form id="defaultManagerForm" method="post">
+						<form:form id="defaultManagerForm" method="post">
 							<div>
 								<div class="form-label pl-40">
 									<input type="hidden" id="userId" name="userId"
@@ -90,7 +90,7 @@
 									</ul>
 								</div>
 							</div>
-						</form>
+						</form:form>
 					</div>
 				</div>
 			</div>
