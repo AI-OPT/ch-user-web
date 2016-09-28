@@ -429,7 +429,7 @@ public class ContractController {
 	 	        List<CmCustFileExtVo> list = custFileListVo.getList();
 	 	        List<CmCustFileExtVo> fileList = new ArrayList<CmCustFileExtVo>();
 	 	        for(CmCustFileExtVo extVo : list){
-	 	        	if(!"".equals(extVo.getAttrValue())){
+	 	        	if(!"".equals(extVo.getAttrValue())||"".equals(extVo.getInfoName())){
 	 	        		fileList.add(extVo);
 	 	        	}
 	 	        }
@@ -481,7 +481,7 @@ public class ContractController {
 	 	        List<CmCustFileExtVo> list = custFileListVo.getList();
 	 	        List<CmCustFileExtVo> fileList = new ArrayList<CmCustFileExtVo>();
 	 	        for(CmCustFileExtVo extVo : list){
-	 	        	if(!"".equals(extVo.getAttrValue())){
+	 	        	if(!"".equals(extVo.getAttrValue())||"".equals(extVo.getInfoName())){
 	 	        		fileList.add(extVo);
 	 	        	}
 	 	        }
