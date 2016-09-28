@@ -77,9 +77,10 @@ var userId='${userId}';
 var loginNameInfo='${userName}';
 var custNameInfo='${custName}';
 (function () {
-	seajs.use('app/jsp/billing/defaultHistoryList', function (DefaultHistoryPager) {
+	seajs.use(['app/jsp/billing/defaultHistoryList','app/util/center-hind'], function (DefaultHistoryPager,centerHind) {
 		pager = new DefaultHistoryPager({element: document.body});
 		pager.render();
+		new centerHind({element : document.body}).render(); 
 	});
 })();
 </script>
@@ -87,7 +88,13 @@ var custNameInfo='${custName}';
 {{for result ~pageSize=pageSize ~pageNo=pageNo}}
 	<tr>
 		<td>{{:~timesToFmatter(deductDate)}}</td>
-		<td>{{:defaultReason}}</td>
+		<td>
+			<div class="hind1 text-l pl-15">
+                <div class="center-hind" >{{:defaultReason}}</div>
+                <div class="showbj"><i class="fa fa-posi fa-caret-up"></i>{{:defaultReason}}</div>
+            </div>
+			</td>
+
 		<td>{{:deductBalance}}</td>
 		<td>{{:operName}}</td>
 	</tr>
