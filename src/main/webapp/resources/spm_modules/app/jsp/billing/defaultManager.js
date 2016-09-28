@@ -71,7 +71,7 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     			$("#amountText").text("请输入扣款金额");
     			$("#amountFlag").val("0");
     		}else{
-    			var reg = /^(\d{1,15}|\d{1,12}\.\d{1,2})$/;
+    			var reg = /^(\d{1,12}|\d{1,10}\.\d{1,2})$/;
 				if(amount.match(reg)){
 					if(amount<=balance){
 						$("#amountErrMsg").hide();
@@ -86,8 +86,8 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     			}else{
     				$("#amountErrMsg").show();
         			$("#amountText").show();
-    				if(amount.length>15){
-    					$("#amountText").text("不能超过15个字符");
+    				if(amount.length>12){
+    					$("#amountText").text("不能超过12个字符");
     				}else{
     					$("#amountText").text("请输入数字，最多有两位小数");
     				}
