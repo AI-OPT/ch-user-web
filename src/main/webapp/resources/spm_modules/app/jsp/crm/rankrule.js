@@ -82,11 +82,13 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
     				this._changeValue(i);
     			this._valideName(i);
     			var pic = $("#rankName"+i).val();
+    			$("#picFlag").val('1');
     			if(pic==""||pic==null){
     				$("#picErr"+i).val("(图片格式不能为空)");
 		   			$("#picErr"+i).show();
 		   			$("#rankLogo"+i).val("");
 		   			$("#picFlag").val("0");
+		   			return false;
     			}
     		}
     		var rankFlag = $("#rankFlag").val();
@@ -112,17 +114,19 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
     		 }
     	},
     	
-       	_changeValue:function(index){
+    	_changeValue:function(index){
     		document.getElementById('rankMsg'+index).style.display="none";
     		var maxIndex = $("#max"+index).val();
     		var minIndex = $("#min"+index).val();
     		//debugger;
     		if(index=='1'&&$("#max2").val()!=""){
-    			if($("#max1").val()>=$("#max2").val()){
-    				$("#rankMsg2").val('(等级区间错误)');
-        			document.getElementById('rankMsg2').style.display="";
+    			document.getElementById('rankMsg1').style.display="none";
+    			if(parseInt($("#max1").val())>=parseInt($("#max2").val())){
+    				$("#rankMsg1").val('(等级区间错误)');
+    				$("#max1").val('');
+        			document.getElementById('rankMsg1').style.display="";
         			$("#rankFlag").val('0');
-        			return;
+        			return false;
     			}
     		}
     		if(maxIndex==""||maxIndex==null)
@@ -130,15 +134,30 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
     			$("#rankMsg"+index).val('(等级区间不能为空)');
     			document.getElementById('rankMsg'+index).style.display="";
     			$("#rankFlag").val('0');
-    			}
-    		if(maxIndex<=minIndex){
+    			return false;
+    		}
+    		if(parseInt(maxIndex)<=parseInt(minIndex)){
     			$("#rankMsg"+index).val('(等级区间错误)');
     			document.getElementById('rankMsg'+index).style.display="";
     			$("#max"+index).val("");
     			$("#rankFlag").val('0');
     		}else{
     			$("#min"+(parseInt(index)+1)).val(maxIndex);
-    		$("#rankFlag").val('1');
+    			$("#rankFlag").val('1');
+    		}
+    	},
+    	
+    	_valideValue:function(index){
+    		var maxIndex = $("#max"+index).val();
+    		//debugger;
+    		if($("#rankFlag").val()=='1'){
+    		if(maxIndex==""||maxIndex==null)
+    		{
+    			$("#rankMsg"+index).val('(等级区间不能为空)');
+    			document.getElementById('rankMsg'+index).style.display="";
+    			$("#rankFlag").val('0');
+    			return false;
+    		}
     		}
     	},
     	
@@ -149,6 +168,7 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
     			$("#nameMsg"+index).val("(等级名称不能为空)");
 				document.getElementById('nameMsg'+index).style.display="";
 				$("#nameFlag").val('0');
+				return false;
     		}
     		$("#nameFlag").val('1');
     	}
