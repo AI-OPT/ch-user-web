@@ -42,6 +42,7 @@ import com.ai.opt.sdk.components.dss.DSSClientFactory;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
+import com.ai.opt.sdk.util.CollectionUtil;
 import com.ai.opt.sdk.util.DateUtil;
 import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
@@ -423,10 +424,19 @@ public class ContractController {
 	        	
 	 	        contract.insertContractInfo(contractInfo);
 	 	        
-	 	        //保存附件信息
+	 	       //保存附件信息
 	 	        UpdateCustFileExtRequest updateCustFileExtRequest = new UpdateCustFileExtRequest();
-	 	        updateCustFileExtRequest.setList(custFileListVo.getList());
-	            custFileSV.updateCustFileExtBycondition(updateCustFileExtRequest);
+	 	        List<CmCustFileExtVo> list = custFileListVo.getList();
+	 	        List<CmCustFileExtVo> fileList = new ArrayList<CmCustFileExtVo>();
+	 	        for(CmCustFileExtVo extVo : list){
+	 	        	if(!"".equals(extVo.getAttrValue())){
+	 	        		fileList.add(extVo);
+	 	        	}
+	 	        }
+	 	       if(!CollectionUtil.isEmpty(fileList)&&fileList.size()>0){
+	 	    	  updateCustFileExtRequest.setList(fileList);
+		          custFileSV.updateCustFileExtBycondition(updateCustFileExtRequest);
+	 	       }
 	 	        
 	 	        
 	        	responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
@@ -468,9 +478,18 @@ public class ContractController {
 	 	        
 	 	        //保存附件信息
 	 	        UpdateCustFileExtRequest updateCustFileExtRequest = new UpdateCustFileExtRequest();
-	 	        updateCustFileExtRequest.setList(custFileListVo.getList());
-	            custFileSV.updateCustFileExtBycondition(updateCustFileExtRequest);
-	 	        
+	 	        List<CmCustFileExtVo> list = custFileListVo.getList();
+	 	        List<CmCustFileExtVo> fileList = new ArrayList<CmCustFileExtVo>();
+	 	        for(CmCustFileExtVo extVo : list){
+	 	        	if(!"".equals(extVo.getAttrValue())){
+	 	        		fileList.add(extVo);
+	 	        	}
+	 	        }
+	 	       if(!CollectionUtil.isEmpty(fileList)&&fileList.size()>0){
+	 	    	  updateCustFileExtRequest.setList(fileList);
+		          custFileSV.updateCustFileExtBycondition(updateCustFileExtRequest);
+	 	       }
+	 	      
 	        	responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
                 responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
 	        }catch(Exception e){
@@ -510,7 +529,7 @@ public class ContractController {
     @ResponseBody
     public String uploadImage(HttpServletRequest request,String contractFileId) {
     	
-    	 Map<String, Object> map = new HashMap<String, Object>();
+    	Map<String, Object> map = new HashMap<String, Object>();
          MultipartHttpServletRequest file = (MultipartHttpServletRequest) request;
          MultipartFile multiFile = file.getFile(contractFileId);
         String idpsns = "ch-user-web-idps";
@@ -540,6 +559,33 @@ public class ContractController {
 			 IDSSClient client=DSSClientFactory.getDSSClient(dssns);
 	    	 byte[] b=client.read(attrValue);
 	         os.write(b); 
+	         os.flush(); 
+			 os.close();
+		} catch (Exception e) {
+			LOGGER.error("下载文件失败",e);
+			if(os!=null){
+				try {
+					os.close();
+				} catch (IOException e1) {
+					LOGGER.error("操作异常",e1);
+				}
+			}
+		}
+	}
+    
+    @RequestMapping("/downloadImage/{fileName}")
+	public void downloadImage(HttpServletRequest request, HttpServletResponse response,String fileName, String attrValue) {
+		OutputStream os = null;
+		try {
+			os = response.getOutputStream();// 取得输出流
+			String exportFileName = fileName;
+			response.reset();// 清空输出流
+			response.setContentType("application/pdf");// 定义输出类型
+			response.setHeader("Content-disposition", "attachment; filename=" + exportFileName);// 设定输出文件头
+			 String idpsns = "ch-user-web-idps";
+			 IImageClient client=IDPSClientFactory.getImageClient(idpsns);
+	    	 //byte[] b=client.getImage(imageId, imageType, imageScale)
+	         //os.write(b); 
 	         os.flush(); 
 			 os.close();
 		} catch (Exception e) {
