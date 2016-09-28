@@ -74,13 +74,13 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		//第一行
     		var htmlOutput ="<tr><td class='text-l pl-10' style='white-space:nowrap'><p class='f-14' style='font-weight:400;'>等级1:<input type='text' value='0' class='int-text int-mini' id='min1' style='border: none;background:none;width:60px;font-weight:400;' name='list[0].minScore' readonly='readonly'>-<input type='hidden' value='1' name='list[0].rank'><input class='int-text int-mini' name='list[0].maxScore' id='max1' value='"+result[0].maxScore+"' type='text' onblur='"+"pager._changeValue(1)' maxlength='15' onkeydown='return doit()' style='width:60px'>分<input type='text' id='rankMsg1' style='display:none;color:red'></p></td>";
             htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><input class='int-text int-mini' name='list[0].rankName' type='text' value='"+result[0].rankName+"' id='name1' onblur='"+"pager._valideName(1)' maxlength='40'><input type='text' style='display:none;color:red' id='nameMsg1'></p></td>";
-            htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><b class='red'>*</b>图片名称:<span class='btn-upload'><input class='int-text int-mini' disabled='disabled' type='text' value='"+nameMap[1]+"' id='picName1' style='border:none;background:none;width:60px;font-weight:400;'><input type='hidden' name='list[0].rankLogo' id='rankLogo1'><input type='hidden' name='rankName1' id='rankName1'>";
+            htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><b class='red'>*</b>图片名称:<span class='btn-upload'><input class='int-text int-mini' disabled='disabled' type='text' value='"+nameMap[1]+"' id='picName1' style='border:none;background:none;width:60px;font-weight:400;'><input type='hidden' name='list[0].rankLogo' id='rankLogo1' value='idpsMap[1]'><input type='hidden' name='rankName1' id='rankName1' value='nameMap[1]'>";
             htmlOutput+="&nbsp;&nbsp;<input type='button' class='btn-primary btn-default btn-medium' value='浏览文件'/>";
             htmlOutput+="<input type='file' class='int-file' id='img1' name='img1' onchange=\""+"pager._imgName('1')\"/></span><input type='text' id='picErr1' style='display:none;color:red;font-size:14px'></p></td></tr>";
             //最后一行
             var htmlOutputEnd ="<tr><td class='text-l pl-10' style='white-space:nowrap'><p class='f-14' style='font-weight:400;'>等级"+count+":<input class='int-text int-mini' name='list["+count_+"].minScore' id='min"+count+"' type='text' value='"+result[count_].minScore+"' readonly='readonly' style='border: none;background:none;width:60px;font-weight:400;' maxlength='15' onkeydown='return doit()' style='width:60px'>分以上</p><input type='hidden' value='999999999999999' name='maxScore'><input type='hidden' value='"+count+"' id='max"+count+"' name='list["+count_+"].rank' onblur='"+"changeValue("+count+")'></td>";
     		htmlOutputEnd+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><input class='int-text int-mini' name='list["+count_+"].rankName' type='text' value='"+result[count_].rankName+"' id='name"+count+"' onblur=\""+"pager._valideName('"+count+"')\" maxlength='40'><input type='text' id='nameMsg"+count+"' style='display:none;color:red'></p></td>";
-    		htmlOutputEnd+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><b class='red'>*</b>图片名称:<span class='btn-upload'><input class='int-text int-mini' disabled='disabled' type='text' value='"+nameMap[count]+"' id='picName"+count+"' style='border:none;background:none;width:60px;font-weight:400;'><input type='hidden' name='list["+count_+"].rankLogo' id='rankLogo"+count+"'><input type='hidden' name='rankName"+count+"' id='rankName"+count+"'>";
+    		htmlOutputEnd+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><b class='red'>*</b>图片名称:<span class='btn-upload'><input class='int-text int-mini' disabled='disabled' type='text' value='"+nameMap[count]+"' id='picName"+count+"' style='border:none;background:none;width:60px;font-weight:400;'><input type='hidden' name='list["+count_+"].rankLogo' id='rankLogo"+count+"' value='idpsMap["+count+"]'><input type='hidden' name='rankName"+count+"' id='rankName"+count+"' value='nameMap["+count+"]'>";
     		htmlOutputEnd+="&nbsp;&nbsp;<input type='button' class='btn-primary btn-default btn-medium' value='浏览文件'/>";
     		htmlOutputEnd+="<input type='file' class='int-file' id='img"+count+"' name='img"+count+"' onchange=\""+"pager._imgName("+count+")\"/></span><input type='text' id='picErr"+count+"' style='display:none;color:red;font-size:14px'></p></td></tr>";
             delete result[0];
@@ -144,7 +144,8 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     			if(i<count)
     				this._changeValue(i);
     			this._valideName(i);
-    			var pic = $("#picName"+i).val();
+    			var pic = $("#rankName"+i).val();
+    			$("#picFlag").val('1');
     			if(pic==""||pic==null){
     				$("#picErr"+i).val("(图片格式不能为空)");
 		   			$("#picErr"+i).show();
@@ -155,8 +156,9 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		var rankFlag = $("#rankFlag").val();
     		var picFlag = $("#picFlag").val();
     		var nameFlag = $("#nameFlag").val();
+    		//debugger;
     		if(rankFlag!='0'&&nameFlag!='0'&&picFlag!='0')
-    		$("#rankForm").submit();
+    		$("#rankRule").submit();
     	},
     	
     	//获取上传图片名
@@ -180,11 +182,20 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		var maxIndex = $("#max"+index).val();
     		var minIndex = $("#min"+index).val();
     		//debugger;
+    		if(index=='1'&&$("#max2").val()!=""){
+    			if($("#max1").val()>=$("#max2").val()){
+    				$("#rankMsg2").val('(等级区间错误)');
+        			document.getElementById('rankMsg2').style.display="";
+        			$("#rankFlag").val('0');
+        			return;
+    			}
+    		}
     		if(maxIndex==""||maxIndex==null)
     		{
     			$("#rankMsg"+index).val('(等级区间不能为空)');
     			document.getElementById('rankMsg'+index).style.display="";
     			$("#rankFlag").val('0');
+    			return;
     			}
     		if(maxIndex<=minIndex){
     			$("#rankMsg"+index).val('(等级区间错误)');

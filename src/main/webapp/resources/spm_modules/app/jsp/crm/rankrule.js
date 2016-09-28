@@ -117,6 +117,14 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
     		var maxIndex = $("#max"+index).val();
     		var minIndex = $("#min"+index).val();
     		//debugger;
+    		if(index=='1'&&$("#max2").val()!=""){
+    			if($("#max1").val()>=$("#max2").val()){
+    				$("#rankMsg2").val('(等级区间错误)');
+        			document.getElementById('rankMsg2').style.display="";
+        			$("#rankFlag").val('0');
+        			return;
+    			}
+    		}
     		if(maxIndex==""||maxIndex==null)
     		{
     			$("#rankMsg"+index).val('(等级区间不能为空)');
