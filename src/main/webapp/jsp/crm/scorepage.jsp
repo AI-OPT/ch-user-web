@@ -73,6 +73,7 @@ label.error {
 											</c:forEach>
 											<input type="hidden" value="${userId }" name="userId"/>
 										</form>
+										<div class="row">
 										<ul>
 											<li style="margin-left: 70px"><input type="button"
 												id="submitScore" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
@@ -81,6 +82,7 @@ label.error {
 												onclick="backup();" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
 												value="返回"></li>
 										</ul>
+										</div>
 									</div>
 									</div>
 								</div>

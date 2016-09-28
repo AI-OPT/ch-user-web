@@ -144,7 +144,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     			if(i<count)
     				this._changeValue(i);
     			this._valideName(i);
-    			var pic = $("#rankName"+i).val();
+    			var pic = $("#picName"+i).val();
     			if(pic==""||pic==null){
     				$("#picErr"+i).val("(图片格式不能为空)");
 		   			$("#picErr"+i).show();

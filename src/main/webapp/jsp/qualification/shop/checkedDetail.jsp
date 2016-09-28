@@ -442,9 +442,13 @@
 								<p>${shopDesc }</p>
 								</li>
 							</ul>
-							<div>
+							<div class="row">
+							<ul>
+							<li style="margin-left: 25%">
 							<input type="button" style="margin-left:25%;"
 							onclick="backup();" class="biu-btn  btn-primary btn-blue btn-medium ml-5" value="返回">
+							</li>
+							</ul>
 							</div>
 							</div>
 					</div>

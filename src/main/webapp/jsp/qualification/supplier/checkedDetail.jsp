@@ -396,9 +396,11 @@
 									</p>
 								</li>
 							</ul>
-							<div><input type="button" style="margin-left:25%;"
+							<div class="row">
+							<ul>
+							<li style="margin-left: 20%"><input type="button" style="margin-left:25%;"
 												onclick="backup();" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
-												value="返回"></div>
+												value="返回"></li></ul></div>
                              </div>
                         </div>
                     </div>
