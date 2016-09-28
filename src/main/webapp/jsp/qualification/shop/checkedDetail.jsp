@@ -431,7 +431,7 @@
 								</li>
 								</ul>
 								<ul>
-								<li class="col-md-3">
+								<li class="col-md-6">
 								<p class="word"><b class="red">*</b>现有电商平台</p>
 								<p>${ecommOwner }</p>
 								</li>

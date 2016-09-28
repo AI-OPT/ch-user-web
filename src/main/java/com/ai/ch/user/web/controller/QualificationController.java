@@ -91,10 +91,11 @@ public class QualificationController {
         String date = sdf.format(Long.parseLong(data2.getString("createTime")));
         String taxpayerType = "";
         if("1".equals(data2.getString("taxpayerType"))){
-        	taxpayerType = "个人";
+        	taxpayerType = "一般纳税人";
         }else if("2".equals(data2.getString("taxpayerType"))){
-        	taxpayerType = "企业";
-        }
+        	taxpayerType = "小规模纳税人";
+        }else if("3".equals(data2.getString("taxpayerType")))
+        	taxpayerType = "非增值税纳税人";
         String legalRepresentative="";
         String phone="";
         String email = "";
@@ -189,11 +190,12 @@ public class QualificationController {
 		date = sdf.format(Long.parseLong(data2.getString("createTime")));
 		}
 		 String taxpayerType = "";
-	        if("1".equals(data2.getString("taxpayerType"))){
-	        	taxpayerType = "个人";
+		 if("1".equals(data2.getString("taxpayerType"))){
+	        	taxpayerType = "一般纳税人";
 	        }else if("2".equals(data2.getString("taxpayerType"))){
-	        	taxpayerType = "企业";
-	        }
+	        	taxpayerType = "小规模纳税人";
+	        }else if("3".equals(data2.getString("taxpayerType")))
+	        	taxpayerType = "非增值税纳税人";
 	        
 	        String legalRepresentative="";
 	        String phone="";
@@ -252,10 +254,10 @@ public class QualificationController {
 		model.addObject("brandNameEn", data2.getString("brandNameEn"));
 		if(response!=null){
 			String busiType="";
-			if("0".equals(response.getBusiType())){
-				busiType="企业";
-			}else if("1".equals(response.getBusiType())){
-				busiType="商铺";
+			if("1".equals(response.getBusiType())){
+				busiType="生产厂商";
+			}else if("2".equals(response.getBusiType())){
+				busiType="品牌代理商";
 			}
 			String hasExperi ="";
 			if("0".equals(response.getHasExperi()+"")){
@@ -300,10 +302,11 @@ public class QualificationController {
         String date = sdf.format(Long.parseLong(data2.getString("createTime")));
         String taxpayerType = "";
         if("1".equals(data2.getString("taxpayerType"))){
-        	taxpayerType = "个人";
+        	taxpayerType = "一般纳税人";
         }else if("2".equals(data2.getString("taxpayerType"))){
-        	taxpayerType = "企业";
-        }
+        	taxpayerType = "小规模纳税人";
+        }else if("3".equals(data2.getString("taxpayerType")))
+        	taxpayerType = "非增值税纳税人";
         
         String legalRepresentative="";
         String phone="";
@@ -397,10 +400,11 @@ public class QualificationController {
         String date = sdf.format(Long.parseLong(data2.getString("createTime")));
         String taxpayerType = "";
         if("1".equals(data2.getString("taxpayerType"))){
-        	taxpayerType = "个人";
+        	taxpayerType = "一般纳税人";
         }else if("2".equals(data2.getString("taxpayerType"))){
-        	taxpayerType = "企业";
-        }
+        	taxpayerType = "小规模纳税人";
+        }else if("3".equals(data2.getString("taxpayerType")))
+        	taxpayerType = "非增值税纳税人";
         
         String legalRepresentative="";
         String phone="";
@@ -460,11 +464,11 @@ public class QualificationController {
 		model.addObject("registerCapital", data2.getString("registerCapital"));
 		if(response!=null){
 			String busiType="";
-				if("0".equals(response.getBusiType())){
-					busiType="企业";
-				}else if("1".equals(response.getBusiType())){
-					busiType="商铺";
-				}
+			if("1".equals(response.getBusiType())){
+				busiType="生产厂商";
+			}else if("2".equals(response.getBusiType())){
+				busiType="品牌代理商";
+			}
 			String hasExperi ="";
 			if("0".equals(response.getHasExperi()+"")){
 				hasExperi = "无";
