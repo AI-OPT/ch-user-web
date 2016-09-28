@@ -236,7 +236,7 @@ public class ContractController {
 	 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
 	 		custFileExtRequest.setTenantId(user.getTenantId());
 	 		custFileExtRequest.setUsreId(userId);
-	 		custFileExtRequest.setInfoType(ChWebConstants.INFOTYPE_SUPPLIER);
+	 		custFileExtRequest.setInfoType(ChWebConstants.INFOTYPE_SHOP);
 	 		ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
 	 		QueryCustFileExtResponse custFileExtResponse = custFileSV.queryCustFileExt(custFileExtRequest);
 	 		List<CmCustFileExtVo> list = custFileExtResponse.getList();
@@ -250,7 +250,7 @@ public class ContractController {
 	 			String attrValue = extVp.getAttrValue();
 	 			String infoItem = extVp.getInfoItem();
 	 			
-	 			if(ChWebConstants.SCAN_CONTRACT_SUPPLIER.equals(extVp.getInfoItem())){
+	 			if(ChWebConstants.SCAN_CONTRACT_SHOP.equals(extVp.getInfoItem())){
 		 			model.put("scanContractInfoName",infoName);
 		 			model.put("scanContractAttrValue",attrValue);
 		 			model.put("scanContractInfoItem",infoItem);
