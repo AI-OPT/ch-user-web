@@ -109,6 +109,7 @@ public class RankController {
 				shopRankRuleVo.setTenantId(ChWebConstants.Tenant.TENANT_ID);
 				shopRankRuleVo.setPeriodType(request.getParameter("periodType_"));
 				shopRankRuleVo.setOperId(Long.valueOf(user.getUserId()));
+				shopRankRuleVo.setRankName(shopRankRuleVo.getRankName().trim());
 			}
 			rankRuleRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
 			// 调dubbo服务
@@ -156,6 +157,7 @@ public class RankController {
 				shopRankRuleVo.setTenantId(ChWebConstants.Tenant.TENANT_ID);
 				shopRankRuleVo.setPeriodType(request.getParameter("periodType_"));
 				shopRankRuleVo.setOperId(Long.valueOf(user.getUserId()));
+				shopRankRuleVo.setRankName(shopRankRuleVo.getRankName().trim());
 			}
 			// 调dubbo服务
 			rankRuleRequest.setTenantId(user.getTenantId());

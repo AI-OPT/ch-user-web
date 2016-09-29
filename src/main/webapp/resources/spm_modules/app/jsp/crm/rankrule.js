@@ -163,7 +163,7 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
     	
     	_valideName:function(index){
     		document.getElementById('nameMsg'+index).style.display='none';
-    		var name = $("#name"+index).val();
+    		var name = $("#name"+index).val().replace(/(^\s*)|(\s*$)/g,"");
     		if(name==null||name==""){
     			$("#nameMsg"+index).val("(等级名称不能为空)");
 				document.getElementById('nameMsg'+index).style.display="";
