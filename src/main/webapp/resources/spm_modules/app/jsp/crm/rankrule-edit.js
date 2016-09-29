@@ -58,8 +58,10 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		htmlOutputEnd+="<td><p><image src='"+urlMap[count]+"' height='80px' width='80px'/></p></td></tr>";
     		delete resultView[0];
     		delete resultView[count_];
-    		if(count>2)
-            htmlOutput += template.render(resultView);
+    		if(count>2){
+    			var middleOutput=template.render(middle)
+    			htmlOutput += middleOutput;
+    		}
     		htmlOutput+=htmlOutputEnd;
             $("#TBODY_VIEW").html(htmlOutput);
             for(var t=2;t<count;t++)
@@ -85,8 +87,10 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		htmlOutputEnd+="<input type='file' class='int-file' id='img"+count+"' name='img"+count+"' onchange=\""+"pager._imgName("+count+")\"/></span><input type='text' id='picErr"+count+"' style='display:none;color:red;font-size:14px'></p></td></tr>";
             delete result[0];
             delete result[count_];
-    		if(count>2)
-				htmlOutput += template.render(result);
+    		if(count>2){
+    			var middleOutput = template.render(middle);
+    			htmlOutput += middleOutput;
+    		}
 	    		htmlOutput+=htmlOutputEnd;
 	            $("#TBODY_RANKRULE").html(htmlOutput);
 	    		$("#rankRegion").val(count);

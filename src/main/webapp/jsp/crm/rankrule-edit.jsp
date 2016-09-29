@@ -176,6 +176,7 @@
 		var idpsMap = ${idpsMap};
 		var nameMap = ${nameMap};
 		var rank = ${rank};
+		var middle = ${middle};
 		var periodType = '${periodType}';
 		(function() {
 			seajs.use('app/jsp/crm/rankrule-edit', function(RankRuleEditPager) {
@@ -188,7 +189,7 @@
 	</script>
 
 	<script id="rankRuleViewImpl" type="text/x-jsrender">
-	{{for}}
+	{{for data}}
 		<tr>
 			<td><p class="f-14" style="font-weight:400;">等级{{:rank}}:{{:minScore}} - {{:maxScore}}分</p></td>
 			<td><p class="f-14">{{:rankName}}</p></td>
@@ -197,7 +198,7 @@
 	{{/for}}
 </script>
 	<script id="rankRuleInitImpl" type="text/x-jsrender">
-	{{for}}
+	{{for data}}
 		<tr>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14" style="font-weight:400;">等级{{:rank}}:<input type='hidden' value='{{:rank}}' name='list[{{:rank-1}}].rank'><input class="int-text int-mini" name="list[{{:rank-1}}].minScore" value="{{:minScore}}" id="min{{:rank}}" type="text" readonly="readonly" style='border:none;background:none;font-weight:400;'>-<input class="int-text int-mini" name="list[{{:rank-1}}].maxScore" value="{{:maxScore}}" type="text" id="max{{:rank}}" onblur="pager._changeValue('{{:rank}}')" maxlength="12" onkeydown="return doit()" style="">分<input type='text' style='display:none;color:red' id='rankMsg{{:rank}}'></p></td>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14"><input class="int-text int-mini" name="list[{{:rank-1}}].rankName" value="{{:rankName}}" id="name{{:rank}}" type="text" onblur="pager._valideName({{:rank}})" maxlength='12'><input type='text' id='nameMsg{{:rank}}' style='display:none;color:red'></p></td>
