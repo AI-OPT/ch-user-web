@@ -75,7 +75,7 @@ public class RankController {
 			String middle="";
 			if(response.getList().size()>2){
 				for (int index = 1; index <= response.getList().size()-2; index++) {
-					System.out.println(JSON.toJSONString(response.getList().get(index)));
+					//System.out.println(JSON.toJSONString(response.getList().get(index)));
 					middle+="[{\"data\":"+JSON.toJSONString(response.getList().get(index))+",";
 				}
 			}
