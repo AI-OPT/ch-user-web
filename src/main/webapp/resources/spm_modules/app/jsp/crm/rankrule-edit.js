@@ -145,12 +145,14 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		if(count==null||count=="")
     			count=5;
     		//debugger;
+    		$("#picFlag").val('1');
+			$("#rankFlag").val('1');
+			$("#nameFlag").val('1');
     		for(var i=1;i<=count;i++){
     			if(i<count)
     				this._valideValue(i);
     			this._valideName(i);
     			var pic = $("#rankName"+i).val();
-    			$("#picFlag").val('1');
     			if(pic==""||pic==null){
     				$("#picErr"+i).val("(图片格式不能为空)");
 		   			$("#picErr"+i).show();
@@ -221,7 +223,6 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     			$("#rankFlag").val('0');
     		}else{
     			$("#min"+(parseInt(index)+1)).val(maxIndex);
-    			$("#rankFlag").val('1');
     		}
     	},
     	
@@ -249,7 +250,6 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
 				$("#nameFlag").val('0');
 				return false;
     		}
-    		$("#nameFlag").val('1');
     	}
     	
     });

@@ -72,14 +72,14 @@ public class RankController {
 			model.addObject("rank", response.getList().get(response.getList().size()-1).getRank());
 			model.addObject("result", JSON.toJSONString(response.getList()));
 			//截取中间数据
-			String middle="";
+			String middle="[";
 			if(response.getList().size()>2){
 				for (int index = 1; index <= response.getList().size()-2; index++) {
 					//System.out.println(JSON.toJSONString(response.getList().get(index)));
-					middle+="[{\"data\":"+JSON.toJSONString(response.getList().get(index))+",";
+					middle+="{\"data\":"+JSON.toJSONString(response.getList().get(index))+"},";
 				}
 			}
-			model.addObject("middle", middle.substring(0, middle.length()-1)+"}]");
+			model.addObject("middle", middle.substring(0, middle.length()-2)+"}]");
 			return model;
 		}
 
