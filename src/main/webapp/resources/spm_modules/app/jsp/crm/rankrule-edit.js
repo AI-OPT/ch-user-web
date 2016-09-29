@@ -184,14 +184,6 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		document.getElementById('rankMsg'+index).style.display="none";
     		var maxIndex = $("#max"+index).val();
     		var minIndex = $("#min"+index).val();
-    		var reg = /^[1-9]+[0-9]*]*$/;
-    		if(!reg.test($("#max"+index).val())){
-    			$("#rankMsg1").val('(请输入正整数)');
-				$("#max"+index).val('');
-    			document.getElementById('rankMsg1').style.display="";
-    			$("#rankFlag").val('0');
-    			return false;
-    		}
     		//debugger;
     		if(index=='1'&&$("#max2").val()!=""){
     			document.getElementById('rankMsg1').style.display="none";
@@ -206,6 +198,14 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		if(maxIndex==""||maxIndex==null)
     		{
     			$("#rankMsg"+index).val('(等级区间不能为空)');
+    			document.getElementById('rankMsg'+index).style.display="";
+    			$("#rankFlag").val('0');
+    			return false;
+    		}
+    		var reg = /^[1-9]+[0-9]*]*$/;
+    		if(!reg.test($("#max"+index).val())){
+    			$("#rankMsg"+index).val('(请输入正整数)');
+				$("#max"+index).val('');
     			document.getElementById('rankMsg'+index).style.display="";
     			$("#rankFlag").val('0');
     			return false;
@@ -240,7 +240,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		var name = $("#name"+index).val().replace(/(^\s*)|(\s*$)/g,"");
     		if(name==null||name==""){
     			$("#nameMsg"+index).val("(等级名称不能为空)");
-    			$("#anme"+index).val('');
+    			$("#name"+index).val('');
 				document.getElementById('nameMsg'+index).style.display="";
 				$("#nameFlag").val('0');
 				return false;
