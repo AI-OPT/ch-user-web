@@ -167,8 +167,8 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://img.blog.csdn.net/20160920155755921"><img
-											src="http://img.blog.csdn.net/20160920155755921" width="80px"
+											href="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg"><img
+											src="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg" width="80px"
 											height="80px"></a>
 									</p>
 								</li>
@@ -216,16 +216,16 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://img.blog.csdn.net/20160920155755921"><img
-											src="http://img.blog.csdn.net/20160920155755921" width="80px"
+											href="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg"><img
+											src="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg" width="80px"
 											height="80px"></a>
 									</p>
 								</li>
 								<li class="col-md-3">
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://img.blog.csdn.net/20160920155755921"><img
-											src="http://img.blog.csdn.net/20160920155755921" width="80px"
+											href="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg"><img
+											src="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg" width="80px"
 											height="80px"></a>
 									</p>
 								</li>
@@ -264,8 +264,8 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://img.blog.csdn.net/20160920155755921"><img
-											src="http://img.blog.csdn.net/20160920155755921" width="80px"
+											href="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg"><img
+											src="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg" width="80px"
 											height="80px"></a>
 									</p>
 								</li>
@@ -290,8 +290,8 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://img.blog.csdn.net/20160920155755921"><img
-											src="http://img.blog.csdn.net/20160920155755921" width="80px"
+											href="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg"><img
+											src="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg" width="80px"
 											height="80px"></a>
 									</p>
 								</li>
@@ -324,8 +324,8 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://img.blog.csdn.net/20160920155755921"><img
-											src="http://img.blog.csdn.net/20160920155755921" width="80px"
+											href="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg"><img
+											src="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg" width="80px"
 											height="80px"></a>
 									</p>
 								</li>
@@ -364,8 +364,8 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://img.blog.csdn.net/20160920155755921"><img
-											src="http://img.blog.csdn.net/20160920155755921" width="80px"
+											href="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg"><img
+											src="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg" width="80px"
 											height="80px"></a>
 									</p>
 								</li>
@@ -375,8 +375,8 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://img.blog.csdn.net/20160920155755921"><img
-											src="http://img.blog.csdn.net/20160920155755921" width="80px"
+											href="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg"><img
+											src="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg" width="80px"
 											height="80px"></a>
 									</p>
 								</li>
@@ -388,8 +388,8 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://img.blog.csdn.net/20160920155755921"><img
-											src="http://img.blog.csdn.net/20160920155755921" width="80px"
+											href="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg"><img
+											src="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg" width="80px"
 											height="80px"></a>
 									</p>
 								</li>
@@ -399,8 +399,8 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://img.blog.csdn.net/20160920155755921"><img
-											src="http://img.blog.csdn.net/20160920155755921" width="80px"
+											href="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg"><img
+											src="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg" width="80px"
 											height="80px"></a>
 									</p>
 								</li>
@@ -444,12 +444,12 @@
 							</ul>
 							<div class="row">
 							<ul>
-							<li style="margin-left: 70px">
+							<li>
 								<input type="button"
 									class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="通过"
 									onclick="pager._passAudit('${userId}','${_base}/qualification/toNoCheckedShopPager');" style="margin-left: 60%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									</li>
-									<li  style="margin-left: 75px">
+									<li>
 								<input type="button"
 									class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="拒绝"
 									onclick="pager._rejectAudit('${userId}','${_base }/qualification/toNoCheckedShopPager');">
