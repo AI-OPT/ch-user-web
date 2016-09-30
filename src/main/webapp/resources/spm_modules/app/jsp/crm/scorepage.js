@@ -124,6 +124,7 @@ define('app/jsp/crm/scorepage', function (require, exports, module) {
 					title : '提示',
 					content : '验证不通过',
 					icon:'fail',
+					closeIconShow:false,
 					okValue : "确定",
 					ok : function() {
 						this.close;
@@ -150,6 +151,7 @@ define('app/jsp/crm/scorepage', function (require, exports, module) {
 						title : '提示',
 						content : '错误信息:'+error,
 						icon:'fail',
+						closeIconShow:false,
 						okValue : "确定",
 						ok : function() {
 							this.close;

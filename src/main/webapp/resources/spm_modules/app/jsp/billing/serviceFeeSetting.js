@@ -129,6 +129,7 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     				title : '提示',
     				content : '验证不通过',
     				icon:'fail',
+    				closeIconShow:false,
     				okValue : "确定",
     				ok : function() {
     					this.close;
@@ -149,6 +150,7 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     	    				title : '提示',
     	    				content : '保存成功',
     	    				icon:'success',
+    	    				closeIconShow:false,
     	    				okValue : "确定",
     	    				ok : function() {
     	    					this.close;
@@ -164,6 +166,7 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     	    				content : '保存失败',
     	    				icon:'fail',
     	    				okValue : "确定",
+    	    				closeIconShow:false,
     	    				ok : function() {
     	    					this.close;
     	    					window.location.href=_base+"/billing/billingpager";

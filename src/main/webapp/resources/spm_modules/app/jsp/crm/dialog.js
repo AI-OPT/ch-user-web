@@ -42,6 +42,7 @@ define('app/jsp/crm/dialog', function (require, exports, module) {
     			title : title,
     			content : content,
     			icon:icon,
+    			closeIconShow:false,
     			okValue : okValue,
     			ok : function() {
     				this.close;

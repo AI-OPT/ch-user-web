@@ -40,6 +40,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 				title : '提示',
 				content : '审核通过此资质信息吗？',
 				icon:'warning',
+				closeIconShow:false,
 				okValue : "确定",
 				ok : function() {
 					this.close;
@@ -57,6 +58,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    	    				title : '提示',
 		    	    				content : '保存成功',
 		    	    				icon:'success',
+		    	    				closeIconShow:false,
 		    	    				okValue : "确定",
 		    	    				ok : function() {
 		    	    					this.close;
@@ -69,6 +71,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    	    				title : '提示',
 		    	    				content : '保存失败',
 		    	    				icon:'fail',
+		    	    				closeIconShow:false,
 		    	    				okValue : "确定",
 		    	    				ok : function() {
 		    	    					this.close;
@@ -82,6 +85,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    	    				title : '提示',
 		    	    				content : '网络错误:'+JSON.stringify(error),
 		    	    				icon:'fail',
+		    	    				closeIconShow:false,
 		    	    				okValue : "确定",
 		    	    				ok : function() {
 		    	    					this.close;
@@ -101,6 +105,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 				title : '提示',
 				content : '审核拒绝此资质信息吗？',
 				icon:'warning',
+				closeIconShow:false,
 				okValue : "确定",
 				ok : function() {
 					this.close;
@@ -118,6 +123,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    	    				title : '提示',
 		    	    				content : '保存成功',
 		    	    				icon:'success',
+		    	    				closeIconShow:false,
 		    	    				okValue : "确定",
 		    	    				ok : function() {
 		    	    					this.close;
@@ -130,6 +136,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    	    				title : '提示',
 		    	    				content : '保存失败',
 		    	    				icon:'fail',
+		    	    				closeIconShow:false,
 		    	    				okValue : "确定",
 		    	    				ok : function() {
 		    	    					this.close;
@@ -143,6 +150,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    	    				title : '提示',
 		    	    				content : '网络错误:'+JSON.stringify(error),
 		    	    				icon:'fail',
+		    	    				closeIconShow:false,
 		    	    				okValue : "确定",
 		    	    				ok : function() {
 		    	    					this.close;
