@@ -154,8 +154,13 @@
 <script type="text/javascript">
 	var contractPager;
 	var userId = "${contactInfo.userId}";
-	var infoExtId = "${infoExtId}";
-	var attrValue = "${attrValue }";
+	
+	var scanContractInfoExtId = "${scanContractInfoExtId}";
+	var scanAttrValue = "${scanContractAttrValue }";
+	
+	var electronicInfoExtId = "${electronicInfoExtId}";
+	var electronicScanAttrValue = "${electronicContractAttrValue }";
+	
 	(function() { 
 		<%-- 展示日历 --%>
 		$('#contractInfo').delegate('.fa-calendar','click',function(){
