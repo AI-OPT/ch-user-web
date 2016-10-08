@@ -44,6 +44,7 @@ import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.opt.sdk.util.CollectionUtil;
 import com.ai.opt.sdk.util.DateUtil;
+import com.ai.opt.sdk.util.StringUtil;
 import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
@@ -77,77 +78,6 @@ public class ContractController {
         return new ModelAndView("/jsp/contract/shop/contractList");
 	 }
 	
-	 @RequestMapping("/getContractSupplierList")
-	 @ResponseBody
-	 public ResponseData<PageInfo<BusinessListInfo>> getContractSupplierList(HttpServletRequest request) {
-		 ResponseData<PageInfo<BusinessListInfo>> responseData = null;
-		 try {
-			 PageInfo<BusinessListInfo> pageInfo = new PageInfo<BusinessListInfo>();
-			 pageInfo.setCount(5);
-			 pageInfo.setPageCount(1);
-			 pageInfo.setPageNo(1);
-			 pageInfo.setPageSize(5);
-			 List<BusinessListInfo> list = new ArrayList<BusinessListInfo>();
-			 GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-			 Map<String,ContractInfoResponse> map = getContractList(userClient.getTenantId());
-			 for(int i=0;i<5;i++){
-				BusinessListInfo businessInfo = new BusinessListInfo();
-				businessInfo.setUserId(i+"");
-				businessInfo.setUserName("suppliertTest_"+i);
-				businessInfo.setCustName("custNameTest_"+i);
-				businessInfo.setUserType(ChWebConstants.CONTRACT_TYPE_SUPPLIER);
-				if(map.get(i+businessInfo.getUserType())!=null){
-					businessInfo.setUploadStatus("已上传");
-				}else{
-					businessInfo.setUploadStatus("未上传");
-				}
-				list.add(businessInfo);
-			 }
-			 pageInfo.setResult(list);
-			 responseData = new ResponseData<PageInfo<BusinessListInfo>>(ChWebConstants.OperateCode.SUCCESS, "查询成功", pageInfo);
-			} catch (Exception e) {
-				e.printStackTrace();
-				responseData = new ResponseData<PageInfo<BusinessListInfo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
-			}
-        return responseData;
-	 }
-	 
-	 
-	 @RequestMapping("/getContractShopList")
-	 @ResponseBody
-	 public ResponseData<PageInfo<BusinessListInfo>> getContractShopList(HttpServletRequest request) {
-		 ResponseData<PageInfo<BusinessListInfo>> responseData = null;
-		 try {
-			 PageInfo<BusinessListInfo> pageInfo = new PageInfo<BusinessListInfo>();
-			 pageInfo.setCount(5);
-			 pageInfo.setPageCount(1);
-			 pageInfo.setPageNo(1);
-			 pageInfo.setPageSize(5);
-			 List<BusinessListInfo> list = new ArrayList<BusinessListInfo>();
-			 GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-			 Map<String,ContractInfoResponse> map = getContractList(userClient.getTenantId());
-			 for(int i=0;i<5;i++){
-				BusinessListInfo businessInfo = new BusinessListInfo();
-				businessInfo.setUserId(i+"");
-				businessInfo.setUserName("shopTest_"+i);
-				businessInfo.setCustName("custNameTest_"+i);
-				businessInfo.setUserType(ChWebConstants.CONTRACT_TYPE_SHOP);
-				if(map.get(i+businessInfo.getUserType())!=null){
-					businessInfo.setUploadStatus("已上传");
-				}else{
-					businessInfo.setUploadStatus("未上传");
-				}
-				list.add(businessInfo);
-			 }
-			 pageInfo.setResult(list);
-			 responseData = new ResponseData<PageInfo<BusinessListInfo>>(ChWebConstants.OperateCode.SUCCESS, "查询成功", pageInfo);
-			} catch (Exception e) {
-				e.printStackTrace();
-				responseData = new ResponseData<PageInfo<BusinessListInfo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
-			}
-        return responseData;
-	 }
-	 
 	 /**
 	  * 供应商管理页面信息
 	  * @param request
@@ -189,15 +119,19 @@ public class ContractController {
 	 			String infoName = extVp.getInfoName();
 	 			String attrValue = extVp.getAttrValue();
 	 			String infoItem = extVp.getInfoItem();
-	 			
+	 			String infoExtId = extVp.getInfoExtId();
 	 			if(ChWebConstants.SCAN_CONTRACT_SUPPLIER.equals(extVp.getInfoItem())){
 		 			model.put("scanContractInfoName",infoName);
 		 			model.put("scanContractAttrValue",attrValue);
 		 			model.put("scanContractInfoItem",infoItem);
+		 			model.put("infoExtId", infoExtId);
+		 			model.put("attrValue", extVp.getAttrValue());
 	 			}else{
 	 				model.put("electronicContractInfoName",infoName);
 		 			model.put("electronicContractAttrValue",attrValue);
 		 			model.put("electronicContractInfoItem",infoItem);
+		 			model.put("infoExtId", infoExtId);
+		 			model.put("attrValue", extVp.getAttrValue());
 	 			}
 	 		}
 	 		try {
@@ -762,4 +696,36 @@ public class ContractController {
 		}
 		return response;
 	}
+	
+	@RequestMapping("/deleteExtFile")
+    @ResponseBody
+    public ResponseData<Object> deleteExtFile(HttpServletRequest request,String contractFileId,String infoExtId){
+    	ResponseData<Object> responseData = null;
+        ResponseHeader header = null;
+        ICustFileSV custFileSv = DubboConsumerFactory.getService(ICustFileSV.class);
+        try {
+        	
+            String dssns = "ch-user-detail-dss";
+            IDSSClient client=DSSClientFactory.getDSSClient(dssns);
+            if(!StringUtil.isBlank(contractFileId)){
+            	client.delete(contractFileId);
+            }
+    		
+    		
+    		GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+    		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
+    		
+    		if(!StringUtil.isBlank(infoExtId)){
+	    		custFileExtRequest.setInfoExtId(infoExtId);
+	    		custFileExtRequest.setTenantId(userClient.getTenantId());
+	    		custFileSv.deleteCustFileExtBycondition(custFileExtRequest);
+    		}
+			header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+			responseData = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+        } catch (Exception e) {
+        	responseData = new ResponseData<Object>(ResponseData.AJAX_STATUS_FAILURE, "图片删除失败", null);
+        }
+        responseData.setResponseHeader(header);
+        return responseData;
+    }
 }
