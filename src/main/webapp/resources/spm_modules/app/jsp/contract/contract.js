@@ -38,6 +38,8 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     		"click [id='supplierSave']":"_saveSupplierContract",
     		"click [id='shopSave']":"_saveShopContract",
     		"blur [id='endTime']":"_checkEndTimeText",
+    		"click [id='scanFileButtonId']":"_deleteScanFileExtFile",
+    		"click [id='electronicFileButtonId']":"_deleteElectronicExtFile",
     		/*"click [id='scanContract']":"_uploadFile",
     		
     		"change [id='scanFile']":"_uploadFile",*/
@@ -337,6 +339,50 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				$("#scanContractText").text('合同附件不能为空');
 				$("#scanVersionContractFlag").val("0");
 			}
+		},
+		_deleteScanFileExtFile:function(){
+			$.ajax({
+				type:"post",
+				url:_base+"/contract/deleteExtFile",
+				dataType: "json",
+				data:{
+					contractFileId:attrValue,
+					infoExtId:infoExtId
+				},
+		        success: function(data) {
+		        	if(data.responseHeader.resultCode=="111111"){
+		        		alert("失败了");
+		        		return false;
+		        	}else if(data.responseHeader.resultCode=="000000"){
+		        		$("#scanFileText").val("");
+		        	}
+		          },
+				error: function(error) {
+						alert("error:"+ error);
+					}
+				});
+		},
+		_deleteElectronicExtFile:function(){
+			$.ajax({
+				type:"post",
+				url:_base+"/contract/deleteExtFile",
+				dataType: "json",
+				data:{
+					contractFileId:attrValue,
+					infoExtId:infoExtId
+				},
+		        success: function(data) {
+		        	if(data.responseHeader.resultCode=="111111"){
+		        		alert("失败了");
+		        		return false;
+		        	}else if(data.responseHeader.resultCode=="000000"){
+		        		$("#electronicContractText").val("");
+		        	}
+		          },
+				error: function(error) {
+						alert("error:"+ error);
+					}
+				});
 		},
 		_saveSupplierContract:function(){
 			this._checkContractCodeValue();
