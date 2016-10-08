@@ -75,14 +75,13 @@ public class RankController {
 			StringBuilder middle=new StringBuilder("{\"result\":[");
 			if(response.getList().size()>2){
 				for (int index = 1; index <= response.getList().size()-2; index++) {
-					//System.out.println(JSON.toJSONString(response.getList().get(index)));
 					middle.append(JSON.toJSONString(response.getList().get(index)));
 					middle.append(",");
 				}
 				String str= middle.substring(0, middle.length()-1);
 				str+="]}";
 				model.addObject("data",str);
-				System.out.println(JSON.toJSONString(str));
+				//System.out.println(JSON.toJSONString(str));
 			}else
 				model.addObject("data","[{\"result\":[{}]}");
 			return model;
