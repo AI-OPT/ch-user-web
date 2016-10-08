@@ -59,7 +59,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		delete resultView[0];
     		delete resultView[count_];
     		if(count>2){
-    			var middleOutput=template.render(middle)
+    			var middleOutput=template.render(data)
     			htmlOutput += middleOutput;
     		}
     		htmlOutput+=htmlOutputEnd;
@@ -88,7 +88,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
             delete result[0];
             delete result[count_];
     		if(count>2){
-    			var middleOutput = template.render(middle);
+    			var middleOutput = template.render(data);
     			htmlOutput += middleOutput;
     		}
 	    		htmlOutput+=htmlOutputEnd;
@@ -114,12 +114,12 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
             htmlOutput+="&nbsp;<input type='button' class='btn-primary btn-default btn-medium' value='浏览文件'/>";
             htmlOutput+="<input type='file' class='int-file' id='img1' name='img1' onchange=\""+"pager._imgName('1')\"/></span><input type='hidden' id='idpsId1' name='list[0].idpsId'><input type='text' id='picErr1' style='display:none;color:red;font-size:14px'></p></td></tr>";
     		if(count>2){
-    		var json = '[';
+    		var json = '{result:[';
     		for(var i=2;i<=count-1;i++){
-    			json+='{id:{index:'+i+'}},';
+    			json+='{index:'+i+'},';
     		}
     		json=json.substr(0,json.length-1);
-    		json+=']';
+    		json+=']}';
     		json = eval("(" + json + ")");
     		var template = $.templates("#rankRuleImpl");
     		//渲染模版

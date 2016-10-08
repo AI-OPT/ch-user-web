@@ -75,7 +75,7 @@
 												<ul>
 													<c:choose>
 														<c:when test="${periodType=='月'}">
-															<li><p class="word">请选择评级等级:</p>
+															<li><p class="word">请选择评级周期:</p>
 																<p>
 																	<input type="radio" class="radio-2" name="periodType_"
 																		value="M" checked> <label for="radio-2">月</label>
@@ -90,7 +90,7 @@
 																</p></li>
 														</c:when>
 														<c:when test="${periodType=='季度'}">
-															<li><p class="word">请选择评级等级:</p>
+															<li><p class="word">请选择评级周期:</p>
 																<p>
 																	<input type="radio" class="radio-2" name="periodType_"
 																		value="M"> <label for="radio-2">月</label>
@@ -105,7 +105,7 @@
 																</p></li>
 														</c:when>
 														<c:otherwise>
-															<li><p class="word">请选择评级等级:</p>
+															<li><p class="word">请选择评级周期:</p>
 																<p>
 																	<input type="radio" class="radio-2" name="periodType_"
 																		value="M"> <label for="radio-2">月</label>
@@ -123,7 +123,7 @@
 												</ul>
 												<ul>
 													<li>
-														<p class="word">请选择评级周期:</p>
+														<p class="word">请选择店铺级数:</p>
 														<p>
 															<select class="select select-mini" id="rankRegion">
 																<option value="">请选择</option>
@@ -171,12 +171,12 @@
 		</div>
 	<script type="text/javascript">
 		var pager;
-		var result = ${result};
+		var data = ${data};
 		var urlMap = ${urlMap};
 		var idpsMap = ${idpsMap};
 		var nameMap = ${nameMap};
 		var rank = ${rank};
-		var middle = ${middle};
+		var result = ${result};
 		var periodType = '${periodType}';
 		(function() {
 			seajs.use('app/jsp/crm/rankrule-edit', function(RankRuleEditPager) {
@@ -189,7 +189,7 @@
 	</script>
 
 	<script id="rankRuleViewImpl" type="text/x-jsrender">
-	{{for data}}
+	{{for result}}
 		<tr>
 			<td><p class="f-14" style="font-weight:400;">等级{{:rank}}:{{:minScore}} - {{:maxScore}}分</p></td>
 			<td><p class="f-14">{{:rankName}}</p></td>
@@ -198,13 +198,13 @@
 	{{/for}}
 </script>
 	<script id="rankRuleInitImpl" type="text/x-jsrender">
-	{{for data}}
+	{{for result}}
 		<tr>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14" style="font-weight:400;">等级{{:rank}}:<input type='hidden' value='{{:rank}}' name='list[{{:rank-1}}].rank'><input class="int-text int-mini" name="list[{{:rank-1}}].minScore" value="{{:minScore}}" id="min{{:rank}}" type="text" readonly="readonly" style='border:none;background:none;font-weight:400;'>-<input class="int-text int-mini" name="list[{{:rank-1}}].maxScore" value="{{:maxScore}}" type="text" id="max{{:rank}}" onblur="pager._changeValue('{{:rank}}')" maxlength="12" onkeydown="return doit()" style="">分<input type='text' style='display:none;color:red' id='rankMsg{{:rank}}'></p></td>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14"><input class="int-text int-mini" name="list[{{:rank-1}}].rankName" value="{{:rankName}}" id="name{{:rank}}" type="text" onblur="pager._valideName({{:rank}})" maxlength='12'><input type='text' id='nameMsg{{:rank}}' style='display:none;color:red'></p></td>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14"><b class="red">*</b>图片名称:
 				<span class="btn-upload">
-				<input class="int-text int-mini" id="picName{{:rank}}" value="" type="text" disabeld="disabled" style="border:none;background:none;font-weight:400;"><input type="hidden" id=rankLogo{{:rank}} name="rankLogo{{:rank}}"><input type="hidden" id=rankName{{:rank}} name="rankName{{:rank}}">
+				<input class="int-text int-mini" id="picName{{:rank}}" value="" type="text" disabeld="disabled" style="border:none;background:none;"><input type="hidden" id=rankLogo{{:rank}} name="rankLogo{{:rank}}"><input type="hidden" id=rankName{{:rank}} name="rankName{{:rank}}">
 				<input type="button" class="btn-primary btn-default btn-medium" value="浏览文件"/>
 				<input type="file" class="int-file" id='img{{:rank}}' name='img{{:rank}}' onchange="pager._imgName('{{:rank}}')"/>
 				</span><input type='text' id='picErr{{:rank}}' style='display:none;color:red;font-size:14px'></p>
@@ -213,7 +213,7 @@
 	{{/for}}
 </script>
 	<script id="rankRuleImpl" type="text/x-jsrender">
-	{{for id}}
+	{{for result}}
 		<tr>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class='f-14' style='font-weight:400;'>等级{{:index}}:<input class="int-text int-mini" name="list[{{:index-1}}].minScore" id="min{{:index}}" type="text" value="0" readonly="readonly" style="border: none;background:none;font-weight:400;" onchange="pager._changeValue('{{:rank}}')"><input type='hidden' name=list[{{:index-1}}].rank value='{{:index}}'>-<input class="int-text int-mini" name="list[{{:index-1}}].maxScore" type="text" id="max{{:index}}" onblur="pager._changeValue('{{:index}}')" maxlength="12" onkeydown="return doit()" style="font-weight:400;">分<input type='text' style='display:none;color:red' id='rankMsg{{:index}}'></p></td>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class='f-14'><input class="int-text int-mini" name="list[{{:index-1}}].rankName" type="text" id="name{{:index}}" onblur="pager._valideName('{{:index}}')" maxlength='12'><input type='text' id='nameMsg{{:index}}' style='display:none;color:red'></p></td>

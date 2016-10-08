@@ -69,22 +69,22 @@ public class RankController {
 			model.addObject("urlMap", JSON.toJSONString(urlMap));
 			model.addObject("nameMap", JSON.toJSONString(nameMap));
 			model.addObject("idpsMap", JSON.toJSONString(idpsMap));
-			model.addObject("rank", response.getList().get(response.getList().size()-1).getRank());
 			model.addObject("result", JSON.toJSONString(response.getList()));
+			model.addObject("rank", response.getList().get(response.getList().size()-1).getRank());
 			//截取中间数据
-			StringBuilder middle=new StringBuilder("[");
+			StringBuilder middle=new StringBuilder("{\"result\":[");
 			if(response.getList().size()>2){
 				for (int index = 1; index <= response.getList().size()-2; index++) {
 					//System.out.println(JSON.toJSONString(response.getList().get(index)));
-					middle.append("{\"data\":");
 					middle.append(JSON.toJSONString(response.getList().get(index)));
-					middle.append("},");
+					middle.append(",");
 				}
-				String str= middle.substring(0, middle.length()-2);
-				str+="}]";
-				model.addObject("middle",str);
+				String str= middle.substring(0, middle.length()-1);
+				str+="]}";
+				model.addObject("data",str);
+				System.out.println(JSON.toJSONString(str));
 			}else
-				model.addObject("middle","[{\"data\":{}}]");
+				model.addObject("middle","[{\"result\":[{}]}");
 			return model;
 		}
 

@@ -53,11 +53,12 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
              htmlOutput+="<input type='file' class='int-file' id='img1' name='img1' onchange=\""+"pager._imgName('1')\"/></span><input type='hidden' id='idpsId1' name='list[0].idpsId'><input type='text' id='picErr1' style='display:none;color:red;font-size:14px'></p></td></tr>";
     		if(count>2){
     		var json = '[';
+    		var json = '{result:[';
     		for(var i=2;i<=count-1;i++){
-    			json+='{id:{index:'+i+'}},';
+    			json+='{index:'+i+'},';
     		}
     		json=json.substr(0,json.length-1);
-    		json+=']';
+    		json+=']}';
     		json = eval("(" + json + ")");
     		var template = $.templates("#rankRuleImpl");
     		//渲染模版

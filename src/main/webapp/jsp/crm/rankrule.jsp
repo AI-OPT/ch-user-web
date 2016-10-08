@@ -94,7 +94,7 @@
 	</script>
 
 <script id="rankRuleImpl" type="text/x-jsrender">
-	{{for id}}
+	{{for result}}
 		<tr>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class='f-14' style='font-weight:400;'>等级{{:index}}:<input class="int-text int-mini" name="list[{{:index-1}}].minScore" id="min{{:index}}" type="text" value="0" readonly="readonly" style="border: none;background:none;font-weight:400;"><input type='hidden' name=list[{{:index-1}}].rank value='{{:index}}'>-<input class="int-text int-mini" name="list[{{:index-1}}].maxScore" type="text" id="max{{:index}}" onblur="pager._changeValue('{{:index}}')" maxlength="12" onkeydown="return doit()" style="font-weight:400;">分<input type='text' style='display:none;color:red' id='rankMsg{{:index}}'></p></td>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class='f-14'><input class="int-text int-mini" name="list[{{:index-1}}].rankName" type="text" id="name{{:index}}" onblur="pager._valideName('{{:index}}')" maxlength='12'><input type='text' id='nameMsg{{:index}}' style='display:none;color:red'></p></td>
