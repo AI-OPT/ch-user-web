@@ -346,8 +346,8 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				url:_base+"/contract/deleteExtFile",
 				dataType: "json",
 				data:{
-					contractFileId:attrValue,
-					infoExtId:infoExtId
+					contractFileId:scanAttrValue,
+					infoExtId:scanContractInfoExtId
 				},
 		        success: function(data) {
 		        	if(data.responseHeader.resultCode=="111111"){
@@ -368,8 +368,8 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				url:_base+"/contract/deleteExtFile",
 				dataType: "json",
 				data:{
-					contractFileId:attrValue,
-					infoExtId:infoExtId
+					contractFileId:electronicScanAttrValue,
+					infoExtId:electronicInfoExtId
 				},
 		        success: function(data) {
 		        	if(data.responseHeader.resultCode=="111111"){
