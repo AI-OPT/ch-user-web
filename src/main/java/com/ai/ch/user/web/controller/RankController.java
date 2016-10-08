@@ -84,7 +84,7 @@ public class RankController {
 				model.addObject("data",str);
 				System.out.println(JSON.toJSONString(str));
 			}else
-				model.addObject("middle","[{\"result\":[{}]}");
+				model.addObject("data","[{\"result\":[{}]}");
 			return model;
 		}
 
