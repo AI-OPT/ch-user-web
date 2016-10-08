@@ -75,7 +75,7 @@
 												<ul>
 													<c:choose>
 														<c:when test="${periodType=='月'}">
-															<li><p class="word">请选择评级周期:</p>
+															<li><p class="word">请选择评级等级:</p>
 																<p>
 																	<input type="radio" class="radio-2" name="periodType_"
 																		value="M" checked> <label for="radio-2">月</label>
@@ -105,7 +105,7 @@
 																</p></li>
 														</c:when>
 														<c:otherwise>
-															<li><p class="word">请选择评级周期:</p>
+															<li><p class="word">请选择评级等级:</p>
 																<p>
 																	<input type="radio" class="radio-2" name="periodType_"
 																		value="M"> <label for="radio-2">月</label>
@@ -123,7 +123,7 @@
 												</ul>
 												<ul>
 													<li>
-														<p>请选择评级周期:</p>
+														<p class="word">请选择评级周期:</p>
 														<p>
 															<select class="select select-mini" id="rankRegion">
 																<option value="">请选择</option>
