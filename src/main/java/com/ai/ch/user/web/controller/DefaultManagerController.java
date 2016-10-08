@@ -27,6 +27,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -425,6 +426,31 @@ public class DefaultManagerController {
 			response.setData(pageInfo);
 		}
 		return response;
+	}
+	
+	@RequestMapping("/paymentNotifications")
+	public String paymentNotifications( @RequestParam("msgHeader") String msgHead,@RequestParam("xmlBody") String xmlBody,@RequestParam("signMsg") String signMsg){
+		try{
+			//验签
+			com.ylink.upp.base.oxm.XmlBodyEntity resultMsg =  receiveMsg(msgHead, xmlBody, signMsg);
+	        com.ylink.upp.oxm.entity.upp_103_001_01.RespInfo receive = (com.ylink.upp.oxm.entity.upp_103_001_01.RespInfo)resultMsg;
+	        
+	        if(receive == null){
+	        	com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo receive2 = (com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo) resultMsg;
+	            if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
+	            	throw new RuntimeException("系统异常.");
+	            }
+	        }
+	        
+	        //00表示支付成功，01表示支付失败
+	        if("00".equals(receive.getGrpBody().getPayStatus())){
+	        	//defaultLogBusiSV.insertDefaultLog(request);
+	        }
+			return "SUCCESS";
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return "SUCCESS";
 	}
 	
 }
