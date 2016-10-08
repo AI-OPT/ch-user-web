@@ -124,14 +124,12 @@ public class ContractController {
 		 			model.put("scanContractInfoName",infoName);
 		 			model.put("scanContractAttrValue",attrValue);
 		 			model.put("scanContractInfoItem",infoItem);
-		 			model.put("infoExtId", infoExtId);
-		 			model.put("attrValue", extVp.getAttrValue());
+		 			model.put("scanContractInfoExtId", infoExtId);
 	 			}else{
 	 				model.put("electronicContractInfoName",infoName);
 		 			model.put("electronicContractAttrValue",attrValue);
 		 			model.put("electronicContractInfoItem",infoItem);
-		 			model.put("infoExtId", infoExtId);
-		 			model.put("attrValue", extVp.getAttrValue());
+		 			model.put("electronicInfoExtId", infoExtId);
 	 			}
 	 		}
 	 		try {
@@ -183,15 +181,17 @@ public class ContractController {
 	 			String infoName = extVp.getInfoName();
 	 			String attrValue = extVp.getAttrValue();
 	 			String infoItem = extVp.getInfoItem();
-	 			
+	 			String infoExtId = extVp.getInfoExtId();
 	 			if(ChWebConstants.SCAN_CONTRACT_SHOP.equals(extVp.getInfoItem())){
 		 			model.put("scanContractInfoName",infoName);
 		 			model.put("scanContractAttrValue",attrValue);
 		 			model.put("scanContractInfoItem",infoItem);
+		 			model.put("scanContractInfoExtId", infoExtId);
 	 			}else{
 	 				model.put("electronicContractInfoName",infoName);
 		 			model.put("electronicContractAttrValue",attrValue);
 		 			model.put("electronicContractInfoItem",infoItem);
+		 			model.put("electronicInfoExtId", infoExtId);
 	 			}
 	 		}
 	 		try {
