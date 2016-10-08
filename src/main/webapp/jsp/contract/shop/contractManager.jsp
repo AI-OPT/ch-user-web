@@ -94,6 +94,9 @@
 										   <input class="int-text int-large" value="${scanContractInfoName }" id="scanFileText" type="text">
 										   <input type="button" id="scanContract" class="btn-default btn-medium" value="浏览文件"/>
 										   <input type="file" name="scanFile" id="scanFile" onchange="uploadFile('scanFile','scanFileText','scanContractErrMsg','scanContractText','scanVersionContractFlag','ddsId1')"  class="int-file"/>
+										   <input type="button"
+											class="biu-btn  btn-primary btn-blue btn-medium ml-10"
+											value="删除" id="scanFileButtonId" />
 										</span>
 									</li>
 									<li><label id="scanContractErrMsg" style="display: none;"><span class="ash" id="scanContractText">扫描件不能为空</span></label></li>
@@ -111,6 +114,9 @@
 											 <input class="int-text int-large" value="${electronicContractInfoName}" id="electronicContractText" type="text">
 											 <input type="button" id="electronicContract" class="btn-default btn-medium" value="浏览文件"/>
 											 <input type="file" name="electronicFile" id="electronicFile" onchange="uploadFile('electronicFile','electronicContractText','electronicContractErrMsg','electronicContractFileText','electronicContractFlag','ddsId2')" class="int-file"/>
+											 <input type="button"
+												class="biu-btn  btn-primary btn-blue btn-medium ml-10"
+												value="删除" id="electronicFileButtonId" />
 										</span>
 									</li>
 									<li><label id="electronicContractErrMsg" style="display: none;"><span class="ash" id="electronicContractFileText">合同附件不能为空</span></label></li>
@@ -148,6 +154,13 @@
 <script type="text/javascript">
 	var contractPager;
 	var userId = "${userId}";
+	
+	var scanContractInfoExtId = "${scanContractInfoExtId}";
+	var scanAttrValue = "${scanContractAttrValue }";
+	
+	var electronicInfoExtId = "${electronicInfoExtId}";
+	var electronicScanAttrValue = "${electronicContractAttrValue }";
+	
 	(function() { 
 		<%-- 展示日历 --%>
 		$('#contractInfo').delegate('.fa-calendar','click',function(){
