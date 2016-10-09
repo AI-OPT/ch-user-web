@@ -95,7 +95,9 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    	    			d.show();
 		    				}
 		    				});
-				}
+				},
+				cancelValue: '取消',
+			    cancel: true //为true等价于function(){}
 			});
 			d.show();
     	},
@@ -160,7 +162,9 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    	    			d.show();
 		    				}
 		    				});
-				}
+				},
+				cancelValue: '取消',
+			    cancel: true //为true等价于function(){}
 			});
 			d.show();
     	}
