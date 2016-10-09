@@ -201,7 +201,7 @@ public class DefaultManagerController {
 			PayUtil payUtil = new PayUtil();
 			boolean verify = payUtil.verify(xmlMsg, sign);
 			if (!verify) {
-				throw new Exception("验签失败.");
+				 throw new Exception("验签失败.");
 			}
 			HeaderBean headerBean = new HeaderBean();
 			HandlerMsgUtil.conversion(msgHeader, headerBean);
@@ -436,6 +436,7 @@ public class DefaultManagerController {
 	@RequestMapping("/paymentNotifications")
 	public String paymentNotifications( @RequestParam("msgHeader") String msgHead,@RequestParam("xmlBody") String xmlBody,@RequestParam("signMsg") String signMsg){
 		System.out.println("验签开始---------------------");
+		boolean flag = false;
 		try{
 			//验签
 			System.out.println("msgHead=====================:"+msgHead);
@@ -447,6 +448,7 @@ public class DefaultManagerController {
 	        if(receive == null){
 	        	com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo receive2 = (com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo) resultMsg;
 	            if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
+	            	flag = false;
 	            	throw new RuntimeException("系统异常.");
 	            }
 	        }
@@ -457,12 +459,16 @@ public class DefaultManagerController {
 	        }
 	        
 	        System.out.println("结束---------------------");
-	        
-			return "SUCCESS";
+	        flag = true;
 		}catch(Exception e){
+			flag = false;
 			e.printStackTrace();
 		}
-		return "SUCCESS";
+		if(flag){
+			return "SUCCESS";
+		}else{
+			return "ERROR";
+		}
 	}
 	
 }
