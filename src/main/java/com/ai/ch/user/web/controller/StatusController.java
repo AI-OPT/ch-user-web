@@ -182,7 +182,7 @@ public class StatusController {
 			}
 			response.setResponseHeader(header);
 			response.setData(pageInfo);
-			System.out.println(JSON.toJSONString(response));
+			//System.out.println(JSON.toJSONString(response));
 		}
 		return response;
 	}
