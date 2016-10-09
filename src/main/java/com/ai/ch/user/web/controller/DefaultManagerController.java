@@ -201,7 +201,7 @@ public class DefaultManagerController {
 			PayUtil payUtil = new PayUtil();
 			boolean verify = payUtil.verify(xmlMsg, sign);
 			if (!verify) {
-				System.out.println("验签失败");
+				throw new Exception("验签失败.");
 			}
 			HeaderBean headerBean = new HeaderBean();
 			HandlerMsgUtil.conversion(msgHeader, headerBean);
@@ -438,6 +438,9 @@ public class DefaultManagerController {
 		System.out.println("验签开始---------------------");
 		try{
 			//验签
+			System.out.println("msgHead=====================:"+msgHead);
+			System.out.println("xmlBody=====================:"+xmlBody);
+			System.out.println("signMsg====================="+signMsg);
 			com.ylink.upp.base.oxm.XmlBodyEntity resultMsg =  receiveMsg(msgHead, xmlBody, signMsg);
 	        com.ylink.upp.oxm.entity.upp_103_001_01.RespInfo receive = (com.ylink.upp.oxm.entity.upp_103_001_01.RespInfo)resultMsg;
 	        
