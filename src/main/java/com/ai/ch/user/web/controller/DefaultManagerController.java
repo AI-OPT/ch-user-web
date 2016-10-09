@@ -42,6 +42,7 @@ import com.ai.ch.user.web.constants.ChWebConstants.ExceptionCode;
 import com.ai.ch.user.web.constants.TranType;
 import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.util.PayUtil;
+import com.ai.ch.user.web.util.PropertiesUtil;
 import com.ai.ch.user.web.vo.BusinessListInfo;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
@@ -120,7 +121,7 @@ public class DefaultManagerController {
 	@RequestMapping("/addDefaultInfo")
 	public ModelAndView addDefaultInfo(HttpServletRequest request,String userId,String userName,String custName) {
 		//包装数据
-		/*GrpHdr hdr = new GrpHdr();
+		GrpHdr hdr = new GrpHdr();
 		PayUtil payUtil = new PayUtil();
 		hdr.setMerNo("CO20160700000004");//设置一级平台商户号
 		hdr.setTranType(TranType.PAY_GUARANTEE_MONEY_QUERY.getValue());//设置交易类型(保证金支付订单查询)
@@ -157,7 +158,8 @@ public class DefaultManagerController {
 		param.put("xmlBody", xmlMsg);
 		String result = null;
 		try {
-			result = payUtil.sendHttpPost("http://lytest.ngrok.tech:7777/upp-route/entry.html", param, "UTF-8");
+			String url = PropertiesUtil.getStringByKey("http_url", "httpUrl.properties");
+			result = payUtil.sendHttpPost(url, param, "UTF-8");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -180,7 +182,7 @@ public class DefaultManagerController {
             	throw new RuntimeException("系统异常.");
             }
             balance=receive.getGrpBody().getStsRsnInf().getBalance();
-        }*/
+        }
 		Map<String, Object> model = new HashMap<String, Object>();
  		model.put("userId", userId);
  		try {
@@ -189,8 +191,8 @@ public class DefaultManagerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
- 		//model.put("balance", Float.parseFloat(balance)/100);
- 		model.put("balance", 2000);
+ 		model.put("balance", Float.parseFloat(balance)/100);
+ 		//model.put("balance", 2000);
 		return new ModelAndView("/jsp/defaultManager/addDefault",model);
 	}
 	
@@ -268,8 +270,10 @@ public class DefaultManagerController {
 			body.setPayOrderDetail(details);
 			body.setRemark("margindeposittest");
 
-			body.setNotifyUrl("http://124.207.3.100:8083/ch-user/defaultlogservice/paymentNotifications");
-			body.setReturnUrl("http://124.207.3.100:8083/ch-user/defaultlogservice/paymentNotifications");
+			String paymentOrderurl = PropertiesUtil.getStringByKey("paymentOrder_http_url", "httpUrl.properties");
+			
+			body.setNotifyUrl(paymentOrderurl);
+			body.setReturnUrl(paymentOrderurl);
 			
 			body.setProductTypeName("margindeposit");
 			body.setResv("test");
@@ -308,7 +312,8 @@ public class DefaultManagerController {
 			param.put("xmlBody", xmlMsg);
 			String result = null;
 			try {
-				result = payUtil.sendHttpPost("http://lytest.ngrok.tech:7777/upp-route/entry.html", param, "UTF-8");
+				String paymentApplication = PropertiesUtil.getStringByKey("paymentApplication_http_url", "httpUrl.properties");
+				result = payUtil.sendHttpPost(paymentApplication, param, "UTF-8");
 				System.out.println(result);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -430,6 +435,7 @@ public class DefaultManagerController {
 	
 	@RequestMapping("/paymentNotifications")
 	public String paymentNotifications( @RequestParam("msgHeader") String msgHead,@RequestParam("xmlBody") String xmlBody,@RequestParam("signMsg") String signMsg){
+		System.out.println("验签开始---------------------");
 		try{
 			//验签
 			com.ylink.upp.base.oxm.XmlBodyEntity resultMsg =  receiveMsg(msgHead, xmlBody, signMsg);
@@ -443,9 +449,12 @@ public class DefaultManagerController {
 	        }
 	        
 	        //00表示支付成功，01表示支付失败
-	        if("00".equals(receive.getGrpBody().getPayStatus())){
+	        if("01".equals(receive.getGrpBody().getPayStatus())){
 	        	//defaultLogBusiSV.insertDefaultLog(request);
 	        }
+	        
+	        System.out.println("结束---------------------");
+	        
 			return "SUCCESS";
 		}catch(Exception e){
 			e.printStackTrace();
