@@ -29,5 +29,4 @@ sed -i "s%ccs.zk_address=.*%ccs.zk_address=${ZK_ADDR}%g" ./paas/paas-conf.proper
 sed -i "s%dubbo.registry.address=.*%dubbo.registry.address=${REST_REGISTRY_ADDR}%g" ./dubbo.properties
 popd
 
-
 nohup ${CATALINA_HOME}/bin/catalina.sh run >> /${APP_NAME}.log
