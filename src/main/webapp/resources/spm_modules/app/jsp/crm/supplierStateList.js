@@ -138,7 +138,9 @@ define('app/jsp/crm/supplierStateList', function (require, exports, module) {
 		    	    			d.show();
 		    				}
 		    				});
-				}
+				},
+				cancelValue: '取消',
+			    cancel: true //为true等价于function(){}
 			});
 			d.show();
     	},
@@ -198,7 +200,9 @@ define('app/jsp/crm/supplierStateList', function (require, exports, module) {
 		    	    			d.show();
 		    				}
 		    				});
-				}
+				},
+				cancelValue: '取消',
+			    cancel: true //为true等价于function(){}
 			});
 			d.show();
     	},
@@ -258,7 +262,9 @@ define('app/jsp/crm/supplierStateList', function (require, exports, module) {
 		    	    			d.show();
 		    				}
 		    				});
-				}
+				},
+				cancelValue: '取消',
+			    cancel: true //为true等价于function(){}
 			});
 			d.show();
     	},
@@ -318,7 +324,9 @@ define('app/jsp/crm/supplierStateList', function (require, exports, module) {
 		    	    			d.show();
 		    				}
 		    				});
-				}
+				},
+				cancelValue: '取消',
+			    cancel: true //为true等价于function(){}
 			});
 			d.show();
     	},
