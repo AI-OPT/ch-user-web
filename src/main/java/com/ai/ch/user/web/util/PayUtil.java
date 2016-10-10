@@ -47,7 +47,7 @@ public class PayUtil {
 	 */
 	public  String sign(String xmlMsg) throws Exception {
 		ResourceLoader resourceLoader = new DefaultResourceLoader();
-		Resource pfxResource = resourceLoader.getResource("classpath:CO20160700000018.pfx"); 
+		Resource pfxResource = resourceLoader.getResource(PropertiesUtil.getStringByKey("sigh_classpath")); 
 		InputStream in = new FileInputStream(pfxResource.getFile());
 		byte[] pfxByte = IOUtils.toByteArray(in);
 		String sign = SecurityUtil.pfxWithSign(pfxByte, xmlMsg, "111111");
@@ -81,7 +81,7 @@ public class PayUtil {
 	 */
 	public boolean verify(String xmlMsg, String sign) throws Exception {
 		ResourceLoader resourceLoader = new DefaultResourceLoader();
-		Resource pfxResource = resourceLoader.getResource("classpath:mobile.cer"); 
+		Resource pfxResource = resourceLoader.getResource(PropertiesUtil.getStringByKey("check_sign_classpath")); 
 		InputStream in = new FileInputStream(pfxResource.getFile());
 		byte[] cerByte = IOUtils.toByteArray(in);
 		;
