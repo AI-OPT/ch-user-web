@@ -158,7 +158,7 @@ public class DefaultManagerController {
 		param.put("xmlBody", xmlMsg);
 		String result = null;
 		try {
-			String url = PropertiesUtil.getStringByKey("http_url", "httpUrl.properties");
+			String url = PropertiesUtil.getStringByKey("balance_http_url");
 			result = payUtil.sendHttpPost(url, param, "UTF-8");
 		} catch (Exception e) {
 			e.printStackTrace();
