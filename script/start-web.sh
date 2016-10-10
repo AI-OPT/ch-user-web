@@ -30,6 +30,13 @@ sed -i "s%searchCompanyList_http_url=.*%searchCompanyList_http_url=${searchCompa
 sed -i "s%updateAuditState_http_url=.*%updateAuditState_http_url=${updateAuditState_http_url}%g" ./httpUrl.properties
 sed -i "s%updateCompanyState_http_url=.*%updateCompanyState_http_url=${updateCompanyState_http_url}%g" ./httpUrl.properties
 
+sed -i "s%balance_http_url=.*%balance_http_url=${balance_http_url}%g" ./httpUrl.properties
+sed -i "s%paymentApplication_http_url=.*%paymentApplication_http_url=${paymentApplication_http_url}%g" ./httpUrl.properties
+sed -i "s%appkey=.*%appkey=${appkey}%g" ./httpUrl.properties
+
+sed -i "s%sigh_classpath=.*%sigh_classpath=${sigh_classpath}%g" ./httpUrl.properties
+sed -i "s%check_sign_classpath=.*%check_sign_classpath=${check_sign_classpath}%g" ./httpUrl.properties
+
 
 # 各中心要根据情况自己修改成与dubbo.properties中对应的配置项
 sed -i "s%dubbo.registry.address=.*%dubbo.registry.address=${REST_REGISTRY_ADDR}%g" ./dubbo.properties
