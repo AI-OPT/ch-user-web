@@ -51,7 +51,6 @@ define('app/jsp/billing/billingCycleList', function (require, exports, module) {
 				},
 	           	pageSize: BillingCycleListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
-	           	processing: true,
 	            message: "正在为您查询数据..",
 	            callback: function(data){
 	              	if(data.result != null && data.result != 'undefined' && data.result.length>0){
@@ -84,7 +83,6 @@ define('app/jsp/billing/billingCycleList', function (require, exports, module) {
 				},
 	           	pageSize: BillingCycleListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
-	           	processing: true,
 	            message: "正在为您查询数据..",
 	            callback: function(data){
 	              	if(data.result != null && data.result != 'undefined' && data.result.length>0){

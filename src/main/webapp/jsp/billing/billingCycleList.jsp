@@ -94,13 +94,13 @@
 	<script type="text/javascript">
 		var pager;
 		(function() {
-			seajs.use('app/jsp/billing/billingCycleList', function(
-					BillingCycleListPager) {
-				pager = new BillingCycleListPager({
-					element : document.body
-				});
-				pager.render();
-			});
+			seajs.use('app/jsp/billing/billingCycleList',
+					function(BillingCycleListPager) {
+						pager = new BillingCycleListPager({
+							element : document.body
+						});
+						pager.render();
+					});
 		})();
 	</script>
 	<script id="billingCycleImpl" type="text/x-jsrender">
