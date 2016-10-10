@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
+import com.ai.ch.user.web.util.PropertiesUtil;
 import com.ai.ch.user.web.vo.StatusListVo;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
@@ -37,12 +38,12 @@ public class StatusController {
 		ResponseHeader header = null;
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("companyState", companyState);
 		map.put("companyId", companyId);
 		String str ="";
 		try {
-			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_updatecompanystate_update", JSON.toJSONString(map), mapHeader);
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateCompanyState_http_url"), JSON.toJSONString(map), mapHeader);
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -77,13 +78,13 @@ public class StatusController {
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("openId", user.getUserId());
 		map.put("auditState",auditState);
 		map.put("companyId",companyId);
 		String str ="";
 		try {
-			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_updateauditstate_update", JSON.toJSONString(map), mapHeader);
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateAuditState_http_url"), JSON.toJSONString(map), mapHeader);
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -118,7 +119,7 @@ public class StatusController {
 		ResponseHeader header = null;
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("pageNo", request.getParameter("pageNo"));
 		map.put("pageSize", request.getParameter("pageSize"));
 		if(username!=null&&username.length()!=0)
@@ -129,7 +130,7 @@ public class StatusController {
 			map.put("companyType", companyType);
 		String str ="";
 		try {
-			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_searchcompanylist_qry", JSON.toJSONString(map),mapHeader);
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}

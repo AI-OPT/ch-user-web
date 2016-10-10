@@ -20,6 +20,7 @@ import com.ai.ch.user.api.shopinfo.interfaces.IShopInfoSV;
 import com.ai.ch.user.api.shopinfo.params.QueryShopInfoRequest;
 import com.ai.ch.user.api.shopinfo.params.QueryShopInfoResponse;
 import com.ai.ch.user.web.constants.ChWebConstants;
+import com.ai.ch.user.web.util.PropertiesUtil;
 import com.ai.ch.user.web.vo.BusinessListInfo;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
@@ -76,11 +77,11 @@ public class QualificationController {
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("companyId", userId);
 		String str ="";
 		try {
-			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_findbycompanyid_qry", JSON.toJSONString(map), mapHeader);
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -167,11 +168,11 @@ public class QualificationController {
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("companyId", userId);
 		String str ="";
 		try {
-			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_findbycompanyid_qry", JSON.toJSONString(map), mapHeader);
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -287,11 +288,11 @@ public class QualificationController {
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("companyId", userId);
 		String str ="";
 		try {
-			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_findbycompanyid_qry", JSON.toJSONString(map), mapHeader);
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -379,7 +380,7 @@ public class QualificationController {
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("companyId", userId);
 		//查询商户信息
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
@@ -389,7 +390,7 @@ public class QualificationController {
 		QueryShopInfoResponse response=shopInfoSV.queryShopInfo(queryShopInfoRequest);
 		String str ="";
 		try {
-			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_findbycompanyid_qry", JSON.toJSONString(map), mapHeader);
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -493,7 +494,7 @@ public class QualificationController {
 		ResponseHeader header = null;
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("pageNo", request.getParameter("pageNo"));
 		map.put("pageSize", request.getParameter("pageSize"));
 		if(username!=null&&username.length()!=0)
@@ -506,7 +507,7 @@ public class QualificationController {
 			map.put("auditState", auditState);
 		String str ="";
 		try {
-			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_searchcompanylist_qry", JSON.toJSONString(map),mapHeader);
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -563,7 +564,7 @@ public class QualificationController {
 			ResponseHeader header = null;
 			Map<String, String> map = new HashMap<>();
 			Map<String, String> mapHeader = new HashMap<>();
-			mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
+			mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 			map.put("pageNo", request.getParameter("pageNo"));
 			map.put("pageSize", request.getParameter("pageSize"));
 			if(username!=null&&username.length()!=0)
@@ -576,7 +577,7 @@ public class QualificationController {
 				map.put("auditState", auditState);
 			String str ="";
 			try {
-				str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_searchcompanylist_qry", JSON.toJSONString(map),mapHeader);
+				str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
 			} catch (IOException | URISyntaxException e) {
 				e.printStackTrace();
 			}
