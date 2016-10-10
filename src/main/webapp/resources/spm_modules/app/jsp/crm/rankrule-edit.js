@@ -44,20 +44,19 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     	
     	_initView:function(){
     		$("#TBODY_VIEW").html();
-    		var template = $.templates("#rankRuleViewImpl");
-    		var resultView = JSON.parse(JSON.stringify(eval(result)));
-    		var count = resultView.length;
+    		var count = result.length;
     		var count_=count-1;
     		//第一行
-    		var htmlOutput = "<tr><td><p class='f-14' style='font-weight:400;'>等级1:0-"+resultView[0].maxScore+"分</p></td>";
-    		htmlOutput+="<td><p class='f-14' style='font-weight:400;'> "+resultView[0].rankName+"</p></td>";
+    		var htmlOutput = "<tr><td><p class='f-14' style='font-weight:400;'>等级1:0-"+result[0].maxScore+"分</p></td>";
+    		htmlOutput+="<td><p class='f-14' style='font-weight:400;'> "+result[0].rankName+"</p></td>";
     		htmlOutput+="<td><p><image src='"+urlMap[1]+"' height='80px' width='80px'/></p></td></tr>";
     		//最后一行
-    		var htmlOutputEnd = "<tr><td><p class='f-14' style='font-weight:400;'>等级"+count+":"+resultView[count_].minScore+"分以上</p></td>";
-    		htmlOutputEnd+="<td><p class='f-14' style='font-weight:400;'> "+resultView[count_].rankName+"</p></td>";
+    		var htmlOutputEnd = "<tr><td><p class='f-14' style='font-weight:400;'>等级"+count+":"+result[count_].minScore+"分以上</p></td>";
+    		htmlOutputEnd+="<td><p class='f-14' style='font-weight:400;'> "+result[count_].rankName+"</p></td>";
     		htmlOutputEnd+="<td><p><image src='"+urlMap[count]+"' height='80px' width='80px'/></p></td></tr>";
     		if(count>2){
-    			var middleOutput=template.render(data)
+    			var template = $.templates("#rankRuleViewImpl");
+    			var middleOutput=template.render(data);
     			htmlOutput += middleOutput;
     		}
     		htmlOutput+=htmlOutputEnd;
@@ -68,7 +67,6 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     	
     	_initTable:function(){
     		$("#TBODY_RANKRULE").html();
-    		var template = $.templates("#rankRuleInitImpl");
     		var count = result.length;
     		var count_ = count-1;
     		//第一行
@@ -84,7 +82,8 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		htmlOutputEnd+="&nbsp;&nbsp;<input type='button' class='btn-primary btn-default btn-medium' value='浏览文件'/>";
     		htmlOutputEnd+="<input type='file' class='int-file1' id='img"+count+"' name='img"+count+"' onchange=\""+"pager._imgName("+count+")\"/></span><input type='text' id='picErr"+count+"' style='display:none;color:red;font-size:14px'></p></td></tr>";
     		if(count>2){
-    			var middleOutput = template.render(data);
+    			var template = $.templates("#rankRuleInitImpl");
+    			var middleOutput=template.render(data);
     			htmlOutput += middleOutput;
     		}
 	    		htmlOutput+=htmlOutputEnd;

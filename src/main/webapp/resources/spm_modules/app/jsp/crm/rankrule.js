@@ -44,7 +44,6 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
     		var count = $("#rankRegion").val();
     		if(count==null||count=="")
     			count=5;
-    		//I am drunk
     		var count_=count-1;
     		var htmlOutput ="<tr><td class='text-l pl-10' style='white-space:nowrap'><p class='f-14' style='font-weight:120;font-weight:400;'>等级1:<input class='int-text int-mini' readonly='readonly' type='text' name='list[0].minScore' id='min1' value='0' style='border: none;background:none;font-weight:400;'><input type='hidden' name=list[0].rank value='1'>-<input class='int-text int-mini' name='list[0].maxScore' id='max1' type='text' onblur=\""+"pager._changeValue('1')"+"\" maxlength='12' onkeydown='return doit()' style='font-weight:400;'>分<input type='text' style='display:none;color:red' id='rankMsg1'></p></td>";
              htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><input class='int-text int-mini' name='list[0].rankName' id='name1' type='text' onblur=\""+"pager._valideName('1')"+"\" maxlength='12'><input type='text' id='nameMsg1' style='display:none;color:red'></p></td>";

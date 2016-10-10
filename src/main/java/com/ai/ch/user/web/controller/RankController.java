@@ -83,7 +83,7 @@ public class RankController {
 				model.addObject("data",str);
 				//System.out.println(JSON.toJSONString(str));
 			}else
-				model.addObject("data","[{\"result\":[{}]}");
+				model.addObject("data","{\"result\":[{}]}");
 			return model;
 		}
 

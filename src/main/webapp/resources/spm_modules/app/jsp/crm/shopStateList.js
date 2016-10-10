@@ -88,6 +88,7 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
 				title : '提示',
 				content : '确定要冻结此账户?',
 				icon:'warning',
+				closeIconShow:false,
 				okValue : "确定",
 				ok : function() {
 					this.close;
@@ -151,6 +152,7 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
 				content : '确定要解冻此账户?',
 				icon:'warning',
 				okValue : "确定",
+				closeIconShow:false,
 				ok : function() {
 					this.close;
 					$.ajax({
@@ -212,6 +214,7 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
 				title : '提示',
 				content : '确定要注销此账户?',
 				icon:'warning',
+				closeIconShow:false,
 				okValue : "确定",
 				ok : function() {
 					this.close;
@@ -274,6 +277,7 @@ define('app/jsp/crm/shopStateList', function (require, exports, module) {
 				title : '提示',
 				content : '确定要恢复此账户吗?',
 				icon:'warning',
+				closeIconShow:false,
 				okValue : "确定",
 				ok : function() {
 					this.close;

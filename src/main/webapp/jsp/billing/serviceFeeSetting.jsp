@@ -62,7 +62,7 @@ label.error {
 								</div>
 								<ul>
 									<li class="col-md-6">
-										<p class="word">固定金额服务费:</p>
+										<p class="word">固定金额服务费</p>
 										<p>${rentFeeStr }</p>
 									</li>
 								</ul>
