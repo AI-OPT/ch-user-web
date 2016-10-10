@@ -396,13 +396,14 @@
 									</p>
 								</li>
 							</ul>
-							<div class="row">
 							<ul>
-							<li style="margin-left: 20%"><input type="button" style="margin-left:25%;"
+							<li>
+							<p class="word">&nbsp;&nbsp;&nbsp;</p>
+							<p>
+							<input type="button"
 												onclick="backup();" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
-												value="返回"></li></ul></div>
+												value="返回"></p></li></ul></div>
                              </div>
-                        </div>
                     </div>
                 </div>
             

@@ -206,7 +206,7 @@
 				<span class="btn-upload">
 				<input class="int-text int-mini" id="picName{{:rank}}" value="" type="text" disabeld="disabled" style="border:none;background:none;"><input type="hidden" id=rankLogo{{:rank}} name="rankLogo{{:rank}}"><input type="hidden" id=rankName{{:rank}} name="rankName{{:rank}}">
 				<input type="button" class="btn-primary btn-default btn-medium" value="浏览文件"/>
-				<input type="file" class="int-file" id='img{{:rank}}' name='img{{:rank}}' onchange="pager._imgName('{{:rank}}')"/>
+				<input type="file" class="int-file1" id='img{{:rank}}' name='img{{:rank}}' onchange="pager._imgName('{{:rank}}')"/>
 				</span><input type='text' id='picErr{{:rank}}' style='display:none;color:red;font-size:14px'></p>
 			</td>
 		</tr>
@@ -219,7 +219,7 @@
 			<td class="text-l pl-10" style="white-space:nowrap"><p class='f-14'><input class="int-text int-mini" name="list[{{:index-1}}].rankName" type="text" id="name{{:index}}" onblur="pager._valideName('{{:index}}')" maxlength='12'><input type='text' id='nameMsg{{:index}}' style='display:none;color:red'></p></td>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class='f-14'><b class="red">*</b>图片名称:<span class="btn-upload"><input class="int-text int-mini" id="picName{{:index}}" disabled="disabled" type="text" style="border:none;background:none;"><input type="hidden" id=rankLogo{{:index}} name="rankLogo{{:index}}"><input type="hidden" id=rankName{{:index}} name="rankName{{:index}}">
 				<input type="button" class="btn-primary btn-default btn-medium" value="浏览文件"/>
-				<input type="file" class="int-file" id='img{{:index}}' name='img{{:index}}' onchange="pager._imgName('{{:index}}')"/></span>
+				<input type="file" class="int-file1" id='img{{:index}}' name='img{{:index}}' onchange="pager._imgName('{{:index}}')"/></span>
 				<input type='text' style='display:none;color:red;font-size:14px' id='picErr{{:index}}'></p></td>
 		</tr>
 	{{/for}}

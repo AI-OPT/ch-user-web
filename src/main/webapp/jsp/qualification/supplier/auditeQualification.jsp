@@ -396,20 +396,20 @@
 									</p>
 								</li>
 							</ul>
-							<div class="row">
 							<ul>
 								<li>
+								<p class="word">&nbsp;&nbsp;&nbsp;</p>
+								<p>
 										<input type="button"
 											class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="通过"
-											onclick="pager._passAudit('${userId}','${_base}/qualification/toNoCheckedSupplierPager');" style="margin-left: 60%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								</li>
-								<li>
+											onclick="pager._passAudit('${userId}','${_base}/qualification/toNoCheckedSupplierPager');">
+									</p><p>
 										<input type="button"
 											class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="拒绝"
 											onclick="pager._rejectAudit('${userId}','${_base}/qualification/toNoCheckedSupplierPager');">
+											</p>
 									</li>
 								</ul>
-                             </div>
                         </div>
                     </div>
                 </div>

@@ -50,7 +50,7 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
              htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><input class='int-text int-mini' name='list[0].rankName' id='name1' type='text' onblur=\""+"pager._valideName('1')"+"\" maxlength='12'><input type='text' id='nameMsg1' style='display:none;color:red'></p></td>";
              htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><b class='red'>*</b>图片名称 :<span class='btn-upload'><input class='int-text int-mini' disabled='disabled' id='picName1' style='border:none;background:none;font-weight:400;'><input type='hidden' name='list[0].rankLogo' id='rankLogo1'><input type='hidden' name='rankName1' id='rankName1'>";
              htmlOutput+="<input type='button' class='btn-primary btn-default btn-medium' value='浏览文件'/>";
-             htmlOutput+="<input type='file' class='int-file' id='img1' name='img1' onchange=\""+"pager._imgName('1')\"/></span><input type='hidden' id='idpsId1' name='list[0].idpsId'><input type='text' id='picErr1' style='display:none;color:red;font-size:14px'></p></td></tr>";
+             htmlOutput+="<input type='file' class='int-file1' id='img1' name='img1' onchange=\""+"pager._imgName('1')\"/></span><input type='hidden' id='idpsId1' name='list[0].idpsId'><input type='text' id='picErr1' style='display:none;color:red;font-size:14px'></p></td></tr>";
     		if(count>2){
     		var json = '[';
     		var json = '{result:[';
@@ -68,7 +68,7 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
             htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><input class='int-text int-mini' name='list["+count_+"].rankName' id='name"+count+"' type='text' onblur=\""+"pager._valideName('"+count+"')\" maxlength='12'><input type='text' id='nameMsg"+count+"' style='display:none;color:red'></p></td>";
             htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><b class='red'>*</b>图片名称 :<span class='btn-upload'><input class='int-text int-mini' disabled='disabled' id='picName"+count	+"' type='text' style='border: none;background:none;font-weight:400;'><input type='hidden' name='list["+count_+"].rankLogo' id='rankLogo"+count+"'><input type='hidden' name='rankName"+count+"' id='rankName"+count+"'>";
             htmlOutput+="<input type='button' class='btn-primary btn-default btn-medium' value='浏览文件'/>";
-            htmlOutput+="<input type='file' class='int-file' id='img"+count+"' name='img"+count+"' onchange=\""+"pager._imgName('"+count+"')\"/></span><input type='hidden' id='idpsId"+count+"' name='list["+count_+"].idpsId'><input type='text' id='picErr"+count+"' style='display:none;color:red;font-size:14px'></p></td></tr>";
+            htmlOutput+="<input type='file' class='int-file1' id='img"+count+"' name='img"+count+"' onchange=\""+"pager._imgName('"+count+"')\"/></span><input type='hidden' id='idpsId"+count+"' name='list["+count_+"].idpsId'><input type='text' id='picErr"+count+"' style='display:none;color:red;font-size:14px'></p></td></tr>";
             $("#TBODY_RANKRULE").html(htmlOutput);
             $("#rankRegion").val(count);
     	},
