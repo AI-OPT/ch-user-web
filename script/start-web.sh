@@ -25,6 +25,12 @@ sed -i "s%paas.sdk.mode=.*%paas.sdk.mode=${SDK_MODE}%g" ./paas/paas-conf.propert
 sed -i "s%ccs.appname=.*%ccs.appname=${CCS_NAME}%g" ./paas/paas-conf.properties
 sed -i "s%ccs.zk_address=.*%ccs.zk_address=${ZK_ADDR}%g" ./paas/paas-conf.properties
 
+sed -i "s%findByCompanyId_http_url=.*%findByCompanyId_http_url=${findByCompanyId_http_url}%g" ./httpUrl.properties
+sed -i "s%searchCompanyList_http_url=.*%searchCompanyList_http_url=${searchCompanyList_http_url}%g" ./httpUrl.properties
+sed -i "s%updateAuditState_http_url=.*%updateAuditState_http_url=${updateAuditState_http_url}%g" ./httpUrl.properties
+sed -i "s%updateCompanyState_http_url=.*%updateCompanyState_http_url=${updateCompanyState_http_url}%g" ./httpUrl.properties
+
+
 # 各中心要根据情况自己修改成与dubbo.properties中对应的配置项
 sed -i "s%dubbo.registry.address=.*%dubbo.registry.address=${REST_REGISTRY_ADDR}%g" ./dubbo.properties
 popd
