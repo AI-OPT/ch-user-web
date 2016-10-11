@@ -280,7 +280,7 @@
 									<p class="word">
 										<b class="red">*</b>组织机构代码证:
 									</p>
-									<p class="word">${organizationCode }</p>
+									<p>${organizationCode }</p>
 								</li>
 								</ul>
 								<ul>
