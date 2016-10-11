@@ -33,7 +33,8 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     	events: {
     		"change #rankRegion":"_changeTable",
     		"click #updateRule":"_updateRankRule",
-    		"click #toEdit":"_toEdit"
+    		"click #toEdit":"_toEdit",
+    		"click #backup":"_backup"
         },
     	//重写父类
     	setup: function () {
@@ -76,7 +77,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
             htmlOutput+="&nbsp;&nbsp;<input type='button' class='btn-primary btn-default btn-medium' value='浏览文件'/>";
             htmlOutput+="<input type='file' class='int-file1' id='img1' name='img1' onchange=\""+"pager._imgName('1')\"/></span><input type='text' id='picErr1' style='display:none;color:red;font-size:14px'></p></td></tr>";
             //最后一行
-            var htmlOutputEnd ="<tr><td class='text-l pl-10' style='white-space:nowrap'><p class='f-14' style='font-weight:400;'>等级"+count+":<input class='int-text int-mini' name='list["+count_+"].minScore' id='min"+count+"' type='text' value='"+result[count_].minScore+"' readonly='readonly' style='border: none;background:none;font-weight:400;' maxlength='12' onkeydown='return doit()' style=''>分以上</p><input type='hidden' value='999999999999999' name='maxScore'><input type='hidden' value='"+count+"' id='max"+count+"' name='list["+count_+"].rank' onblur='"+"changeValue("+count+")'></td>";
+            var htmlOutputEnd ="<tr><td class='text-l pl-10' style='white-space:nowrap'><p class='f-14' style='font-weight:400;'>等级"+count+":<input class='int-text int-mini' name='list["+count_+"].minScore' id='min"+count+"' type='text' value='"+result[count_].minScore+"' readonly='readonly' style='border: none;background:none;font-weight:400;' maxlength='12' onkeydown='return doit()' style=''>分以上</p><input type='hidden' value='999999999999999' name='maxScore'><input type='hidden' value='999999999999999' id='max"+count+"' name='list["+count_+"].rank' onblur='"+"changeValue("+count+")'></td>";
     		htmlOutputEnd+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><input class='int-text int-mini' name='list["+count_+"].rankName' type='text' value='"+result[count_].rankName+"' id='name"+count+"' onblur=\""+"pager._valideName('"+count+"')\" maxlength='40'><input type='text' id='nameMsg"+count+"' style='display:none;color:red'></p></td>";
     		htmlOutputEnd+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><b class='red'>*</b>图片名称:<span class='btn-upload'><input class='int-text int-mini' disabled='disabled' type='text' value='"+nameMap[count]+"' id='picName"+count+"' style='border:none;background:none;font-weight:400;'><input type='hidden' name='list["+count_+"].rankLogo' id='rankLogo"+count+"' value='idpsMap["+count+"]'><input type='hidden' name='rankName"+count+"' id='rankName"+count+"' value='nameMap["+count+"]'>";
     		htmlOutputEnd+="&nbsp;&nbsp;<input type='button' class='btn-primary btn-default btn-medium' value='浏览文件'/>";
@@ -119,7 +120,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		//渲染模版
             htmlOutput += template.render(json);
     		}
-    		htmlOutput+="<tr><td class='text-l pl-10' style='white-space:nowrap'><p class='f-14' style='font-weight:400;'>等级 "+count+":<input class='int-text int-mini' name='list["+count_+"].minScore' id='min"+count+"' type='text' value='0' readonly='readonly' id='min"+count+"' style='border: none;background:none;font-weight:400;' maxlength='12' onkeydown='return doit()'>分以上</p><p class='f-14' style='font-weight:400;'><input type='text' style='display:none;color:red' id='rankMsg"+count+"'></p><input type='hidden' value='999999999999999' name='maxScore'><input type='hidden' value='"+count+"' name='list["+count_+"].rank'></td>";
+    		htmlOutput+="<tr><td class='text-l pl-10' style='white-space:nowrap'><p class='f-14' style='font-weight:400;'>等级 "+count+":<input class='int-text int-mini' name='list["+count_+"].minScore' id='min"+count+"' type='text' value='0' readonly='readonly' id='min"+count+"' style='border: none;background:none;font-weight:400;' maxlength='12' onkeydown='return doit()'>分以上</p><p class='f-14' style='font-weight:400;'><input type='text' style='display:none;color:red' id='rankMsg"+count+"'></p><input type='hidden' value='999999999999999' name='maxScore' id='max"+count+"'><input type='hidden' value='"+count+"' name='list["+count_+"].rank'></td>";
             htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><input class='int-text int-mini' name='list["+count_+"].rankName' id='name"+count+"' type='text' onblur=\""+"pager._valideName('"+count+"')\" maxlength='12'><input type='text' id='nameMsg"+count+"' style='display:none;color:red'></p></td>";
             htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><b class='red'>*</b>图片名称:<span class='btn-upload'><input class='int-text int-mini' disabled='disabled' id='picName"+count+"' type='text' style='border: none;background:none;font-weight:400;'><input type='hidden' name='list["+count_+"].rankLogo' id='rankLogo"+count_+"'><input type='hidden' name='rankName"+count+"' id='rankName"+count+"'>";
             htmlOutput+="&nbsp;<input type='button' class='btn-primary btn-default btn-medium' value='浏览文件'/>";
@@ -180,6 +181,9 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		 }
     	},
     	
+    	_backup:function(){
+    		window.location.href=_base+"/rank/rankrule";
+    	},
     	_changeValue:function(index){
     		document.getElementById('rankMsg'+index).style.display="none";
     		var maxIndex = $("#max"+index).val();
@@ -200,6 +204,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     			$("#rankFlag").val('0');
     			return false;
     		}
+    		//debugger;
     		if($("#max"+(parseInt(index)+1)).val()!=""){
     			document.getElementById('rankMsg'+index).style.display="none";
     			if(parseInt($("#max"+index).val())>=parseInt($("#max"+(parseInt(index)+1)).val())){

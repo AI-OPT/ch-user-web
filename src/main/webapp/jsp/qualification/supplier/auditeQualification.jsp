@@ -144,7 +144,7 @@
 								</li>
 							</ul>
 							<ul>
-								<li class="col-md-3">
+								<li class="col-md-6">
 									<p class="word">
 										<b class="red">*</b>营业执照号:
 									</p>
@@ -267,7 +267,7 @@
 								</ul>
 							</div>
 							<ul>
-								<li class="col-md-3">
+								<li class="col-md-6">
 									<p class="word">
 										<b class="red">*</b>组织机构代码证:
 									</p>
@@ -331,7 +331,7 @@
 									<p class="word">
 										<b class="red">*</b>供应商品类型:
 									</p>
-									<p>${brandNameType }</p>
+									<p>${commodityType }</p>
 								</li>
 								</ul>
 								<ul>

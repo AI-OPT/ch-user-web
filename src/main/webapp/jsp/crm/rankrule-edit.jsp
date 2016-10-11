@@ -156,7 +156,10 @@
 									 <p class="center mt-30">
 										<input type="button" id="updateRule"
 											class="biu-btn btn-primary btn-blue btn-medium ml-10"
-											value="保存"></p>
+											value="保存">
+										<input type="button" id="backup"
+											class="biu-btn btn-primary btn-blue btn-medium ml-10"
+											value="返回"></p>
 											 <input type="hidden" id="rankFlag"
 											value=""> <input type="hidden" id="nameFlag" value="">
 										<input type="hidden" id="picFlag" value="">
