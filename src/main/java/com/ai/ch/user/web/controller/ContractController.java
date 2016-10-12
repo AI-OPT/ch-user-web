@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -341,9 +342,7 @@ public class ContractController {
 	  */
 	 @RequestMapping("/addShopContractInfo")
 	 @ResponseBody
-	 public ResponseData<String> addShopContractInfo(HttpServletRequest request,ContactInfoRequest contractInfo,CustFileListVo custFileListVo) {
-	        ResponseData<String> responseData = null;
-	        ResponseHeader responseHeader = null;
+	 public ModelAndView addShopContractInfo(HttpServletRequest request,ContactInfoRequest contractInfo,CustFileListVo custFileListVo) {
 	        GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 	        try{
 	        	String startTime = request.getParameter("startTime");
@@ -356,33 +355,58 @@ public class ContractController {
 	        	
 	        	IContractSV contract = DubboConsumerFactory.getService("iContractSV");
 	        	ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
-	        	
 	 	        contract.insertContractInfo(contractInfo);
-	 	        
-	 	       //保存附件信息
+	 	       MultipartHttpServletRequest file = (MultipartHttpServletRequest) request;
+	 	        MultipartFile multiScanFile = file.getFile("scanFile");
+	 	        MultipartFile multiElectronicFile = file.getFile("electronicFile");
+	 	        //保存附件信息
 	 	        UpdateCustFileExtRequest updateCustFileExtRequest = new UpdateCustFileExtRequest();
 	 	        List<CmCustFileExtVo> list = custFileListVo.getList();
 	 	        List<CmCustFileExtVo> fileList = new ArrayList<CmCustFileExtVo>();
 	 	        for(CmCustFileExtVo extVo : list){
-	 	        	if(!"".equals(extVo.getAttrValue())||"".equals(extVo.getInfoName())){
-	 	        		fileList.add(extVo);
+	 	        	if(multiScanFile.getSize()>0&&!"".equals(extVo.getInfoName())&&ChWebConstants.SCAN_CONTRACT_SUPPLIER.equals(extVo.getInfoItem())){
+	 	        		if(extVo.getInfoName().contains(".PNG")||extVo.getInfoName().contains(".JPG")||extVo.getInfoName().contains(".png")||extVo.getInfoName().contains(".jpg")){
+			 	           String idpsns = "ch-user-web-idps";
+		 	          	   IImageClient im = IDPSClientFactory.getImageClient(idpsns);
+		 	          	   String idpsId = im.upLoadImage(multiScanFile.getBytes(), UUIDUtil.genId32() + ".png");
+		 	          	   extVo.setAttrValue(idpsId);
+		 	          	   fileList.add(extVo);
+			 	         }else{
+			 	        	String dssns = "ch-user-detail-dss";
+		 	 	        	IDSSClient client=DSSClientFactory.getDSSClient(dssns);
+		 	 	    		String fileId=client.save(multiScanFile.getBytes(), "remark");
+		 	 	    		extVo.setAttrValue(fileId);
+			 	          	fileList.add(extVo);
+			 	         }
+	 	        	 }
+	 	        	if(multiElectronicFile.getSize()>0&&!"".equals(extVo.getInfoName())&&ChWebConstants.ELECTRONIC_CONTRACT_SUPPLIER.equals(extVo.getInfoItem())){
+	 	        		if(extVo.getInfoName().contains(".PNG")||extVo.getInfoName().contains(".JPG")||extVo.getInfoName().contains(".png")||extVo.getInfoName().contains(".jpg")){
+			 	           String idpsns = "ch-user-web-idps";
+			 	           IImageClient im = IDPSClientFactory.getImageClient(idpsns);
+			 	           String idpsId = im.upLoadImage(multiElectronicFile.getBytes(), UUIDUtil.genId32() + ".png");
+			 	           extVo.setAttrValue(idpsId);
+			 	           fileList.add(extVo);
+			 	         
+	 	        		}else{
+	 	        			String dssns = "ch-user-detail-dss";
+		 	 	        	IDSSClient client=DSSClientFactory.getDSSClient(dssns);
+		 	 	    		String fileId=client.save(multiElectronicFile.getBytes(), "remark");
+		 	 	    		extVo.setAttrValue(fileId);
+			 	          	fileList.add(extVo);
+			 	         }
+	 	        	 }
 	 	        	}
-	 	        }
-	 	       if(!CollectionUtil.isEmpty(fileList)&&fileList.size()>0){
-	 	    	  updateCustFileExtRequest.setList(fileList);
-		          custFileSV.updateCustFileExtBycondition(updateCustFileExtRequest);
-	 	       }
-	 	        
-	 	        
-	        	responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
-                responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
+	 	        	
+	 	        if(!CollectionUtil.isEmpty(fileList)&&fileList.size()>0){
+		 	    	  updateCustFileExtRequest.setList(fileList);
+			          custFileSV.updateCustFileExtBycondition(updateCustFileExtRequest);
+		 	     }
+	 	       
 	        }catch(Exception e){
 	        	LOGGER.error("操作失败");
-	        	responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作成功", null);
-                responseHeader = new ResponseHeader(true,ExceptionCode.ERROR_CODE, "操作成功");
+	        	return new ModelAndView("redirect:/jsp/crm/fail");
 	        }
-	        responseData.setResponseHeader(responseHeader);
-	        return responseData;
+	        return new ModelAndView("redirect:/contract/contractShopPager");
 	 }
 	 /**
 	  * 供应商添加合同信息
@@ -392,10 +416,8 @@ public class ContractController {
 	  */
 	 @RequestMapping("/addSupplierContractInfo")
 	 @ResponseBody
-	 public ResponseData<String> addSupplierContractInfo(HttpServletRequest request,ContactInfoRequest contractInfo,CustFileListVo custFileListVo) {
+	 public ModelAndView addSupplierContractInfo(HttpServletRequest request,ContactInfoRequest contractInfo,CustFileListVo custFileListVo) {
 
-	        ResponseData<String> responseData = null;
-	        ResponseHeader responseHeader = null;
 	        String startTime = request.getParameter("startTime");
 	        String endTime = request.getParameter("endTime");
 	        GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
@@ -411,29 +433,56 @@ public class ContractController {
 	        	ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
 	 	        contract.insertContractInfo(contractInfo);
 	 	        
+	 	        MultipartHttpServletRequest file = (MultipartHttpServletRequest) request;
+	 	        MultipartFile multiScanFile = file.getFile("scanFile");
+	 	        MultipartFile multiElectronicFile = file.getFile("electronicFile");
 	 	        //保存附件信息
 	 	        UpdateCustFileExtRequest updateCustFileExtRequest = new UpdateCustFileExtRequest();
 	 	        List<CmCustFileExtVo> list = custFileListVo.getList();
 	 	        List<CmCustFileExtVo> fileList = new ArrayList<CmCustFileExtVo>();
 	 	        for(CmCustFileExtVo extVo : list){
-	 	        	if(!"".equals(extVo.getAttrValue())||"".equals(extVo.getInfoName())){
-	 	        		fileList.add(extVo);
+	 	        	if(multiScanFile.getSize()>0&&!"".equals(extVo.getInfoName())&&ChWebConstants.SCAN_CONTRACT_SUPPLIER.equals(extVo.getInfoItem())){
+	 	        		if(extVo.getInfoName().contains(".PNG")||extVo.getInfoName().contains(".JPG")||extVo.getInfoName().contains(".png")||extVo.getInfoName().contains(".jpg")){
+			 	           String idpsns = "ch-user-web-idps";
+		 	          	   IImageClient im = IDPSClientFactory.getImageClient(idpsns);
+		 	          	   String idpsId = im.upLoadImage(multiScanFile.getBytes(), UUIDUtil.genId32() + ".png");
+		 	          	   extVo.setAttrValue(idpsId);
+		 	          	   fileList.add(extVo);
+			 	         }else{
+			 	        	String dssns = "ch-user-detail-dss";
+		 	 	        	IDSSClient client=DSSClientFactory.getDSSClient(dssns);
+		 	 	    		String fileId=client.save(multiScanFile.getBytes(), "remark");
+		 	 	    		extVo.setAttrValue(fileId);
+			 	          	fileList.add(extVo);
+			 	         }
+	 	        	 }
+	 	        	if(multiElectronicFile.getSize()>0&&!"".equals(extVo.getInfoName())&&ChWebConstants.ELECTRONIC_CONTRACT_SUPPLIER.equals(extVo.getInfoItem())){
+	 	        		if(extVo.getInfoName().contains(".PNG")||extVo.getInfoName().contains(".JPG")||extVo.getInfoName().contains(".png")||extVo.getInfoName().contains(".jpg")){
+			 	           String idpsns = "ch-user-web-idps";
+			 	           IImageClient im = IDPSClientFactory.getImageClient(idpsns);
+			 	           String idpsId = im.upLoadImage(multiElectronicFile.getBytes(), UUIDUtil.genId32() + ".png");
+			 	           extVo.setAttrValue(idpsId);
+			 	           fileList.add(extVo);
+			 	         
+	 	        		}else{
+	 	        			String dssns = "ch-user-detail-dss";
+		 	 	        	IDSSClient client=DSSClientFactory.getDSSClient(dssns);
+		 	 	    		String fileId=client.save(multiElectronicFile.getBytes(), "remark");
+		 	 	    		extVo.setAttrValue(fileId);
+			 	          	fileList.add(extVo);
+			 	         }
+	 	        	 }
 	 	        	}
-	 	        }
-	 	       if(!CollectionUtil.isEmpty(fileList)&&fileList.size()>0){
-	 	    	  updateCustFileExtRequest.setList(fileList);
-		          custFileSV.updateCustFileExtBycondition(updateCustFileExtRequest);
-	 	       }
-	 	      
-	        	responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
-                responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
+	 	        	
+	 	        if(!CollectionUtil.isEmpty(fileList)&&fileList.size()>0){
+		 	    	  updateCustFileExtRequest.setList(fileList);
+			          custFileSV.updateCustFileExtBycondition(updateCustFileExtRequest);
+		 	     }
 	        }catch(Exception e){
 	        	LOGGER.error("操作失败");
-	        	responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作成功", null);
-                responseHeader = new ResponseHeader(true,ExceptionCode.ERROR_CODE, "操作成功");
+	        	return new ModelAndView("redirect:/jsp/crm/fail");
 	        }
-	        responseData.setResponseHeader(responseHeader);
-	        return responseData;
+	        return new ModelAndView("redirect:/contract/contractSupplierPager");
 	 }
 	 
 	 
@@ -486,10 +535,10 @@ public class ContractController {
 		OutputStream os = null;
 		try {
 			os = response.getOutputStream();// 取得输出流
-			String exportFileName = fileName;
+			String newFileName = new Date().getTime()+fileName.substring(fileName.lastIndexOf("."),fileName.length());
 			response.reset();// 清空输出流
 			response.setContentType("application/pdf");// 定义输出类型
-			response.setHeader("Content-disposition", "attachment; filename=" + exportFileName);// 设定输出文件头
+			response.setHeader("Content-disposition", "attachment; filename=" + newFileName);// 设定输出文件头
 			 String dssns = "ch-user-detail-dss";
 			 IDSSClient client=DSSClientFactory.getDSSClient(dssns);
 	    	 byte[] b=client.read(attrValue);
