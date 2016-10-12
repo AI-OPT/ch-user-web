@@ -1,10 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="uedroot" value="${pageContext.request.contextPath}/template/default"/>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <title>合同管理页面</title>
@@ -75,7 +75,7 @@
 										<p class="word"><b class="red">*</b>扫描版合同:</p>
 										<p>${scanContractInfoName }</p>
 										<c:if test="${scanContractInfoName!=''&&scanContractInfoName!=null}">
-											<a class="biu-btn btn-auto btn-green" href="${_base}/contract/download/${scanContractInfoName}?fileName=${scanContractInfoName}&attrValue=${scanContractAttrValue}"> <i class="icon-download-alt"> </i>下载 </a>
+											<a class="biu-btn btn-auto btn-green" href="${_base}/contract/download?fileName=${scanContractInfoName}&attrValue=${scanContractAttrValue}"> <i class="icon-download-alt"> </i>下载 </a>
 										</c:if>
 									</li>
 								</ul>
@@ -84,7 +84,7 @@
 										<p class="word">电子版合同:</p>
 										<p>${electronicContractInfoName}</p>
 										<c:if test="${electronicContractInfoName!=''&&electronicContractInfoName!=null}">
-											<a class="biu-btn btn-auto btn-green" href="${_base}/contract/download/${electronicContractInfoName}?fileName=${electronicContractInfoName}&attrValue=${electronicContractAttrValue}"> <i class="icon-download-alt"> </i>下载 </a>
+											<a class="biu-btn btn-auto btn-green" href="${_base}/contract/download?fileName=${electronicContractInfoName}&attrValue=${electronicContractAttrValue}"> <i class="icon-download-alt"> </i>下载 </a>
 										</c:if>
 									</li>
 								</ul>
