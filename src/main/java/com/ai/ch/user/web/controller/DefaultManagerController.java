@@ -212,6 +212,7 @@ public class DefaultManagerController {
 			HeaderBean headerBean = new HeaderBean();
 			HandlerMsgUtil.conversion(msgHeader, headerBean);
 			xmlMsg = Dom4jHelper.addNamespace(xmlMsg, headerBean.getMesgType(), "UTF-8");
+			System.out.println("xmlMsg----------"+xmlMsg);
 			return (XmlBodyEntity) oxmHandler.unmarshaller(xmlMsg);
 		} catch (Exception e) {
 			System.out.println("接收数据时发生异常，错误信息为:" + e.getMessage());
