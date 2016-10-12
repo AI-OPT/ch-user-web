@@ -171,18 +171,24 @@ public class DefaultManagerController {
 
         String balance = "0";//查询的金额
 		com.ylink.upp.base.oxm.XmlBodyEntity resultMsg = this.receiveMsg(rh, rb, rs);
+		
+		System.out.println("验签结束------------------------");
+		
         com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo receive = (com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo)resultMsg;
         if(receive == null){
+        	System.out.println("验证1======================");
         	com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo receive2 = (com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo) resultMsg;
             if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
             	throw new RuntimeException("系统异常.");
             }
         }else{
+        	System.out.println("验证2======================");
             if(!"90000".equals(receive.getGrpBody().getStsRsn().getRespCode())){
             	throw new RuntimeException("系统异常.");
             }
             balance=receive.getGrpBody().getStsRsnInf().getBalance();
         }
+        System.out.println("balance======================");
 		Map<String, Object> model = new HashMap<String, Object>();
  		model.put("userId", userId);
  		try {
