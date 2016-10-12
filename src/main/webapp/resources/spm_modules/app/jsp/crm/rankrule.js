@@ -131,15 +131,15 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
     		var count = $("#rankRegion").val();
     		if(count==null||count=="")
     			count=5;
+    		//debugger;
     		$("#picFlag").val('1');
-    		$("#rankFlag").val('1');
-    		$("#nameFlag").val('1');
+			$("#rankFlag").val('1');
+			$("#nameFlag").val('1');
     		for(var i=1;i<=count;i++){
     			if(i<count)
     				this._valideValue(i);
     			this._valideName(i);
     			var pic = $("#rankName"+i).val();
-    			
     			if(pic==""||pic==null){
     				$("#picErr"+i).val("(图片格式不能为空)");
 		   			$("#picErr"+i).show();
@@ -228,12 +228,14 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
     	_valideName:function(index){
     		document.getElementById('nameMsg'+index).style.display='none';
     		var name = $("#name"+index).val().replace(/(^\s*)|(\s*$)/g,"");
+    		if($("#nameFlag").val()=='1'){
     		if(name==null||name==""){
     			$("#nameMsg"+index).val("(等级名称不能为空)");
     			$("#name"+index).val('');
 				document.getElementById('nameMsg'+index).style.display="";
 				$("#nameFlag").val('0');
 				return false;
+    		}
     		}
     	}
     	
