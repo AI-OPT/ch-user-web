@@ -52,10 +52,21 @@ public class RankController {
 		queryRankRuleRequest.setTenantId(ChWebConstants.Tenant.TENANT_ID);
 		QueryRankRuleResponse response = rankSV.queryRankRule(queryRankRuleRequest);
 		LOG.info("判断是否存在记录");
-		if (response.getList().isEmpty())
+		if (response.getList().isEmpty()){
 			return new ModelAndView("/jsp/crm/rankrule");
+		}
 		else {
-			return new ModelAndView("/jsp/crm/rankrule-edit");
+			ModelAndView model = new ModelAndView("/jsp/crm/rankrule-edit");
+			String periodType_ = "";
+			if ("Y".equals(response.getList().get(0).getPeriodType()))
+			periodType_ = "年";
+		if ("Q".equals(response.getList().get(0).getPeriodType()))
+			periodType_ = "季度";
+		if ("M".equals(response.getList().get(0).getPeriodType()))
+			periodType_ = "月";
+			model.addObject("periodType", periodType_);
+			model.addObject("rank", response.getList().size());
+			return model;
 		}
 
 	}
@@ -91,22 +102,13 @@ public class RankController {
 		queryRankRuleRequest.setTenantId(ChWebConstants.Tenant.TENANT_ID);
 		QueryRankRuleResponse response = rankSV.queryRankRule(queryRankRuleRequest);
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-		String periodType_ = "";
-			if ("Y".equals(response.getList().get(0).getPeriodType()))
-			periodType_ = "年";
-		if ("Q".equals(response.getList().get(0).getPeriodType()))
-			periodType_ = "季度";
-		if ("M".equals(response.getList().get(0).getPeriodType()))
-			periodType_ = "月";
 		Map<String,String> urlMap=getUrlMap(user.getTenantId());
 		Map<String,String> nameMap=getNameMap(user.getTenantId());
 		Map<String,String> idpsMap=getIdpsMap(user.getTenantId());
-		shopRankParamVo.setPeriodType(periodType_);
 		shopRankParamVo.setUrlMap(urlMap);
 		shopRankParamVo.setNameMap(nameMap);
 		shopRankParamVo.setIdpsMap(idpsMap);
 		shopRankParamVo.setResult(response.getList());
-		shopRankParamVo.setRank(response.getList().get(response.getList().size()-1).getRank());
 		//截取中间数据
 		List<ShopRankRuleVo> middleData = new ArrayList<>();
 		if(response.getList().size()>2){
