@@ -39,62 +39,94 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     	//重写父类
     	setup: function () {
     		RankRuleEditPager.superclass.setup.call(this);
-    		this._initView();
-    		this._initTable();
+    		this._init();
     	},
     	
-    	_initView:function(){
-    		$("#TBODY_VIEW").html();
-    		var count = result.length;
-    		var count_=count-1;
-    		//第一行
-    		var htmlOutput = "<tr><td><p class='f-14' style='font-weight:400;'>等级1:0-"+result[0].maxScore+"分</p></td>";
-    		htmlOutput+="<td><p class='f-14' style='font-weight:400;'> "+result[0].rankName+"</p></td>";
-    		htmlOutput+="<td><p><image src='"+urlMap[1]+"' height='80px' width='80px'/></p></td></tr>";
-    		//最后一行
-    		var htmlOutputEnd = "<tr><td><p class='f-14' style='font-weight:400;'>等级"+count+":"+result[count_].minScore+"分以上</p></td>";
-    		htmlOutputEnd+="<td><p class='f-14' style='font-weight:400;'> "+result[count_].rankName+"</p></td>";
-    		htmlOutputEnd+="<td><p><image src='"+urlMap[count]+"' height='80px' width='80px'/></p></td></tr>";
-    		if(count>2){
-    			var template = $.templates("#rankRuleViewImpl");
-    			var middleOutput=template.render(data);
-    			htmlOutput += middleOutput;
-    		}
-    		htmlOutput+=htmlOutputEnd;
-            $("#TBODY_VIEW").html(htmlOutput);
-            for(var t=2;t<count;t++)
-            	$("#imgView"+t).attr("src",urlMap[t]);
-    	},
-    	
-    	_initTable:function(){
-    		$("#TBODY_RANKRULE").html();
-    		var count = result.length;
-    		var count_ = count-1;
-    		//第一行
-    		var htmlOutput ="<tr><td class='text-l pl-10' style='white-space:nowrap'><p class='f-14' style='font-weight:400;'>等级1:<input type='text' value='0' class='int-text int-mini' id='min1' style='border: none;background:none;font-weight:400;' name='list[0].minScore' readonly='readonly'>-<input type='hidden' value='1' name='list[0].rank'><input class='int-text int-mini' name='list[0].maxScore' id='max1' value='"+result[0].maxScore+"' type='text' onblur='"+"pager._changeValue(1)' maxlength='12' onkeydown='return doit()' style=''>分<input type='text' id='rankMsg1' style='display:none;color:red'></p></td>";
-            htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><input class='int-text int-mini' name='list[0].rankName' type='text' value='"+result[0].rankName+"' id='name1' onblur='"+"pager._valideName(1)' maxlength='40'><input type='text' style='display:none;color:red' maxlength='12' id='nameMsg1'></p></td>";
-            htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><b class='red'>*</b>图片名称:<span class='btn-upload'><input class='int-text int-mini' disabled='disabled' type='text' value='"+nameMap[1]+"' id='picName1' style='border:none;background:none;font-weight:400;'><input type='hidden' name='list[0].rankLogo' id='rankLogo1' value='idpsMap[1]'><input type='hidden' name='rankName1' id='rankName1' value='nameMap[1]'>";
-            htmlOutput+="&nbsp;&nbsp;<input type='button' class='btn-primary btn-default btn-medium' value='浏览文件'/>";
-            htmlOutput+="<input type='file' class='int-file1' id='img1' name='img1' onchange=\""+"pager._imgName('1')\"/></span><input type='text' id='picErr1' style='display:none;color:red;font-size:14px'></p></td></tr>";
-            //最后一行
-            var htmlOutputEnd ="<tr><td class='text-l pl-10' style='white-space:nowrap'><p class='f-14' style='font-weight:400;'>等级"+count+":<input class='int-text int-mini' name='list["+count_+"].minScore' id='min"+count+"' type='text' value='"+result[count_].minScore+"' readonly='readonly' style='border: none;background:none;font-weight:400;' maxlength='12' onkeydown='return doit()' style=''>分以上</p><input type='hidden' value='999999999999999' name='maxScore'><input type='hidden' value='999999999999999' id='max"+count+"' name='list["+count_+"].rank' onblur='"+"changeValue("+count+")'></td>";
-    		htmlOutputEnd+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><input class='int-text int-mini' name='list["+count_+"].rankName' type='text' value='"+result[count_].rankName+"' id='name"+count+"' onblur=\""+"pager._valideName('"+count+"')\" maxlength='40'><input type='text' id='nameMsg"+count+"' style='display:none;color:red'></p></td>";
-    		htmlOutputEnd+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><b class='red'>*</b>图片名称:<span class='btn-upload'><input class='int-text int-mini' disabled='disabled' type='text' value='"+nameMap[count]+"' id='picName"+count+"' style='border:none;background:none;font-weight:400;'><input type='hidden' name='list["+count_+"].rankLogo' id='rankLogo"+count+"' value='idpsMap["+count+"]'><input type='hidden' name='rankName"+count+"' id='rankName"+count+"' value='nameMap["+count+"]'>";
-    		htmlOutputEnd+="&nbsp;&nbsp;<input type='button' class='btn-primary btn-default btn-medium' value='浏览文件'/>";
-    		htmlOutputEnd+="<input type='file' class='int-file1' id='img"+count+"' name='img"+count+"' onchange=\""+"pager._imgName("+count+")\"/></span><input type='text' id='picErr"+count+"' style='display:none;color:red;font-size:14px'></p></td></tr>";
-    		if(count>2){
-    			var template = $.templates("#rankRuleInitImpl");
-    			var middleOutput=template.render(data);
-    			htmlOutput += middleOutput;
-    		}
-	    		htmlOutput+=htmlOutputEnd;
-	            $("#TBODY_RANKRULE").html(htmlOutput);
-	    		$("#rankRegion").val(count);
-				for(var t=2;t<count;t++){
-					$("#picName"+t).val(nameMap[t]);
-					$("#rankLogo"+t).val(idpsMap[t]);
-					$("#rankName"+t).val(nameMap[t]);
-    		}
+    	_init:function(){
+    		$.ajax({
+    			type:"post",
+    			processing: true,
+    			url:_base+"/rank/getInitData",
+    			dataType: "json",
+    			data:{},
+    	        success: function(data) {
+    	        	if(data.responseHeader.resultCode='000000'){
+    					//initView
+    					var result=data.data.result;
+    					//debugger;
+    					var urlMap=data.data.urlMap;
+    					var nameMap=data.data.nameMap;
+    					var idpsMap=data.data.idpsMap;
+    					var rank=data.data.rank;
+    					var periodType=data.data.periodType;
+    					var data=data.data.middleData;
+    					$("#TBODY_VIEW").html();
+    		    		var count = result.length;
+    		    		var count_=count-1;
+    		    		//第一行
+    		    		var htmlOutput = "<tr><td><p class='f-14' style='font-weight:400;'>等级1:0-"+result[0].maxScore+"分</p></td>";
+    		    		htmlOutput+="<td><p class='f-14' style='font-weight:400;'> "+result[0].rankName+"</p></td>";
+    		    		htmlOutput+="<td><p><image src='"+urlMap[1]+"' height='80px' width='80px'/></p></td></tr>";
+    		    		//最后一行
+    		    		var htmlOutputEnd = "<tr><td><p class='f-14' style='font-weight:400;'>等级"+count+":"+result[count_].minScore+"分以上</p></td>";
+    		    		htmlOutputEnd+="<td><p class='f-14' style='font-weight:400;'> "+result[count_].rankName+"</p></td>";
+    		    		htmlOutputEnd+="<td><p><image src='"+urlMap[count]+"' height='80px' width='80px'/></p></td></tr>";
+    		    		if(count>2){
+    		    			var template = $.templates("#rankRuleViewImpl");
+    		    			var middleOutput=template.render(data);
+    		    			htmlOutput += middleOutput;
+    		    		}
+    		    		htmlOutput+=htmlOutputEnd;
+    		            $("#TBODY_VIEW").html(htmlOutput);
+    		            for(var t=2;t<count;t++)
+    		            	$("#imgView"+t).attr("src",urlMap[t]);
+    		            
+    		            //initTable
+    		            $("#TBODY_RANKRULE").html();
+    		    		var count = result.length;
+    		    		var count_ = count-1;
+    		    		//第一行
+    		    		var htmlOutput ="<tr><td class='text-l pl-10' style='white-space:nowrap'><p class='f-14' style='font-weight:400;'>等级1:<input type='text' value='0' class='int-text int-mini' id='min1' style='border: none;background:none;font-weight:400;' name='list[0].minScore' readonly='readonly'>-<input type='hidden' value='1' name='list[0].rank'><input class='int-text int-mini' name='list[0].maxScore' id='max1' value='"+result[0].maxScore+"' type='text' onblur='"+"pager._changeValue(1)' maxlength='12' onkeydown='return doit()' style=''>分<input type='text' id='rankMsg1' style='display:none;color:red'></p></td>";
+    		            htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><input class='int-text int-mini' name='list[0].rankName' type='text' value='"+result[0].rankName+"' id='name1' onblur='"+"pager._valideName(1)' maxlength='40'><input type='text' style='display:none;color:red' maxlength='12' id='nameMsg1'></p></td>";
+    		            htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><b class='red'>*</b>图片名称:<span class='btn-upload'><input class='int-text int-mini' disabled='disabled' type='text' value='"+nameMap[1]+"' id='picName1' style='border:none;background:none;font-weight:400;'><input type='hidden' name='list[0].rankLogo' id='rankLogo1' value='idpsMap[1]'><input type='hidden' name='rankName1' id='rankName1' value='nameMap[1]'>";
+    		            htmlOutput+="&nbsp;&nbsp;<input type='button' class='btn-primary btn-default btn-medium' value='浏览文件'/>";
+    		            htmlOutput+="<input type='file' class='int-file1' id='img1' name='img1' onchange=\""+"pager._imgName('1')\"/></span><input type='text' id='picErr1' style='display:none;color:red;font-size:14px'></p></td></tr>";
+    		            //最后一行
+    		            var htmlOutputEnd ="<tr><td class='text-l pl-10' style='white-space:nowrap'><p class='f-14' style='font-weight:400;'>等级"+count+":<input class='int-text int-mini' name='list["+count_+"].minScore' id='min"+count+"' type='text' value='"+result[count_].minScore+"' readonly='readonly' style='border: none;background:none;font-weight:400;' maxlength='12' onkeydown='return doit()' style=''>分以上</p><input type='hidden' value='999999999999999' name='maxScore'><input type='hidden' value='999999999999999' id='max"+count+"' name='list["+count_+"].rank' onblur='"+"changeValue("+count+")'></td>";
+    		    		htmlOutputEnd+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><input class='int-text int-mini' name='list["+count_+"].rankName' type='text' value='"+result[count_].rankName+"' id='name"+count+"' onblur=\""+"pager._valideName('"+count+"')\" maxlength='40'><input type='text' id='nameMsg"+count+"' style='display:none;color:red'></p></td>";
+    		    		htmlOutputEnd+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><b class='red'>*</b>图片名称:<span class='btn-upload'><input class='int-text int-mini' disabled='disabled' type='text' value='"+nameMap[count]+"' id='picName"+count+"' style='border:none;background:none;font-weight:400;'><input type='hidden' name='list["+count_+"].rankLogo' id='rankLogo"+count+"' value='idpsMap["+count+"]'><input type='hidden' name='rankName"+count+"' id='rankName"+count+"' value='nameMap["+count+"]'>";
+    		    		htmlOutputEnd+="&nbsp;&nbsp;<input type='button' class='btn-primary btn-default btn-medium' value='浏览文件'/>";
+    		    		htmlOutputEnd+="<input type='file' class='int-file1' id='img"+count+"' name='img"+count+"' onchange=\""+"pager._imgName("+count+")\"/></span><input type='text' id='picErr"+count+"' style='display:none;color:red;font-size:14px'></p></td></tr>";
+    		    		if(count>2){
+    		    			var template = $.templates("#rankRuleInitImpl");
+    		    			var middleOutput=template.render(data);
+    		    			htmlOutput += middleOutput;
+    		    		}
+    			    		htmlOutput+=htmlOutputEnd;
+    			            $("#TBODY_RANKRULE").html(htmlOutput);
+    			    		$("#rankRegion").val(count);
+    						for(var t=2;t<count;t++){
+    							$("#picName"+t).val(nameMap[t]);
+    							$("#rankLogo"+t).val(idpsMap[t]);
+    							$("#rankName"+t).val(nameMap[t]);
+    		    		}
+    				}
+    	            },
+    				error: function(error) {
+    					var d = Dialog({
+    	    				title : '提示',
+    	    				content : '保存失败',
+    	    				icon:'fail',
+    	    				closeIconShow:false,
+    	    				okValue : "确定",
+    	    				ok : function() {
+    	    					this.close;
+    	    					window.location.href=_base+"/rank/rankrule";
+    	    				}
+    	    			});
+    	    			d.show();
+    				}
+    				});
     	},
     	
     	_changeTable:function(){

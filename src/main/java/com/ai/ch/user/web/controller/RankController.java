@@ -29,9 +29,12 @@ import com.ai.ch.user.api.rank.params.ShopRankRuleVo;
 import com.ai.ch.user.api.rank.params.UpdateRankRuleRequest;
 import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
+import com.ai.ch.user.web.vo.ShopRankParamVo;
+import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.UUIDUtil;
+import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.paas.ipaas.image.IImageClient;
 import com.alibaba.fastjson.JSON;
@@ -49,44 +52,80 @@ public class RankController {
 		QueryRankRuleRequest queryRankRuleRequest = new QueryRankRuleRequest();
 		queryRankRuleRequest.setTenantId(ChWebConstants.Tenant.TENANT_ID);
 		QueryRankRuleResponse response = rankSV.queryRankRule(queryRankRuleRequest);
-		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		LOG.info("判断是否存在记录");
 		if (response.getList().isEmpty())
 			return new ModelAndView("/jsp/crm/rankrule");
 		else {
-			String periodType_ = "";
- 			if ("Y".equals(response.getList().get(0).getPeriodType()))
-				periodType_ = "年";
-			if ("Q".equals(response.getList().get(0).getPeriodType()))
-				periodType_ = "季度";
-			if ("M".equals(response.getList().get(0).getPeriodType()))
-				periodType_ = "月";
-			ModelAndView model = new ModelAndView("/jsp/crm/rankrule-edit");
-			Map<String,String> urlMap=getUrlMap(user.getTenantId());
-			Map<String,String> nameMap=getNameMap(user.getTenantId());
-			Map<String,String> idpsMap=getIdpsMap(user.getTenantId());
-			model.addObject("periodType", periodType_);
-			model.addObject("urlMap", JSON.toJSONString(urlMap));
-			model.addObject("nameMap", JSON.toJSONString(nameMap));
-			model.addObject("idpsMap", JSON.toJSONString(idpsMap));
-			model.addObject("result", JSON.toJSONString(response.getList()));
-			model.addObject("rank", response.getList().get(response.getList().size()-1).getRank());
-			//截取中间数据
-			StringBuilder middle=new StringBuilder("{\"result\":[");
-			if(response.getList().size()>2){
-				for (int index = 1; index <= response.getList().size()-2; index++) {
-					middle.append(JSON.toJSONString(response.getList().get(index)));
-					middle.append(",");
-				}
-				String str= middle.substring(0, middle.length()-1);
-				str+="]}";
-				model.addObject("data",str);
-				//System.out.println(JSON.toJSONString(str));
-			}else
-				model.addObject("data","{\"result\":[{}]}");
-			return model;
+			return new ModelAndView("/jsp/crm/rankrule-edit");
 		}
 
+	}
+	
+	@RequestMapping("/getJsonData")
+	public ResponseData<String> getJsonData(HttpServletRequest request){
+		ResponseData<String> responseData = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "success");
+		ResponseHeader responseHeader = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "success");
+		String count = request.getParameter("count");
+		StringBuilder json = new StringBuilder();
+		String data ="";
+		if(!count.isEmpty()){
+			json.append("{\"result\":[");
+			for(int i=2;i<Integer.parseInt(count)-1;i++){
+				json.append("{\"index\":"+i+"},");
+			}
+			data = json.substring(0, json.length()-1);
+			data+="]}";
+		}
+		responseData.setData(data);
+		responseData.setResponseHeader(responseHeader);
+		return responseData;
+	}
+	
+	@RequestMapping("/getInitData")
+	public ResponseData<ShopRankParamVo> getInitData(HttpServletRequest request){
+		// 调dubbo服务
+		ResponseData<ShopRankParamVo> responseData = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "success");
+		ResponseHeader responseHeader = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "success");
+		ShopRankParamVo shopRankParamVo = new ShopRankParamVo();
+		IRankSV rankSV = DubboConsumerFactory.getService("iRankSV");
+		QueryRankRuleRequest queryRankRuleRequest = new QueryRankRuleRequest();
+		queryRankRuleRequest.setTenantId(ChWebConstants.Tenant.TENANT_ID);
+		QueryRankRuleResponse response = rankSV.queryRankRule(queryRankRuleRequest);
+		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+		String periodType_ = "";
+			if ("Y".equals(response.getList().get(0).getPeriodType()))
+			periodType_ = "年";
+		if ("Q".equals(response.getList().get(0).getPeriodType()))
+			periodType_ = "季度";
+		if ("M".equals(response.getList().get(0).getPeriodType()))
+			periodType_ = "月";
+		Map<String,String> urlMap=getUrlMap(user.getTenantId());
+		Map<String,String> nameMap=getNameMap(user.getTenantId());
+		Map<String,String> idpsMap=getIdpsMap(user.getTenantId());
+		shopRankParamVo.setPeriodType(periodType_);
+		shopRankParamVo.setUrlMap(urlMap);
+		shopRankParamVo.setNameMap(nameMap);
+		shopRankParamVo.setIdpsMap(idpsMap);
+		shopRankParamVo.setResult(response.getList());
+		shopRankParamVo.setRank(response.getList().get(response.getList().size()-1).getRank());
+		//截取中间数据
+		List<ShopRankRuleVo> middleData = new ArrayList<>();
+		if(response.getList().size()>2){
+			//废弃
+			/*for (int index = 1; index <= response.getList().size()-2; index++) {
+				middle.append(JSON.toJSONString(response.getList().get(index)));
+				middle.append(",");
+			}
+			String str= middle.substring(0, middle.length()-1);
+			str+="]}";*/
+			middleData = response.getList().subList(1, response.getList().size()-1);
+			shopRankParamVo.setMiddleData(middleData);
+		}else
+			shopRankParamVo.setMiddleData(middleData);
+			responseData.setData(shopRankParamVo);
+			responseData.setResponseHeader(responseHeader);
+			System.out.println(JSON.toJSONString(responseData));
+		return responseData;
 	}
 	
 	@RequestMapping("/saverule")

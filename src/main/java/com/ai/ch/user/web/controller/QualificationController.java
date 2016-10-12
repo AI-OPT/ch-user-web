@@ -89,7 +89,7 @@ public class QualificationController {
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
 		//转换时间
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String date = sdf.format(Long.parseLong(data2.getString("createTime")));
+        String createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
         String taxpayerType = "";
         if("1".equals(data2.getString("taxpayerType"))){
         	taxpayerType = "一般纳税人";
@@ -123,10 +123,11 @@ public class QualificationController {
         	else
         		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
         }
+        //System.out.println(JSON.toJSONString(data2));
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
-		model.addObject("auditTime",date);
+		model.addObject("createTime",createTime);
 		model.addObject("industryType", data2.getString("industryType"));
 		model.addObject("officialWebsite", data2.getString("officialWebsite"));
 		model.addObject("companiesNumber", data2.getString("companiesNumber"));
@@ -179,7 +180,7 @@ public class QualificationController {
 		JSONObject data = (JSONObject) JSON.parse(str);
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
 		//转换时间
-		String date="";
+		String createTime="";
 		//查询商户信息
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopInfoRequest queryShopInfoRequest = new QueryShopInfoRequest();
@@ -188,7 +189,7 @@ public class QualificationController {
 		QueryShopInfoResponse response=shopInfoSV.queryShopInfo(queryShopInfoRequest);
 		if(data2.getString("createTime")!=null&&data2.getString("createTime").length()!=0){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		date = sdf.format(Long.parseLong(data2.getString("createTime")));
+		createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
 		}
 		 String taxpayerType = "";
 		 if("1".equals(data2.getString("taxpayerType"))){
@@ -227,7 +228,7 @@ public class QualificationController {
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
-		model.addObject("auditTime",date);
+		model.addObject("createTime",createTime);
 		model.addObject("industryType", data2.getString("industryType"));
 		model.addObject("officialWebsite", data2.getString("officialWebsite"));
 		model.addObject("companiesNumber", data2.getString("companiesNumber"));
@@ -300,7 +301,7 @@ public class QualificationController {
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
 		//转换时间
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String date = sdf.format(Long.parseLong(data2.getString("createTime")));
+        String createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
         String taxpayerType = "";
         if("1".equals(data2.getString("taxpayerType"))){
         	taxpayerType = "一般纳税人";
@@ -338,7 +339,7 @@ public class QualificationController {
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
-		model.addObject("auditTime",date);
+		model.addObject("createTime",createTime);
 		model.addObject("industryType", data2.getString("industryType"));
 		model.addObject("officialWebsite", data2.getString("officialWebsite"));
 		model.addObject("companiesNumber", data2.getString("companiesNumber"));
@@ -398,7 +399,7 @@ public class QualificationController {
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
 		//转换时间
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String date = sdf.format(Long.parseLong(data2.getString("createTime")));
+        String createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
         String taxpayerType = "";
         if("1".equals(data2.getString("taxpayerType"))){
         	taxpayerType = "一般纳税人";
@@ -436,7 +437,7 @@ public class QualificationController {
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
-		model.addObject("auditTime",date);
+		model.addObject("createTime",createTime);
 		model.addObject("industryType", data2.getString("industryType"));
 		model.addObject("officialWebsite", data2.getString("officialWebsite"));
 		model.addObject("companiesNumber", data2.getString("companiesNumber"));
@@ -616,9 +617,9 @@ public class QualificationController {
 								date = sdf.format(Long.parseLong(object.getString("createTime")));
 							}
 						 String auditTime = "";
-						 if(object.getString("auditTime")!=null&&object.getString("auditTime").length()!=0){
+						 if(object.getString("auditStateTime")!=null&&object.getString("auditStateTime").length()!=0){
 								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-								auditTime = sdf.format(Long.parseLong(object.getString("auditTime")));
+								auditTime = sdf.format(Long.parseLong(object.getString("auditStateTime")));
 							}
 						 businessInfo.setUserId(object.getString("companyId"));
 						 businessInfo.setUserName(object.getString("username"));
@@ -628,7 +629,7 @@ public class QualificationController {
 						 responseList.add(businessInfo);
 					}
 					pageInfo.setResult(responseList);
-					System.out.println(JSON.toJSONString(responseList));
+					//System.out.println(JSON.toJSONString(responseList));
 					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				}

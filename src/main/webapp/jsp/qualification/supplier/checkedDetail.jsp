@@ -43,7 +43,7 @@
 									</li>
 									<li class="col-md-3">
 										<p class="word">提交时间:</p>
-										<p>${auditTime }</p>
+										<p>${createTime }</p>
 									</li>
 								</ul>
 							</div>
