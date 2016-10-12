@@ -364,7 +364,7 @@ public class ContractController {
 	 	        List<CmCustFileExtVo> list = custFileListVo.getList();
 	 	        List<CmCustFileExtVo> fileList = new ArrayList<CmCustFileExtVo>();
 	 	        for(CmCustFileExtVo extVo : list){
-	 	        	if(multiScanFile.getSize()>0&&!"".equals(extVo.getInfoName())&&ChWebConstants.SCAN_CONTRACT_SUPPLIER.equals(extVo.getInfoItem())){
+	 	        	if(multiScanFile.getSize()>0&&!"".equals(extVo.getInfoName())&&ChWebConstants.SCAN_CONTRACT_SHOP.equals(extVo.getInfoItem())){
 	 	        		if(extVo.getInfoName().contains(".PNG")||extVo.getInfoName().contains(".JPG")||extVo.getInfoName().contains(".png")||extVo.getInfoName().contains(".jpg")){
 			 	           String idpsns = "ch-user-web-idps";
 		 	          	   IImageClient im = IDPSClientFactory.getImageClient(idpsns);
@@ -379,7 +379,7 @@ public class ContractController {
 			 	          	fileList.add(extVo);
 			 	         }
 	 	        	 }
-	 	        	if(multiElectronicFile.getSize()>0&&!"".equals(extVo.getInfoName())&&ChWebConstants.ELECTRONIC_CONTRACT_SUPPLIER.equals(extVo.getInfoItem())){
+	 	        	if(multiElectronicFile.getSize()>0&&!"".equals(extVo.getInfoName())&&ChWebConstants.ELECTRONIC_CONTRACT_SHOP.equals(extVo.getInfoItem())){
 	 	        		if(extVo.getInfoName().contains(".PNG")||extVo.getInfoName().contains(".JPG")||extVo.getInfoName().contains(".png")||extVo.getInfoName().contains(".jpg")){
 			 	           String idpsns = "ch-user-web-idps";
 			 	           IImageClient im = IDPSClientFactory.getImageClient(idpsns);
@@ -404,9 +404,10 @@ public class ContractController {
 	 	       
 	        }catch(Exception e){
 	        	LOGGER.error("操作失败");
-	        	return new ModelAndView("redirect:/jsp/crm/fail");
+	        	return new ModelAndView("/jsp/contract/shop/fail");
 	        }
 	        return new ModelAndView("redirect:/contract/contractShopPager");
+	        
 	 }
 	 /**
 	  * 供应商添加合同信息
@@ -480,9 +481,10 @@ public class ContractController {
 		 	     }
 	        }catch(Exception e){
 	        	LOGGER.error("操作失败");
-	        	return new ModelAndView("redirect:/jsp/crm/fail");
+	        	return new ModelAndView("/jsp/contract/supplier/fail");
 	        }
 	        return new ModelAndView("redirect:/contract/contractSupplierPager");
+	        
 	 }
 	 
 	 
