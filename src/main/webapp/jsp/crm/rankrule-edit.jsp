@@ -37,11 +37,11 @@
 										<ul>
 											<li class="col-md-6">
 												<p class="word">评级周期:</p>
-												<p>${ periodType}</p>
+												<p id=periodType></p>
 											</li>
 											<li class="col-md-6">
 												<p class="word">店铺级数:</p>
-												<p>${rank }</p>
+												<p id=rank></p>
 											</li>
 										</ul>
 									</div>

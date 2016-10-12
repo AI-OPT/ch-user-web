@@ -78,6 +78,8 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		    		}
     		    		htmlOutput+=htmlOutputEnd;
     		            $("#TBODY_VIEW").html(htmlOutput);
+    		            $("#periodType").html(periodType);
+    		            $("#rank").html(rank);
     		            for(var t=2;t<count;t++)
     		            	$("#imgView"+t).attr("src",urlMap[t]);
     		            
