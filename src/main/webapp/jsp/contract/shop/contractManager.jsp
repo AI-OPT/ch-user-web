@@ -43,7 +43,7 @@
 							</ul>
 						</div>
 					 	<!--form-->
-					 	<form:form id="contractInfo" method="post">
+					 	<form:form id="contractInfo" method="post" enctype="multipart/form-data" action="${_base}/contract/addShopContractInfo">
 					 	 	<div class="form-label pl-40">
 						    	<ul>
 									<li>
@@ -129,7 +129,9 @@
 								</ul>
 								<ul>
 									<li class="form-btn" >
-										<input type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10" id="shopSave"  style="margin-left: 60%"  value="保存">	
+										<input type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10" id="shopSave"   value="保存">
+										<input type="button"  class="biu-btn  btn-primary btn-blue btn-medium ml-5"
+										onclick="history.go(-1)"	value="返回">	
 										<input type="hidden" id="contractCodeFlag" value="0"/>
 										<input type="hidden" id="contractNameFlag" value="0"/>
 										<input type="hidden" id="startTimeFlag" value="0"/>
@@ -149,8 +151,6 @@
             
             </div>
     </div>
-    
-
 <script type="text/javascript">
 	var contractPager;
 	var userId = "${userId}";

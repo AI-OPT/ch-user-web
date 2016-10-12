@@ -91,6 +91,14 @@
 																							
 													 	 	
                              </div>
+                             <div>
+                             	<ul>
+                             		<li>
+                             			<input type="button" style="margin-left: 20%" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
+										onclick="history.go(-1)"	value="返回">
+                             		</li>
+                             	</ul>
+                             </div>
                         </div>
                     </div>
                 </div>
@@ -98,10 +106,5 @@
             </div>
     </div>
     
-    <!--底部-->
-    <footer id="footer-bar" class="row">
-   		 <p id="footer-copyright" class="col-xs-12">亚信</p>
-    </footer>
-   <!--/底部结束-->
 </body>
 </html>
