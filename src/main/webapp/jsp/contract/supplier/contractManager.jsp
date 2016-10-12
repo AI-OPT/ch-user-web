@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <c:set var="uedroot" value="${pageContext.request.contextPath}/template/default"/>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,7 +44,7 @@
 							</ul>
 						</div>
 					 	<!--form-->
-					 	<form:form id="contractInfo" method="post">
+					 	<form:form id="contractInfo" method="post" enctype="multipart/form-data" action="${_base}/contract/addSupplierContractInfo">
 					 	 	<div class="form-label pl-40">
 						    	<ul>
 									<li>
@@ -129,15 +130,15 @@
 								</ul>
 								<ul>
 									<li class="form-btn" >
-										<input type="button" class="biu-btn  btn-primary btn-blue btn-medium ml-10" id="supplierSave"  style="margin-left: 60%"  value="保存">	
+										<input type="button" class="biu-btn btn-primary btn-blue btn-medium ml-10" id="supplierSave"    value="保存">	
+										<input type="button"  class="biu-btn  btn-primary btn-blue btn-medium ml-5"
+										onclick="history.go(-1)"	value="返回">
 										<input type="hidden" id="contractCodeFlag" value="0"/>
 										<input type="hidden" id="contractNameFlag" value="0"/>
 										<input type="hidden" id="startTimeFlag" value="0"/>
 										<input type="hidden" id="endTimeTextFlag" value="0"/>
 										<input type="hidden" id="scanVersionContractFlag" value="0"/>
 										<input type="hidden" id="electronicContractFlag" value="0"/>
-										 <input type="hidden" id="ddsId1" name="list[0].attrValue">
-										 <input type="hidden" id="ddsId2" name="list[1].attrValue">
 										 <input type="hidden" id="contractType" value="1">
 									</li>
 								</ul>
