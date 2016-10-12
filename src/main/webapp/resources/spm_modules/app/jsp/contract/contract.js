@@ -68,19 +68,19 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				$("#contractCodeText").text('1-64位字符');
 	    		$("#contractCodeFlag").val("0");
 			}else{
-				
 				var	param={
 						contractCode:$("#contractCode").val(),
     					userId:userId,
     					tenantId:"changhong",
     					contractType:$("#contractType").val()
     				   };
-        		ajaxController.ajax({
+        		$.ajax({
     			        type: "post",
     			        processing: false,
     			        url: _base+"/contract/checkContractCode",
     			        dataType: "json",
     			        data: param,
+    			        async: false,
     			        message: "正在加载数据..",
     			        success: function (data) {
     			         if(data.responseHeader.resultCode=="100005"){
@@ -142,9 +142,10 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     					tenantId:"changhong",
     					contractType:$("#contractType").val()
     				   };
-        		ajaxController.ajax({
+        		$.ajax({
     			        type: "post",
     			        processing: false,
+    			        async: false,
     			        url: _base+"/contract/checkContractName",
     			        dataType: "json",
     			        data: param,
@@ -390,7 +391,6 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			this._checkStartTime();
 			this._checkEndTimeText();
 			this._checkFileText();
-			//this._checkFileFormat();
 			var contractCodeFlag = $("#contractCodeFlag").val();
 			var contractNameFlag = $("#contractNameFlag").val();
 			var startTimeFlag = $("#startTimeFlag").val();
@@ -402,32 +402,14 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				if(electronicFileTest!=null&&electronicFileTest!=""&&electronicContractFlag=="0"){
 					return;
 				}
-				var userName = $("#userName").val();
-				var custName = $("#custName").val();
 				
 				$("#scanFileName").val($("#scanFileText").val());
 				if($("#electronicContractText").val()!=""&&$("#electronicContractText").val()!=null){
 					$("#electronicFileName").attr("name","list[1].infoName");
 					$("#electronicFileName").val($("#electronicContractText").val());
 				}
+				$("#contractInfo").submit();
 				
-				$.ajax({
-					type:"post",
-					url:_base+"/contract/addSupplierContractInfo",
-					dataType: "json",
-					data:$("#contractInfo").serialize(),
-			        success: function(data) {
-			        	if(data.responseHeader.resultCode=="111111"){
-			        		alert("失败了");
-			        		return false;
-			        	}else if(data.responseHeader.resultCode=="000000"){
-			        		window.location.href=_base+"/contract/contractSupplierDetailPager?userId="+userId+"&userName="+escape(encodeURIComponent(userName))+"&custName="+escape(encodeURIComponent(custName));
-			        	}
-			          },
-					error: function(error) {
-							alert("error:"+ error);
-						}
-					});
 			}
 		},
 		_saveShopContract:function(){
@@ -478,24 +460,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 					$("#electronicFileName").attr("name","list[1].infoName");
 					$("#electronicFileName").val($("#electronicContractText").val());
 				}
-				
-				$.ajax({
-					type:"post",
-					url:_base+"/contract/addShopContractInfo",
-					dataType: "json",
-					data:$("#contractInfo").serialize(),
-			        success: function(data) {
-			        	if(data.responseHeader.resultCode=="111111"){
-			        		alert("失败了");
-			        		return false;
-			        	}else if(data.responseHeader.resultCode=="000000"){
-			        		window.location.href=_base+"/contract/contractShopDetailPager?userId="+userId+"&userName="+escape(encodeURIComponent(userName))+"&custName="+escape(encodeURIComponent(custName));
-			        	}
-			          },
-					error: function(error) {
-							alert("error:"+ error);
-						}
-					});
+				$("#contractInfo").submit();
 			}
 		}
 		
@@ -547,7 +512,7 @@ function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
 		$("#"+contractText).hide();
 		$("#"+contractFlag).val("1");
 	}
-	var url = "";
+	/*var url = "";
 	if(/\.(PNG|JPG|png|jpg)$/.test(fileTest)){
 		url= _base+"/contract/uploadImage?contractFileId="+fileId;
 	}else{
@@ -572,5 +537,5 @@ function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
          error: function (data, status, e) {  
              alert(e);  
          }
-     });
+     });*/
 }
