@@ -149,7 +149,7 @@ public class QualificationController {
 		model.addObject("organizationCode", data2.getString("organizationCode"));
 		model.addObject("bankName", data2.getString("bankName"));
 		model.addObject("bankAccount", bankAccount);
-		model.addObject("brandNameType", data2.getString("brandNameType"));
+		model.addObject("commodityType", data2.getString("commodityType"));
 		model.addObject("brandNameCh", data2.getString("brandNameCh"));
 		model.addObject("brandNameEn", data2.getString("brandNameEn"));
 		model.addObject("registerCapital", data2.getString("registerCapital"));
@@ -250,7 +250,7 @@ public class QualificationController {
 		model.addObject("organizationCode", data2.getString("organizationCode"));
 		model.addObject("bankName", data2.getString("bankName"));
 		model.addObject("bankAccount", bankAccount);
-		model.addObject("brandNameType", data2.getString("brandNameType"));
+		model.addObject("commodityType", data2.getString("commodityType"));
 		model.addObject("brandNameCh", data2.getString("brandNameCh"));
 		model.addObject("brandNameEn", data2.getString("brandNameEn"));
 		if(response!=null){
@@ -361,7 +361,7 @@ public class QualificationController {
 		model.addObject("organizationCode", data2.getString("organizationCode"));
 		model.addObject("bankName", data2.getString("bankName"));
 		model.addObject("bankAccount", bankAccount);
-		model.addObject("brandNameType", data2.getString("brandNameType"));
+		model.addObject("commodityType", data2.getString("commodityType"));
 		model.addObject("brandNameCh", data2.getString("brandNameCh"));
 		model.addObject("brandNameEn", data2.getString("brandNameEn"));
 		model.addObject("registerCapital", data2.getString("registerCapital"));
@@ -459,7 +459,7 @@ public class QualificationController {
 		model.addObject("organizationCode", data2.getString("organizationCode"));
 		model.addObject("bankName", data2.getString("bankName"));
 		model.addObject("bankAccount", bankAccount);
-		model.addObject("brandNameType", data2.getString("brandNameType"));
+		model.addObject("commodityType", data2.getString("commodityType"));
 		model.addObject("brandNameCh", data2.getString("brandNameCh"));
 		model.addObject("brandNameEn", data2.getString("brandNameEn"));
 		model.addObject("registerCapital", data2.getString("registerCapital"));
@@ -628,6 +628,7 @@ public class QualificationController {
 						 responseList.add(businessInfo);
 					}
 					pageInfo.setResult(responseList);
+					System.out.println(JSON.toJSONString(responseList));
 					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				}

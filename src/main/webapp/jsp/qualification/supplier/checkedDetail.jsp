@@ -297,7 +297,7 @@
 									<p class="word">
 										<b class="red">*</b>开户银行名称:
 									</p>
-									<p class="word">${bankName }</p>
+									<p>${bankName }</p>
 								</li>
 								</ul>
 								<ul>
@@ -305,7 +305,7 @@
 									<p class="word">
 										<b class="red">*</b>公司银行账户:
 									</p>
-									<p class="word">${bankAccount }</p>
+									<p>${bankAccount }</p>
 								</li>
 							</ul>
 							<ul>
