@@ -129,7 +129,7 @@ public class DefaultManagerController {
 		hdr.setCreDtTm(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
 		GrpBody body = new GrpBody();
 		body.setSonMerNo("CO20160800000008");//设置要查询的二级商户编号
-		body.setResv("测试使用");//设置保留域
+		body.setResv("test");//设置保留域
 		
 		ReqsInfo reqsInfo = new ReqsInfo();
 		reqsInfo.setGrpHdr(hdr);
