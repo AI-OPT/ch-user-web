@@ -420,7 +420,7 @@ public class DefaultManagerController {
 					 businessListInfo.setUserId(object.getString("companyId"));
 					 businessListInfo.setUserName(object.getString("username"));
 					 businessListInfo.setCustName(object.getString("name"));
-					 businessListInfo.setBusinessCategory(object.getString("brandNameType"));
+					 businessListInfo.setBusinessCategory(object.getString("commodityType"));
 					 responseList.add(businessListInfo);
 				}
 				pageInfo.setResult(responseList);

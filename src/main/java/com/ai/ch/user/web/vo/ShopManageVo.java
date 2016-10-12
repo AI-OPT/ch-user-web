@@ -30,7 +30,7 @@ public class ShopManageVo {
 	/**
 	 * 商品品类
 	 */
-	private String brandNameType;
+	private String commodityType;
 
 	public String getTenantId() {
 		return tenantId;
@@ -72,12 +72,12 @@ public class ShopManageVo {
 		this.shopName = shopName;
 	}
 
-	public String getBrandNameType() {
-		return brandNameType;
+	public String getCommodityType() {
+		return commodityType;
 	}
 
-	public void setBrandNameType(String brandNameType) {
-		this.brandNameType = brandNameType;
+	public void setCommodityType(String commodityType) {
+		this.commodityType = commodityType;
 	}
 
 }
