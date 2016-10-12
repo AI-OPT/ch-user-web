@@ -37,7 +37,6 @@ import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.paas.ipaas.image.IImageClient;
-import com.alibaba.fastjson.JSON;
 
 @RestController
 @RequestMapping("/rank")
@@ -70,7 +69,7 @@ public class RankController {
 		String data ="";
 		if(!count.isEmpty()){
 			json.append("{\"result\":[");
-			for(int i=2;i<Integer.parseInt(count)-1;i++){
+			for(int i=2;i<Integer.parseInt(count);i++){
 				json.append("{\"index\":"+i+"},");
 			}
 			data = json.substring(0, json.length()-1);
@@ -124,7 +123,7 @@ public class RankController {
 			shopRankParamVo.setMiddleData(middleData);
 			responseData.setData(shopRankParamVo);
 			responseData.setResponseHeader(responseHeader);
-			System.out.println(JSON.toJSONString(responseData));
+			//System.out.println(JSON.toJSONString(responseData));
 		return responseData;
 	}
 	
