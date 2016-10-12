@@ -532,7 +532,7 @@ public class ContractController {
        }
     
     
-    @RequestMapping("/download/{fileName}")
+    @RequestMapping("/download")
 	public void downloadFile(HttpServletRequest request, HttpServletResponse response,String fileName, String attrValue) {
 		OutputStream os = null;
 		try {
