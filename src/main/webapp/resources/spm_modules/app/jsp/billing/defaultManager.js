@@ -116,6 +116,9 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     		        			icon:"fail",
     		        			closeIconShow:false,
     		        			okValue : "确定",
+    		        			ok : function() {
+    		        				this.close;
+    		        			}
     		        		});
     		        		d.show();
     		        		return false;
