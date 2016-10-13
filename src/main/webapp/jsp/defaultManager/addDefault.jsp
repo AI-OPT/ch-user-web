@@ -84,9 +84,13 @@
 									<ul>
 										<li class="form-btn"><input type="button"
 											class="biu-btn  btn-primary btn-blue btn-medium ml-10"
-											style="margin-left: 55%;" id="saveDefaultManager" value="保存">
-											<input type="hidden" id="defaultReasonFlag" /> <input
+											 id="saveDefaultManager" value="保存">
+											<input type="button"  class="biu-btn  btn-primary btn-blue btn-medium ml-5"
+											onclick="history.go(-1)"	value="返回">
+											<input type="hidden" id="defaultReasonFlag" /> 
+											<input
 											type="hidden" id="amountFlag" /></li>
+										
 									</ul>
 								</div>
 							</div>
