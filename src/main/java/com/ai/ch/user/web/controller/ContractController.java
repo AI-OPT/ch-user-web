@@ -395,7 +395,7 @@ public class ContractController {
 			 	          	fileList.add(extVo);
 			 	         }
 	 	        	 }
-	 	        	if("".equals(extVo.getInfoName())&&ChWebConstants.ELECTRONIC_CONTRACT_SUPPLIER.equals(extVo.getInfoItem())){
+	 	        	if("".equals(extVo.getInfoName())&&ChWebConstants.ELECTRONIC_CONTRACT_SHOP.equals(extVo.getInfoItem())){
 	 	        		fileList.add(extVo);
 	 	        	}
 	 	        }
