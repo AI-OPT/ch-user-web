@@ -395,8 +395,11 @@ public class ContractController {
 			 	          	fileList.add(extVo);
 			 	         }
 	 	        	 }
+	 	        	if("".equals(extVo.getInfoName())&&ChWebConstants.ELECTRONIC_CONTRACT_SUPPLIER.equals(extVo.getInfoItem())){
+	 	        		fileList.add(extVo);
 	 	        	}
-	 	        	
+	 	        }
+	 	        
 	 	        if(!CollectionUtil.isEmpty(fileList)&&fileList.size()>0){
 		 	    	  updateCustFileExtRequest.setList(fileList);
 			          custFileSV.updateCustFileExtBycondition(updateCustFileExtRequest);
@@ -473,7 +476,11 @@ public class ContractController {
 			 	          	fileList.add(extVo);
 			 	         }
 	 	        	 }
+	 	        	if("".equals(extVo.getInfoName())&&ChWebConstants.ELECTRONIC_CONTRACT_SUPPLIER.equals(extVo.getInfoItem())){
+	 	        		fileList.add(extVo);
 	 	        	}
+	 	        }
+	 	        		
 	 	        	
 	 	        if(!CollectionUtil.isEmpty(fileList)&&fileList.size()>0){
 		 	    	  updateCustFileExtRequest.setList(fileList);
