@@ -78,6 +78,7 @@ import com.ylink.upp.oxm.entity.upp_711_001_01.ReqsInfo;
 @RequestMapping("/defaultManager")
 public class DefaultManagerController {
 	
+	
 	@Autowired
 	private OxmHandler oxmHandler;
 	
@@ -235,20 +236,6 @@ public class DefaultManagerController {
         try{
         	
         	String serialCode = UUID.randomUUID().toString();
-        	
-        	SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
-        	sysUserQueryRequest.setTenantId(user.getTenantId());
-        	sysUserQueryRequest.setLoginName(user.getLoginName());
-        	SysUserQueryResponse  userQueryResponse = sysUserQuery.queryUserInfo(sysUserQueryRequest);
-			BeanUtils.copyProperties(defaultLogRequest,defaultLogInfo);
-			defaultLogRequest.setDeductDate(new Timestamp(new Date().getTime()));
-			defaultLogRequest.setDeductBalance(defaultLogInfo.getDeductBalance()*100);
-			defaultLogRequest.setOperId(Long.parseLong(userQueryResponse.getNo()));
-			defaultLogRequest.setOperName(userQueryResponse.getLoginName());
-		    GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-			defaultLogRequest.setTenantId(userClient.getTenantId());
-			defaultLogRequest.setSerialCode(serialCode);
-			defaultLog.insertDefaultLog(defaultLogRequest);
 			
 			//调用长虹扣款
 			//包装数据
@@ -311,7 +298,7 @@ public class DefaultManagerController {
 			String sign = null;
 			try {
 				ResourceLoader resourceLoader = new DefaultResourceLoader();
-				Resource pfxResource = resourceLoader.getResource("classpath:CO20160700000018.pfx"); 
+				Resource pfxResource = resourceLoader.getResource(PropertiesUtil.getStringByKey("sigh_classpath")); 
 				InputStream in = new FileInputStream(pfxResource.getFile());
 				byte[] pfxByte = IOUtils.toByteArray(in);
 			    sign = SecurityUtil.pfxWithSign(pfxByte,xmlMsg, "111111");
@@ -327,9 +314,25 @@ public class DefaultManagerController {
 			try {
 				String paymentApplication = PropertiesUtil.getStringByKey("paymentApplication_http_url", "httpUrl.properties");
 				result = payUtil.sendHttpPost(paymentApplication, param, "UTF-8");
-				System.out.println(result);
+				
+				SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
+	        	sysUserQueryRequest.setTenantId(user.getTenantId());
+	        	sysUserQueryRequest.setLoginName(user.getLoginName());
+	        	SysUserQueryResponse  userQueryResponse = sysUserQuery.queryUserInfo(sysUserQueryRequest);
+				BeanUtils.copyProperties(defaultLogRequest,defaultLogInfo);
+				defaultLogRequest.setDeductDate(new Timestamp(new Date().getTime()));
+				defaultLogRequest.setDeductBalance(defaultLogInfo.getDeductBalance()*100);
+				defaultLogRequest.setOperId(Long.parseLong(userQueryResponse.getNo()));
+				defaultLogRequest.setOperName(userQueryResponse.getLoginName());
+			    GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+				defaultLogRequest.setTenantId(userClient.getTenantId());
+				defaultLogRequest.setSerialCode(serialCode);
+				defaultLog.insertDefaultLog(defaultLogRequest);
+				System.out.println("result=========="+result);
 			} catch (Exception e) {
 				e.printStackTrace();
+				responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
+	            responseHeader = new ResponseHeader(false,ExceptionCode.ERROR_CODE, "操作失败");
 			}
 			responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
             responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
