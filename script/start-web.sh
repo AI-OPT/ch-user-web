@@ -36,7 +36,7 @@ sed -i "s%appkey=.*%appkey=${appkey}%g" ./httpUrl.properties
 
 sed -i "s%sigh_classpath=.*%sigh_classpath=${sigh_classpath}%g" ./httpUrl.properties
 sed -i "s%check_sign_classpath=.*%check_sign_classpath=${check_sign_classpath}%g" ./httpUrl.properties
-
+sed -i "s%paymentOrder_http_url=.*%paymentOrder_http_url=${paymentOrder_http_url}%g" ./httpUrl.properties
 
 # 各中心要根据情况自己修改成与dubbo.properties中对应的配置项
 sed -i "s%dubbo.registry.address=.*%dubbo.registry.address=${REST_REGISTRY_ADDR}%g" ./dubbo.properties
