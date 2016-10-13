@@ -342,48 +342,10 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			}
 		},
 		_deleteScanFileExtFile:function(){
-			$.ajax({
-				type:"post",
-				url:_base+"/contract/deleteExtFile",
-				dataType: "json",
-				data:{
-					contractFileId:scanAttrValue,
-					infoExtId:scanContractInfoExtId
-				},
-		        success: function(data) {
-		        	if(data.responseHeader.resultCode=="111111"){
-		        		alert("失败了");
-		        		return false;
-		        	}else if(data.responseHeader.resultCode=="000000"){
-		        		$("#scanFileText").val("");
-		        	}
-		          },
-				error: function(error) {
-						alert("error:"+ error);
-					}
-				});
+			$("#scanFileText").val("");
 		},
 		_deleteElectronicExtFile:function(){
-			$.ajax({
-				type:"post",
-				url:_base+"/contract/deleteExtFile",
-				dataType: "json",
-				data:{
-					contractFileId:electronicScanAttrValue,
-					infoExtId:electronicInfoExtId
-				},
-		        success: function(data) {
-		        	if(data.responseHeader.resultCode=="111111"){
-		        		alert("失败了");
-		        		return false;
-		        	}else if(data.responseHeader.resultCode=="000000"){
-		        		$("#electronicContractText").val("");
-		        	}
-		          },
-				error: function(error) {
-						alert("error:"+ error);
-					}
-				});
+			$("#electronicContractText").val("");
 		},
 		_saveSupplierContract:function(){
 			this._checkContractCodeValue();
@@ -471,7 +433,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
 	var contractFile = $("#"+fileId).val();
 	var subString = contractFile.substring(contractFile.lastIndexOf("\\")+1,contractFile.length);
-	$("#"+inputText).val(escape(encodeURIComponent(subString)));
+	$("#"+inputText).val(subString);
 	/**
 	 * 校验字符数
 	 */
@@ -505,6 +467,12 @@ function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
 		$("#"+errMsg).show();
 		$("#"+contractText).show();
 		$("#"+contractText).text('文档太大，不能超过20M');
+		$("#"+contractFlag).val("0");
+		return false;
+	}else if(document.getElementById(fileId).files[0].size==0){
+		$("#"+errMsg).show();
+		$("#"+contractText).show();
+		$("#"+contractText).text('不能上传空文件');
 		$("#"+contractFlag).val("0");
 		return false;
 	}else{
