@@ -110,7 +110,14 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     				data:$("#defaultManagerForm").serialize(),
     		        success: function(data) {
     		        	if(data.responseHeader.resultCode=="111111"){
-    		        		alert("失败了");
+    		        		var d =new Dialog({
+    		        			title : "提示",
+    		        			content : "扣款失败",
+    		        			icon:"fail",
+    		        			closeIconShow:false,
+    		        			okValue : "确定",
+    		        		});
+    		        		d.show();
     		        		return false;
     		        	}else if(data.responseHeader.resultCode=="000000"){
     		        		window.location.href= _base+"/defaultManager/defaultManagerPager";
