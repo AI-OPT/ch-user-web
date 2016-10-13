@@ -175,7 +175,7 @@ public class DefaultManagerController {
         String balance = "0";//查询的金额
 		com.ylink.upp.base.oxm.XmlBodyEntity resultMsg = this.receiveMsg(rh, rb, rs);
 		
-		 com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo receive = null;
+		com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo receive = null;
 		
 		if(resultMsg instanceof com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo){
 			 receive = (com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo)resultMsg;
@@ -252,7 +252,7 @@ public class DefaultManagerController {
 			body.setToken("token");
 			body.setOpenId("1");
 			body.setCustType("02");//企业
-			body.setPayCustNo("CB2016083000000004");
+			body.setPayCustNo("CB2016092000000001");
 			
 			BigDecimal orderAmt = new BigDecimal("0");
 			List<PayOrderDetail> details = new ArrayList<PayOrderDetail>();
@@ -314,6 +314,7 @@ public class DefaultManagerController {
 			try {
 				String paymentApplication = PropertiesUtil.getStringByKey("paymentApplication_http_url", "httpUrl.properties");
 				result = payUtil.sendHttpPost(paymentApplication, param, "UTF-8");
+				
 				MsgString msgString = MsgUtils.patch(result);
 				String rh = msgString.getHeaderMsg();
 		        String rb = msgString.getXmlBody();
@@ -321,7 +322,26 @@ public class DefaultManagerController {
 		        System.out.println("saveDefaultHeader========="+rh);
 		        System.out.println("saveDefaultXml========="+rb);
 		        System.out.println("saveDefaultDigitalSign========="+rs);
-				
+		        
+		        /*com.ylink.upp.oxm.entity.upp_100_001_01.RespInfo receive = null;
+		        
+		        com.ylink.upp.base.oxm.XmlBodyEntity resultMsg = this.receiveMsg(rh, rb, rs);
+		        
+				if(resultMsg instanceof com.ylink.upp.oxm.entity.upp_100_001_01.RespInfo){
+					 receive = (com.ylink.upp.oxm.entity.upp_100_001_01.RespInfo)resultMsg;
+				}
+		        
+		        if(receive == null){
+		        	com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo receive2 = (com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo) resultMsg;
+		            if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
+		            	throw new SystemException("系统异常.");
+		            }
+		        }else{
+		            if(!"90000".equals(receive.getGrpBody().getStsRsn().getRespCode())){
+		            	throw new SystemException("系统异常.");
+		            }
+		            balance=receive.getGrpBody().getStsRsnInf().getBalance();
+		        }*/
 				/*SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
 	        	sysUserQueryRequest.setTenantId(user.getTenantId());
 	        	sysUserQueryRequest.setLoginName(user.getLoginName());
