@@ -34,13 +34,6 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
     	//重写父类
     	setup: function () {
     		auditeQualificationPager.superclass.setup.call(this);
-    		this._popView();
-    	},
-    	
-    	_popView:function(){
-    		$("#myModal").modal('show');
-    		var scrolltop = $(parent.document).scrollTop();//父类滚动条高度 
-            chart_.css('top',scrolltop+'px');//就是你滚动了多少px你top设定加上去
     	},
     	
     	_passAudit:function(userId,url){

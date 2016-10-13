@@ -34,6 +34,11 @@ import com.alibaba.fastjson.JSONObject;
 @RestController
 @RequestMapping("/qualification")
 public class QualificationController {
+	
+
+	//电商平台位置
+	static private String[] shopOwner = {"京东","天猫","淘宝","苏宁","一号店","自有电商平台"};
+	
 	/**
 	 * 供应商审核列表页面
 	 */
@@ -271,8 +276,16 @@ public class QualificationController {
 			model.addObject("goodsNum", response.getGoodsNum());
 			model.addObject("busiType", busiType);
 			model.addObject("hasExperi", hasExperi);
-			model.addObject("ecommOwner", response.getEcommOwner());
 			model.addObject("shopDesc", response.getShopDesc());
+			String ecommOwner = "";
+			if(!response.getEcommOwner().isEmpty()){
+				for (int index=0;index<response.getEcommOwner().length();index++) {
+					if('1'==response.getEcommOwner().charAt(index))
+						ecommOwner+=shopOwner[index]+"/";
+				}
+			ecommOwner = ecommOwner.substring(0,ecommOwner.length()-1);
+			}
+			model.addObject("ecommOwner", ecommOwner);
 		}
 		return model;
 	}
@@ -480,8 +493,16 @@ public class QualificationController {
 			model.addObject("goodsNum", response.getGoodsNum());
 			model.addObject("busiType", busiType);
 			model.addObject("hasExperi", hasExperi);
-			model.addObject("ecommOwner", response.getEcommOwner());
 			model.addObject("shopDesc", response.getShopDesc());
+			String ecommOwner = "";
+			if(!response.getEcommOwner().isEmpty()){
+				for (int index=0;index<response.getEcommOwner().length();index++) {
+					if('1'==response.getEcommOwner().charAt(index))
+						ecommOwner+=shopOwner[index]+"/";
+				}
+			ecommOwner = ecommOwner.substring(0,ecommOwner.length()-1);
+			}
+			model.addObject("ecommOwner", ecommOwner);
 		}
 		return model;
 	}
