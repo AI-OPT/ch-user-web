@@ -44,8 +44,10 @@ import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.util.PayUtil;
 import com.ai.ch.user.web.util.PropertiesUtil;
 import com.ai.ch.user.web.vo.BusinessListInfo;
+import com.ai.opt.base.exception.SystemException;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
+import com.ai.opt.sdk.components.sequence.util.SeqUtil;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.opt.sdk.util.BeanUtils;
@@ -172,23 +174,23 @@ public class DefaultManagerController {
         String balance = "0";//查询的金额
 		com.ylink.upp.base.oxm.XmlBodyEntity resultMsg = this.receiveMsg(rh, rb, rs);
 		
-		System.out.println("验签结束------------------------");
+		 com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo receive = null;
 		
-        com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo receive = (com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo)resultMsg;
+		if(resultMsg instanceof com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo){
+			 receive = (com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo)resultMsg;
+		}
+        
         if(receive == null){
-        	System.out.println("验证1======================");
         	com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo receive2 = (com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo) resultMsg;
             if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
-            	throw new RuntimeException("系统异常.");
+            	throw new SystemException("系统异常.");
             }
         }else{
-        	System.out.println("验证2======================");
             if(!"90000".equals(receive.getGrpBody().getStsRsn().getRespCode())){
-            	throw new RuntimeException("系统异常.");
+            	throw new SystemException("系统异常.");
             }
             balance=receive.getGrpBody().getStsRsnInf().getBalance();
         }
-        System.out.println("balance======================");
 		Map<String, Object> model = new HashMap<String, Object>();
  		model.put("userId", userId);
  		try {
@@ -197,8 +199,7 @@ public class DefaultManagerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
- 		model.put("balance", Float.parseFloat(balance)/100);
- 		//model.put("balance", 2000);
+ 		model.put("balance", 100);
 		return new ModelAndView("/jsp/defaultManager/addDefault",model);
 	}
 	
@@ -232,19 +233,24 @@ public class DefaultManagerController {
         GeneralSSOClientUser user = (GeneralSSOClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
         InsertDefaultLogRequest defaultLogRequest = new InsertDefaultLogRequest();
         try{
+        	
+        	String serialCode = UUID.randomUUID().toString();
+        	
         	SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
         	sysUserQueryRequest.setTenantId(user.getTenantId());
         	sysUserQueryRequest.setLoginName(user.getLoginName());
         	SysUserQueryResponse  userQueryResponse = sysUserQuery.queryUserInfo(sysUserQueryRequest);
 			BeanUtils.copyProperties(defaultLogRequest,defaultLogInfo);
 			defaultLogRequest.setDeductDate(new Timestamp(new Date().getTime()));
+			defaultLogRequest.setDeductBalance(defaultLogInfo.getDeductBalance()*100);
 			defaultLogRequest.setOperId(Long.parseLong(userQueryResponse.getNo()));
 			defaultLogRequest.setOperName(userQueryResponse.getLoginName());
 		    GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 			defaultLogRequest.setTenantId(userClient.getTenantId());
+			defaultLogRequest.setSerialCode(serialCode);
 			defaultLog.insertDefaultLog(defaultLogRequest);
 			
-			/*//调用长虹扣款
+			//调用长虹扣款
 			//包装数据
 			PayUtil payUtil = new PayUtil();
 			com.ylink.upp.oxm.entity.upp_100_001_01.GrpHdr hdr = new com.ylink.upp.oxm.entity.upp_100_001_01.GrpHdr();
@@ -253,8 +259,8 @@ public class DefaultManagerController {
 			hdr.setCreDtTm(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
 			
 			com.ylink.upp.oxm.entity.upp_100_001_01.GrpBody body = new com.ylink.upp.oxm.entity.upp_100_001_01.GrpBody();
-			String orderId = UUID.randomUUID().toString();
-			body.setMerOrderId(orderId);//设置要查询的二级商户编号
+			
+			body.setMerOrderId(serialCode);//设置要查询的二级商户编号
 			body.setUserName("uname");
 			body.setToken("token");
 			body.setOpenId("1");
@@ -267,7 +273,7 @@ public class DefaultManagerController {
 			detail.setProductAmt("1");//扣保证金金额（分）
 			detail.setProductName("productName1");//扣保证金原因
 			detail.setSonMerNo("CO20160700000006");//收取保证金商户号
-			detail.setMerSeqId(orderId);//商户主订单号
+			detail.setMerSeqId(serialCode);//商户主订单号
 			orderAmt = BigDecimal.valueOf(Long.parseLong(detail.getProductAmt()));//订单总金额(当前与扣款金额相同)
 			details.add(detail);
 
@@ -277,7 +283,7 @@ public class DefaultManagerController {
 			body.setPayOrderDetail(details);
 			body.setRemark("margindeposittest");
 
-			String paymentOrderurl = PropertiesUtil.getStringByKey("paymentOrder_http_url", "httpUrl.properties");
+			String paymentOrderurl = PropertiesUtil.getStringByKey("paymentOrder_http_url");
 			
 			body.setNotifyUrl(paymentOrderurl);
 			body.setReturnUrl(paymentOrderurl);
@@ -324,7 +330,7 @@ public class DefaultManagerController {
 				System.out.println(result);
 			} catch (Exception e) {
 				e.printStackTrace();
-			}*/
+			}
 			responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
             responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
         }catch(Exception e){
@@ -461,11 +467,13 @@ public class DefaultManagerController {
 	        }
 	        
 	        //00表示支付成功，01表示支付失败
+	        System.out.println("扣款开始==================");
 	        if("01".equals(receive.getGrpBody().getPayStatus())){
-	        	//defaultLogBusiSV.insertDefaultLog(request);
+	        	System.out.println("扣款失败=============");
+	        	IDefaultLogSV defaultLog = DubboConsumerFactory.getService("iDefaultLogSV");
+	        	defaultLog.deleteDefaultLog(receive.getGrpBody().getMerOrderId());
 	        }
-	        
-	        System.out.println("结束---------------------");
+	        System.out.println("扣款结束===================");
 	        flag = true;
 		}catch(Exception e){
 			flag = false;
