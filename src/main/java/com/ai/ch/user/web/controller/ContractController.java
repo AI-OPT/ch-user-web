@@ -244,10 +244,15 @@ public class ContractController {
 	 			
 	 			if(ChWebConstants.SCAN_CONTRACT_SUPPLIER.equals(extVp.getInfoItem())){
 		 			model.put("scanContractInfoName",infoName);
+		 			model.put("scanDownLoadName", new Date().getTime()+infoName.substring(infoName.lastIndexOf("."),infoName.length()));
 		 			model.put("scanContractAttrValue",attrValue);
 		 			model.put("scanContractInfoItem",infoItem);
 	 			}else{
+	 				
 	 				model.put("electronicContractInfoName",infoName);
+	 				if(!"".equals(infoName)){
+	 					model.put("electronicDownLoadName", new Date().getTime()+infoName.substring(infoName.lastIndexOf("."),infoName.length()));
+	 				}
 		 			model.put("electronicContractAttrValue",attrValue);
 		 			model.put("electronicContractInfoItem",infoItem);
 	 			}
@@ -309,11 +314,15 @@ public class ContractController {
 	 			
 	 			if(ChWebConstants.SCAN_CONTRACT_SHOP.equals(extVp.getInfoItem())){
 		 			model.put("scanContractInfoName",infoName);
+		 			model.put("scanDownLoadName", new Date().getTime()+infoName.substring(infoName.lastIndexOf("."),infoName.length()));
 		 			model.put("scanContractAttrValue",attrValue);
 		 			model.put("scanContractInfoItem",infoItem);
 	 			}else{
 	 				model.put("electronicContractInfoName",infoName);
-		 			model.put("electronicContractAttrValue",attrValue);
+	 				if(!"".equals(infoName)){
+	 					model.put("electronicDownLoadName", new Date().getTime()+infoName.substring(infoName.lastIndexOf("."),infoName.length()));
+	 				}
+	 				model.put("electronicContractAttrValue",attrValue);
 		 			model.put("electronicContractInfoItem",infoItem);
 	 			}
 	 		}
@@ -544,10 +553,9 @@ public class ContractController {
 		OutputStream os = null;
 		try {
 			os = response.getOutputStream();// 取得输出流
-			String newFileName = new Date().getTime()+fileName.substring(fileName.lastIndexOf("."),fileName.length());
 			response.reset();// 清空输出流
 			response.setContentType("application/pdf");// 定义输出类型
-			response.setHeader("Content-disposition", "attachment; filename=" + newFileName);// 设定输出文件头
+			response.setHeader("Content-disposition", "attachment; filename=" + fileName);// 设定输出文件头
 			 String dssns = "ch-user-detail-dss";
 			 IDSSClient client=DSSClientFactory.getDSSClient(dssns);
 	    	 byte[] b=client.read(attrValue);
