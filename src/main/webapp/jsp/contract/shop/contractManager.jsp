@@ -99,7 +99,7 @@
 											value="删除" id="scanFileButtonId" />
 										</span>
 									</li>
-									<li><label id="scanContractErrMsg" style="display: none;"><span class="ash" id="scanContractText">扫描件不能为空</span></label></li>
+									<li><label id="scanContractErrMsg" style="display: none;"><span class="ash" id="scanContractText"></span></label></li>
 								</ul>
 								<ul>
 									<li>

@@ -218,14 +218,15 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 						$("#scanVersionContractFlag").val("0");
 					}else{
 						var reg = /^[\u4e00-\u9fa5a-zA-Z0-9\.]{1,20}$/;
-						if(scanFileInput.match(reg)){
+						var scanContractText = $("#scanContractText").html();
+						if(scanFileInput.match(reg)&&scanContractText==""){
 							$("#scanContractErrMsg").hide();
 							$("#scanContractErrMsg").hide();
 							$("#scanVersionContractFlag").val("1");
 						}else{
 							$("#scanContractErrMsg").show();
 							$("#scanContractText").show();
-							$("#scanContractText").text('1-20个字符，允许使用汉字、字母、数字');
+							$("#scanContractText").text(scanContractText);
 							$("#scanVersionContractFlag").val("0");
 						}
 					}
@@ -241,14 +242,15 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 					$("#electronicContractFlag").val("0");
 				}else{
 					var reg = /^[\u4e00-\u9fa5a-zA-Z0-9\.]{1,20}$/;
-					if(electronicContractText.match(reg)){
+					var electronicText = $("#electronicContractFileText").html();
+					if(electronicContractText.match(reg)&&electronicText==""){
 						$("#electronicContractErrMsg").hide();
 						$("#electronicContractFileText").hide();
 						$("#electronicContractFlag").val("1");
 					}else{
 						$("#electronicContractErrMsg").show();
 						$("#electronicContractFileText").show();
-						$("#electronicContractFileText").text('1-20个字符，允许使用汉字、字母、数字');
+						$("#electronicContractFileText").text(electronicText);
 						$("#electronicContractFlag").val("0");
 					}
 				}

@@ -100,7 +100,7 @@
 											value="删除" id="scanFileButtonId" />
 										</span>
 									</li>
-									<li><label id="scanContractErrMsg" style="display: none;"><span class="ash" id="scanContractText">扫描件不能为空</span></label></li>
+									<li><label id="scanContractErrMsg" style="display: none;"><span class="ash" id="scanContractText"></span></label></li>
 								</ul>
 								<ul>
 									<li>
@@ -120,7 +120,7 @@
 												value="删除" id="electronicFileButtonId" />
 										</span>
 									</li>
-									<li><label id="electronicContractErrMsg" style="display: none;"><span class="ash" id="electronicContractFileText">扫描件不能为空</span></label></li>
+									<li><label id="electronicContractErrMsg" style="display: none;"><span class="ash" id="electronicContractFileText"></span></label></li>
 								</ul>
 								<ul>
 									<li>
