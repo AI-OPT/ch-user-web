@@ -314,8 +314,15 @@ public class DefaultManagerController {
 			try {
 				String paymentApplication = PropertiesUtil.getStringByKey("paymentApplication_http_url", "httpUrl.properties");
 				result = payUtil.sendHttpPost(paymentApplication, param, "UTF-8");
+				MsgString msgString = MsgUtils.patch(result);
+				String rh = msgString.getHeaderMsg();
+		        String rb = msgString.getXmlBody();
+		        String rs = msgString.getDigitalSign();
+		        System.out.println("saveDefaultHeader========="+rh);
+		        System.out.println("saveDefaultXml========="+rb);
+		        System.out.println("saveDefaultDigitalSign========="+rs);
 				
-				SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
+				/*SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
 	        	sysUserQueryRequest.setTenantId(user.getTenantId());
 	        	sysUserQueryRequest.setLoginName(user.getLoginName());
 	        	SysUserQueryResponse  userQueryResponse = sysUserQuery.queryUserInfo(sysUserQueryRequest);
@@ -327,7 +334,7 @@ public class DefaultManagerController {
 			    GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 				defaultLogRequest.setTenantId(userClient.getTenantId());
 				defaultLogRequest.setSerialCode(serialCode);
-				defaultLog.insertDefaultLog(defaultLogRequest);
+				defaultLog.insertDefaultLog(defaultLogRequest);*/
 				System.out.println("result=========="+result);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -474,7 +481,7 @@ public class DefaultManagerController {
 	        if("01".equals(receive.getGrpBody().getPayStatus())){
 	        	System.out.println("扣款失败=============");
 	        	IDefaultLogSV defaultLog = DubboConsumerFactory.getService("iDefaultLogSV");
-	        	defaultLog.deleteDefaultLog(receive.getGrpBody().getMerOrderId());
+	        	//defaultLog.deleteDefaultLog(receive.getGrpBody().getMerOrderId());
 	        }
 	        System.out.println("扣款结束===================");
 	        flag = true;
