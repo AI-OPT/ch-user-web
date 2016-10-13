@@ -9,7 +9,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>设置评级规则</title>
+<title>入驻商户评级规则</title>
 <%@include file="/inc/inc.jsp"%>
 </head>
 <body>
@@ -28,7 +28,7 @@
 							<div class="main-box-body clearfix">
 								<!--标题-->
 								<header class="main-box-header clearfix">
-									<h4 class="pull-left">设置评级规则</h4>
+									<h4 class="pull-left">设置商户评级规则</h4>
 								</header>
 								<!--标题结束-->
 								<!--table表格-->
@@ -75,7 +75,7 @@
 												<ul>
 													<c:choose>
 														<c:when test="${periodType=='月'}">
-															<li><p class="word">请选择评级周期:</p>
+															<li><p class="word">请设置评级周期:</p>
 																<p>
 																	<input type="radio" class="radio-2" name="periodType_"
 																		value="M" checked> <label for="radio-2">月</label>
@@ -90,7 +90,7 @@
 																</p></li>
 														</c:when>
 														<c:when test="${periodType=='季度'}">
-															<li><p class="word">请选择评级周期:</p>
+															<li><p class="word">请设置评级周期:</p>
 																<p>
 																	<input type="radio" class="radio-2" name="periodType_"
 																		value="M"> <label for="radio-2">月</label>
@@ -105,7 +105,7 @@
 																</p></li>
 														</c:when>
 														<c:otherwise>
-															<li><p class="word">请选择评级周期:</p>
+															<li><p class="word">请设置评级周期:</p>
 																<p>
 																	<input type="radio" class="radio-2" name="periodType_"
 																		value="M"> <label for="radio-2">月</label>
@@ -123,7 +123,7 @@
 												</ul>
 												<ul>
 													<li>
-														<p class="word">请选择店铺级数:</p>
+														<p class="word">请设置评级数:</p>
 														<p>
 															<select class="select select-mini" id="rankRegion">
 																<option value="">请选择</option>
@@ -187,7 +187,7 @@
 	<script id="rankRuleViewImpl" type="text/x-jsrender">
 	{{for}}
 		<tr>
-			<td><p class="f-14" style="font-weight:400;">等级{{:rank}}:{{:minScore}} - {{:maxScore}}分</p></td>
+			<td><p class="f-14" style="font-weight:400;">等级{{:rank}}:{{:minScore}} 至 {{:maxScore}}分</p></td>
 			<td><p class="f-14">{{:rankName}}</p></td>
 			<td><p><image id='imgView{{:rank}}' src="" height="80px" width="80px"/></p></td>
 		</tr>
@@ -196,7 +196,7 @@
 	<script id="rankRuleInitImpl" type="text/x-jsrender">
 	{{for}}
 		<tr>
-			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14" style="font-weight:400;">等级{{:rank}}:<input type='hidden' value='{{:rank}}' name='list[{{:rank-1}}].rank'><input class="int-text int-mini" name="list[{{:rank-1}}].minScore" value="{{:minScore}}" id="min{{:rank}}" type="text" readonly="readonly" style='border:none;background:none;font-weight:400;'>-<input class="int-text int-mini" name="list[{{:rank-1}}].maxScore" value="{{:maxScore}}" type="text" id="max{{:rank}}" onblur="pager._changeValue('{{:rank}}')" maxlength="12" onkeydown="return doit()" style="">分<input type='text' style='display:none;color:red' id='rankMsg{{:rank}}'></p></td>
+			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14" style="font-weight:400;">等级{{:rank}}:<input type='hidden' value='{{:rank}}' name='list[{{:rank-1}}].rank'><input class="int-text int-mini" name="list[{{:rank-1}}].minScore" value="{{:minScore}}" id="min{{:rank}}" type="text" readonly="readonly" style='border:none;background:none;font-weight:400;'>至<input class="int-text int-mini" name="list[{{:rank-1}}].maxScore" value="{{:maxScore}}" type="text" id="max{{:rank}}" onblur="pager._changeValue('{{:rank}}')" maxlength="12" onkeydown="return doit()" style="">分<input type='text' style='display:none;color:red' id='rankMsg{{:rank}}'></p></td>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14"><input class="int-text int-mini" name="list[{{:rank-1}}].rankName" value="{{:rankName}}" id="name{{:rank}}" type="text" onblur="pager._valideName({{:rank}})" maxlength='12'><input type='text' id='nameMsg{{:rank}}' style='display:none;color:red'></p></td>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14"><b class="red">*</b>图片名称:
 				<span class="btn-upload">

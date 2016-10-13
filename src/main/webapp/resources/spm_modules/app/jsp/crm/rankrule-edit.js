@@ -64,7 +64,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		    		var count = result.length;
     		    		var count_=count-1;
     		    		//第一行
-    		    		var htmlOutput = "<tr><td><p class='f-14' style='font-weight:400;'>等级1:0-"+result[0].maxScore+"分</p></td>";
+    		    		var htmlOutput = "<tr><td><p class='f-14' style='font-weight:400;'>等级1:0 至 "+result[0].maxScore+"分</p></td>";
     		    		htmlOutput+="<td><p class='f-14' style='font-weight:400;'> "+result[0].rankName+"</p></td>";
     		    		htmlOutput+="<td><p><image src='"+urlMap[1]+"' height='80px' width='80px'/></p></td></tr>";
     		    		//最后一行
@@ -86,7 +86,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		    		var count = result.length;
     		    		var count_ = count-1;
     		    		//第一行
-    		    		var htmlOutput ="<tr><td class='text-l pl-10' style='white-space:nowrap'><p class='f-14' style='font-weight:400;'>等级1:<input type='text' value='0' class='int-text int-mini' id='min1' style='border: none;background:none;font-weight:400;' name='list[0].minScore' readonly='readonly'>-<input type='hidden' value='1' name='list[0].rank'><input class='int-text int-mini' name='list[0].maxScore' id='max1' value='"+result[0].maxScore+"' type='text' onblur='"+"pager._changeValue(1)' maxlength='12' onkeydown='return doit()' style=''>分<input type='text' id='rankMsg1' style='display:none;color:red'></p></td>";
+    		    		var htmlOutput ="<tr><td class='text-l pl-10' style='white-space:nowrap'><p class='f-14' style='font-weight:400;'>等级1:<input type='text' value='0' class='int-text int-mini' id='min1' style='border: none;background:none;font-weight:400;' name='list[0].minScore' readonly='readonly'>至<input type='hidden' value='1' name='list[0].rank'><input class='int-text int-mini' name='list[0].maxScore' id='max1' value='"+result[0].maxScore+"' type='text' onblur='"+"pager._changeValue(1)' maxlength='12' onkeydown='return doit()' style=''>分<input type='text' id='rankMsg1' style='display:none;color:red'></p></td>";
     		            htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><input class='int-text int-mini' name='list[0].rankName' type='text' value='"+result[0].rankName+"' id='name1' onblur='"+"pager._valideName(1)' maxlength='40'><input type='text' style='display:none;color:red' maxlength='12' id='nameMsg1'></p></td>";
     		            htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><b class='red'>*</b>图片名称:<span class='btn-upload'><input class='int-text int-mini' disabled='disabled' type='text' value='"+nameMap[1]+"' id='picName1' style='border:none;background:none;font-weight:400;'><input type='hidden' name='list[0].rankLogo' id='rankLogo1' value='idpsMap[1]'><input type='hidden' name='rankName1' id='rankName1' value='nameMap[1]'>";
     		            htmlOutput+="&nbsp;&nbsp;<input type='button' class='btn-primary btn-default btn-medium' value='浏览文件'/>";
@@ -135,7 +135,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		if(count==null||count=="")
     			count=result[result.length-1].rank;
     		var count_=count-1;
-    		var htmlOutput ="<tr><td class='text-l pl-10' style='white-space:nowrap'><p class='f-14' style='font-weight:400;'>等级1:<input class='int-text int-mini' readonly='readonly' type='text' name='list[0].minScore' id='min1' value='0' style='border: none;background:none;font-weight:400;'><input type='hidden' name=list[0].rank value='1'>-<input class='int-text int-mini' name='list[0].maxScore' id='max1' type='text' onblur=\""+"pager._changeValue('1')"+"\" maxlength='12' onkeydown='return doit()' style=''>分<input type='text' style='display:none;color:red' id='rankMsg1'></p></td>";
+    		var htmlOutput ="<tr><td class='text-l pl-10' style='white-space:nowrap'><p class='f-14' style='font-weight:400;'>等级1:<input class='int-text int-mini' readonly='readonly' type='text' name='list[0].minScore' id='min1' value='0' style='border: none;background:none;font-weight:400;'><input type='hidden' name=list[0].rank value='1'>至<input class='int-text int-mini' name='list[0].maxScore' id='max1' type='text' onblur=\""+"pager._changeValue('1')"+"\" maxlength='12' onkeydown='return doit()' style=''>分<input type='text' style='display:none;color:red' id='rankMsg1'></p></td>";
             htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><input class='int-text int-mini' name='list[0].rankName' id='name1' type='text' onblur=\""+"pager._valideName('1')"+"\" maxlength='12'><input type='text' id='nameMsg1' style='display:none;color:red'></p></td>";
             htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><b class='red'>*</b>图片名称:<span class='btn-upload'><input class='int-text int-mini' disabled='disabled' id='picName1' style='border:none;background:none;font-weight:400;'><input type='hidden' name='list[0].rankLogo' id='rankLogo1'><input type='hidden' name='rankName1' id='rankName1'>";
             htmlOutput+="&nbsp;<input type='button' class='btn-primary btn-default btn-medium' value='浏览文件'/>";

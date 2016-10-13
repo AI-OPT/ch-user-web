@@ -8,7 +8,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>合同管理页面</title>
+<title>入驻商户资质审核</title>
 <%@include file="/inc/inc.jsp"%>
 <script src="${uedroot}/scripts/modular/frame.js"></script>
 <script
@@ -165,7 +165,10 @@
 									<p class="word">
 										<b class="red">*</b>营业执照副本:
 									</p>
-									<p>
+									<p><a onclick="pager._popView('http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg')"><img
+											src="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg"
+											height="80px" width="80px">
+											</a>
 										<a class="popup" title="点击看缩略图"
 											href="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg"><img
 											src="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg" width="80px"
@@ -463,6 +466,17 @@
 
 		</div>
 	</div>
+	
+	<!-- 模态框（Modal） -->
+<div class="modal hide fade"  style="min-width: 850px;position:fixed;" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+			<img src="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg"></div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+	
 	<script type="text/javascript">
 		var pager;
 		(function() {

@@ -9,7 +9,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>设置评级规则</title>
+<title>入驻商户评级规则</title>
 <%@include file="/inc/inc.jsp"%>
 </head>
 <body>
@@ -23,7 +23,7 @@
                         	<div class="main-box-body clearfix">	<!--padding20-->
 							<!--标题-->
 							<header class="main-box-header clearfix">
-								<h4 class="pull-left">设置评级规则</h4>
+								<h4 class="pull-left">入驻商户评级规则</h4>
 							</header>
 							<!--标题结束-->
 							<form:form id="rankForm" method="post" enctype="multipart/form-data" action="${_base}/rank/saverule">
@@ -31,7 +31,7 @@
 							<div class="form-label  bd-bottom">
 				            <ul>
 				                 <li class="col-lg-12">
-				              		<p class="word">请选择评级周期:</p>
+				              		<p class="word">请设置评级周期:</p>
 				              		<p><input type="radio" class="radio-2" name="periodType_" checked value="M"> <label for="radio-2">月</label></p>
 									<p><input type="radio" class="radio-1" name="periodType_" value="Q"><label for="radio-1">季度</label></p> 
 									<p><input type="radio" class="radio-1" name="periodType_" value="Y"> <label for="radio-1">年</label></p>
@@ -39,7 +39,7 @@
 				                </ul>
 				                <ul>
 								<li class="col-lg-12">
-									<p class="word">请选择店铺级数:</p>
+									<p class="word">请设置评级数:</p>
 									<p><select class="select select-mini" id="rankRegion" name="rankRegion">
 									<option value="">请选择</option>
 									<c:forEach var="i" begin="2" end="20">
