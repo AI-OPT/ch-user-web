@@ -323,12 +323,12 @@ public class DefaultManagerController {
 		        System.out.println("saveDefaultXml========="+rb);
 		        System.out.println("saveDefaultDigitalSign========="+rs);
 		        
-		        /*com.ylink.upp.oxm.entity.upp_100_001_01.RespInfo receive = null;
+		        com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo receive = null;
 		        
 		        com.ylink.upp.base.oxm.XmlBodyEntity resultMsg = this.receiveMsg(rh, rb, rs);
 		        
-				if(resultMsg instanceof com.ylink.upp.oxm.entity.upp_100_001_01.RespInfo){
-					 receive = (com.ylink.upp.oxm.entity.upp_100_001_01.RespInfo)resultMsg;
+				if(resultMsg instanceof com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo){
+					 receive = (com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo)resultMsg;
 				}
 		        
 		        if(receive == null){
@@ -336,13 +336,8 @@ public class DefaultManagerController {
 		            if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
 		            	throw new SystemException("系统异常.");
 		            }
-		        }else{
-		            if(!"90000".equals(receive.getGrpBody().getStsRsn().getRespCode())){
-		            	throw new SystemException("系统异常.");
-		            }
-		            balance=receive.getGrpBody().getStsRsnInf().getBalance();
-		        }*/
-				/*SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
+		        }
+				SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
 	        	sysUserQueryRequest.setTenantId(user.getTenantId());
 	        	sysUserQueryRequest.setLoginName(user.getLoginName());
 	        	SysUserQueryResponse  userQueryResponse = sysUserQuery.queryUserInfo(sysUserQueryRequest);
@@ -354,15 +349,15 @@ public class DefaultManagerController {
 			    GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 				defaultLogRequest.setTenantId(userClient.getTenantId());
 				defaultLogRequest.setSerialCode(serialCode);
-				defaultLog.insertDefaultLog(defaultLogRequest);*/
+				defaultLog.insertDefaultLog(defaultLogRequest);
 				System.out.println("result=========="+result);
+				responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
+	            responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
 			} catch (Exception e) {
 				e.printStackTrace();
 				responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
 	            responseHeader = new ResponseHeader(false,ExceptionCode.ERROR_CODE, "操作失败");
 			}
-			responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
-            responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
         }catch(Exception e){
         	responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
             responseHeader = new ResponseHeader(false,ExceptionCode.ERROR_CODE, "操作失败");
