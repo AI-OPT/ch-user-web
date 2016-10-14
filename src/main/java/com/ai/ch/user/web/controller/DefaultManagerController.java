@@ -144,7 +144,6 @@ public class DefaultManagerController {
 		}
 		
 		Map<String, Object> model = new HashMap<String, Object>();
-		result = null;
 		if(result!=null){
 			MsgString msgString = MsgUtils.patch(result);
 			String rh = msgString.getHeaderMsg();
