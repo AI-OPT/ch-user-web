@@ -312,6 +312,7 @@ public class DefaultManagerController {
 			            if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
 			            	responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
 				            responseHeader = new ResponseHeader(false,ExceptionCode.ERROR_CODE, "操作失败");
+				            responseData.setResponseHeader(responseHeader);
 				            responseData.setData(JSON.toJSONString(defaultLogRequest));
 				            return responseData;
 			            }
