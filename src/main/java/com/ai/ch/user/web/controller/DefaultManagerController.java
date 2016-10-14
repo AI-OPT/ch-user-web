@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
@@ -59,6 +61,7 @@ import com.ai.platform.common.api.sysuser.param.SysUserQueryResponse;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.esotericsoftware.minlog.Log;
 import com.upp.docking.covn.MsgString;
 import com.ylink.itfin.certificate.SecurityUtil;
 import com.ylink.upp.base.oxm.XmlBodyEntity;
@@ -78,6 +81,7 @@ import com.ylink.upp.oxm.entity.upp_711_001_01.ReqsInfo;
 @RequestMapping("/defaultManager")
 public class DefaultManagerController {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultManagerController.class);
 	
 	@Autowired
 	private OxmHandler oxmHandler;
@@ -92,34 +96,6 @@ public class DefaultManagerController {
 		return new ModelAndView("/jsp/defaultManager/defaultManagerList");
 	}
 	
-	@RequestMapping("/getDefaultManagerList")
-	 @ResponseBody
-	 public ResponseData<PageInfo<BusinessListInfo>> getBillingCycleList(HttpServletRequest request) {
-		 ResponseData<PageInfo<BusinessListInfo>> responseData = null;
-		 try {
-			 PageInfo<BusinessListInfo> pageInfo = new PageInfo<BusinessListInfo>();
-			 pageInfo.setCount(5);
-			 pageInfo.setPageCount(1);
-			 pageInfo.setPageNo(1);
-			 pageInfo.setPageSize(5);
-			 List<BusinessListInfo> list = new ArrayList<BusinessListInfo>();
-			 for(int i=0;i<5;i++){
-				BusinessListInfo businessInfo = new BusinessListInfo();
-				businessInfo.setUserId(i+"");
-				businessInfo.setUserName("defaultTest_"+i);
-				businessInfo.setCustName("custNameTest_"+i);
-				businessInfo.setUserType(ChWebConstants.CONTRACT_TYPE_SHOP);
-				businessInfo.setBusinessCategory("usiness"+i);
-				list.add(businessInfo);
-			 }
-			 pageInfo.setResult(list);
-			 responseData = new ResponseData<PageInfo<BusinessListInfo>>(ChWebConstants.OperateCode.SUCCESS, "查询成功", pageInfo);
-			} catch (Exception e) {
-				e.printStackTrace();
-				responseData = new ResponseData<PageInfo<BusinessListInfo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
-			}
-      return responseData;
-	 }
 	
 	@RequestMapping("/addDefaultInfo")
 	public ModelAndView addDefaultInfo(HttpServletRequest request,String userId,String userName,String custName) {
@@ -153,7 +129,7 @@ public class DefaultManagerController {
 			sign = payUtil.sign(xmlMsg);
 			param.put("signMsg", sign);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("加签失败,加签内容是=========="+xmlMsg,e);
 		}
 		// 拼装报文头
 		String msgHeader = payUtil.initMsgHeader(hdr.getMerNo(), TranType.PAY_GUARANTEE_MONEY_QUERY.getValue());
@@ -164,43 +140,48 @@ public class DefaultManagerController {
 			String url = PropertiesUtil.getStringByKey("balance_http_url");
 			result = payUtil.sendHttpPost(url, param, "UTF-8");
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("获取保证金余额出错",e);
 		}
-
-		MsgString msgString = MsgUtils.patch(result);
-		String rh = msgString.getHeaderMsg();
-        String rb = msgString.getXmlBody();
-        String rs = msgString.getDigitalSign();
-
-        String balance = "0";//查询的金额
-		com.ylink.upp.base.oxm.XmlBodyEntity resultMsg = this.receiveMsg(rh, rb, rs);
 		
-		com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo receive = null;
-		
-		if(resultMsg instanceof com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo){
-			 receive = (com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo)resultMsg;
-		}
-        
-        if(receive == null){
-        	com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo receive2 = (com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo) resultMsg;
-            if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
-            	throw new SystemException("系统异常.");
-            }
-        }else{
-            if(!"90000".equals(receive.getGrpBody().getStsRsn().getRespCode())){
-            	throw new SystemException("系统异常.");
-            }
-            balance=receive.getGrpBody().getStsRsnInf().getBalance();
-        }
 		Map<String, Object> model = new HashMap<String, Object>();
- 		model.put("userId", userId);
- 		try {
-			model.put("userName", URLDecoder.decode(userName,"utf-8"));
-			model.put("custName", URLDecoder.decode(custName,"utf-8"));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		result = null;
+		if(result!=null){
+			MsgString msgString = MsgUtils.patch(result);
+			String rh = msgString.getHeaderMsg();
+	        String rb = msgString.getXmlBody();
+	        String rs = msgString.getDigitalSign();
+
+	        String balance = "0";//查询的金额
+			com.ylink.upp.base.oxm.XmlBodyEntity resultMsg = this.receiveMsg(rh, rb, rs);
+			com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo receive = null;
+			
+			if(resultMsg instanceof com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo){
+				 receive = (com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo)resultMsg;
+			}
+	        
+	        if(receive == null){
+	        	com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo receive2 = (com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo) resultMsg;
+	            if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
+	            	LOGGER.error("获取保证金余额出错:resultMsg======="+resultMsg);
+	            	throw new SystemException("系统异常.");
+	            }
+	        }else{
+	            if(!"90000".equals(receive.getGrpBody().getStsRsn().getRespCode())){
+	            	throw new SystemException("系统异常.");
+	            }
+	            balance=receive.getGrpBody().getStsRsnInf().getBalance();
+	        }
+	 		model.put("userId", userId);
+	 		try {
+				model.put("userName", URLDecoder.decode(userName,"utf-8"));
+				model.put("custName", URLDecoder.decode(custName,"utf-8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+	 		model.put("balance", Double.parseDouble(balance)/100);
+		}else{
+			return new ModelAndView("/jsp/defaultManager/fail");
 		}
- 		model.put("balance", 100);
 		return new ModelAndView("/jsp/defaultManager/addDefault",model);
 	}
 	
@@ -252,14 +233,14 @@ public class DefaultManagerController {
 			body.setToken("token");
 			body.setOpenId("1");
 			body.setCustType("02");//企业
-			body.setPayCustNo("CB2016092000000001");
+			body.setPayCustNo("CB2016101000000004");
 			
 			BigDecimal orderAmt = new BigDecimal("0");
 			List<PayOrderDetail> details = new ArrayList<PayOrderDetail>();
 			PayOrderDetail detail = new PayOrderDetail();
 			detail.setProductAmt("1");//扣保证金金额（分）
 			detail.setProductName("productName1");//扣保证金原因
-			detail.setSonMerNo("CO20160700000006");//收取保证金商户号
+			detail.setSonMerNo("CO20161000000002");//收取保证金商户号
 			detail.setMerSeqId(serialCode);//商户主订单号
 			orderAmt = BigDecimal.valueOf(Long.parseLong(detail.getProductAmt()));//订单总金额(当前与扣款金额相同)
 			details.add(detail);
@@ -290,7 +271,7 @@ public class DefaultManagerController {
 			try {
 				xmlMsg = oxmHandler.marshal(reqsInfo);
 			} catch (IOException e) {
-				e.printStackTrace();
+				LOGGER.error("解析对象出错:"+xmlMsg);
 			}
 
 			Map<String, String> param = new TreeMap<String, String>();
@@ -304,7 +285,7 @@ public class DefaultManagerController {
 			    sign = SecurityUtil.pfxWithSign(pfxByte,xmlMsg, "111111");
 				param.put("signMsg", sign);
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.error("加签出错:"+xmlMsg);
 			}
 			// 拼装报文头
 			String msgHeader = payUtil.initMsgHeader(hdr.getMerNo(), "100.001.01");
@@ -314,53 +295,58 @@ public class DefaultManagerController {
 			try {
 				String paymentApplication = PropertiesUtil.getStringByKey("paymentApplication_http_url", "httpUrl.properties");
 				result = payUtil.sendHttpPost(paymentApplication, param, "UTF-8");
-				
-				MsgString msgString = MsgUtils.patch(result);
-				String rh = msgString.getHeaderMsg();
-		        String rb = msgString.getXmlBody();
-		        String rs = msgString.getDigitalSign();
-		        System.out.println("saveDefaultHeader========="+rh);
-		        System.out.println("saveDefaultXml========="+rb);
-		        System.out.println("saveDefaultDigitalSign========="+rs);
-		        
-		        com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo receive = null;
-		        
-		        com.ylink.upp.base.oxm.XmlBodyEntity resultMsg = this.receiveMsg(rh, rb, rs);
-		        
-				if(resultMsg instanceof com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo){
-					 receive = (com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo)resultMsg;
+				if(result!=null){
+					MsgString msgString = MsgUtils.patch(result);
+					String rh = msgString.getHeaderMsg();
+			        String rb = msgString.getXmlBody();
+			        String rs = msgString.getDigitalSign();
+			        
+			        com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo receive = null;
+			        
+			        com.ylink.upp.base.oxm.XmlBodyEntity resultMsg = this.receiveMsg(rh, rb, rs);
+			        
+					if(resultMsg instanceof com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo){
+						 receive = (com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo)resultMsg;
+					}
+			        if(receive == null){
+			        	com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo receive2 = (com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo) resultMsg;
+			            if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
+			            	responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
+				            responseHeader = new ResponseHeader(false,ExceptionCode.ERROR_CODE, "操作失败");
+				            responseData.setData(JSON.toJSONString(defaultLogRequest));
+				            return responseData;
+			            }
+			        }
+					SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
+		        	sysUserQueryRequest.setTenantId(user.getTenantId());
+		        	sysUserQueryRequest.setLoginName(user.getLoginName());
+		        	SysUserQueryResponse  userQueryResponse = sysUserQuery.queryUserInfo(sysUserQueryRequest);
+					BeanUtils.copyProperties(defaultLogRequest,defaultLogInfo);
+					defaultLogRequest.setDeductDate(new Timestamp(new Date().getTime()));
+					defaultLogRequest.setDeductBalance(defaultLogInfo.getDeductBalance()*100);
+					defaultLogRequest.setOperId(Long.parseLong(userQueryResponse.getNo()));
+					defaultLogRequest.setOperName(userQueryResponse.getLoginName());
+				    GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+					defaultLogRequest.setTenantId(userClient.getTenantId());
+					defaultLogRequest.setSerialCode(serialCode);
+					defaultLog.insertDefaultLog(defaultLogRequest);
+					responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
+		            responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
+				}else{
+					responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
+		            responseHeader = new ResponseHeader(false,ExceptionCode.ERROR_CODE, "操作失败");
+		            LOGGER.error("返回结果result为空");
 				}
-		        
-		        if(receive == null){
-		        	com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo receive2 = (com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo) resultMsg;
-		            if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
-		            	throw new SystemException("系统异常.");
-		            }
-		        }
-				SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
-	        	sysUserQueryRequest.setTenantId(user.getTenantId());
-	        	sysUserQueryRequest.setLoginName(user.getLoginName());
-	        	SysUserQueryResponse  userQueryResponse = sysUserQuery.queryUserInfo(sysUserQueryRequest);
-				BeanUtils.copyProperties(defaultLogRequest,defaultLogInfo);
-				defaultLogRequest.setDeductDate(new Timestamp(new Date().getTime()));
-				defaultLogRequest.setDeductBalance(defaultLogInfo.getDeductBalance()*100);
-				defaultLogRequest.setOperId(Long.parseLong(userQueryResponse.getNo()));
-				defaultLogRequest.setOperName(userQueryResponse.getLoginName());
-			    GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-				defaultLogRequest.setTenantId(userClient.getTenantId());
-				defaultLogRequest.setSerialCode(serialCode);
-				defaultLog.insertDefaultLog(defaultLogRequest);
-				System.out.println("result=========="+result);
-				responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
-	            responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
+				
 			} catch (Exception e) {
-				e.printStackTrace();
 				responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
 	            responseHeader = new ResponseHeader(false,ExceptionCode.ERROR_CODE, "操作失败");
+	            LOGGER.error("扣款失败",e);
 			}
         }catch(Exception e){
         	responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
             responseHeader = new ResponseHeader(false,ExceptionCode.ERROR_CODE, "操作失败");
+            LOGGER.error("扣款失败",e);
         }
         responseData.setResponseHeader(responseHeader);
         responseData.setData(JSON.toJSONString(defaultLogRequest));
@@ -473,16 +459,12 @@ public class DefaultManagerController {
 	
 	@RequestMapping("/paymentNotifications")
 	public String paymentNotifications( @RequestParam("msgHeader") String msgHead,@RequestParam("xmlBody") String xmlBody,@RequestParam("signMsg") String signMsg){
-		System.out.println("验签开始---------------------");
+		LOGGER.info("支付通知开始");
 		boolean flag = false;
 		try{
 			//验签
-			System.out.println("msgHead=====================:"+msgHead);
-			System.out.println("xmlBody=====================:"+xmlBody);
-			System.out.println("signMsg====================="+signMsg);
 			com.ylink.upp.base.oxm.XmlBodyEntity resultMsg =  receiveMsg(msgHead, xmlBody, signMsg);
 	        com.ylink.upp.oxm.entity.upp_103_001_01.RespInfo receive = (com.ylink.upp.oxm.entity.upp_103_001_01.RespInfo)resultMsg;
-	        
 	        if(receive == null){
 	        	com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo receive2 = (com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo) resultMsg;
 	            if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
@@ -492,13 +474,13 @@ public class DefaultManagerController {
 	        }
 	        
 	        //00表示支付成功，01表示支付失败
-	        System.out.println("扣款开始==================");
+	        LOGGER.info("扣款开始==================");
 	        if("01".equals(receive.getGrpBody().getPayStatus())){
-	        	System.out.println("扣款失败=============");
+	        	 LOGGER.info("扣款失败=============");
 	        	IDefaultLogSV defaultLog = DubboConsumerFactory.getService("iDefaultLogSV");
-	        	//defaultLog.deleteDefaultLog(receive.getGrpBody().getMerOrderId());
+	        	defaultLog.deleteDefaultLog(receive.getGrpBody().getMerOrderId());
 	        }
-	        System.out.println("扣款结束===================");
+	        LOGGER.info("扣款结束===================");
 	        flag = true;
 		}catch(Exception e){
 			flag = false;
