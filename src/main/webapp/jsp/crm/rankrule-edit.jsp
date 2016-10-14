@@ -204,7 +204,7 @@
 				<input type="button" class="btn-primary btn-default btn-medium" value="浏览文件"/>
 				<input type="file" class="int-file1" id='img{{:rank}}' name='img{{:rank}}' onchange="pager._imgName('{{:rank}}')"/>
 				</span>
-				<span id='imgInfo{{:rank}}' style='color:grey;'>gif/jpg/jpeg/png格式</span><input type='text' id='picErr{{:rank}}' style='display:none;color:red;font-size:14px'></p>
+				<span id='imgInfo{{:rank}}' style='color:grey;'>gif/jpg/jpeg/png</span><input type='text' id='picErr{{:rank}}' style='display:none;color:red;font-size:14px'></p>
 			</td>
 		</tr>
 	{{/for}}
@@ -218,7 +218,7 @@
 				<input type="button" class="btn-primary btn-default btn-medium" value="浏览文件"/>
 				<input type="file" class="int-file1" id='img{{:index}}' name='img{{:index}}' onchange="pager._imgName('{{:index}}')"/>
 				<input type='text' style='display:none;color:red;font-size:14px' id='picErr{{:index}}'></span>
-				<span id='imgInfo{{:index}}' style='color:gray;'>gif/jpg/jpeg/png格式</span>
+				<span id='imgInfo{{:index}}' style='color:gray;'>gif/jpg/jpeg/png</span>
 			</p></td>
 		</tr>
 	{{/for}}
