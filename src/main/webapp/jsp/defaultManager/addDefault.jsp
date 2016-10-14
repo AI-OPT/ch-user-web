@@ -105,7 +105,6 @@
 	<script type="text/javascript">
 		var defaultPagerManager;
 		var balance = ${balance};
-		alert(balance);
 		seajs.use([ 'app/jsp/billing/defaultManager' ], function(
 				DefaultPagerManager) {
 			defaultPagerManager = new DefaultPagerManager({
