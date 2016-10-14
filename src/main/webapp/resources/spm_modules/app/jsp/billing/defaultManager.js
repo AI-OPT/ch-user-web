@@ -97,6 +97,20 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     			}
     		}
     	},
+    	_dialog:function(title,content,icon,okValue,url){
+    		var d =new Dialog({
+    			title : title,
+    			content : content,
+    			icon:icon,
+    			closeIconShow:false,
+    			okValue : okValue,
+    			ok : function() {
+    				this.close;
+    				window.location.href=url;
+    			}
+    		});
+    		d.show();
+    	},
     	_saveDefaultManager:function(){
     		this._checkDefaultReason();
     		this._checkAmount();
