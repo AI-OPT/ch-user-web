@@ -81,6 +81,7 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
 						$("#amountErrMsg").show();
 	        			$("#amountText").show();
 	        			$("#amountText").text("输入的金额不能大于剩余金额");
+	        			$("#amountFlag").val("0");
 					}
     				
     			}else{
@@ -91,8 +92,6 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     				}else{
     					$("#amountText").text("请输入数字，最多有两位小数");
     				}
-    				
-        			
         			$("#amountFlag").val("0");
     			}
     		}

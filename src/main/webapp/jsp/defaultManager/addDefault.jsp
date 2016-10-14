@@ -40,7 +40,7 @@
 							            <ul>
 							                <li  class="col-md-6">
 							                    <p class="word">保证金余额:</p>
-							                    <p>${balance}元</p>
+							                    <p>${balance}</p>元
 							                </li>
 							            </ul>
 							  	</div>
@@ -104,10 +104,8 @@
 
 	<script type="text/javascript">
 		var defaultPagerManager;
-		var balance = $
-		{
-			balance
-		};
+		var balance = ${balance};
+		alert(balance);
 		seajs.use([ 'app/jsp/billing/defaultManager' ], function(
 				DefaultPagerManager) {
 			defaultPagerManager = new DefaultPagerManager({
