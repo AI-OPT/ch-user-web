@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -72,6 +73,7 @@ public class RankController {
 	}
 	
 	@RequestMapping("/getJsonData")
+	@ResponseBody
 	public ResponseData<String> getJsonData(HttpServletRequest request){
 		ResponseData<String> responseData = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "success");
 		ResponseHeader responseHeader = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "success");
@@ -92,6 +94,7 @@ public class RankController {
 	}
 	
 	@RequestMapping("/getInitData")
+	@ResponseBody
 	public ResponseData<ShopRankParamVo> getInitData(HttpServletRequest request){
 		// 调dubbo服务
 		ResponseData<ShopRankParamVo> responseData = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "success");
@@ -111,6 +114,7 @@ public class RankController {
 		shopRankParamVo.setResult(response.getList());
 		//截取中间数据
 		List<ShopRankRuleVo> middleData = new ArrayList<>();
+		if(response!= null&&!response.getList().isEmpty()){
 		if(response.getList().size()>2){
 			//废弃
 			/*for (int index = 1; index <= response.getList().size()-2; index++) {
@@ -126,6 +130,7 @@ public class RankController {
 			responseData.setData(shopRankParamVo);
 			responseData.setResponseHeader(responseHeader);
 			//System.out.println(JSON.toJSONString(responseData));
+		}
 		return responseData;
 	}
 	
