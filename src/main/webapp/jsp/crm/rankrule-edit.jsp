@@ -140,9 +140,9 @@
 		                						<table class="table table-hover table-border table-bordered">
 												<thead>
 													<tr>
-														<th class="text-l pl-10"width="30%">店铺评分等级</th>
-														<th class="text-l pl-10"width="30%">等级名称</th>
-														<th class="text-l pl-10"width="30%">等级图片</th>
+														<th class="text-l pl-10" width="30%">店铺评分等级</th>
+														<th class="text-l pl-10" width="30%">等级名称</th>
+														<th class="text-l pl-10" width="40%">等级图片</th>
 													</tr>
 												</thead>
 												<tbody id="TBODY_RANKRULE">

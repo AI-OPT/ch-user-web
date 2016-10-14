@@ -234,7 +234,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		//debugger;
     		if(maxIndex==""||maxIndex==null)
     		{
-    			$("#rankMsg"+index).val('(等级区间不能为空)');
+    			$("#rankMsg"+index).val('(区间不能为空)');
     			document.getElementById('rankMsg'+index).style.display="";
     			$("#rankFlag").val('0');
     			return false;
@@ -274,7 +274,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		if($("#rankFlag").val()=='1'){
     		if(maxIndex==""||maxIndex==null)
     		{
-    			$("#rankMsg"+index).val('(等级区间不能为空)');
+    			$("#rankMsg"+index).val('(区间不能为空)');
     			document.getElementById('rankMsg'+index).style.display="";
     			$("#rankFlag").val('0');
     			return false;
@@ -287,7 +287,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		document.getElementById('nameInfo'+index).style.display="none";
     		var name = $("#name"+index).val().replace(/(^\s*)|(\s*$)/g,"");
     		if(name==null||name==""){
-    			$("#nameMsg"+index).val("(等级名称不能为空)");
+    			$("#nameMsg"+index).val("(名称不能为空)");
     			$("#name"+index).val('');
 				document.getElementById('nameMsg'+index).style.display="";
 				$("#nameFlag").val('0');
