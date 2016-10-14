@@ -29,11 +29,15 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
     	},
     	//事件代理
     	events: {
-    		"click #scoreListForm":"_getScoreList"
+    		"click #scoreListForm":"_getScoreList",
         },
     	//重写父类
     	setup: function () {
     		auditeQualificationPager.superclass.setup.call(this);
+    	},
+    	
+    	_backup:function(url){
+    		window.location.href=url;
     	},
     	
     	_passAudit:function(userId,url){
