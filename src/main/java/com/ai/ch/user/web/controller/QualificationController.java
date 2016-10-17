@@ -500,7 +500,10 @@ public class QualificationController {
 					if('1'==response.getEcommOwner().charAt(index))
 						ecommOwner+=shopOwner[index]+"/";
 				}
+			if(ecommOwner.length()>1)
 			ecommOwner = ecommOwner.substring(0,ecommOwner.length()-1);
+			else
+				ecommOwner = "无";
 			}
 			model.addObject("ecommOwner", ecommOwner);
 		}
