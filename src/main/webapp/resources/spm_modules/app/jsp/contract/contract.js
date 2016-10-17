@@ -480,32 +480,7 @@ function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
 	}else{
 		$("#"+errMsg).hide();
 		$("#"+contractText).hide();
+		$("#"+contractText).html("");
 		$("#"+contractFlag).val("1");
 	}
-	/*var url = "";
-	if(/\.(PNG|JPG|png|jpg)$/.test(fileTest)){
-		url= _base+"/contract/uploadImage?contractFileId="+fileId;
-	}else{
-		url = _base+"/contract/uploadFile?contractFileId="+fileId;
-	}
-	 $.ajaxFileUpload({  
-         url:url,  
-         secureuri:false,  
-         fileElementId:fileId,//file标签的id  
-         dataType: 'text',//返回数据的类型  
-         data:{fileId:fileId},//一同上传的数据  
-         success: function (data, status) {
-        	var dataJson = $.parseJSON(data);  
-        	if(dataJson.isTrue==true){
-        		$("#"+ddsId).val(dataJson.dssId);
-        		$("#"+contractFlag).val("1");
-        	 }else{
-        		 alert("上传失败");
-        		 $("#"+contractFlag).val("0");
-        	 }
-         },
-         error: function (data, status, e) {  
-             alert(e);  
-         }
-     });*/
 }
