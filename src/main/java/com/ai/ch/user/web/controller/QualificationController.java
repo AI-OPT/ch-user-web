@@ -502,6 +502,8 @@ public class QualificationController {
 				}
 			if(ecommOwner.length()>1)
 			ecommOwner = ecommOwner.substring(0,ecommOwner.length()-1);
+			else
+				ecommOwner = "无";
 			}
 			model.addObject("ecommOwner", ecommOwner);
 		}
