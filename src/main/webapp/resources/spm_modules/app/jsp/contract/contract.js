@@ -200,6 +200,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				$("#startTimeFlag").val("1");
 			}
 		},
+		
 		_checkFileText:function(){
 			var scanFileInput = $("#scanFileText").val();
 			var electronicContractText = $("#electronicContractText").val();
