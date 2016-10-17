@@ -135,6 +135,9 @@ public class DefaultManagerController {
 		String msgHeader = payUtil.initMsgHeader(hdr.getMerNo(), TranType.PAY_GUARANTEE_MONEY_QUERY.getValue());
 		param.put("msgHeader", msgHeader);
 		param.put("xmlBody", xmlMsg);
+		LOGGER.info("msgHeader================="+msgHeader);
+		LOGGER.info("msgXmlMsg================="+msgHeader);
+		LOGGER.info("msgHeader================="+msgHeader);
 		String result = null;
 		try {
 			String url = PropertiesUtil.getStringByKey("balance_http_url");
@@ -145,39 +148,43 @@ public class DefaultManagerController {
 		
 		Map<String, Object> model = new HashMap<String, Object>();
 		if(result!=null){
-			MsgString msgString = MsgUtils.patch(result);
-			String rh = msgString.getHeaderMsg();
-	        String rb = msgString.getXmlBody();
-	        String rs = msgString.getDigitalSign();
+			try{
+				MsgString msgString = MsgUtils.patch(result);
+				String rh = msgString.getHeaderMsg();
+		        String rb = msgString.getXmlBody();
+		        String rs = msgString.getDigitalSign();
 
-	        String balance = "0";//查询的金额
-			com.ylink.upp.base.oxm.XmlBodyEntity resultMsg = this.receiveMsg(rh, rb, rs);
-			com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo receive = null;
-			
-			if(resultMsg instanceof com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo){
-				 receive = (com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo)resultMsg;
+		        String balance = "0";//查询的金额
+				com.ylink.upp.base.oxm.XmlBodyEntity resultMsg = this.receiveMsg(rh, rb, rs);
+				com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo receive = null;
+				
+				if(resultMsg instanceof com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo){
+					 receive = (com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo)resultMsg;
+				}
+		        
+		        if(receive == null){
+		        	com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo receive2 = (com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo) resultMsg;
+		            if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
+		            	LOGGER.error("获取保证金余额出错:resultMsg======="+resultMsg);
+		            	throw new SystemException("系统异常.");
+		            }
+		        }else{
+		            if(!"90000".equals(receive.getGrpBody().getStsRsn().getRespCode())){
+		            	throw new SystemException("系统异常.");
+		            }
+		            balance=receive.getGrpBody().getStsRsnInf().getBalance();
+		        }
+		 		model.put("userId", userId);
+		 		try {
+					model.put("userName", URLDecoder.decode(userName,"utf-8"));
+					model.put("custName", URLDecoder.decode(custName,"utf-8"));
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+		 		model.put("balance", Double.parseDouble(balance)/100);
+			}catch(Exception e){
+				return new ModelAndView("/jsp/defaultManager/fail");
 			}
-	        
-	        if(receive == null){
-	        	com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo receive2 = (com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo) resultMsg;
-	            if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
-	            	LOGGER.error("获取保证金余额出错:resultMsg======="+resultMsg);
-	            	throw new SystemException("系统异常.");
-	            }
-	        }else{
-	            if(!"90000".equals(receive.getGrpBody().getStsRsn().getRespCode())){
-	            	throw new SystemException("系统异常.");
-	            }
-	            balance=receive.getGrpBody().getStsRsnInf().getBalance();
-	        }
-	 		model.put("userId", userId);
-	 		try {
-				model.put("userName", URLDecoder.decode(userName,"utf-8"));
-				model.put("custName", URLDecoder.decode(custName,"utf-8"));
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-	 		model.put("balance", Double.parseDouble(balance)/100);
 		}else{
 			return new ModelAndView("/jsp/defaultManager/fail");
 		}
