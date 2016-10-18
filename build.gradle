@@ -96,6 +96,8 @@ dependencies {
     compile "com.ai.ch.user:defaultlog:1.0-SNAPSHOT"
     
     compile "com.ai.platform.common:sysuser:1.0-SNAPSHOT"
+    //租户信息
+    compile "com.ai.platform.common:tenant:1.0-SNAPSHOT"
     testCompile(
             "org.springframework:spring-test:4.1.7.RELEASE",
             "junit:junit:4.12"
