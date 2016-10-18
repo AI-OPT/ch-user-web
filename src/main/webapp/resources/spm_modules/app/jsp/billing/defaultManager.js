@@ -80,7 +80,7 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
 					}else{
 						$("#amountErrMsg").show();
 	        			$("#amountText").show();
-	        			$("#amountText").text("输入的金额不能大于剩余金额");
+	        			$("#amountText").text("输入的扣款金额不能大于保证金余额");
 	        			$("#amountFlag").val("0");
 					}
     				
@@ -136,7 +136,18 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     		        		d.show();
     		        		return false;
     		        	}else if(data.responseHeader.resultCode=="000000"){
-    		        		window.location.href= _base+"/defaultManager/defaultManagerPager";
+    		        		var d =new Dialog({
+    		        			title : "提示",
+    		        			content : "扣款成功",
+    		        			icon:"success",
+    		        			closeIconShow:false,
+    		        			okValue : "确定",
+    		        			ok : function() {
+    		        				this.close;
+    		        				window.location.href= _base+"/defaultManager/defaultManagerPager";
+    		        			}
+    		        		});
+    		        		d.show();
     		        	}
     		          },
     				error: function(error) {
