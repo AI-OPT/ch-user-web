@@ -278,12 +278,15 @@ public class QualificationController {
 			model.addObject("hasExperi", hasExperi);
 			model.addObject("shopDesc", response.getShopDesc());
 			String ecommOwner = "";
-			if(!response.getEcommOwner().isEmpty()){
+			if(response!=null&&!response.getEcommOwner().isEmpty()){
 				for (int index=0;index<response.getEcommOwner().length();index++) {
 					if('1'==response.getEcommOwner().charAt(index))
 						ecommOwner+=shopOwner[index]+"/";
 				}
-			ecommOwner = ecommOwner.substring(0,ecommOwner.length()-1);
+				if(ecommOwner.length()>1)
+					ecommOwner = ecommOwner.substring(0,ecommOwner.length()-1);
+				else
+					ecommOwner = "无平台";
 			}
 			model.addObject("ecommOwner", ecommOwner);
 		}
@@ -503,7 +506,7 @@ public class QualificationController {
 			if(ecommOwner.length()>1)
 			ecommOwner = ecommOwner.substring(0,ecommOwner.length()-1);
 			else
-				ecommOwner = "无";
+				ecommOwner = "无平台";
 			}
 			model.addObject("ecommOwner", ecommOwner);
 		}
