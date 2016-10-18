@@ -418,7 +418,7 @@ public class ContractController {
 	        	LOGGER.error("操作失败");
 	        	return new ModelAndView("/jsp/contract/shop/fail");
 	        }
-	        return new ModelAndView("redirect:/contract/contractShopPager");
+	        return new ModelAndView("/jsp/contract/shop/success");
 	        
 	 }
 	 /**
@@ -435,7 +435,6 @@ public class ContractController {
 	        String endTime = request.getParameter("endTime");
 	        GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 	        try{
-	        	
 	        	//保存合同信息
 	        	contractInfo.setActiveTime(DateUtil.getTimestamp(startTime));
 	        	contractInfo.setInactiveTime(DateUtil.getTimestamp(endTime));
@@ -489,7 +488,6 @@ public class ContractController {
 	 	        		fileList.add(extVo);
 	 	        	}
 	 	        }
-	 	        		
 	 	        	
 	 	        if(!CollectionUtil.isEmpty(fileList)&&fileList.size()>0){
 		 	    	  updateCustFileExtRequest.setList(fileList);
@@ -499,7 +497,7 @@ public class ContractController {
 	        	LOGGER.error("操作失败");
 	        	return new ModelAndView("/jsp/contract/supplier/fail");
 	        }
-	        return new ModelAndView("redirect:/contract/contractSupplierPager");
+	        return new ModelAndView("/jsp/contract/supplier/success");
 	        
 	 }
 	 

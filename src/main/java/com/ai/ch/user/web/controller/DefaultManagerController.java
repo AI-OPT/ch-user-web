@@ -58,6 +58,9 @@ import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.platform.common.api.sysuser.interfaces.ISysUserQuerySV;
 import com.ai.platform.common.api.sysuser.param.SysUserQueryRequest;
 import com.ai.platform.common.api.sysuser.param.SysUserQueryResponse;
+import com.ai.platform.common.api.tenant.interfaces.IGnTenantQuerySV;
+import com.ai.platform.common.api.tenant.param.GnTenantConditon;
+import com.ai.platform.common.api.tenant.param.GnTenantVo;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -99,51 +102,63 @@ public class DefaultManagerController {
 	
 	@RequestMapping("/addDefaultInfo")
 	public ModelAndView addDefaultInfo(HttpServletRequest request,String userId,String userName,String custName) {
-		//包装数据
-		GrpHdr hdr = new GrpHdr();
-		PayUtil payUtil = new PayUtil();
-		hdr.setMerNo("CO20160700000004");//设置一级平台商户号
-		hdr.setTranType(TranType.PAY_GUARANTEE_MONEY_QUERY.getValue());//设置交易类型(保证金支付订单查询)
-		
-		hdr.setCreDtTm(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
-		GrpBody body = new GrpBody();
-		body.setSonMerNo("CO20160800000008");//设置要查询的二级商户编号
-		body.setResv("test");//设置保留域
-		
 		ReqsInfo reqsInfo = new ReqsInfo();
-		reqsInfo.setGrpHdr(hdr);
-		reqsInfo.setGrpBody(body);
-		
-		// 发送消息
-		String xmlMsg = null;
-		try {
-			xmlMsg = oxmHandler.marshal(reqsInfo);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		PayUtil payUtil = new PayUtil();
 		Map<String, String> param = new TreeMap<String, String>();
-		// 加签
-		String sign = null;
-		try {
+		GrpHdr hdr = new GrpHdr();
+		try{
+			/**
+			 * 组装数据
+			 */
+			//获取租户信息
+			GnTenantVo gntenatVo = getTenantInfo(request);
+			hdr.setMerNo(gntenatVo.getMerNo());//设置一级平台商户号
+			hdr.setTranType(TranType.PAY_GUARANTEE_MONEY_QUERY.getValue());//设置交易类型(保证金支付订单查询)
+			hdr.setCreDtTm(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
+			GrpBody body = new GrpBody();
+			body.setSonMerNo(gntenatVo.getSonMerNo());//设置要查询的二级商户编号
+			body.setResv("test");//设置保留域
+			reqsInfo.setGrpHdr(hdr);
+			reqsInfo.setGrpBody(body);
+			
+			/**
+			 *  解析对象成字符串类型
+			 */
+			String xmlMsg = null;
+			xmlMsg = oxmHandler.marshal(reqsInfo);
+			
+			/**
+			 *  加签
+			 */
+			String sign = null;
 			sign = payUtil.sign(xmlMsg);
 			param.put("signMsg", sign);
-		} catch (Exception e) {
-			LOGGER.error("加签失败,加签内容是=========="+xmlMsg,e);
+			
+			/**
+			 *拼装报文头
+			 */
+			String msgHeader = payUtil.initMsgHeader(hdr.getMerNo(), TranType.PAY_GUARANTEE_MONEY_QUERY.getValue());
+			param.put("msgHeader", msgHeader);
+			param.put("xmlBody", xmlMsg);
+			LOGGER.info("msgHeader================="+msgHeader);
+			LOGGER.info("msgXmlMsg================="+msgHeader);
+			LOGGER.info("msgHeader================="+msgHeader);
+			
+		}catch(Exception e){
+			LOGGER.error("组装数据出错",e);
+			return new ModelAndView("/jsp/defaultManager/fail");
 		}
-		// 拼装报文头
-		String msgHeader = payUtil.initMsgHeader(hdr.getMerNo(), TranType.PAY_GUARANTEE_MONEY_QUERY.getValue());
-		param.put("msgHeader", msgHeader);
-		param.put("xmlBody", xmlMsg);
-		LOGGER.info("msgHeader================="+msgHeader);
-		LOGGER.info("msgXmlMsg================="+msgHeader);
-		LOGGER.info("msgHeader================="+msgHeader);
+		
+		/**
+		 * 访问保证金余额查询
+		 */
 		String result = null;
 		try {
 			String url = PropertiesUtil.getStringByKey("balance_http_url");
 			result = payUtil.sendHttpPost(url, param, "UTF-8");
 		} catch (Exception e) {
 			LOGGER.error("获取保证金余额出错",e);
+			return new ModelAndView("/jsp/defaultManager/fail");
 		}
 		
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -154,6 +169,10 @@ public class DefaultManagerController {
 		        String rb = msgString.getXmlBody();
 		        String rs = msgString.getDigitalSign();
 
+		        LOGGER.info("rh================="+rh);
+				LOGGER.info("rb================="+rb);
+				LOGGER.info("rs================="+rs);
+		        
 		        String balance = "0";//查询的金额
 				com.ylink.upp.base.oxm.XmlBodyEntity resultMsg = this.receiveMsg(rh, rb, rs);
 				com.ylink.upp.oxm.entity.upp_712_001_01.RespInfo receive = null;
@@ -220,135 +239,119 @@ public class DefaultManagerController {
         HttpSession session = request.getSession();
         GeneralSSOClientUser user = (GeneralSSOClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
         InsertDefaultLogRequest defaultLogRequest = new InsertDefaultLogRequest();
+        PayUtil payUtil = new PayUtil();
+        Map<String, String> param = new TreeMap<String, String>();
         try{
-        	
+        	/**
+        	 * 组装数据
+        	 */
+        	GnTenantVo gnTenantVo = getTenantInfo(request);
         	String serialCode = UUID.randomUUID().toString();
-			
 			//调用长虹扣款
 			//包装数据
-			PayUtil payUtil = new PayUtil();
 			com.ylink.upp.oxm.entity.upp_100_001_01.GrpHdr hdr = new com.ylink.upp.oxm.entity.upp_100_001_01.GrpHdr();
-			hdr.setMerNo("CO20160700000004");//设置一级平台商户号
-			hdr.setTranType("100.001.01");//设置交易类型(保证金)
+			hdr.setMerNo(gnTenantVo.getMerNo());//设置一级平台商户号
+			//支付类型
+			hdr.setTranType(TranType.PAY_APPLY.getValue());//设置交易类型(保证金)
 			hdr.setCreDtTm(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
-			
 			com.ylink.upp.oxm.entity.upp_100_001_01.GrpBody body = new com.ylink.upp.oxm.entity.upp_100_001_01.GrpBody();
-			
-			body.setMerOrderId(serialCode);//设置要查询的二级商户编号
+			//保证金扣款没有订单id，所以这个字段给出随机数
+			body.setMerOrderId(serialCode);
 			body.setUserName("uname");
 			body.setToken("token");
 			body.setOpenId("1");
 			body.setCustType("02");//企业
-			body.setPayCustNo("CB2016101000000004");
-			
+			//扣保证金的企业
+			body.setPayCustNo(defaultLogInfo.getUserId());
 			BigDecimal orderAmt = new BigDecimal("0");
 			List<PayOrderDetail> details = new ArrayList<PayOrderDetail>();
 			PayOrderDetail detail = new PayOrderDetail();
 			detail.setProductAmt("1");//扣保证金金额（分）
 			detail.setProductName("productName1");//扣保证金原因
-			detail.setSonMerNo("CO20161000000002");//收取保证金商户号
+			detail.setSonMerNo(gnTenantVo.getSonMerNo());//收取保证金商户号
 			detail.setMerSeqId(serialCode);//商户主订单号
 			orderAmt = BigDecimal.valueOf(Long.parseLong(detail.getProductAmt()));//订单总金额(当前与扣款金额相同)
 			details.add(detail);
-
 			body.setOrderAmt(orderAmt.toString());
 			body.setOrderNum(details.size() + "");
 			body.setOrderDate(new SimpleDateFormat("yyyyMMdd").format(new Date()));
 			body.setPayOrderDetail(details);
 			body.setRemark("margindeposittest");
-
+			//获取支付通知的url
 			String paymentOrderurl = PropertiesUtil.getStringByKey("paymentOrder_http_url");
-			
 			body.setNotifyUrl(paymentOrderurl);
 			body.setReturnUrl(paymentOrderurl);
-			
 			body.setProductTypeName("margindeposit");
 			body.setResv("test");
 			body.setBizType("BAIL_BALANCE_PAY");// (保证金余额支付)
 			body.setResv("test");//设置保留域
-
-			
 			com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo reqsInfo = new com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo();
 			reqsInfo.setGrpHdr(hdr);
 			reqsInfo.setGrpBody(body);
 			
-			// 发送消息
+			/**
+			 *  解析对象
+			 */
 			String xmlMsg = null;
-			try {
-				xmlMsg = oxmHandler.marshal(reqsInfo);
-			} catch (IOException e) {
-				LOGGER.error("解析对象出错:"+xmlMsg);
-			}
-
-			Map<String, String> param = new TreeMap<String, String>();
-			// 加签
-			String sign = null;
-			try {
-				ResourceLoader resourceLoader = new DefaultResourceLoader();
-				Resource pfxResource = resourceLoader.getResource(PropertiesUtil.getStringByKey("sigh_classpath")); 
-				InputStream in = new FileInputStream(pfxResource.getFile());
-				byte[] pfxByte = IOUtils.toByteArray(in);
-			    sign = SecurityUtil.pfxWithSign(pfxByte,xmlMsg, "111111");
-				param.put("signMsg", sign);
-			} catch (Exception e) {
-				LOGGER.error("加签出错:"+xmlMsg);
-			}
-			// 拼装报文头
-			String msgHeader = payUtil.initMsgHeader(hdr.getMerNo(), "100.001.01");
+			xmlMsg = oxmHandler.marshal(reqsInfo);
+			
+			/**
+			 *  加签
+			 */
+			String sign = payUtil.sign(xmlMsg);
+			param.put("signMsg", sign);
+			
+			/**
+			 *  拼装报文头
+			 */
+			String msgHeader = payUtil.initMsgHeader(hdr.getMerNo(), TranType.PAY_APPLY.getValue());
 			param.put("msgHeader", msgHeader);
 			param.put("xmlBody", xmlMsg);
 			String result = null;
-			try {
-				String paymentApplication = PropertiesUtil.getStringByKey("paymentApplication_http_url", "httpUrl.properties");
-				result = payUtil.sendHttpPost(paymentApplication, param, "UTF-8");
-				if(result!=null){
-					MsgString msgString = MsgUtils.patch(result);
-					String rh = msgString.getHeaderMsg();
-			        String rb = msgString.getXmlBody();
-			        String rs = msgString.getDigitalSign();
-			        
-			        com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo receive = null;
-			        
-			        com.ylink.upp.base.oxm.XmlBodyEntity resultMsg = this.receiveMsg(rh, rb, rs);
-			        
-					if(resultMsg instanceof com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo){
-						 receive = (com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo)resultMsg;
-					}
-			        if(receive == null){
-			        	com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo receive2 = (com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo) resultMsg;
-			            if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
-			            	responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
-				            responseHeader = new ResponseHeader(false,ExceptionCode.ERROR_CODE, "操作失败");
-				            responseData.setResponseHeader(responseHeader);
-				            responseData.setData(JSON.toJSONString(defaultLogRequest));
-				            return responseData;
-			            }
-			        }
-					SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
-		        	sysUserQueryRequest.setTenantId(user.getTenantId());
-		        	sysUserQueryRequest.setLoginName(user.getLoginName());
-		        	SysUserQueryResponse  userQueryResponse = sysUserQuery.queryUserInfo(sysUserQueryRequest);
-					BeanUtils.copyProperties(defaultLogRequest,defaultLogInfo);
-					defaultLogRequest.setDeductDate(new Timestamp(new Date().getTime()));
-					defaultLogRequest.setDeductBalance(defaultLogInfo.getDeductBalance()*100);
-					defaultLogRequest.setOperId(Long.parseLong(userQueryResponse.getNo()));
-					defaultLogRequest.setOperName(userQueryResponse.getLoginName());
-				    GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-					defaultLogRequest.setTenantId(userClient.getTenantId());
-					defaultLogRequest.setSerialCode(serialCode);
-					defaultLog.insertDefaultLog(defaultLogRequest);
-					responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
-		            responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
-				}else{
-					responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
-		            responseHeader = new ResponseHeader(false,ExceptionCode.ERROR_CODE, "操作失败");
-		            LOGGER.error("返回结果result为空");
+			String paymentApplication = PropertiesUtil.getStringByKey("paymentApplication_http_url", "httpUrl.properties");
+			result = payUtil.sendHttpPost(paymentApplication, param, "UTF-8");
+			if(result!=null){
+				MsgString msgString = MsgUtils.patch(result);
+				String rh = msgString.getHeaderMsg();
+		        String rb = msgString.getXmlBody();
+		        String rs = msgString.getDigitalSign();
+		        
+		        com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo receive = null;
+		        
+		        com.ylink.upp.base.oxm.XmlBodyEntity resultMsg = this.receiveMsg(rh, rb, rs);
+		        
+				if(resultMsg instanceof com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo){
+					 receive = (com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo)resultMsg;
 				}
-				
-			} catch (Exception e) {
+		        if(receive == null){
+		        	com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo receive2 = (com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo) resultMsg;
+		            if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
+		            	responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
+			            responseHeader = new ResponseHeader(false,ExceptionCode.ERROR_CODE, "操作失败");
+			            responseData.setResponseHeader(responseHeader);
+			            responseData.setData(JSON.toJSONString(defaultLogRequest));
+			            return responseData;
+		            }
+		        }
+				SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
+	        	sysUserQueryRequest.setTenantId(user.getTenantId());
+	        	sysUserQueryRequest.setLoginName(user.getLoginName());
+	        	SysUserQueryResponse  userQueryResponse = sysUserQuery.queryUserInfo(sysUserQueryRequest);
+				BeanUtils.copyProperties(defaultLogRequest,defaultLogInfo);
+				defaultLogRequest.setDeductDate(new Timestamp(new Date().getTime()));
+				defaultLogRequest.setDeductBalance(defaultLogInfo.getDeductBalance()*100);
+				defaultLogRequest.setOperId(Long.parseLong(userQueryResponse.getNo()));
+				defaultLogRequest.setOperName(userQueryResponse.getLoginName());
+			    GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+				defaultLogRequest.setTenantId(userClient.getTenantId());
+				defaultLogRequest.setSerialCode(serialCode);
+				defaultLog.insertDefaultLog(defaultLogRequest);
+				responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
+	            responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
+			}else{
 				responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
 	            responseHeader = new ResponseHeader(false,ExceptionCode.ERROR_CODE, "操作失败");
-	            LOGGER.error("扣款失败",e);
+	            LOGGER.error("返回结果result为空");
 			}
         }catch(Exception e){
         	responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
@@ -500,4 +503,17 @@ public class DefaultManagerController {
 		}
 	}
 	
+	public GnTenantVo getTenantInfo (HttpServletRequest request){
+		GnTenantVo gntenatVo = null;
+		try{
+			GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+			IGnTenantQuerySV GnTenantQuerySV = DubboConsumerFactory.getService(IGnTenantQuerySV.class);
+			GnTenantConditon condition = new GnTenantConditon();
+			condition.setTenantId(user.getTenantId());
+			gntenatVo = GnTenantQuerySV.getTenant(condition);
+		}catch(Exception e){
+			LOGGER.error("获取租户信息出错",e);
+		}
+		return gntenatVo;
+	}
 }

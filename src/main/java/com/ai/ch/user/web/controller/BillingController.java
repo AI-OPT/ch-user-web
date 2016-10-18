@@ -298,7 +298,7 @@ public class BillingController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("redirect:/billing/billingCyclePager");
+		return new ModelAndView("/jsp/billing/billingCyclesSccess");
 	}
 	
 	@RequestMapping("/billingCycleDetail")
