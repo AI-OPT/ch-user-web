@@ -678,7 +678,7 @@ public class QualificationController {
 	     * @return 
 	     */  
 	    private static String getStarString(String content, int begin, int end) {  
-	  
+	    	if(content!=null){
 	        if (begin >= content.length() || begin < 0) {  
 	            return content;  
 	        }  
@@ -687,7 +687,8 @@ public class QualificationController {
 	        }  
 	        if (begin >= end) {  
 	            return content;  
-	        }  
+	        } 
+	    	}
 	        String starStr = "";  
 	        for (int i = begin; i < end; i++) {  
 	            starStr = starStr + "*";  

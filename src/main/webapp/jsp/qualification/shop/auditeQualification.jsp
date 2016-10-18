@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="uedroot"
 	value="${pageContext.request.contextPath}/template/default" />
-<!DOCTYPE html>
+<!-- <!DOCTYPE html> -->
 <html>
 <head>
 <meta charset="UTF-8" />
@@ -17,9 +17,10 @@
 	href="${uedroot}/css/lightbox/jquery.lightbox-0.5.css" />
 <link rel="stylesheet" type="text/css"
 	href="${uedroot}/css/modular/modular.css" />
+	
 <script type="text/javascript">
 	$(function() {
-		$(".popup").lightBox();
+	 	$(".popup").lightBox();
 	});
 </script>
 </head>
