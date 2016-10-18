@@ -365,14 +365,12 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				if(electronicFileTest!=null&&electronicFileTest!=""&&electronicContractFlag=="0"){
 					return;
 				}
-				
 				$("#scanFileName").val($("#scanFileText").val());
 				if($("#electronicContractText").val()!=""&&$("#electronicContractText").val()!=null){
 					$("#electronicFileName").attr("name","list[1].infoName");
 					$("#electronicFileName").val($("#electronicContractText").val());
 				}
 				$("#contractInfo").submit();
-				
 			}
 		},
 		_saveShopContract:function(){
@@ -384,7 +382,6 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			this._checkFileFormat();
 			var contractCodeFlag = $("#contractCodeFlag").val();
 			var contractNameFlag = $("#contractNameFlag").val();
-			
 			
 			var startTime = $("#startTime").val();
 			var endTime = $("#endTime").val();
