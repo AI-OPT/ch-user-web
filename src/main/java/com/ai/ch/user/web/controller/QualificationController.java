@@ -278,7 +278,7 @@ public class QualificationController {
 			model.addObject("hasExperi", hasExperi);
 			model.addObject("shopDesc", response.getShopDesc());
 			String ecommOwner = "";
-			if(response!=null&&!response.getEcommOwner().isEmpty()){
+			if(response!=null&&response.getEcommOwner()!=null){
 				for (int index=0;index<response.getEcommOwner().length();index++) {
 					if('1'==response.getEcommOwner().charAt(index))
 						ecommOwner+=shopOwner[index]+"/";
@@ -498,7 +498,7 @@ public class QualificationController {
 			model.addObject("hasExperi", hasExperi);
 			model.addObject("shopDesc", response.getShopDesc());
 			String ecommOwner = "";
-			if(!response.getEcommOwner().isEmpty()){
+			if(response!=null&&response.getEcommOwner()!=null){
 				for (int index=0;index<response.getEcommOwner().length();index++) {
 					if('1'==response.getEcommOwner().charAt(index))
 						ecommOwner+=shopOwner[index]+"/";
