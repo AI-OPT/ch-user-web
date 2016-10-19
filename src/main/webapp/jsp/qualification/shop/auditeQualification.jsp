@@ -175,8 +175,8 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg"><img
-											src="http://pic.qiantucdn.com/58pic/10/99/57/24S58PICHwp.jpg" width="80px"
+											href="http://10.1.245.8:18030/iPaas-IDPS/image/5804337846e0fb000610ef30.jpg"><img
+											src="http://10.1.245.8:18030/iPaas-IDPS/image/5804337846e0fb000610ef30.jpg" width="80px"
 											height="80px"></a>
 									</p>
 								</li>

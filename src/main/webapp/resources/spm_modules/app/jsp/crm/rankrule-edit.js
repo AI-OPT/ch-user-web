@@ -180,14 +180,14 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     			this._valideName(i);
     			var pic = $("#rankName"+i).val();
     			if(pic==""||pic==null){
-    				document.getElementById('imgInfo'+index).style.display="none";
-    				$("#picErr"+i).val("(图片格式不能为空)");
+    				document.getElementById('imgInfo'+i).style.display="none";
+    				$("#picErr"+i).val("(图片不能为空)");
 		   			$("#picErr"+i).show();
 		   			$("#rankLogo"+i).val("");
 		   			$("#picFlag").val("0");
-		   			return false;
+		   			continue;
     			}
-    		}
+    			}
     		var rankFlag = $("#rankFlag").val();
     		var picFlag = $("#picFlag").val();
     		var nameFlag = $("#nameFlag").val();
@@ -200,11 +200,20 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     	_imgName:function(index) {
     		 var img = document.getElementById('img'+index).files;
     		 document.getElementById('imgInfo'+index).style.display="none";
-    		 if(/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(img[0].name)){
+    		 if(/\.(gif|jpg|jpeg|png|JPEG|GIF|JPG|PNG)$/.test(img[0].name)){
+    			 if(document.getElementById('img'+index).files[0]!=undefined&&document.getElementById('img'+index).files[0].size>=(3.05*1024*1024)-1){
+     				$("#picErr"+index).val("(图片不能超过3M)");
+ 				    $("#picName"+index).val("");
+    			    $("#rankName"+index).val("");
+ 		   			$("#picErr"+index).show();
+ 		   			$("#rankLogo"+index).val("");
+ 		   			$("#picFlag").val("0");
+         		}else{
     			 document.getElementById('imgInfo'+index).style.display="";
     			 $("#picName"+index).val(img[0].name)
     			 $("#rankName"+index).val(img[0].name)
 				 $("#picErr"+index).hide();
+         		}
     		 }
     		 else{
     			 $("#picErr"+index).val("(图片格式不对)");

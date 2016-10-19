@@ -146,7 +146,7 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
 		   			$("#picErr"+i).show();
 		   			$("#rankLogo"+i).val("");
 		   			$("#picFlag").val("0");
-		   			return false;
+		   			continue;
     			}
     		}
     		var rankFlag = $("#rankFlag").val();
@@ -156,24 +156,33 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
     		$("#rankForm").submit();
     	},
     	
-    	////获取上传图片名
+    	//获取上传图片名
     	_imgName:function(index) {
-   		 var img = document.getElementById('img'+index).files;
-   		 document.getElementById('imgInfo'+index).style.display="none";
-   		 if(/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(img[0].name)){
-   			 document.getElementById('imgInfo'+index).style.display="";
-   			 $("#picName"+index).val(img[0].name)
-   			 $("#rankName"+index).val(img[0].name)
+    		 var img = document.getElementById('img'+index).files;
+    		 document.getElementById('imgInfo'+index).style.display="none";
+    		 if(/\.(gif|jpg|jpeg|png|JPEG|GIF|JPG|PNG)$/.test(img[0].name)){
+    			 if(document.getElementById('img'+index).files[0]!=undefined&&document.getElementById('img'+index).files[0].size>=(3.05*1024*1024)-1){
+     				$("#picErr"+index).val("(图片不能超过3M)");
+ 				    $("#picName"+index).val("");
+    			    $("#rankName"+index).val("");
+ 		   			$("#picErr"+index).show();
+ 		   			$("#rankLogo"+index).val("");
+ 		   			$("#picFlag").val("0");
+         		}else{
+    			 document.getElementById('imgInfo'+index).style.display="";
+    			 $("#picName"+index).val(img[0].name)
+    			 $("#rankName"+index).val(img[0].name)
 				 $("#picErr"+index).hide();
-   		 }
-   		 else{
-   			 $("#picErr"+index).val("(图片格式不对)");
-   			 $("#picErr"+index).show();
-   			 $("#picName"+index).val("");
-   			 $("#rankName"+index).val("");
-   			 $("#picFlag").val("0");
-   		 }
-   	},
+         		}
+    		 }
+    		 else{
+    			 $("#picErr"+index).val("(图片格式不对)");
+    			 $("#picErr"+index).show();
+    			 $("#picName"+index).val("");
+    			 $("#rankName"+index).val("");
+    			 $("#picFlag").val("0");
+    		 }
+    	},
    	
    	_backup:function(){
    		window.location.href=_base+"/rank/rankrule";

@@ -133,6 +133,12 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
 	    			d.show();
 				}
 				});
+    	},
+    	_hideInfo:function(){
+    		$("#depositInfo").hide();
+    	},
+    	_viewInfo:function(){
+    		$("#depositInfo").show();
     	}
     });
     

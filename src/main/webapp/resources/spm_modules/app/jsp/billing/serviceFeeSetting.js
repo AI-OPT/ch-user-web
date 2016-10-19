@@ -176,7 +176,11 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     				}
     				});
     	},
-    	_jump:function(){
+    	_hideInfo:function(id){
+    		$("#"+id).hide();
+    	},
+    	_viewInfo:function(id){
+    		$("#"+id).show();
     	}
     	
     });
