@@ -89,6 +89,7 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
 					title : '提示',
 					content : '验证不通过',
 					okValue : "确定",
+					icon:'fail',
 					closeIconShow:false,
 					ok : function() {
 						this.close;
