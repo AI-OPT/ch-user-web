@@ -127,7 +127,7 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
 			if(!$("#serviceFee").valid()){
 				var d = Dialog({
     				title : '提示',
-    				content : '验证不通过',
+    				content : '输入不能为空',
     				icon:'fail',
     				closeIconShow:false,
     				okValue : "确定",

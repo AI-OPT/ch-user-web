@@ -87,7 +87,7 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
 			if(!$("#depositForm").valid()){
 				Dialog({
 					title : '提示',
-					content : '验证不通过',
+					content : '输入不能为空',
 					okValue : "确定",
 					icon:'fail',
 					closeIconShow:false,
