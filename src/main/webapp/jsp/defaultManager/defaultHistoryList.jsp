@@ -90,7 +90,7 @@ var custNameInfo='${custName}';
             </div>
 			</td>
 
-		<td>{{:deductBalance}}</td>
+		<td>{{:deductBalance/100}}</td>
 		<td>{{:operName}}</td>
 	</tr>
 {{/for}}
