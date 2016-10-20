@@ -714,7 +714,8 @@ public class ContractController {
 		JSONObject json = JSON.parseObject(str);
 		if (!"000000".equals(json.getString("resultCode"))){
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
-			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
+			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败"); 
+			response.setResponseHeader(header);
 		}
 		else {
 			//获取返回操作码
