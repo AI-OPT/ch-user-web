@@ -83,6 +83,22 @@
 								</ul>
 								<ul>
 									<li>
+										<p class="word">合同金额:</p>
+										<p><input type="text" class="int-text int-medium" placeholder="请输入合同金额" id="contractAmount" name="contractAmount" value="${contactInfo.contractAmount}"/>元</p>
+									</li>
+									<li><label id="contractAmountErrMsg" style="display: none;"><span class="ash" id="contractAmountText"></span></label></li>
+								</ul>
+								<ul>
+									<li>
+										<p class="word">合同备注:</p>
+										<p></p>
+									</li>
+									<li><textarea class="int-text textarea-large"
+												id="contractRemark" name="remark" cols="50" rows="3" >${contactInfo.remark}</textarea></li>
+									<li><label id="remarkErrMsg" style="display: none;"><span class="ash" id="remarkText"></span></label></li>
+								</ul>
+								<ul>
+									<li>
 										<p class="word"><b class="red">*</b>扫描版合同:</p>
 										<span class="btn-upload">
 										   <input type="hidden" id="scanFileName" value="扫描版合同" name="list[0].infoName">
@@ -96,7 +112,7 @@
 										   <input type="file" name="scanFile" id="scanFile" onchange="uploadFile('scanFile','scanFileText','scanContractErrMsg','scanContractText','scanVersionContractFlag','ddsId1')"  class="int-file"/>
 										   <input type="button"
 											class="biu-btn  btn-primary btn-blue btn-medium ml-10"
-											value="删除" id="scanFileButtonId" />
+											value="删除" id="scanFileButtonId" style="cursor: default;"/>
 										</span>
 									</li>
 									<li><label id="scanContractErrMsg" style="display: none;"><span class="ash" id="scanContractText"></span></label></li>
@@ -116,10 +132,10 @@
 											 <input type="file" name="electronicFile" id="electronicFile" onchange="uploadFile('electronicFile','electronicContractText','electronicContractErrMsg','electronicContractFileText','electronicContractFlag','ddsId2')" class="int-file"/>
 											 <input type="button"
 												class="biu-btn  btn-primary btn-blue btn-medium ml-10"
-												value="删除" id="electronicFileButtonId" />
+												value="删除" id="electronicFileButtonId" style="cursor: default;"/>
 										</span>
 									</li>
-									<li><label id="electronicContractErrMsg" style="display: none;"><span class="ash" id="electronicContractFileText">合同附件不能为空</span></label></li>
+									<li><label id="electronicContractErrMsg" style="display: none;"><span class="ash" id="electronicContractFileText"></span></label></li>
 								</ul>
 								<ul>
 									<li>
@@ -141,6 +157,8 @@
 										<input type="hidden" id="ddsId1" name="list[0].attrValue">
 									    <input type="hidden" id="ddsId2" name="list[1].attrValue">
 										<input type="hidden" id="contractType" value="2">
+										<input type="hidden" id="contractAmountFlag">
+										<input type="hidden" id="contractRemarkFlag">
 									</li>
 								</ul>
                              </div>
