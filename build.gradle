@@ -87,13 +87,13 @@ dependencies {
     compile 'com.ai.ch.user:rank:1.0-SNAPSHOT'
     optUedTemplate 'com.ai.opt.uniframe:opt-ued-template:1.0-SNAPSHOT'
     //合同管理
-    compile "com.ai.ch.user:contract:1.0-SNAPSHOT"
+    compile "com.ai.ch.user:contract:1.1-SNAPSHOT"
     //附件表
     compile "com.ai.ch.user:custfile:1.0-SNAPSHOT"
     //店铺信息
     compile "com.ai.ch.user:shopinfo:1.1-SNAPSHOT"
     //扣费设置
-    compile "com.ai.ch.user:defaultlog:1.0-SNAPSHOT"
+    compile "com.ai.ch.user:defaultlog:1.1-SNAPSHOT"
     
     compile "com.ai.platform.common:sysuser:1.0-SNAPSHOT"
     //租户信息
