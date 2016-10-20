@@ -347,9 +347,9 @@ public class BillingController {
 		JSONObject json = JSON.parseObject(str);
 		if (!"000000".equals(json.getString("resultCode"))){
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
-			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
-		}
-		else {
+			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败"); 
+			response.setResponseHeader(header);
+		}else {
 			//获取返回操作码
 			JSONObject data = (JSONObject) JSON.parse(json.getString("data"));
 			JSONObject responseHeader = (JSONObject) JSON.parse(data.getString("responseHeader"));
@@ -416,7 +416,8 @@ public class BillingController {
 		JSONObject json = JSON.parseObject(str);
 		if (!"000000".equals(json.getString("resultCode"))){
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
-			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
+			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败"); 
+			response.setResponseHeader(header);
 		}
 		else {
 			//获取返回操作码
