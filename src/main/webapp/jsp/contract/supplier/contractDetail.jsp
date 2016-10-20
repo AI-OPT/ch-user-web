@@ -72,6 +72,19 @@
 								</ul>
 								<ul>
 									<li>
+									  <p class="word" style="font-style: "><b class="red">*</b>合同金额:</p>
+									</li>
+									<li>${contactInfo.contractAmount}元</li>
+								</ul>
+								
+						    	<ul>
+									<li>
+									  <p class="word"><b class="red">*</b>合同备注:</p>
+									</li>
+									<li>${contactInfo.remark }</li>
+								</ul>
+								<ul>
+									<li>
 										<p class="word"><b class="red">*</b>扫描版合同:</p>
 										<p>${scanContractInfoName }</p>
 										<c:if test="${scanContractInfoName!=''&&scanContractInfoName!=null}">
