@@ -719,13 +719,15 @@ public class ContractController {
 		}
 		else {
 			//获取返回操作码
+			//JSONObject resultData = (JSONObject) JSON.parse(json.getString("data"));
 			JSONObject data = (JSONObject) JSON.parse(json.getString("data"));
 			JSONObject responseHeader = (JSONObject) JSON.parse(data.getString("responseHeader"));
 			//"SCORE02003".equals(responseHeader.getString("resultCode"))
-			if(responseHeader!=null){
+			if(responseHeader!=null&&"SCORE02003".equals(responseHeader.get("resultCode"))){
 				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.ISNULL, "查询为空");
 			}else{
+				//JSONObject data = (JSONObject) JSON.parse(resultData.getString("data"));
 				Integer pageNo = Integer.valueOf(data.getString("pages"));
 				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
 				Integer total = Integer.valueOf(data.getString("total"));
