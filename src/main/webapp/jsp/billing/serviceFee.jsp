@@ -47,7 +47,7 @@
 									</div>
 									<div class="form-label  bd-bottom">
 										<ul>
-											<li><p class="word">当前结算设置:</p>
+											<li><p class="word">当前结算设置</p>
 										</ul>
 									</div>
 									<div class="form-label">
