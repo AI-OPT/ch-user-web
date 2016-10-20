@@ -1,8 +1,6 @@
 package com.ai.ch.user.web.controller;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
@@ -16,18 +14,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ai.ch.user.api.defaultlog.interfaces.IDefaultLogSV;
 import com.ai.ch.user.api.defaultlog.params.DefaultLogVo;
 import com.ai.ch.user.api.defaultlog.params.InsertDefaultLogRequest;
+import com.ai.ch.user.api.defaultlog.params.InsertDefaultLogResponse;
 import com.ai.ch.user.api.defaultlog.params.QueryDefaultLogRequest;
 import com.ai.ch.user.api.defaultlog.params.QueryDefaultLogResponse;
 import com.ai.ch.user.web.constants.ChWebConstants;
@@ -49,7 +41,6 @@ import com.ai.ch.user.web.vo.BusinessListInfo;
 import com.ai.opt.base.exception.SystemException;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
-import com.ai.opt.sdk.components.sequence.util.SeqUtil;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.opt.sdk.util.BeanUtils;
@@ -65,9 +56,7 @@ import com.ai.platform.common.api.tenant.param.GnTenantVo;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.esotericsoftware.minlog.Log;
 import com.upp.docking.covn.MsgString;
-import com.ylink.itfin.certificate.SecurityUtil;
 import com.ylink.upp.base.oxm.XmlBodyEntity;
 import com.ylink.upp.base.oxm.util.Dom4jHelper;
 import com.ylink.upp.base.oxm.util.HandlerMsgUtil;
@@ -79,7 +68,6 @@ import com.ylink.upp.oxm.entity.upp_100_001_01.PayOrderDetail;
 import com.ylink.upp.oxm.entity.upp_711_001_01.GrpBody;
 import com.ylink.upp.oxm.entity.upp_711_001_01.GrpHdr;
 import com.ylink.upp.oxm.entity.upp_711_001_01.ReqsInfo;
-
 
 @RestController
 @RequestMapping("/defaultManager")
@@ -221,7 +209,6 @@ public class DefaultManagerController {
 			HeaderBean headerBean = new HeaderBean();
 			HandlerMsgUtil.conversion(msgHeader, headerBean);
 			xmlMsg = Dom4jHelper.addNamespace(xmlMsg, headerBean.getMesgType(), "UTF-8");
-			System.out.println("xmlMsg----------"+xmlMsg);
 			return (XmlBodyEntity) oxmHandler.unmarshaller(xmlMsg);
 		} catch (Exception e) {
 			System.out.println("接收数据时发生异常，错误信息为:" + e.getMessage());
@@ -241,6 +228,8 @@ public class DefaultManagerController {
         InsertDefaultLogRequest defaultLogRequest = new InsertDefaultLogRequest();
         PayUtil payUtil = new PayUtil();
         Map<String, String> param = new TreeMap<String, String>();
+        IDefaultLogSV defaultLog = DubboConsumerFactory.getService("iDefaultLogSV");
+        InsertDefaultLogResponse defaultLogResponse = new InsertDefaultLogResponse();
         try{
         	/**
         	 * 通过登录名称获取登录用户信息
@@ -262,9 +251,8 @@ public class DefaultManagerController {
 			 defaultLogRequest.setOperId(Long.parseLong(userQueryResponse.getNo()));
 			 defaultLogRequest.setOperName(userQueryResponse.getLoginName());
 			 defaultLogRequest.setTenantId(userClient.getTenantId());
-			 String defaultLogString = JSON.toJSONString(defaultLogRequest);
-			 
-			 //defaultLog.insertDefaultLog(defaultLogRequest);
+			
+			 defaultLogResponse = defaultLog.insertDefaultLog(defaultLogRequest);
         	
         	/**
         	 * 组装数据
@@ -279,7 +267,7 @@ public class DefaultManagerController {
 			hdr.setCreDtTm(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
 			com.ylink.upp.oxm.entity.upp_100_001_01.GrpBody body = new com.ylink.upp.oxm.entity.upp_100_001_01.GrpBody();
 			//保证金扣款没有订单id，所以把扣款记录记录在属性里
-			body.setMerOrderId(defaultLogString);
+			body.setMerOrderId(defaultLogResponse.getSerialCode());
 			body.setUserName("uname");
 			body.setToken("token");
 			body.setOpenId("1");
@@ -339,8 +327,6 @@ public class DefaultManagerController {
 		        String rb = msgString.getXmlBody();
 		        String rs = msgString.getDigitalSign();
 		        
-		       
-		        
 		        com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo receive = null;
 		        
 		        com.ylink.upp.base.oxm.XmlBodyEntity resultMsg = this.receiveMsg(rh, rb, rs);
@@ -361,11 +347,13 @@ public class DefaultManagerController {
 				responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
 	            responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
 			}else{
+				defaultLog.deleteDefaultLog(defaultLogResponse.getSerialCode());
 				responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
 	            responseHeader = new ResponseHeader(false,ExceptionCode.ERROR_CODE, "操作失败");
 	            LOGGER.error("返回结果result为空");
 			}
         }catch(Exception e){
+        	defaultLog.deleteDefaultLog(defaultLogResponse.getSerialCode());
         	responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
             responseHeader = new ResponseHeader(false,ExceptionCode.ERROR_CODE, "操作失败");
             LOGGER.error("扣款失败",e);
@@ -497,12 +485,12 @@ public class DefaultManagerController {
 	        
 	        //00表示支付成功，01表示支付失败
 	        LOGGER.info("扣款开始==================");
-	        if("00".equals(receive.getGrpBody().getPayStatus())){
+	        if("01".equals(receive.getGrpBody().getPayStatus())){
 	        	LOGGER.info("扣款失败=============");
-	        	net.sf.json.JSONObject conditionObject = net.sf.json.JSONObject.fromObject(receive.getGrpBody().getMerOrderId());
-	        	InsertDefaultLogRequest defaultLogRequest = (InsertDefaultLogRequest)conditionObject.toBean(conditionObject, InsertDefaultLogRequest.class);
+	        	//net.sf.json.JSONObject conditionObject = net.sf.json.JSONObject.fromObject(receive.getGrpBody().getMerOrderId());
+	        	//InsertDefaultLogRequest defaultLogRequest = (InsertDefaultLogRequest)conditionObject.toBean(conditionObject, InsertDefaultLogRequest.class);
 	        	IDefaultLogSV defaultLog = DubboConsumerFactory.getService("iDefaultLogSV");
-	        	defaultLog.insertDefaultLog(defaultLogRequest);
+	        	defaultLog.deleteDefaultLog(receive.getGrpBody().getMerOrderId());
 	        }
 	        LOGGER.info("扣款结束===================");
 	        flag = true;
