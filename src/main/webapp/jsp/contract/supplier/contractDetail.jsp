@@ -70,7 +70,7 @@
 										<p>${endTime}</p>
 									</li>
 								</ul>
-								<ul>
+								<%-- <ul>
 									<li>
 									  <p class="word" style="font-style: "><b class="red">*</b>合同金额:</p>
 									</li>
@@ -82,7 +82,7 @@
 									  <p class="word"><b class="red">*</b>合同备注:</p>
 									</li>
 									<li>${contactInfo.remark }</li>
-								</ul>
+								</ul> --%>
 								<ul>
 									<li>
 										<p class="word"><b class="red">*</b>扫描版合同:</p>
