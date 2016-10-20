@@ -49,8 +49,10 @@ public class RankController {
 	public ModelAndView rankRule(HttpServletRequest request) {
 		// 调dubbo服务
 		IRankSV rankSV = DubboConsumerFactory.getService("iRankSV");
+		LOG.info("获取服务");
 		QueryRankRuleRequest queryRankRuleRequest = new QueryRankRuleRequest();
 		queryRankRuleRequest.setTenantId(ChWebConstants.Tenant.TENANT_ID);
+		LOG.info("查询开始");
 		QueryRankRuleResponse response = rankSV.queryRankRule(queryRankRuleRequest);
 		LOG.info("判断是否存在记录");
 		if (response.getList().isEmpty()){

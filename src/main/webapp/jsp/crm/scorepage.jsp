@@ -44,11 +44,11 @@ label.error {
 							<div class="form-label">
 							<div class="form-label  bd-bottom">
 					           	<ul>
-					                <li  class="col-md-3">
+					                <li  class="col-md-6">
 					                    <p class="word">供应商用户名:</p>
 					                    <p>${supplier_name }</p>
 					                </li>
-					                <li  class="col-md-3">
+					                <li  class="col-md-6">
 					                    <p class="word">公司名称:</p>
 					                    <p>${company_name }</p>
 					                </li>  

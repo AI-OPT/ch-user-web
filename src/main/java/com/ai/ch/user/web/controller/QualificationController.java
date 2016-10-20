@@ -1,6 +1,7 @@
 package com.ai.ch.user.web.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,13 +73,15 @@ public class QualificationController {
 	/**
 	 * 供应商审核页面
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping("/toSuplierCheckPager")
-	public ModelAndView toSuplierCheckPager(HttpServletRequest request) {
+	public ModelAndView toSuplierCheckPager(String username,String userId) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/supplier/auditeQualification");
-		String url=request.getQueryString();
+		/*String url=request.getQueryString();
 		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
-		String username = url.substring(url.lastIndexOf("username=")+9);
+		String username = url.substring(url.lastIndexOf("username=")+9);*/
+		String userName = new String(username.getBytes("iso8859-1"),"utf-8");
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -130,7 +133,7 @@ public class QualificationController {
         }
         //System.out.println(JSON.toJSONString(data2));
 		model.addObject("userId", userId);
-		model.addObject("userName", username);
+		model.addObject("userName", userName);
 		model.addObject("shopName", data2.getString("name"));
 		model.addObject("createTime",createTime);
 		model.addObject("industryType", data2.getString("industryType"));
@@ -164,13 +167,15 @@ public class QualificationController {
 	/**
 	 * 店铺审核页面
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping("/toShopCheckPager")
-	public ModelAndView toShopCheckDetailPager(HttpServletRequest request) {
+	public ModelAndView toShopCheckDetailPager(String username,String userId) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/shop/auditeQualification");
-		String url=request.getQueryString();
+		/*String url=request.getQueryString();
 		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
-		String username = url.substring(url.lastIndexOf("username=")+9);
+		String username = url.substring(url.lastIndexOf("username=")+9);*/
+		String userName = new String(username.getBytes("iso8859-1"),"utf-8");
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -231,7 +236,7 @@ public class QualificationController {
 	        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
 	        }
 		model.addObject("userId", userId);
-		model.addObject("userName", username);
+		model.addObject("userName", userName);
 		model.addObject("shopName", data2.getString("name"));
 		model.addObject("createTime",createTime);
 		model.addObject("industryType", data2.getString("industryType"));
@@ -295,13 +300,15 @@ public class QualificationController {
 	/**
 	 * 供应商详情页面
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping("/toSuplierDetailPager")
-	public ModelAndView toSuplierDetailPager(HttpServletRequest request) {
+	public ModelAndView toSuplierDetailPager(String userId,String username) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/supplier/checkedDetail");
-		String url=request.getQueryString();
+		/*String url=request.getQueryString();
 		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
-		String username = url.substring(url.lastIndexOf("username=")+9);
+		String username = url.substring(url.lastIndexOf("username=")+9);*/
+		String userName = new String(username.getBytes("iso8859-1"),"utf-8");
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -353,7 +360,7 @@ public class QualificationController {
         		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
         }
 		model.addObject("userId", userId);
-		model.addObject("userName", username);
+		model.addObject("userName", userName);
 		model.addObject("shopName", data2.getString("name"));
 		model.addObject("createTime",createTime);
 		model.addObject("industryType", data2.getString("industryType"));
@@ -387,13 +394,15 @@ public class QualificationController {
 	/**
 	 * 店铺详情页面
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping("/toShopDetailPager")
-	public ModelAndView toShopDetailPager(HttpServletRequest request) {
+	public ModelAndView toShopDetailPager(String userId,String username) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/shop/checkedDetail");
-		String url=request.getQueryString();
+		/*String url=request.getQueryString();
 		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
-		String username = url.substring(url.lastIndexOf("username=")+9);
+		String username = url.substring(url.lastIndexOf("username=")+9);*/
+		String userName = new String(username.getBytes("iso8859-1"),"utf-8");
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -451,7 +460,7 @@ public class QualificationController {
         		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
         }
 		model.addObject("userId", userId);
-		model.addObject("userName", username);
+		model.addObject("userName", userName);
 		model.addObject("shopName", data2.getString("name"));
 		model.addObject("createTime",createTime);
 		model.addObject("industryType", data2.getString("industryType"));

@@ -2,6 +2,7 @@
 package com.ai.ch.user.web.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,11 +54,12 @@ public class ScoreController {
 	
 	//评价供货商页面
 	@RequestMapping("/scorepage")
-	public ModelAndView scorePage(HttpServletRequest request) {
+	public ModelAndView scorePage(String username,String userId) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/crm/scorepage"); 
-		String url=request.getQueryString();
+/*		String url=request.getQueryString();
 		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
-		String username = url.substring(url.lastIndexOf("username=")+9);
+		String username = url.substring(url.lastIndexOf("username=")+9);*/
+		String userName = new String(username.getBytes("iso8859-1"),"utf-8");
 		//查询商户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -71,7 +73,7 @@ public class ScoreController {
 		}
 		JSONObject data = (JSONObject) JSON.parse(str);
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
-		model.addObject("supplier_name", username);
+		model.addObject("supplier_name", userName);
 		model.addObject("company_name", data2.getString("name"));
 		model.addObject("userId", userId);
 		//调dubbo服务

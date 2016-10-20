@@ -33,15 +33,15 @@
 						<div class="form-label">
 							<div class="form-label  bd-bottom">
 								<ul>
-									<li class="col-md-3">
+									<li class="col-md-6">
 										<p class="word">用户名:</p>
 										<p>${userName }</p>
 									</li>
-									<li class="col-md-3">
+									<li class="col-md-6">
 										<p class="word">公司名称:</p>
 										<p>${shopName }</p>
 									</li>
-									<li class="col-md-3">
+									<li class="col-md-6">
 										<p class="word">提交时间:</p>
 										<p>${createTime }</p>
 									</li>
