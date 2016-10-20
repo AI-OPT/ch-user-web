@@ -40,10 +40,12 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     		"blur [id='endTime']":"_checkEndTimeText",
     		"click [id='scanFileButtonId']":"_deleteScanFileExtFile",
     		"click [id='electronicFileButtonId']":"_deleteElectronicExtFile",
-    		/*"click [id='scanContract']":"_uploadFile",
     		
-    		"change [id='scanFile']":"_uploadFile",*/
+    		"focus [id='contractAmount']":"_showContractAmountTip",
+    		"blur [id='contractAmount']":"_checkContractAmountValue",
     		
+    		"focus [id='contractRemark']":"_showContractRemarkTip",
+    		"blur  [id='contractRemark']":"_checkContractRemarValue",
     		
         },
     	//重写父类
@@ -59,6 +61,16 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     		$("#contractNameErrMsg").show();
 			$("#contractNameText").show();
 			$("#contractNameText").text('1-64位字符');
+    	},
+    	_showContractAmountTip:function(){
+    		$("#contractAmountErrMsg").show();
+			$("#contractAmountText").show();
+			$("#contractAmountText").text('1-15位数字');
+    	},
+    	_showContractRemarkTip:function(){
+    		$("#remarkErrMsg").show();
+			$("#remarkText").show();
+			$("#remarkText").text("1-256位字符");
     	},
     	_checkContractCodeValue:function(){
 			var contractCode = $("#contractCode").val();
@@ -342,11 +354,40 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				$("#scanVersionContractFlag").val("0");
 			}
 		},
+		_checkContractAmountValue:function(){
+			var reg = /^(\d{1,15})$/;
+			var amount = $("#contractAmount").val();
+			if(amount.match(reg)){
+				$("#contractAmountErrMsg").hide();
+				$("#contractAmountText").hide();
+				$("#contractAmountText").val("");
+				$("#contractAmountFlag").val("1")
+			}else{
+				$("#contractAmountErrMsg").show();
+				$("#contractAmountText").show();
+				$("#contractAmountText").text('1-15位数字');
+				$("#contractAmountFlag").val("0")
+			}
+		},
 		_deleteScanFileExtFile:function(){
 			$("#scanFileText").val("");
 		},
 		_deleteElectronicExtFile:function(){
 			$("#electronicContractText").val("");
+		},
+		_checkContractRemarValue:function(){
+			var remark = $("#contractRemark").val();
+			if(remark.length>=0&&remark.length<=256){
+				$("#remarkErrMsg").hide();
+				$("#remarkText").hide();
+				$("#remarkText").val("")
+				$("#contractRemarkFlag").val("1");
+			}else{
+				$("#remarkErrMsg").show();
+				$("#remarkText").show();;
+				$("#remarkText").text("1-256位字符");
+				$("#contractRemarkFlag").val("0");
+			}
 		},
 		_saveSupplierContract:function(){
 			this._checkContractCodeValue();
@@ -382,7 +423,15 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			}
 			if(contractCodeFlag!="0"&&contractNameFlag!="0"&&startTimeFlag!="0"&&endTimeFlag!="0"&&scanVersionContractFlag!="0"){
 				var electronicFileTest = $("#electronicContractText").val();
+				var contractAmountFlag = $("#contractAmountFlag").val();
+				var contractRemarkFlag = $("#contractRemarkFlag").val();
 				if(electronicFileTest!=null&&electronicFileTest!=""&&electronicContractFlag=="0"){
+					return;
+				}
+				if(contractAmountFlag=="0"){
+					return;
+				}
+				if(contractRemarkFlag=="0"){
 					return;
 				}
 				$("#scanFileName").val($("#scanFileText").val());
@@ -427,7 +476,8 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			var endTimeFlag = $("#endTimeTextFlag").val();
 			var scanVersionContractFlag = $("#scanVersionContractFlag").val();
 			if(contractCodeFlag!="0"&&contractNameFlag!="0"&&startTimeFlag!="0"&&endTimeFlag!="0"&&scanVersionContractFlag!="0"){
-				
+				var contractAmountFlag = $("#contractAmountFlag").val();
+				var contractRemarkFlag = $("#contractRemarkFlag").val();
 				var userName = $("#userName").val();
 				var custName = $("#custName").val();
 				
@@ -436,6 +486,12 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				if($("#electronicContractText").val()!=""&&$("#electronicContractText").val()!=null){
 					$("#electronicFileName").attr("name","list[1].infoName");
 					$("#electronicFileName").val($("#electronicContractText").val());
+				}
+				if(contractAmountFlag=="0"){
+					return;
+				}
+				if(contractRemarkFlag=="0"){
+					return;
 				}
 				$("#contractInfo").submit();
 			}
