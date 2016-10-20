@@ -137,11 +137,12 @@ public class BillingController {
 	}
 	
 	@RequestMapping("/servicefee")
-	public ModelAndView serviceFee(HttpServletRequest request) {
+	public ModelAndView serviceFee(String userId,String username,HttpServletRequest request) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/billing/serviceFee");
-		String url=request.getQueryString();
+/*		String url=request.getQueryString();
 		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
-		String username = url.substring(url.lastIndexOf("username=")+9);
+		String username = url.substring(url.lastIndexOf("username=")+9);*/
+		String userName = new String(username.getBytes("iso8859-1"),"utf-8");
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopInfoRequest shopInfoRequest = new QueryShopInfoRequest();
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
@@ -189,7 +190,7 @@ public class BillingController {
 			}
 			JSONObject data = (JSONObject) JSON.parse(str);
 			JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
-			model.addObject("userName", username);
+			model.addObject("userName", userName);
 			model.addObject("shopName", data2.getString("name"));
 			model.addObject("rentFeeStr", rentFeeStr);
 			model.addObject("ratioStr", ratioStr);
