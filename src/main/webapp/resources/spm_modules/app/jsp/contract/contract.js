@@ -360,6 +360,26 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			var endTimeFlag  = $("#endTimeTextFlag").val();
 			var scanVersionContractFlag = $("#scanVersionContractFlag").val();
 			var electronicContractFlag = $("#electronicContractFlag").val();
+			var startTime = $("#startTime").val();
+			var endTime = $("#endTime").val();
+			if(startTime!=""&&endTime!=""){
+				var  startTimeStr=startTime.toString();
+				startTimeStr =  startTimeStr.replace(/-/g,"/");
+				var oDate1 = new Date(startTimeStr).getTime();
+				var  endTimeStr=endTime.toString();
+				endTimeStr =  endTimeStr.replace(/-/g,"/");
+				var oDate2 = new Date(endTimeStr).getTime();
+				if(oDate1>oDate2){
+					$("#endTimeTextErrMsg").show();
+					$("#endTimeTextShow").show();
+					$("#endTimeTextShow").text('开始时间不能大于结束时间');
+		    		$("#endTimeTextFlag").val("0");
+				}else{
+					$("#endTimeTextErrMsg").hide();
+					$("#endTimeTextShow").hide();
+					$("#endTimeTextFlag").val("1");
+				}
+			}
 			if(contractCodeFlag!="0"&&contractNameFlag!="0"&&startTimeFlag!="0"&&endTimeFlag!="0"&&scanVersionContractFlag!="0"){
 				var electronicFileTest = $("#electronicContractText").val();
 				if(electronicFileTest!=null&&electronicFileTest!=""&&electronicContractFlag=="0"){
@@ -379,31 +399,28 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			this._checkStartTime();
 			this._checkEndTimeText();
 			this._checkFileText();
-			this._checkFileFormat();
 			var contractCodeFlag = $("#contractCodeFlag").val();
 			var contractNameFlag = $("#contractNameFlag").val();
-			
 			var startTime = $("#startTime").val();
 			var endTime = $("#endTime").val();
-			
 			var scanVersionContractFlag = $("#scanVersionContractFlag").val();
-			
-			var  startTimeStr=startTime.toString();
-			startTimeStr =  startTimeStr.replace(/-/g,"/");
-			var oDate1 = new Date(startTimeStr).getTime();
-			
-			var  endTimeStr=endTime.toString();
-			endTimeStr =  endTimeStr.replace(/-/g,"/");
-			var oDate2 = new Date(endTimeStr).getTime();
-			if(oDate1>oDate2){
-				$("#endTimeTextErrMsg").show();
-				$("#endTimeTextShow").show();
-				$("#endTimeTextShow").text('开始时间不能大于结束时间');
-	    		$("#endTimeTextFlag").val("0");
-			}else{
-				$("#endTimeTextErrMsg").hide();
-				$("#endTimeTextShow").hide();
-				$("#endTimeTextFlag").val("1");
+			if(startTime!=""&&endTime!=""){
+				var  startTimeStr=startTime.toString();
+				startTimeStr =  startTimeStr.replace(/-/g,"/");
+				var oDate1 = new Date(startTimeStr).getTime();
+				var  endTimeStr=endTime.toString();
+				endTimeStr =  endTimeStr.replace(/-/g,"/");
+				var oDate2 = new Date(endTimeStr).getTime();
+				if(oDate1>oDate2){
+					$("#endTimeTextErrMsg").show();
+					$("#endTimeTextShow").show();
+					$("#endTimeTextShow").text('开始时间不能大于结束时间');
+		    		$("#endTimeTextFlag").val("0");
+				}else{
+					$("#endTimeTextErrMsg").hide();
+					$("#endTimeTextShow").hide();
+					$("#endTimeTextFlag").val("1");
+				}
 			}
 			
 			var startTimeFlag = $("#startTimeFlag").val();
