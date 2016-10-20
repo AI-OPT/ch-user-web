@@ -53,6 +53,7 @@ import com.ai.opt.sdk.components.sequence.util.SeqUtil;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.opt.sdk.util.BeanUtils;
+import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.platform.common.api.sysuser.interfaces.ISysUserQuerySV;
@@ -116,7 +117,7 @@ public class DefaultManagerController {
 			hdr.setTranType(TranType.PAY_GUARANTEE_MONEY_QUERY.getValue());//设置交易类型(保证金支付订单查询)
 			hdr.setCreDtTm(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
 			GrpBody body = new GrpBody();
-			body.setSonMerNo(gntenatVo.getSonMerNo());//设置要查询的二级商户编号
+			body.setSonMerNo(gntenatVo.getDebitSide());//设置要查询的二级商户编号
 			body.setResv("test");//设置保留域
 			reqsInfo.setGrpHdr(hdr);
 			reqsInfo.setGrpBody(body);
@@ -232,7 +233,6 @@ public class DefaultManagerController {
 	@RequestMapping("/saveDefaultInfo")
 	@ResponseBody
 	public ResponseData<String> saveDefaultInfo(HttpServletRequest request,DefaultLogVo defaultLogInfo) {
-		IDefaultLogSV defaultLog = DubboConsumerFactory.getService("iDefaultLogSV");
 		ISysUserQuerySV sysUserQuery = DubboConsumerFactory.getService("iSysUserQuerySV");
 		ResponseData<String> responseData = null;
         ResponseHeader responseHeader = null;
@@ -243,10 +243,33 @@ public class DefaultManagerController {
         Map<String, String> param = new TreeMap<String, String>();
         try{
         	/**
+        	 * 通过登录名称获取登录用户信息
+        	 */
+        	 GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        	 
+        	 SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
+        	 sysUserQueryRequest.setLoginName(user.getLoginName());
+        	 sysUserQueryRequest.setTenantId(userClient.getTenantId());
+        	 SysUserQueryResponse  userQueryResponse = sysUserQuery.queryUserInfo(sysUserQueryRequest);
+        	 
+			 BeanUtils.copyProperties(defaultLogRequest,defaultLogInfo);
+			
+			 defaultLogRequest.setDeductDate(new Timestamp(new Date().getTime()));
+			 /**
+			  * 在长虹侧是以分为单位，所以由元转换成分
+			  */
+			 defaultLogRequest.setDeductBalance(defaultLogInfo.getDeductBalance()*100);
+			 defaultLogRequest.setOperId(Long.parseLong(userQueryResponse.getNo()));
+			 defaultLogRequest.setOperName(userQueryResponse.getLoginName());
+			 defaultLogRequest.setTenantId(userClient.getTenantId());
+			 String defaultLogString = JSON.toJSONString(defaultLogRequest);
+			 
+			 //defaultLog.insertDefaultLog(defaultLogRequest);
+        	
+        	/**
         	 * 组装数据
         	 */
         	GnTenantVo gnTenantVo = getTenantInfo(request);
-        	String serialCode = UUID.randomUUID().toString();
 			//调用长虹扣款
 			//包装数据
 			com.ylink.upp.oxm.entity.upp_100_001_01.GrpHdr hdr = new com.ylink.upp.oxm.entity.upp_100_001_01.GrpHdr();
@@ -255,21 +278,21 @@ public class DefaultManagerController {
 			hdr.setTranType(TranType.PAY_APPLY.getValue());//设置交易类型(保证金)
 			hdr.setCreDtTm(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
 			com.ylink.upp.oxm.entity.upp_100_001_01.GrpBody body = new com.ylink.upp.oxm.entity.upp_100_001_01.GrpBody();
-			//保证金扣款没有订单id，所以这个字段给出随机数
-			body.setMerOrderId(serialCode);
+			//保证金扣款没有订单id，所以把扣款记录记录在属性里
+			body.setMerOrderId(defaultLogString);
 			body.setUserName("uname");
 			body.setToken("token");
 			body.setOpenId("1");
 			body.setCustType("02");//企业
 			//扣保证金的企业
-			body.setPayCustNo(defaultLogInfo.getUserId());
+			body.setPayCustNo(gnTenantVo.getDebitSide());
 			BigDecimal orderAmt = new BigDecimal("0");
 			List<PayOrderDetail> details = new ArrayList<PayOrderDetail>();
 			PayOrderDetail detail = new PayOrderDetail();
 			detail.setProductAmt("1");//扣保证金金额（分）
 			detail.setProductName("productName1");//扣保证金原因
-			detail.setSonMerNo(gnTenantVo.getSonMerNo());//收取保证金商户号
-			detail.setMerSeqId(serialCode);//商户主订单号
+			detail.setSonMerNo(gnTenantVo.getReceivingSide());//收取保证金商户号
+			detail.setMerSeqId(UUIDUtil.genId32());//商户主订单号
 			orderAmt = BigDecimal.valueOf(Long.parseLong(detail.getProductAmt()));//订单总金额(当前与扣款金额相同)
 			details.add(detail);
 			body.setOrderAmt(orderAmt.toString());
@@ -316,6 +339,8 @@ public class DefaultManagerController {
 		        String rb = msgString.getXmlBody();
 		        String rs = msgString.getDigitalSign();
 		        
+		       
+		        
 		        com.ylink.upp.oxm.entity.upp_100_001_01.ReqsInfo receive = null;
 		        
 		        com.ylink.upp.base.oxm.XmlBodyEntity resultMsg = this.receiveMsg(rh, rb, rs);
@@ -333,19 +358,6 @@ public class DefaultManagerController {
 			            return responseData;
 		            }
 		        }
-				SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
-	        	sysUserQueryRequest.setTenantId(user.getTenantId());
-	        	sysUserQueryRequest.setLoginName(user.getLoginName());
-	        	SysUserQueryResponse  userQueryResponse = sysUserQuery.queryUserInfo(sysUserQueryRequest);
-				BeanUtils.copyProperties(defaultLogRequest,defaultLogInfo);
-				defaultLogRequest.setDeductDate(new Timestamp(new Date().getTime()));
-				defaultLogRequest.setDeductBalance(defaultLogInfo.getDeductBalance()*100);
-				defaultLogRequest.setOperId(Long.parseLong(userQueryResponse.getNo()));
-				defaultLogRequest.setOperName(userQueryResponse.getLoginName());
-			    GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-				defaultLogRequest.setTenantId(userClient.getTenantId());
-				defaultLogRequest.setSerialCode(serialCode);
-				defaultLog.insertDefaultLog(defaultLogRequest);
 				responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
 	            responseHeader = new ResponseHeader(true,ExceptionCode.SUCCESS_CODE, "操作成功");
 			}else{
@@ -485,10 +497,12 @@ public class DefaultManagerController {
 	        
 	        //00表示支付成功，01表示支付失败
 	        LOGGER.info("扣款开始==================");
-	        if("01".equals(receive.getGrpBody().getPayStatus())){
-	        	 LOGGER.info("扣款失败=============");
+	        if("00".equals(receive.getGrpBody().getPayStatus())){
+	        	LOGGER.info("扣款失败=============");
+	        	net.sf.json.JSONObject conditionObject = net.sf.json.JSONObject.fromObject(receive.getGrpBody().getMerOrderId());
+	        	InsertDefaultLogRequest defaultLogRequest = (InsertDefaultLogRequest)conditionObject.toBean(conditionObject, InsertDefaultLogRequest.class);
 	        	IDefaultLogSV defaultLog = DubboConsumerFactory.getService("iDefaultLogSV");
-	        	defaultLog.deleteDefaultLog(receive.getGrpBody().getMerOrderId());
+	        	defaultLog.insertDefaultLog(defaultLogRequest);
 	        }
 	        LOGGER.info("扣款结束===================");
 	        flag = true;
