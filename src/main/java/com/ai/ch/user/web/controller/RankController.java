@@ -246,7 +246,7 @@ public class RankController {
 		custFileExtRequest.setTenantId(tenantId);
 		QueryCustFileExtResponse response = custfileSV.queryCustFileExt(custFileExtRequest);
 		Map<String,String> urlMap = new HashMap<String,String>();
-		if(!response.getList().isEmpty()){
+		if(response!=null&&!response.getList().isEmpty()){
 			for (CmCustFileExtVo cmCustFileExtVo : response.getList()) {
 				String url = im.getImageUrl(cmCustFileExtVo.getAttrValue(), ".jpg");
 				urlMap.put(cmCustFileExtVo.getAttrId(), url);
@@ -261,7 +261,7 @@ public class RankController {
 		custFileExtRequest.setTenantId(tenantId);
 		QueryCustFileExtResponse response = custfileSV.queryCustFileExt(custFileExtRequest);
 		Map<String,String> nameMap = new HashMap<String,String>();
-		if(!response.getList().isEmpty()){
+		if(response!=null&&!response.getList().isEmpty()){
 			for (CmCustFileExtVo cmCustFileExtVo : response.getList()) {
 				nameMap.put(cmCustFileExtVo.getAttrId(), cmCustFileExtVo.getInfoName());
 			}
@@ -275,7 +275,7 @@ public class RankController {
 		custFileExtRequest.setTenantId(tenantId);
 		QueryCustFileExtResponse response = custfileSV.queryCustFileExt(custFileExtRequest);
 		Map<String,String> nameMap = new HashMap<String,String>();
-		if(!response.getList().isEmpty()){
+		if(response!=null&&!response.getList().isEmpty()){
 			for (CmCustFileExtVo cmCustFileExtVo : response.getList()) {
 				nameMap.put(cmCustFileExtVo.getAttrId(), cmCustFileExtVo.getAttrValue());
 			}

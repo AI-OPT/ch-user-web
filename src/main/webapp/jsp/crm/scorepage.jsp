@@ -61,7 +61,7 @@ label.error {
 											<c:forEach items="${scoreKpiList}" var="ctScoreKpiVo"
 												varStatus="status">
 												<ul>
-													<li class="word"><p>${status.count}.${ctScoreKpiVo.kpiName }</li>
+													<li class="word"><p>${status.count}.<b class="red">*</b>${ctScoreKpiVo.kpiName }</li>
 													<li><input type="text" class="int-text int-medium" maxlength="2"
 														placeholder="请输入评分" name='${status.count }'
 														id='${status.count }' onkeydown="return doit()"/></li>	

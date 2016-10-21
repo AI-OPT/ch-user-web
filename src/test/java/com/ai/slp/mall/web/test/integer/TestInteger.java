@@ -37,7 +37,7 @@ public class TestInteger {
 		mapHeader.put("appkey", "3a83ed361ebce978731b736328a97ea8");
 		map.put("openId", "1");
 		map.put("auditState","1");
-		map.put("companyId","9bc5e02ba5234e03");
+		map.put("companyId","e3c25734c079468b");
 		String str ="";
 		try {
 			str = HttpClientUtil.sendPost("http://10.19.13.16:28151/opaas/http/srv_up_user_updateauditstate_update", JSON.toJSONString(map), mapHeader);

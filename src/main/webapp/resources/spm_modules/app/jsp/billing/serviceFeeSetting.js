@@ -125,17 +125,6 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
 			var formValidator=_this._initValidate();
 			formValidator.form();
 			if(!$("#serviceFee").valid()){
-				var d = Dialog({
-    				title : '提示',
-    				content : '输入不能为空',
-    				icon:'fail',
-    				closeIconShow:false,
-    				okValue : "确定",
-    				ok : function() {
-    					this.close;
-    				}
-    			});
-    			d.show();
 				return;
 			}
 			//debugger;
@@ -179,7 +168,8 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     	_hideInfo:function(id){
     		$("#"+id).hide();
     	},
-    	_viewInfo:function(id){
+    	_viewInfo:function(id,errorId){
+    		$("#"+errorId).hide();
     		$("#"+id).show();
     	}
     	

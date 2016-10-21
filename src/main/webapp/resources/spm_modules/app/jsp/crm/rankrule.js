@@ -26,7 +26,7 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
     	attrs: {
     	},
     	Statics: {
-    		DEFAULT_PAGE_SIZE: 5
+    		DEFAULT_SIZE: 5
     	},
     	//事件代理
     	events: {
@@ -41,7 +41,7 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
     	
     	_initTable:function(){
     		//默认行数
-    		var count = 5;
+    		var count = pager.DEFAULT_SIZE;
     		var count_ = count-1;
 			$.ajax({
 				type:"post",
@@ -95,7 +95,7 @@ define('app/jsp/crm/rankrule', function (require, exports, module) {
     		$("#TBODY_RANKRULE").html();
     		var count = $("#rankRegion").val();
     		if(count==null||count=="")
-    			count=5;
+    			count=pager._DEFAULT_SIZE;
     		var count_=count-1;
     		var htmlOutput ="<tr><td class='text-l pl-10' style='white-space:nowrap'><p class='f-14' style='font-weight:400;'>等级1:<input class='int-text int-mini' readonly='readonly' type='text' name='list[0].minScore' id='min1' value='0' style='border: none;background:none;font-weight:400;'><input type='hidden' name=list[0].rank value='1'>至<input class='int-text int-mini' name='list[0].maxScore' id='max1' type='text' onblur=\""+"pager._changeValue('1')"+"\" onfocus=\""+"pager._rankView('1')"+"\" maxlength='12' onkeydown='return doit()' style=''>分<span id='rankInfo1' style='color:red;display:none'>1-12位整数</span><input type='text' style='display:none;color:red' id='rankMsg1'></p></td>";
             htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><input class='int-text int-mini' name='list[0].rankName' id='name1' type='text' onblur=\""+"pager._valideName('1')"+"\" onfocus=\""+"pager._nameView('1')"+"\" maxlength='12'><span id='nameInfo1' style='color:red;display:none'>1-12位字符</span><input type='text' id='nameMsg1' style='display:none;color:red'></p></td>";

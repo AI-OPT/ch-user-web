@@ -86,20 +86,20 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
     	},
     	
 		_toViewShopPage:function(userId,username){
-			window.location.href = _base+'/qualification/toShopDetailPager?userId='+userId+'&username='+username;
+			window.location.href = _base+'/qualification/toShopDetailPager?userId='+userId+'&username='+encodeURIComponent(username);
 			
 		},
 		_toAuditShopPage:function(userId,username){
-			window.location.href = _base+'/qualification/toShopCheckPager?userId='+userId+'&username='+username;
+			window.location.href = _base+'/qualification/toShopCheckPager?userId='+userId+'&username='+encodeURIComponent(username);
 			
 		},
 		
 		_toViewSupplierPage:function(userId,username){
-			window.location.href = _base+'/qualification/toSuplierDetailPager?userId='+userId+'&username='+username;
+			window.location.href = _base+'/qualification/toSuplierDetailPager?userId='+userId+'&username='+encodeURIComponent(username);
 			
 		},
 		_toAuditSupplierPage:function(userId,username){
-			window.location.href = _base+'/qualification/toSuplierCheckPager?userId='+userId+'&username='+username;
+			window.location.href = _base+'/qualification/toSuplierCheckPager?userId='+userId+'&username='+encodeURIComponent(username);
 			
 		},
 		

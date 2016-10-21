@@ -120,17 +120,6 @@ define('app/jsp/crm/scorepage', function (require, exports, module) {
 			var formValidator=_this._initValidate();
 			formValidator.form();
 			if(!$("#scorePage").valid()){
-			var d = Dialog({
-					title : '提示',
-					content : '验证不通过',
-					icon:'fail',
-					closeIconShow:false,
-					okValue : "确定",
-					ok : function() {
-						this.close;
-					}
-				});
-				d.show();
 				return;
 			}
     	   $.ajax({

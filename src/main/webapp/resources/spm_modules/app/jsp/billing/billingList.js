@@ -90,16 +90,14 @@ define('app/jsp/billing/billingList', function (require, exports, module) {
 		});
     	},
     	_toMarginPage:function(userId,username){
-    		window.location.href= _base+"/billing/marginsetting?userId="+userId+'&username='+username;
+    		window.location.href= _base+"/billing/marginsetting?userId="+userId+'&username='+encodeURIComponent(username);
     	},
     	_toServiceFeeSettingPage:function(userId,username){
-    		window.location.href= _base+"/billing/servicefeesetting?userId="+userId+'&username='+username;
+    		window.location.href= _base+"/billing/servicefeesetting?userId="+userId+'&username='+encodeURIComponent(username);
     	},
     	_toServiceFeePage:function(userId,username){
-    		window.location.href= _base+"/billing/servicefee?userId="+userId+'&username='+username;
+    		window.location.href= _base+"/billing/servicefee?userId="+userId+'&username='+encodeURIComponent(username);
     	}
-    	
-    	
     });
     
     module.exports = BillingListPager

@@ -85,16 +85,6 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
 			var formValidator=_this._initValidate();
 			formValidator.form();
 			if(!$("#depositForm").valid()){
-				Dialog({
-					title : '提示',
-					content : '输入不能为空',
-					okValue : "确定",
-					icon:'fail',
-					closeIconShow:false,
-					ok : function() {
-						this.close;
-					}
-				}).showModal();
 				return;
 			}
 			$.ajax({
@@ -139,6 +129,7 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
     		$("#depositInfo").hide();
     	},
     	_viewInfo:function(){
+    		$("#depositBalance-error").hide();
     		$("#depositInfo").show();
     	}
     });

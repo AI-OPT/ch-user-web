@@ -27,7 +27,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     	attrs: {
     	},
     	Statics: {
-    		DEFAULT_PAGE_SIZE: 5
+    		DEFAULT_SIZE: 5,
     	},
     	//事件代理
     	events: {
@@ -132,7 +132,7 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		$("#TBODY_RANKRULE").html();
     		var count = $("#rankRegion").val();
     		if(count==null||count=="")
-    			count=result[result.length-1].rank;
+    			count=pager.DEFAULT_SIZE;
     		var count_=count-1;
     		var htmlOutput ="<tr><td class='text-l pl-10' style='white-space:nowrap'><p class='f-14' style='font-weight:400;'>等级1:<input class='int-text int-mini' readonly='readonly' type='text' name='list[0].minScore' id='min1' value='0' style='border: none;background:none;font-weight:400;'><input type='hidden' name=list[0].rank value='1'>至<input class='int-text int-mini' name='list[0].maxScore' id='max1' type='text' onblur=\""+"pager._changeValue('1')"+"\" onfocus=\""+"pager._rankView('1')"+"\" maxlength='12' onkeydown='return doit()' style=''>分<span id='rankInfo1' style='color:red;display:none'>1-12位整数</span><input type='text' style='display:none;color:red' id='rankMsg1'></p></td>";
             htmlOutput+="<td class='text-l pl-10' style='white-space:nowrap'><p class='f-14'><input class='int-text int-mini' name='list[0].rankName' id='name1' type='text' onblur=\""+"pager._valideName('1')"+"\" onfocus=\""+"pager._nameView('1')"+"\" maxlength='12'><span id='nameInfo1' style='color:red;display:none'>1-12位字符</span><input type='text' id='nameMsg1' style='display:none;color:red'></p></td>";
@@ -201,19 +201,19 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		 var img = document.getElementById('img'+index).files;
     		 document.getElementById('imgInfo'+index).style.display="none";
     		 if(/\.(gif|jpg|jpeg|png|JPEG|GIF|JPG|PNG)$/.test(img[0].name)){
-    			 if(document.getElementById('img'+index).files[0]!=undefined&&document.getElementById('img'+index).files[0].size>=(3.05*1024*1024)-1){
+    			/* if(document.getElementById('img'+index).files[0]!=undefined&&document.getElementById('img'+index).files[0].size>=(3.05*1024*1024)-1){
      				$("#picErr"+index).val("(图片不能超过3M)");
  				    $("#picName"+index).val("");
     			    $("#rankName"+index).val("");
  		   			$("#picErr"+index).show();
  		   			$("#rankLogo"+index).val("");
  		   			$("#picFlag").val("0");
-         		}else{
+         		}else{*/
     			 document.getElementById('imgInfo'+index).style.display="";
     			 $("#picName"+index).val(img[0].name)
     			 $("#rankName"+index).val(img[0].name)
 				 $("#picErr"+index).hide();
-         		}
+         		/*}*/
     		 }
     		 else{
     			 $("#picErr"+index).val("(图片格式不对)");
