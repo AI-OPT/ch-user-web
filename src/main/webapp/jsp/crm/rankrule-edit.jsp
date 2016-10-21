@@ -140,9 +140,9 @@
 		                						<table class="table table-hover table-border table-bordered">
 												<thead>
 													<tr>
-														<th class="text-l pl-10" width="30%">店铺评分等级</th>
-														<th class="text-l pl-10" width="30%">等级名称</th>
-														<th class="text-l pl-10" width="40%">等级图片</th>
+														<th class="text-l pl-10" width="30%"><b class="red">*</b>店铺评分等级</th>
+														<th class="text-l pl-10" width="30%"><b class="red">*</b>等级名称</th>
+														<th class="text-l pl-10" width="40%"><b class="red">*</b>等级图片</th>
 													</tr>
 												</thead>
 												<tbody id="TBODY_RANKRULE">
@@ -198,7 +198,7 @@
 		<tr>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14" style="font-weight:400;">等级{{:rank}}:<input type='hidden' value='{{:rank}}' name='list[{{:rank-1}}].rank'><input class="int-text int-mini" name="list[{{:rank-1}}].minScore" value="{{:minScore}}" id="min{{:rank}}" type="text" readonly="readonly" style='border:none;background:none;font-weight:400;'>至<input class="int-text int-mini" name="list[{{:rank-1}}].maxScore" value="{{:maxScore}}" type="text" id="max{{:rank}}" onblur="pager._changeValue('{{:rank}}')" onfocus="pager._rankView('{{:rank}}')" maxlength="12" onkeydown="return doit()" style="">分<span id='rankInfo{{:rank}}' style='color:red;display:none'>1-12位整数</span><input type='text' style='display:none;color:red' id='rankMsg{{:rank}}'></p></td>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14"><input class="int-text int-mini" name="list[{{:rank-1}}].rankName" value="{{:rankName}}" id="name{{:rank}}" type="text" onblur="pager._valideName({{:rank}})" onfocus="pager._nameView('{{:rank}}')" maxlength='12'><span id='nameInfo{{:rank}}' style='color:red;display:none'>1-12位字符</span><input type='text' id='nameMsg{{:rank}}' style='display:none;color:red'></p></td>
-			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14"><b class="red">*</b>图片名称:
+			<td class="text-l pl-10" style="white-space:nowrap"><p class="f-14">图片名称:
 				<span class="btn-upload">
 				<input class="int-text int-mini" id="picName{{:rank}}" value="" type="text" disabeld="disabled" style="border:none;background:none;"><input type="hidden" id=rankLogo{{:rank}} name="rankLogo{{:rank}}"><input type="hidden" id=rankName{{:rank}} name="rankName{{:rank}}">
 				<input type="button" class="btn-primary btn-default btn-medium" value="浏览文件"/>
@@ -214,7 +214,7 @@
 		<tr>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class='f-14' style='font-weight:400;'>等级{{:index}}:<input class="int-text int-mini" name="list[{{:index-1}}].minScore" id="min{{:index}}" type="text" value="0" readonly="readonly" style="border: none;background:none;font-weight:400;" onchange="pager._changeValue('{{:rank}}')"><input type='hidden' name=list[{{:index-1}}].rank value='{{:index}}'>至<input class="int-text int-mini" name="list[{{:index-1}}].maxScore" type="text" id="max{{:index}}" onblur="pager._changeValue('{{:index}}')" onfocus="pager._rankView('{{:index}}')" maxlength="12" onkeydown="return doit()" style="font-weight:400;">分<span id='rankInfo{{:index}}' style='color:red;display:none'>1-12位整数</span><input type='text' style='display:none;color:red' id='rankMsg{{:index}}'></p></td>
 			<td class="text-l pl-10" style="white-space:nowrap"><p class='f-14'><input class="int-text int-mini" name="list[{{:index-1}}].rankName" type="text" id="name{{:index}}" onblur="pager._valideName('{{:index}}')" onfocus="pager._nameView('{{:index}}')" maxlength='12'><span id='nameInfo{{:index}}' style='color:red;display:none'>1-12位字符</span><input type='text' id='nameMsg{{:index}}' style='display:none;color:red'></p></td>
-			<td class="text-l pl-10" style="white-space:nowrap"><p class='f-14'><b class="red">*</b>图片名称:<span class="btn-upload"><input class="int-text int-mini" id="picName{{:index}}" disabled="disabled" type="text" style="border:none;background:none;"><input type="hidden" id=rankLogo{{:index}} name="rankLogo{{:index}}"><input type="hidden" id=rankName{{:index}} name="rankName{{:index}}">
+			<td class="text-l pl-10" style="white-space:nowrap"><p class='f-14'>图片名称:<span class="btn-upload"><input class="int-text int-mini" id="picName{{:index}}" disabled="disabled" type="text" style="border:none;background:none;"><input type="hidden" id=rankLogo{{:index}} name="rankLogo{{:index}}"><input type="hidden" id=rankName{{:index}} name="rankName{{:index}}">
 				<input type="button" class="btn-primary btn-default btn-medium" value="浏览文件"/>
 				<input type="file" class="int-file1" id='img{{:index}}' name='img{{:index}}' onchange="pager._imgName('{{:index}}')"/>
 				<input type='text' style='display:none;color:red;font-size:14px' id='picErr{{:index}}'></span>
