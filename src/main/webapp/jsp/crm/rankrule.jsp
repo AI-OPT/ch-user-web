@@ -41,7 +41,6 @@
 								<li class="col-lg-12">
 									<p class="word">请设置评级数:</p>
 									<p><select class="select select-mini" id="rankRegion" name="rankRegion">
-									<option value="" disabled="disabled">请选择</option>
 									<c:forEach var="i" begin="2" end="20">
 									<option>${i}</option>
 									</c:forEach>
