@@ -51,6 +51,7 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     				rentFee: {
     					required:true,
     					digits:true,
+    					maxlength:12,
     					min:0,
     					max:999999999999999,
     					pattern:/^\+?(0|[1-9][0-9]*)$/
@@ -65,10 +66,11 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     			messages: {
     				rentFee: {
     					required:"服务费不能为空",
-    					digits: "请输入数字，最多输入15位",
+    					digits: "请输入数字，最多输入12位",
+    					maxlength:"最多输入12位",
     					min:"最小值为{0}",
     					max:"最大值为{0}",
-    					pattern:"数据格式不对"
+    					pattern:"请输入数字，最多输入12位"
     					},
     				ratio: {
     					required:"服务费不能为空",
@@ -164,14 +166,14 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     	    			d.show();
     				}
     				});
-    	}/*,
+    	},
     	_hideInfo:function(id){
     		$("#"+id).hide();
     	},
     	_viewInfo:function(id,errorId){
     		$("#"+errorId).hide();
     		$("#"+id).show();
-    	}*/
+    	}
     	
     });
     

@@ -51,6 +51,7 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
     				depositBalance: {
     					required:true,
     					digits:true,
+    					maxlength:12,
     					min:1,
     					max:999999999999999,
     					pattern:/^\+?(0|[1-9][0-9]*)$/
@@ -59,7 +60,8 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
     			messages: {
     				depositBalance: {
     					required:"保证金不能为空",
-    					digits: "请输入数字,最多输入12位",
+    					digits:"请输入数字,最多输入12位",
+    					maxlength:"最多输入12位",
     					min:"最小值为{0}",
     					max:"最大值为{0}",
     					pattern:"请输入数字,最多输入12位"
@@ -124,7 +126,7 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
 	    			d.show();
 				}
 				});
-    	}
+    	},
     	_hideInfo:function(){
     		$("#depositInfo").hide();
     	},
