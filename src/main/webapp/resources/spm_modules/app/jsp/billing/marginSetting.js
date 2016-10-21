@@ -59,10 +59,10 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
     			messages: {
     				depositBalance: {
     					required:"保证金不能为空",
-    					digits: "只能输入数字",
+    					digits: "请输入数字,最多输入15位",
     					min:"最小值为{0}",
     					max:"最大值为{0}",
-    					pattern:"数据格式不对"
+    					pattern:"请输入数字,最多输入15位"
     					}
     			},
     			errorPlacement: function (error, element) {
@@ -124,14 +124,14 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
 	    			d.show();
 				}
 				});
-    	},
-    	_hideInfo:function(){
+    	}
+/*    	_hideInfo:function(){
     		$("#depositInfo").hide();
     	},
     	_viewInfo:function(){
     		$("#depositBalance-error").hide();
     		$("#depositInfo").show();
-    	}
+    	}*/
     });
     
     module.exports = marginSettingPager

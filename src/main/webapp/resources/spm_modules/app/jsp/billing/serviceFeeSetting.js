@@ -65,14 +65,14 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     			messages: {
     				rentFee: {
     					required:"服务费不能为空",
-    					digits: "只能输入数字",
+    					digits: "请输入数字，最多有两位小数",
     					min:"最小值为{0}",
     					max:"最大值为{0}",
     					pattern:"数据格式不对"
     					},
     				ratio: {
     					required:"服务费不能为空",
-    					pattern: "数据格式不对,支持小数点后2位",
+    					pattern: "请输入数字，最多有两位小数",
     					min:"最小值为{0}",
     					max:"最大值为{0}",
     					}
@@ -164,14 +164,14 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     	    			d.show();
     				}
     				});
-    	},
+    	}/*,
     	_hideInfo:function(id){
     		$("#"+id).hide();
     	},
     	_viewInfo:function(id,errorId){
     		$("#"+errorId).hide();
     		$("#"+id).show();
-    	}
+    	}*/
     	
     });
     

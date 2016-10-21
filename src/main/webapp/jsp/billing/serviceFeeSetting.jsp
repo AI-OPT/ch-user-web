@@ -102,7 +102,7 @@ label.error {
 												<p class="word">&nbsp;</p>
 												<p>
 													<input type="text" class="int-text int-mini" id="rentFee"
-														name="rentFee" maxlength="15" onkeydown="return doit()" onblur="pager._hideInfo('rentFeeInfo');" onfocus="pager._viewInfo('rentFeeInfo','rentFee-error');">
+														name="rentFee" maxlength="15" onkeydown="return doit()">
 													元/ <select class="select select-mini" id="rentCycleType"
 														name="rentCycleType">
 														<option value="Y">年</option>
@@ -134,7 +134,7 @@ label.error {
 												<p class="word">&nbsp;</p>
 												<p>
 													<input type="text" class="int-text int-mini" name="ratio"
-														id="ratio"  onblur="pager._hideInfo('ratioInfo');" onfocus="pager._viewInfo('ratioInfo','ratio-error');"/> % * 订单金额
+														id="ratio"  /> % * 订单金额
 												</p>
 												<p class="input-group"></p><p><input type="text" style="display:none;color:red;width:200px" id="ratioInfo" value="0-100内小数,支持小数点后2位" ></p><input type="hidden" id="userId"
 												name="userId" value="${userId }" />
