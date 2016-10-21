@@ -81,7 +81,7 @@
 									</li>
 									<li><label id="endTimeTextErrMsg" style="display: none;"><span class="ash" id="endTimeTextShow">请输入时间</span></label></li>
 								</ul>
-								<%-- <ul>
+								<ul>
 									<li>
 										<p class="word">合同金额:</p>
 										<p><input type="text" class="int-text int-medium" placeholder="请输入合同金额" id="contractAmount" name="contractAmount" value="${contactInfo.contractAmount}"/>元</p>
@@ -96,7 +96,7 @@
 									<li><textarea class="int-text textarea-large"
 												id="contractRemark" name="remark" cols="50" rows="3" >${contactInfo.remark}</textarea></li>
 									<li><label id="remarkErrMsg" style="display: none;"><span class="ash" id="remarkText"></span></label></li>
-								</ul> --%>
+								</ul>
 								<ul>
 									<li>
 										<p class="word"><b class="red">*</b>扫描版合同:</p>
@@ -139,7 +139,7 @@
 								</ul>
 								<ul>
 									<li>
-										<p style="margin-left: 25%">支持上传pdf、PNG、JPG及word格式的文件，大小20M以下</p>
+										<p style="margin-left: 25%">支持上传pdf、PNG、JPG及word格式的文件，大小5M以下</p>
 										
 									</li>
 								</ul>

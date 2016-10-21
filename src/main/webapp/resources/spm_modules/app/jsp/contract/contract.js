@@ -534,10 +534,10 @@ function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
 		$("#"+contractText).text('文件格式不对，只允许上传pdf、png、jpg、doc、docx');
 		$("#"+contractFlag).val("0");
 		return false;
-	}else if(document.getElementById(fileId).files[0].size>20*1024*1024){
+	}else if(document.getElementById(fileId).files[0].size>5*1024*1024){
 		$("#"+errMsg).show();
 		$("#"+contractText).show();
-		$("#"+contractText).text('文档太大，不能超过20M');
+		$("#"+contractText).text('文档太大，不能超过5M');
 		$("#"+contractFlag).val("0");
 		return false;
 	}else if(document.getElementById(fileId).files[0].size==0){
