@@ -18,22 +18,29 @@
                 <div class="row"><!--内侧框架-->
                     <div class="col-lg-12"><!--删格化-->
                         <div class="main-box clearfix"><!--白色背景-->   
-							<div class="form-label pl-40">
-							<div class="form-label  bd-bottom">
+							<div class="main-box-body clearfix">
+	                          <header class="main-box-header clearfix">
+	                           	 <h5 class="pull-left">查看详情</h5>
+	                          </header>
+                         	  <div class="form-label">
 								<ul>
 									<li class="col-md-6">
 										<p class="word">用户名:</p>
 										<p>${userName }</p>
+										<input type="hidden" value="${userName}" id="userName"/>
 									</li>
 									<li class="col-md-6">
 										<p class="word">企业名称:</p>
 										<p>${custName}</p>
+										<input type="hidden" value="${custName}" id="custName"/>
 									</li>
 								</ul>
-								<ul>
-									<li class="col-md-6">
-										<p class="word">当前结算周期:</p>
-										<p>
+                          	 </div>
+                          	 <!--标题带下划线-->
+							<div class="nav-tplist-title bd-bottom pb-10">
+				                  <ul>
+				                    <li>当前结算周期:
+				                    	<p>
 											<c:if test="${shopInfo.periodType=='M' }">
 					                     	月（自然月）
 					                     </c:if>
@@ -47,13 +54,13 @@
 					                     	实时
 					                     </c:if>
 										</p>
-									</li>
-								</ul>
-							</div>
+				                    </li>
+				                  </ul>
+				       	     </div>	
 							<div class="text-c">
 								<ul>
 									<li>
-									  <input type="button" style="margin-left: 80%"  class="biu-btn  btn-primary btn-blue btn-medium ml-5"
+									  <input type="button"   class="biu-btn  btn-primary btn-blue btn-medium ml-5"
 										onclick="history.go(-1)"	value="返回">
 									</li>
 								</ul>

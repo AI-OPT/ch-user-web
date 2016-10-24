@@ -259,6 +259,15 @@ public class ContractController {
 	 		}
 	 			
 	 		model.put("contactInfo", response);
+	 		int remarkLength = 0;
+	 		if(response.getRemark()!=null){
+	 			remarkLength = response.getRemark().length();
+	 			if(remarkLength>100){
+	 				model.put("remarkLength", true);
+	 			}else{
+	 				model.put("remarkLength", false);
+	 			}
+	 		}
 	 		if(response.getActiveTime()!=null){
 	 			model.put("startTime", DateUtil.getDateString(response.getActiveTime(),"yyyy-MM-dd"));
 	 		}
@@ -329,6 +338,15 @@ public class ContractController {
 	 		
 	 		
 	 		model.put("contactInfo", response);
+	 		int remarkLength = 0;
+	 		if(response.getRemark()!=null){
+	 			remarkLength = response.getRemark().length();
+	 			if(remarkLength>100){
+	 				model.put("remarkLength", true);
+	 			}else{
+	 				model.put("remarkLength", false);
+	 			}
+	 		}
 	 		if(response.getActiveTime()!=null){
 	 			model.put("startTime", DateUtil.getDateString(response.getActiveTime(),"yyyy-MM-dd"));
 	 		}

@@ -18,8 +18,11 @@
                 <div class="row"><!--内侧框架-->
                     <div class="col-lg-12"><!--删格化-->
                          <div class="main-box clearfix"><!--白色背景-->   
-                         	  <div class="form-label pl-40">
-							<div class="form-label  bd-bottom">
+                         	<div class="main-box-body clearfix">
+	                          <header class="main-box-header clearfix">
+	                           	 <h5 class="pull-left">查看详情</h5>
+	                          </header>
+                         	  <div class="form-label">
 								<ul>
 									<li class="col-md-6">
 										<p class="word">用户名:</p>
@@ -32,15 +35,15 @@
 										<input type="hidden" value="${custName}" id="custName"/>
 									</li>
 								</ul>
-                          		</div>
-                          		</div>
-                          		<div class="form-label">
-							<ul>
-								<li class="col-md-6">
-								<p class="word">合同管理</p>
-								</li>
-							</ul>
-						</div>
+                          	 </div>
+                          	 <!--标题带下划线-->
+							<div class="nav-tplist-title bd-bottom pb-10">
+				                  <ul>
+				                    <li>合同管理:</li>
+				                  </ul>
+				       	     </div>	
+                          </div>
+                          		
 					 	<!--table表格-->
 					 	 	<div class="form-label pl-40">
 					 	 		<ul>
@@ -81,8 +84,13 @@
 						    	<ul>
 									<li>
 									  <p class="word">合同备注:</p>
+									  <c:if test="${remarkLength==true}">
+									  	<p class="wide-field" style="word-break:break-all;">${contactInfo.remark }</p>
+									  </c:if>
+									  <c:if test="${remarkLength==false}">
+									  	<p style="word-break:break-all;">${contactInfo.remark }</p>
+									  </c:if>
 									</li>
-									<li>${contactInfo.remark }</li>
 								</ul>
 								
 								<ul>
@@ -106,7 +114,7 @@
 																							
 								<ul>
                              		<li>
-                             			<input type="button" style="margin-left: 100%" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
+                             			<input type="button" style="margin-left:30%" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
 										onclick="history.go(-1)"	value="返回">
                              		</li>
                              	</ul>					 	 	
