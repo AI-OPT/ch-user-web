@@ -123,10 +123,8 @@
 											<label for="radio-1">实时</label>
 										</c:otherwise>
 										</c:choose>
-										
+									
 								</ul>
-							</div>
-								<div class="text-c">
 								<ul>
 								<li><input type="button" 
 									class="biu-btn btn-primary btn-blue btn-medium ml-10" id="saveShopInfo"
