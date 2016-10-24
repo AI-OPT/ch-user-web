@@ -29,11 +29,11 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     	//事件代理
     	events: {
     		//合同编号
-    		"focus [id='contractCode']":"_showContractCodeTip",
-    		"blur [id='contractCode']":"_checkContractCodeValue",
+    		//"focus [id='contractCode']":"_showContractCodeTip",
+    		"keyup [id='contractCode']":"_checkContractCodeValue",
     		
-    		"focus [id='contractName']":"_showContractNameTip",
-    		"blur [id='contractName']":"_checkContractNameValue",
+    		//"focus [id='contractName']":"_showContractNameTip",
+    		"keyup [id='contractName']":"_checkContractNameValue",
     		
     		"click [id='supplierSave']":"_saveSupplierContract",
     		"click [id='shopSave']":"_saveShopContract",
@@ -41,11 +41,11 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     		"click [id='scanFileButtonId']":"_deleteScanFileExtFile",
     		"click [id='electronicFileButtonId']":"_deleteElectronicExtFile",
     		
-    		"focus [id='contractAmount']":"_showContractAmountTip",
-    		"blur [id='contractAmount']":"_checkContractAmountValue",
+    		//"focus [id='contractAmount']":"_showContractAmountTip",
+    		"keyup [id='contractAmount']":"_checkContractAmountValue",
     		
-    		"focus [id='contractRemark']":"_showContractRemarkTip",
-    		"blur  [id='contractRemark']":"_checkContractRemarValue",
+    		//"focus [id='contractRemark']":"_showContractRemarkTip",
+    		"keyup  [id='contractRemark']":"_checkContractRemarValue",
     		
         },
     	//重写父类
