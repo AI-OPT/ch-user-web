@@ -18,7 +18,7 @@ public class IdpsTest {
 		IImageClient im = IDPSClientFactory.getImageClient(idpsns);
 
 		// 待上传的图片路径
-		String filepath = "‪C:/Users/zh/Desktop/chlogo.JPG";
+		String filepath = "‪D:/index.jpg";
 		//String filepath = "C:/Users/zh/Pictures/查干湖妙音寺星轨002.JPG";
 		try {
 			FileInputStream fis=new FileInputStream(filepath);

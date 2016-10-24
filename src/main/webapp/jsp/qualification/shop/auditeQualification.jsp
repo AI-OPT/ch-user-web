@@ -48,7 +48,7 @@
 										<p class="word">${userName }</p>
 									</li>
 									<li class="col-md-6">
-										<p class="word">公司名称:</p>
+										<p class="word">企业名称:</p>
 										<p>${shopName }</p>
 									</li>
 									<li class="col-md-6">
