@@ -71,6 +71,9 @@ label.error {
 													<li><p>注:${ctScoreKpiVo.kpiDesc }</p></li>
 												</ul>
 											</c:forEach>
+												<ul>
+													<li><p>提示:计算综合得分时,取采购员或招标员对该供应商的最后一次评分,之前的评分记录不计入综合得分</p></li>
+												</ul>
 											<input type="hidden" value="${userId }" name="userId"/>
 										</form>
 										<div class="row">
