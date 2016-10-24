@@ -140,7 +140,7 @@
 								</ul>
 								<ul>
 									<li>
-										<p style="margin-left: 25%">支持上传pdf、PNG、JPG及word格式的文件，大小20M以下</p>
+										<p style="margin-left: 25%">支持上传pdf、PNG、JPG及word格式的文件，大小5M以下</p>
 										
 									</li>
 								</ul>
@@ -155,7 +155,9 @@
 										<input type="hidden" id="endTimeTextFlag" value="0"/>
 										<input type="hidden" id="scanVersionContractFlag" value="0"/>
 										<input type="hidden" id="electronicContractFlag" value="0"/>
-										 <input type="hidden" id="contractType" value="1">
+										<input type="hidden" id="contractType" value="1">
+										<input type="hidden" id="contractAmountFlag">
+										<input type="hidden" id="contractRemarkFlag">
 									</li>
 								</ul>
                              </div>
