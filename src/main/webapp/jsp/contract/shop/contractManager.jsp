@@ -23,12 +23,12 @@
 							<div class="form-label  bd-bottom">
 								<ul>
 									<li class="col-md-6">
-										<p class="word">用户名:</p>
+										<p class="word">用户名</p>
 										<p>${userName }</p>
 										<input type="hidden" value="${userName}" id="userName"/>
 									</li>
 									<li class="col-md-6">
-										<p class="word">企业名称:</p>
+										<p class="word">企业名称</p>
 										<p>${custName}</p>
 										<input type="hidden" value="${custName}" id="custName"/>
 									</li>
@@ -47,7 +47,7 @@
 					 	 	<div class="form-label pl-40">
 						    	<ul>
 									<li>
-									  <p class="word" style="font-style: "><b class="red">*</b>合同编号:</p>
+									  <p class="word" style="font-style: "><b class="red">*</b>合同编号</p>
 									</li>
 									<li>
 									   <input type="text" class="int-text int-medium" placeholder="请输入合同编号" id="contractCode" name="contractCode" value="${contactInfo.contractCode }"/>
@@ -58,7 +58,7 @@
 								
 								<ul>
 									<li>
-									  <p class="word"><b class="red">*</b>合同名称:</p>
+									  <p class="word"><b class="red">*</b>合同名称</p>
 									</li>
 									<li><input type="text" class="int-text int-medium" placeholder="请输入合同名称" id="contractName" name="contractName" value="${contactInfo.contractName }"/></li>
 									<li><label id="contractNameErrMsg" style="display: none;"><span class="ash" id="contractNameText">1-256个字符</span></label></li>
@@ -66,7 +66,7 @@
 
 								<ul>
 									<li>
-										<p class="word"><b class="red">*</b>开始时间:</p>
+										<p class="word"><b class="red">*</b>开始时间</p>
 										<p><input type="text" class="int-text int-medium" readonly="readonly" value="${startTime }" name="startTime" id="startTime">
 											<span class="time"> <i class="fa  fa-calendar" ></i></span></p>
 									</li>
@@ -75,7 +75,7 @@
 									  <p style="font-style:oblique; ">——</p>
 									</li>
 									<li>
-										<p class=""><b class="red">*</b>结束时间:</p>
+										<p class=""><b class="red">*</b>结束时间</p>
 										<p><input type="text" class="int-text int-medium" readonly="readonly" value="${endTime}" name="endTime" id="endTime">
 											<span class="time"> <i class="fa  fa-calendar" ></i></span></p>
 									</li>
@@ -83,14 +83,14 @@
 								</ul>
 								<ul>
 									<li>
-										<p class="word">合同金额:</p>
+										<p class="word">合同金额</p>
 										<p><input type="text" class="int-text int-medium" placeholder="请输入合同金额" id="contractAmount" name="contractAmount" value="${contactInfo.contractAmount}"/>元</p>
 									</li>
 									<li><label id="contractAmountErrMsg" style="display: none;"><span class="ash" id="contractAmountText"></span></label></li>
 								</ul>
 								<ul>
 									<li>
-										<p class="word">合同备注:</p>
+										<p class="word">合同备注</p>
 										<p></p>
 									</li>
 									<li><textarea class="int-text textarea-large"
@@ -99,7 +99,7 @@
 								</ul>
 								<ul>
 									<li>
-										<p class="word"><b class="red">*</b>扫描版合同:</p>
+										<p class="word"><b class="red">*</b>扫描版合同</p>
 										<span class="btn-upload">
 										   <input type="hidden" id="scanFileName" value="扫描版合同" name="list[0].infoName">
 							               <input type="hidden" value="40" name="list[0].infoType">
@@ -119,7 +119,7 @@
 								</ul>
 								<ul>
 									<li>
-										<p class="word">电子版合同:</p>
+										<p class="word">电子版合同</p>
 										
 										 <span class="btn-upload">
 											 <input type="hidden" id="electronicFileName" value="" name="list[1].infoName">

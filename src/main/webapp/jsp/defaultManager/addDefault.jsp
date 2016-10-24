@@ -60,8 +60,8 @@
 										value="${userId}" />
 									<ul style="margin-bottom: 20px">
 										<li>
-											<p class="word" style="font-style:">
-												<b class="red">*</b>违约原因:
+											<p class="word">
+												<b class="red">*</b>违约原因
 											</p>
 										</li>
 										<li><textarea class="int-text textarea-large"
@@ -72,8 +72,8 @@
 									</ul>
 									<ul style="margin-bottom: 20px">
 										<li>
-											<p class="word" style="font-style:">
-												<b class="red">*</b>扣款金额:
+											<p class="word">
+												<b class="red">*</b>扣款金额
 											</p>
 										</li>
 										<li><input type="text" class="int-text int-medium"
