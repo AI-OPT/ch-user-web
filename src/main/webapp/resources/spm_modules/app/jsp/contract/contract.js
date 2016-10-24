@@ -65,7 +65,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     	_showContractAmountTip:function(){
     		$("#contractAmountErrMsg").show();
 			$("#contractAmountText").show();
-			$("#contractAmountText").text('1-15位数字');
+			$("#contractAmountText").text('1-15位数字,最多有两位小数');
     	},
     	_showContractRemarkTip:function(){
     		$("#remarkErrMsg").show();
@@ -355,25 +355,29 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			}
 		},
 		_checkContractAmountValue:function(){
-			var reg = /^(\d{1,15}|\d{1,13}\.\d{1,2})$/;
+			var reg = /^([1-9][\d]{0,12}|0)(\.[\d]{1,2})?$/;
 			var amount = $("#contractAmount").val();
 			if(amount.match(reg)){
 				$("#contractAmountErrMsg").hide();
 				$("#contractAmountText").hide();
 				$("#contractAmountText").val("");
-				$("#contractAmountFlag").val("1")
+				$("#contractAmountFlag").val("1");
 			}else{
 				$("#contractAmountErrMsg").show();
 				$("#contractAmountText").show();
-				$("#contractAmountText").text('1-15位数字');
+				$("#contractAmountText").text('1-15位数字,最多有两位小数');
 				$("#contractAmountFlag").val("0")
 			}
 		},
 		_deleteScanFileExtFile:function(){
 			$("#scanFileText").val("");
+			$("#scanContractErrMsg").hide();
+			$("#scanContractText").text('');
 		},
 		_deleteElectronicExtFile:function(){
 			$("#electronicContractText").val("");
+			$("#electronicContractErrMsg").hide();
+			$("#electronicContractFileText").text('');
 		},
 		_checkContractRemarValue:function(){
 			var remark = $("#contractRemark").val();
