@@ -104,16 +104,14 @@
 									</li>
 								</ul>
 																							
-													 	 	
-                             </div>
-                             <div>
-                             	<ul>
+								<ul>
                              		<li>
-                             			<input type="button" style="margin-left: 20%" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
+                             			<input type="button" style="margin-left: 100%" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
 										onclick="history.go(-1)"	value="返回">
                              		</li>
-                             	</ul>
+                             	</ul>					 	 	
                              </div>
+                             
                         </div>
                     </div>
                 </div>
