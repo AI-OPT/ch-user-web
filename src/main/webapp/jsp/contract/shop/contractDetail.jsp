@@ -73,14 +73,14 @@
 								
 								 <ul>
 									<li>
-									  <p class="word" style="font-style: "><b class="red">*</b>合同金额:</p>
+									  <p class="word" style="font-style: ">合同金额:</p>
 									</li>
 									<li>${contactInfo.contractAmount}元</li>
 								</ul>
 								
 						    	<ul>
 									<li>
-									  <p class="word"><b class="red">*</b>合同备注:</p>
+									  <p class="word">合同备注:</p>
 									</li>
 									<li>${contactInfo.remark }</li>
 								</ul>
