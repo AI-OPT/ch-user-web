@@ -105,6 +105,9 @@
 	<script type="text/javascript">
 		var defaultPagerManager;
 		var balance = ${balance};
+		var userName = "${userName}";
+		var custName="${custName}";
+		var userId = "${userId}";
 		seajs.use([ 'app/jsp/billing/defaultManager' ], function(
 				DefaultPagerManager) {
 			defaultPagerManager = new DefaultPagerManager({

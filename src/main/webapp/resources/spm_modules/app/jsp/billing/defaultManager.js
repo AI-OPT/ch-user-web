@@ -144,7 +144,7 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     		        			okValue : "确定",
     		        			ok : function() {
     		        				this.close;
-    		        				window.location.href= _base+"/defaultManager/defaultManagerPager";
+    		        				window.location.href= _base+"/defaultManager/defaultHistoryPager?userId="+userId+"&userName="+escape(encodeURIComponent(userName))+"&custName="+escape(encodeURIComponent(custName));
     		        			}
     		        		});
     		        		d.show();
