@@ -65,8 +65,6 @@ label.error {
 										<p class="word">固定金额服务费</p>
 										<p>${rentFeeStr }</p>
 									</li>
-								</ul>
-								<ul>
 									<li class="col-md-6">
 										<p class="word">实时划扣服务费</p>
 										<p>${ratioStr }</p>
