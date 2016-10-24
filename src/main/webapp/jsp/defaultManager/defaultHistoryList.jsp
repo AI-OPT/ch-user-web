@@ -22,11 +22,11 @@
 	                    		 <div class="form-label">
 					           	<ul>
 					                <li class="col-md-6">
-					                    <p class="word">用户名</p>
+					                    <p class="word">用户名:</p>
 					                    <p>${userName}</p>
 					                </li>
 					                <li  class="col-md-6">
-					                    <p class="word">企业名称</p>
+					                    <p class="word">企业名称:</p>
 					                    <p>${custName}</p>
 					                </li>  
 					            </ul>
