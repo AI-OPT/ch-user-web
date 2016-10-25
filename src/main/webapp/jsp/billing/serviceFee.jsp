@@ -22,7 +22,7 @@
                         <div class="main-box clearfix"><!--白色背景-->
                         	<div class="main-box-body clearfix">	<!--padding20-->
 				       	<header class="main-box-header clearfix">
-                            <h4 class="pull-left">查看详情</h5>
+                            <h4 class="pull-left">查看详情</h4>
                         </header>
        				   	<div class="form-label">
 				           	<ul>

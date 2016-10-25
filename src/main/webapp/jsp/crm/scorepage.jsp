@@ -49,7 +49,7 @@ label.error {
 					                    <p>${supplier_name }</p>
 					                </li>
 					                <li  class="col-md-6">
-					                    <p class="word">公司名称:</p>
+					                    <p class="word">企业名称:</p>
 					                    <p>${company_name }</p>
 					                </li>  
 					            </ul>  

@@ -36,11 +36,11 @@
 						<!--白色背景-->
 						<!--标题-->
 						<header class="main-box-header clearfix">
-							<h4 class="pull-left">入驻商户资质审核详情</h4>
+							<h5 class="pull-left">入驻商户资质审核详情</h5>
 						</header>
 						<!--标题结束-->
 						<div class="form-label">
-							<div class="form-label  bd-bottom">
+							<div class="nav-tplist-title bd-bottom pb-10">
 								<ul>
 									<li class="col-md-6">
 										<p class="word">用户名:</p>
@@ -58,9 +58,9 @@
 							</div>
 						</div>
 						<div class="form-label">
-							<div class="form-label  bd-bottom">
+							<div class="nav-tplist-title bd-bottom pb-10">
 								<ul>
-									<li class="col-md-3"><p>企业介绍信息</p></li>
+									<li class="col-md-3">企业介绍信息</li>
 								</ul>
 							</div>
 							<ul>
@@ -133,7 +133,7 @@
 									<p>${email }</p>
 								</li>
 							</ul>
-							<div class="form-label  bd-bottom">
+							<div class="nav-tplist-title bd-bottom pb-10">
 								<ul>
 									<li class="col-md-3">企业执照</li>
 								</ul>
@@ -230,7 +230,7 @@
 									</p>
 								</li>
 							</ul>
-							<div class="form-label  bd-bottom">
+							<div class="nav-tplist-title bd-bottom pb-10">
 								<ul>
 									<li class="col-md-3">税务登记证</li>
 								</ul>
@@ -270,7 +270,7 @@
 									</p>
 								</li>
 							</ul>
-							<div class="form-label  bd-bottom">
+							<div class="nav-tplist-title bd-bottom pb-10">
 								<ul>
 									<li class="col-md-3">组织机构代码证</li>
 								</ul>
@@ -296,7 +296,7 @@
 									</p>
 								</li>
 							</ul>
-							<div class="form-label  bd-bottom">
+							<div class="nav-tplist-title bd-bottom pb-10">
 								<ul>
 									<li class="col-md-3">银行开户许可证</li>
 								</ul>
@@ -330,7 +330,7 @@
 									</p>
 								</li>
 							</ul>
-							<div class="form-label  bd-bottom">
+							<div class="nav-tplist-title bd-bottom pb-10">
 								<ul>
 									<li class="col-md-3">供应商品信息</li>
 								</ul>
@@ -405,7 +405,7 @@
 									</p>
 								</li>
 							</ul>
-							<div class="form-label  bd-bottom">
+							<div class="nav-tplist-title bd-bottom pb-10">
 								<ul>
 									<li class="col-md-3">店铺及经营信息</li>
 								</ul>
