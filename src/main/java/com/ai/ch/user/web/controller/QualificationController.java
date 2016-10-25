@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -75,13 +76,12 @@ public class QualificationController {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping("/toSuplierCheckPager")
+	@RequestMapping(value="/toSuplierCheckPager",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ModelAndView toSuplierCheckPager(String username,String userId) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/supplier/auditeQualification");
 		/*String url=request.getQueryString();
 		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
 		String username = url.substring(url.lastIndexOf("username=")+9);*/
-		String userName = new String(username.getBytes("iso8859-1"),"utf-8");
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -96,8 +96,11 @@ public class QualificationController {
 		JSONObject data = (JSONObject) JSON.parse(str);
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
 		//转换时间
+		String createTime ="";
+		if("".equals(data2.getString("createTime"))){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
+        createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
+		}
         String taxpayerType = "";
         if("1".equals(data2.getString("taxpayerType"))){
         	taxpayerType = "一般纳税人";
@@ -133,7 +136,7 @@ public class QualificationController {
         }
         //System.out.println(JSON.toJSONString(data2));
 		model.addObject("userId", userId);
-		model.addObject("userName", userName);
+		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
 		model.addObject("createTime",createTime);
 		model.addObject("industryType", data2.getString("industryType"));
@@ -169,13 +172,12 @@ public class QualificationController {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping("/toShopCheckPager")
+	@RequestMapping(value="/toShopCheckPager",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ModelAndView toShopCheckDetailPager(String username,String userId) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/shop/auditeQualification");
 		/*String url=request.getQueryString();
 		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
 		String username = url.substring(url.lastIndexOf("username=")+9);*/
-		String userName = new String(username.getBytes("iso8859-1"),"utf-8");
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -236,7 +238,7 @@ public class QualificationController {
 	        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
 	        }
 		model.addObject("userId", userId);
-		model.addObject("userName", userName);
+		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
 		model.addObject("createTime",createTime);
 		model.addObject("industryType", data2.getString("industryType"));
@@ -302,13 +304,12 @@ public class QualificationController {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping("/toSuplierDetailPager")
+	@RequestMapping(value="/toSuplierDetailPager",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ModelAndView toSuplierDetailPager(String userId,String username) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/supplier/checkedDetail");
 		/*String url=request.getQueryString();
 		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
 		String username = url.substring(url.lastIndexOf("username=")+9);*/
-		String userName = new String(username.getBytes("iso8859-1"),"utf-8");
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -323,8 +324,11 @@ public class QualificationController {
 		JSONObject data = (JSONObject) JSON.parse(str);
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
 		//转换时间
+		String createTime ="";
+		if("".equals(data2.getString("createTime"))){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
+        createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
+		}
         String taxpayerType = "";
         if("1".equals(data2.getString("taxpayerType"))){
         	taxpayerType = "一般纳税人";
@@ -360,7 +364,7 @@ public class QualificationController {
         		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
         }
 		model.addObject("userId", userId);
-		model.addObject("userName", userName);
+		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
 		model.addObject("createTime",createTime);
 		model.addObject("industryType", data2.getString("industryType"));
@@ -396,13 +400,12 @@ public class QualificationController {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping("/toShopDetailPager")
+	@RequestMapping(value="/toShopDetailPager",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ModelAndView toShopDetailPager(String userId,String username) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/shop/checkedDetail");
 		/*String url=request.getQueryString();
 		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
 		String username = url.substring(url.lastIndexOf("username=")+9);*/
-		String userName = new String(username.getBytes("iso8859-1"),"utf-8");
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -423,8 +426,11 @@ public class QualificationController {
 		JSONObject data = (JSONObject) JSON.parse(str);
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
 		//转换时间
+		String createTime ="";
+		if("".equals(data2.getString("createTime"))){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
+        createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
+		}
         String taxpayerType = "";
         if("1".equals(data2.getString("taxpayerType"))){
         	taxpayerType = "一般纳税人";
@@ -460,7 +466,7 @@ public class QualificationController {
         		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
         }
 		model.addObject("userId", userId);
-		model.addObject("userName", userName);
+		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
 		model.addObject("createTime",createTime);
 		model.addObject("industryType", data2.getString("industryType"));

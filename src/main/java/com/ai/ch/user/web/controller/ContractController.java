@@ -647,9 +647,11 @@ public class ContractController {
 	 	contactInfo.setTenantId(tenantId);
 	 	Map<String,ContractInfoResponse> map = new HashMap<String,ContractInfoResponse>();
 	 	List<ContractInfoResponse> responseList = contract.queryAllContractInfo(contactInfo);
+	 	if(responseList!=null&&responseList.size()!=0){
 	 	for(int i=0;i<responseList.size();i++){
 	 		ContractInfoResponse contractInfo = responseList.get(i);
 	 		map.put(contractInfo.getUserId()+contractInfo.getContractType(), contractInfo);
+	 	}
 	 	}
 	 	return map;
     }

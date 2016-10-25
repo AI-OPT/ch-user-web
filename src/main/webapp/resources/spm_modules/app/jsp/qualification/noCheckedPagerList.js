@@ -63,11 +63,13 @@ define('app/jsp/qualification/noCheckedPagerList', function (require, exports, m
     	},
     	
     	_toAuditShopPage:function(userId,username){
-			window.location.href = _base+'/qualification/toShopCheckPager?userId='+userId+'&username='+encodeURIComponent(username);
+    		var url = _base+'/qualification/toShopCheckPager?userId='+userId+'&username='+username;
+			window.location.href = encodeURI(url);
 			
 		},
 		_toAuditSupplierPage:function(userId,username){
-			window.location.href = _base+'/qualification/toSuplierCheckPager?userId='+userId+'&username='+encodeURIComponent(username);
+			var url = _base+'/qualification/toSuplierCheckPager?userId='+userId+'&username='+username;
+			window.location.href = encodeURI(url);
 			
 		},
 		

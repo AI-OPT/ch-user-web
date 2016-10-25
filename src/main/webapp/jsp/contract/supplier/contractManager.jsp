@@ -145,10 +145,14 @@
 									</li>
 								</ul>
 								<ul>
-									<li class="form-btn" >
+									<li>
+									<p class="word">&nbsp;</p>
+									<p>
 										<input type="button" class="biu-btn btn-primary btn-blue btn-medium ml-10" id="supplierSave"    value="保存">	
+										</p><p>
 										<input type="button"  class="biu-btn  btn-primary btn-blue btn-medium ml-5"
 										onclick="history.go(-1)"	value="返回">
+										</p>
 										<input type="hidden" id="contractCodeFlag" value="0"/>
 										<input type="hidden" id="contractNameFlag" value="0"/>
 										<input type="hidden" id="startTimeFlag" value="0"/>
