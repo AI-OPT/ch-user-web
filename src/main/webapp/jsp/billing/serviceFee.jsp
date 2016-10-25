@@ -22,7 +22,7 @@
                         <div class="main-box clearfix"><!--白色背景-->
                         	<div class="main-box-body clearfix">	<!--padding20-->
 				       	<header class="main-box-header clearfix">
-                            <h4 class="pull-left">查看详情</h4>
+                            <h5 class="pull-left">查看详情</h5>
                         </header>
        				   	<div class="form-label">
 				           	<ul>
@@ -57,9 +57,17 @@
 					                <p class="word">实时划扣服务费：</p>
 					                <p>${ratioStr }</p> 
 					              </li>
-					            </ul>       
+					            </ul>  
        				   	</div>
+					            <div class="text-c">  
+					            <ul>
+								 	<li><p><input type="button"
+												onclick="backup();" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
+												value="返回"></p></li>
+								 	</ul>   
+								 	</div>
 						</div>	
+                        </div>
                         </div>
                 </div>
               </div> 

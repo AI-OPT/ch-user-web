@@ -39,7 +39,7 @@ label.error {
 							<!--白色背景-->
 							<!--标题-->
 							<header class="main-box-header clearfix">
-								<h4 class="pull-left">服务费设置</h4>
+								<h5 class="pull-left">服务费设置</h5>
 							</header>
 							<!--标题结束-->
 							<div class="form-label">

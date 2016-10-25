@@ -59,21 +59,18 @@
 							</div>
 						</div>
 						<div class="form-label">
-							<ul>
-								<li class="col-md-6">
-								<p class="word">结算周期设置</p>
-								</li>
-							</ul>
-						</div>
+							<div class="nav-tplist-title bd-bottom pb-10">
+								<ul>
+									<li class="col-md-3">结算周期设置</li>
+								</ul>
+							</div>
 						<!--查询结束-->
-						<div>
-							<div class="form-label pl-40">
 								<ul style="margin-bottom: 20px">
 									<li><input type="hidden" id="userId" value="${userId }" />
 										<input type="hidden" id="userName" value="${userName }" /> <input
 										type="hidden" id="custName" value="${custName }" />
 										<p class="word" style="font-style:">
-											<b class="red">*</b>结算周期:
+											<b class="red">*</b>结算周期
 										</p> 
 										<c:choose>
 										<c:when test="${shopInfo.periodType==null||shopInfo.periodType==''||shopInfo.periodType=='M'}">
@@ -140,7 +137,6 @@
 				</div>
 			</div>
 
-		</div>
 	</div>
 </body>
 <script type="text/javascript">

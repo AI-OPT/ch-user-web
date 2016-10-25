@@ -23,7 +23,7 @@
                         	<div class="main-box-body clearfix">	<!--padding20-->
 							<!--标题-->
 							<header class="main-box-header clearfix">
-								<h4 class="pull-left">入驻商户评级规则</h4>
+								<h5 class="pull-left">入驻商户评级规则</h5>
 							</header>
 							<!--标题结束-->
 							<form:form id="rankForm" method="post" enctype="multipart/form-data" action="${_base}/rank/saverule">

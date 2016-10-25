@@ -38,7 +38,7 @@ label.error {
 							<!--白色背景-->
 							<!--标题-->
 							<header class="main-box-header clearfix">
-								<h4 class="pull-left">供应商评价</h4>
+								<h5 class="pull-left">供应商评价</h5>
 							</header>
 							<!--标题结束-->
 							<div class="form-label">
