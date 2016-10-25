@@ -55,7 +55,7 @@
 										<p class="word">提交时间:</p>
 										<p>${createTime }</p>
 									</li>
-										<p  class="right">
+										<p  class="right pr-30">
 												<input type="button" id="backup"
 													class="biu-btn  btn-primary btn-blue btn-medium ml-5"
 													value="返回列表" onclick="pager._backup('${_base}/qualification/toNoCheckedShopPager');">
