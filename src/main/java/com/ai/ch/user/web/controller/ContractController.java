@@ -763,7 +763,7 @@ public class ContractController {
 			JSONObject data = (JSONObject) JSON.parse(json.getString("data"));
 			JSONObject responseHeader = (JSONObject) JSON.parse(data.getString("responseHeader"));
 			//"SCORE02003".equals(responseHeader.getString("resultCode"))
-			if(responseHeader!=null&&"SCORE02003".equals(responseHeader.get("resultCode"))){
+			if(responseHeader!=null){
 				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.ISNULL, "查询为空");
 			}else{
