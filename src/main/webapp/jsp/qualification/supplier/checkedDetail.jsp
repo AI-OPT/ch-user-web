@@ -55,13 +55,13 @@
 								</ul>
 							</div>
 							<ul>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>行业:
 									</p>
 									<p>${industryType }</p>
 								</li>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>官网:
 									</p>
@@ -69,13 +69,13 @@
 								</li>
 							</ul>
 							<ul>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>公司人数:
 									</p>
 									<p>${companiesNumber }</p>
 								</li>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>公司性质:
 									</p>
@@ -83,13 +83,13 @@
 								</li>
 							</ul>
 							<ul>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>通讯地址:
 									</p>
 									<p>${location }</p>
 								</li>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>年营业额:
 									</p>
@@ -97,13 +97,13 @@
 								</li>
 							</ul>
 							<ul>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>占地面积:
 									</p>
 									<p>${areaCover }</p>
 								</li>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>电话:
 									</p>
@@ -111,13 +111,13 @@
 								</li>
 							</ul>
 							<ul>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>传真:
 									</p>
 									<p>${fax }</p>
 								</li>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>邮箱:
 									</p>
@@ -126,17 +126,17 @@
 							</ul>
 							<div class="nav-tplist-title bd-bottom pb-10">
 								<ul>
-									<li class="col-md-3">企业执照</li>
+									<li class="col-md-5">企业执照</li>
 								</ul>
 							</div>
 							<ul>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>企业名称:
 									</p>
 									<p>${shopName }</p>
 								</li>
-								<li class="col-md-6">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>企业注册地址:
 									</p>
@@ -144,15 +144,21 @@
 								</li>
 							</ul>
 							<ul>
-								<li class="col-md-6">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>营业执照号:
 									</p>
 									<p>${businessLicenseRegistrationNumber }</p>
 								</li>
+								<li class="col-md-5">
+									<p class="word">
+										<b class="red">*</b>成立日期:
+									</p>
+									<p>${establishDate }</p>
+								</li>
 								</ul>
 								<ul>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>营业执照副本:
 									</p>
@@ -165,35 +171,26 @@
 								</li>
 							</ul>
 							<ul>
-								<li class="col-md-3">
-									<p class="word">
-										<b class="red">*</b>成立日期:
-									</p>
-									<p>${establishDate }</p>
-								</li>
-								<li class="col-md-3">
+								
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>注册资本:
 									</p>
 									<p>${registerCapital }</p>
 								</li>
-							</ul>
-							<ul>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>经营范围:
 									</p>
 									<p>${businessScope }</p>
 								</li>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>法人姓名:
 									</p>
 									<p>${legalRepresentative }</p>
 								</li>
-							</ul>
-							<ul>
-								<li class="col-md-6">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>法人身份证号:
 									</p>
@@ -201,7 +198,7 @@
 								</li>
 							</ul>
 							<ul>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>身份证复印件:
 									</p>
@@ -211,8 +208,7 @@
 											src="http://10.1.245.8:18030/iPaas-IDPS/image/580d718b46e0fb000610f026.jpg" width="80px"
 											height="80px"></a>
 									</p>
-								</li>
-								<li class="col-md-3">
+									<p>&nbsp;</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
 											href="http://10.1.245.8:18030/iPaas-IDPS/image/580d718b46e0fb000610f026.jpg"><img
@@ -223,17 +219,17 @@
 							</ul>
 							<div class="nav-tplist-title bd-bottom pb-10">
 								<ul>
-									<li class="col-md-3">税务登记证</li>
+									<li class="col-md-5">税务登记证</li>
 								</ul>
 							</div>
 							<ul>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>纳税人识别号:
 									</p>
 									<p>${taxpayerNumber }</p>
 								</li>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>纳税人类型:
 									</p>
@@ -241,7 +237,7 @@
 								</li>
 							</ul>
 							<ul>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>纳税类型税码:
 									</p>
@@ -249,7 +245,7 @@
 								</li>
 								</ul>
 								<ul>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>税务登记证:
 									</p>
@@ -263,11 +259,11 @@
 							</ul>
 							<div class="nav-tplist-title bd-bottom pb-10">
 								<ul>
-									<li class="col-md-3">组织机构代码证</li>
+									<li class="col-md-5">组织机构代码证</li>
 								</ul>
 							</div>
 							<ul>
-								<li class="col-md-6">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>组织机构代码证:
 									</p>
@@ -275,7 +271,7 @@
 								</li>
 								</ul>
 								<ul>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>代码证电子版:
 									</p>
@@ -289,19 +285,17 @@
 							</ul>
 							<div class="nav-tplist-title bd-bottom pb-10">
 								<ul>
-									<li class="col-md-3">银行开户许可证</li>
+									<li class="col-md-5">银行开户许可证</li>
 								</ul>
 							</div>
 							<ul>
-								<li class="col-md-6">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>开户银行名称:
 									</p>
 									<p>${bankName }</p>
 								</li>
-								</ul>
-								<ul>
-								<li class="col-md-6">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>公司银行账户:
 									</p>
@@ -309,7 +303,7 @@
 								</li>
 							</ul>
 							<ul>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>银行开户许可证:
 									</p>
@@ -323,11 +317,11 @@
 							</ul>
 							<div class="nav-tplist-title bd-bottom pb-10">
 								<ul>
-									<li class="col-md-3">供应商品信息</li>
+									<li class="col-md-5">供应商品信息</li>
 								</ul>
 							</div>
 							<ul>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>供应商品类型:
 									</p>
@@ -335,13 +329,13 @@
 								</li>
 								</ul>
 								<ul>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>品牌名称(中文):
 									</p>
 									<p>${brandNameCh }</p>
 								</li>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>品牌名称(英文):
 									</p>
@@ -349,7 +343,7 @@
 								</li>
 								</ul>
 								<ul>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>商标注册证:
 									</p>
@@ -360,7 +354,7 @@
 											height="80px"></a>
 									</p>
 								</li>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>行业资质证明:
 									</p>
@@ -373,7 +367,7 @@
 								</li>
 								</ul>
 								<ul>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>商品质检/检验报告:
 									</p>
@@ -384,7 +378,7 @@
 											height="80px"></a>
 									</p>
 								</li>
-								<li class="col-md-3">
+								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>卫生/生产许可证:
 									</p>
@@ -398,7 +392,8 @@
 							</ul>
 							<ul>
 							<li>
-							<p class="word">&nbsp;&nbsp;&nbsp;</p>
+							<p class="word">&nbsp;</p>
+							<p class="word">&nbsp;</p>
 							<p>
 							<input type="button"
 												onclick="backup();" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
