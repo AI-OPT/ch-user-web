@@ -65,7 +65,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     	_showContractAmountTip:function(){
     		$("#contractAmountErrMsg").show();
 			$("#contractAmountText").show();
-			$("#contractAmountText").text('1-15位数字,最多有两位小数');
+			$("#contractAmountText").text('1-10位数字,最多有两位小数');
     	},
     	_showContractRemarkTip:function(){
     		$("#remarkErrMsg").show();
@@ -355,7 +355,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			}
 		},
 		_checkContractAmountValue:function(){
-			var reg = /^([1-9][\d]{0,14}|([1-9][\d]{0,12}|0)(\.[\d]{1,2}))?$/;
+			var reg = /^([1-9][\d]{0,9}|([1-9][\d]{0,8}|0)(\.[\d]{1,2}))?$/;
 			var amount = $("#contractAmount").val();
 			if(amount.match(reg)){
 				$("#contractAmountErrMsg").hide();
@@ -365,7 +365,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			}else{
 				$("#contractAmountErrMsg").show();
 				$("#contractAmountText").show();
-				$("#contractAmountText").text('1-15位数字,最多有两位小数');
+				$("#contractAmountText").text('1-10位数字,最多有两位小数');
 				$("#contractAmountFlag").val("0")
 			}
 		},
