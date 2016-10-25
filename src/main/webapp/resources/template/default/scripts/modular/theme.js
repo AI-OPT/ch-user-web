@@ -24,7 +24,6 @@ String.prototype.getParameter = function (key) {
 	
 	
 $(document).ready(function(){
-	
 	var theme = document.URL.getParameter("theme");
 	var mgmtPath = document.URL.getParameter("mgmtPath");
 	if(theme !=null && theme!="null"){
@@ -46,19 +45,7 @@ $(document).ready(function(){
 	}
 	$("body").attr("id",theme);
 	$("body").attr("class",theme);
-	
-
-	$("#myifr").remove();
 
 	$("<iframe id='myifr' style='display:none' src='"+mgmtPath+"/static/agentifram.jsp'></iframe>").prependTo("body"); 
 	$("<script type='text/javascript' src='"+mgmtPath+"/static/iframhight.js'></script>").prependTo("body");
-	var head = document.head || document.getElementsByTagName('head')[0];
-
-	var style = document.createElement('style');
-
-	style.innerHTML = 'html { overflow-x:hidden; }';
-
-	head.appendChild(style);
-	
-
 })

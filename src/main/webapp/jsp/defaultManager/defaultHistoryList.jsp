@@ -82,16 +82,16 @@ var custNameInfo='${custName}';
 <script id="defaultListImpl" type="text/x-jsrender">
 {{for result ~pageSize=pageSize ~pageNo=pageNo}}
 	<tr>
-		<td>{{:~timesToFmatter(deductDate)}}</td>
-		<td>
+		<td width="24%">{{:~timesToFmatter(deductDate)}}</td>
+		<td width="15%">
 			<div class="hind1 text-l pl-15">
                 <div class="center-hind" >{{:defaultReason}}</div>
                 <div class="showbj"><i class="fa fa-posi fa-caret-up"></i>{{:defaultReason}}</div>
             </div>
 			</td>
 
-		<td>{{:deductBalance/100}}</td>
-		<td>{{:operName}}</td>
+		<td width="24%">{{:deductBalance/100}}</td>
+		<td width="24%">{{:operName}}</td>
 	</tr>
 {{/for}}
 </script>
