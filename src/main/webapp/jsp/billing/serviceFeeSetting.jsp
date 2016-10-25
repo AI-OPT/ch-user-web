@@ -57,23 +57,23 @@ label.error {
 							<div class="form-label">
 								<div class="nav-tplist-title bd-bottom pb-10">
 									<ul>
-										<li>当前结算设置</li>
+										<li>当前结算设置:</li>
 									</ul>
 								</div>
 								<ul>
 									<li class="col-md-6">
-										<p class="word">固定金额服务费</p>
+										<p class="word">固定金额服务费:</p>
 										<p>${rentFeeStr }</p>
 									</li>
 									<li class="col-md-6">
-										<p class="word">实时划扣服务费</p>
+										<p class="word">实时划扣服务费:</p>
 										<p>${ratioStr }</p>
 									</li>
 								</ul>
 							</div>
 							<!--table表格-->
 							<form id="serviceFee">
-								<div class="form-label pl-40">
+								<div class="form-label">
 									<div class="nav-tplist-title bd-bottom pb-10">
 										<ul>
 											<li>服务费设置</li>
