@@ -59,7 +59,7 @@ label.error {
 								 	<form id="depositForm">
 								 	<ul>
 								 	<li>
-				              		<p class="word"><b class="red">*</b>保证金:</p>
+				              		<p class="word"><b class="red">*</b>保证金</p>
 				                    <p><input type="text" class="int-text int-mini" name="depositBalance" id="depositBalance" maxlength="15" onkeydown="return doit()">
 				                    	元(一次性收取)</p><p><input type="text" style="display:none;color:red" id="depositInfo" value="1-15位整数"></p><p class="input-group"></p>
 				                    <input type="hidden" value="${userId }" name="userId" id="userId">

@@ -27,11 +27,11 @@
        				   	<div class="form-label">
 				           	<ul>
 					             <li class="col-md-6">
-					                <p class="word">用户名：</p>
+					                <p class="word">用户名:</p>
 					                <p>${userName }</p> 
 					              </li>
 					              <li class="col-md-6">
-					                <p class="word">企业名称：</p>
+					                <p class="word">企业名称:</p>
 					                <p>${shopName }</p> 
 					              </li> 
 				            </ul>  
@@ -46,15 +46,15 @@
                       	<div class="form-label">
 				           	<ul>
 					             <li class="col-md-12">
-					                <p class="word">保证金：</p>
+					                <p class="word">保证金:</p>
 					                <p>${deposit }</p> 
 					              </li>
 					              <li class="col-md-12">
-					                <p class="word">固定金额服务费：</p>
+					                <p class="word">固定金额服务费:</p>
 					                <p>${rentFeeStr }</p> 
 					              </li>
 					               <li class="col-md-12">
-					                <p class="word">实时划扣服务费：</p>
+					                <p class="word">实时划扣服务费:</p>
 					                <p>${ratioStr }</p> 
 					              </li>
 					            </ul>  

@@ -81,7 +81,7 @@ label.error {
 									</div>
 									<ul>
 										<li class="col-lg-12">
-											<p class="word">固定金额服务费:</p>
+											<p class="word">固定金额服务费</p>
 											<p>
 												<input type="radio" value="0" name="needPayRent"
 													onclick="pager._change('needPayRent','payRent');" checked>
@@ -115,7 +115,7 @@ label.error {
 									</div>
 									<ul>
 										<li class="col-lg-12">
-											<p class="word">实时划扣服务费:</p>
+											<p class="word">实时划扣服务费</p>
 											<p>
 												<input type="radio" value="0" name="needPayCycle" checked
 													onclick="pager._change('needPayCycle','payCycle')">需缴纳
