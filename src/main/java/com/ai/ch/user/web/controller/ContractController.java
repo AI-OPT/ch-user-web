@@ -99,7 +99,11 @@ public class ContractController {
 	 		Map<String, Object> model = new HashMap<String, Object>();
 	 		model.put("contactInfo", response);
 	 		java.text.DecimalFormat df = new java.text.DecimalFormat("########.00");
-	 		model.put("contractAmount", df.format(response.getContractAmount()));
+	 		if(response.getContractAmount()!=null){
+	 			model.put("contractAmount", df.format(response.getContractAmount()));
+	 		}else{
+	 			model.put("contractAmount","");
+	 		}
 	 		if(response.getActiveTime()!=null){
 	 			model.put("startTime", DateUtil.getDateString(response.getActiveTime(),"yyyy-MM-dd"));
 	 		}
@@ -162,7 +166,11 @@ public class ContractController {
 	 		ContractInfoResponse response = contract.queryContractInfo(contactInfo);
 	 		Map<String, Object> model = new HashMap<String, Object>();
 	 		java.text.DecimalFormat df = new java.text.DecimalFormat("########.00");
-	 		model.put("contractAmount", df.format(response.getContractAmount()));
+	 		if(response.getContractAmount()!=null){
+	 			model.put("contractAmount", df.format(response.getContractAmount()));
+	 		}else{
+	 			model.put("contractAmount","");
+	 		}
 	 		model.put("contactInfo", response);
 	 		if(response.getActiveTime()!=null){
 	 			model.put("startTime", DateUtil.getDateString(response.getActiveTime(),"yyyy-MM-dd"));
@@ -262,7 +270,11 @@ public class ContractController {
 	 			}
 	 		}
 	 		java.text.DecimalFormat df = new java.text.DecimalFormat("########.00");
-	 		model.put("contractAmount", df.format(response.getContractAmount()));	
+	 		if(response.getContractAmount()!=null){
+	 			model.put("contractAmount", df.format(response.getContractAmount()));
+	 		}else{
+	 			model.put("contractAmount","");
+	 		}	
 	 		model.put("contactInfo", response);
 	 		int remarkLength = 0;
 	 		if(response.getRemark()!=null){
@@ -342,7 +354,11 @@ public class ContractController {
 	 		}
 	 		
 	 		java.text.DecimalFormat df = new java.text.DecimalFormat("########.00");
-	 		model.put("contractAmount", df.format(response.getContractAmount()));
+	 		if(response.getContractAmount()!=null){
+	 			model.put("contractAmount", df.format(response.getContractAmount()));
+	 		}else{
+	 			model.put("contractAmount","");
+	 		}
 	 		model.put("contactInfo", response);
 	 		int remarkLength = 0;
 	 		if(response.getRemark()!=null){
