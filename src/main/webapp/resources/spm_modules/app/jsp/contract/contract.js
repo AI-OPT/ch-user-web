@@ -365,7 +365,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			}else{
 				$("#contractAmountErrMsg").show();
 				$("#contractAmountText").show();
-				$("#contractAmountText").text('1-10位数字,最多有两位小数');
+				$("#contractAmountText").text('请输入0-99999999.99的数字');
 				$("#contractAmountFlag").val("0")
 			}
 		},
