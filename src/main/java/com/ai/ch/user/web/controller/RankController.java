@@ -30,31 +30,39 @@ import com.ai.ch.user.api.rank.params.ShopRankRuleVo;
 import com.ai.ch.user.api.rank.params.UpdateRankRuleRequest;
 import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
+import com.ai.ch.user.web.util.PropertiesUtil;
 import com.ai.ch.user.web.vo.ShopRankParamVo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.paas.ipaas.image.IImageClient;
+import com.alibaba.dubbo.common.logger.Logger;
+import com.alibaba.dubbo.common.logger.LoggerFactory;
+import com.alibaba.fastjson.JSON;
 
 @RestController
 @RequestMapping("/rank")
 public class RankController {
 
-	private static final Log LOG = LogFactory.getLog(RankController.class);
+	private static final Logger log = LoggerFactory.getLogger(BillingController.class);
 
 	@RequestMapping("/rankrule")
 	public ModelAndView rankRule(HttpServletRequest request) {
 		// 调dubbo服务
 		IRankSV rankSV = DubboConsumerFactory.getService("iRankSV");
-		LOG.info("获取服务");
+		log.info("获取服务");
 		QueryRankRuleRequest queryRankRuleRequest = new QueryRankRuleRequest();
 		queryRankRuleRequest.setTenantId(ChWebConstants.Tenant.TENANT_ID);
-		LOG.info("查询开始");
+		log.info("查询开始");
+		Long beginTime = System.currentTimeMillis();
+		log.info("查询店铺等级信息服务开始"+beginTime);
 		QueryRankRuleResponse response = rankSV.queryRankRule(queryRankRuleRequest);
-		LOG.info("判断是否存在记录");
+		log.info("查询店铺等级服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+		log.info("判断是否存在记录");
 		if (response.getList().isEmpty()){
 			return new ModelAndView("/jsp/crm/rankrule");
 		}
@@ -105,7 +113,10 @@ public class RankController {
 		IRankSV rankSV = DubboConsumerFactory.getService("iRankSV");
 		QueryRankRuleRequest queryRankRuleRequest = new QueryRankRuleRequest();
 		queryRankRuleRequest.setTenantId(ChWebConstants.Tenant.TENANT_ID);
+		Long beginTime = System.currentTimeMillis();
+		log.info("查询店铺等级信息服务开始"+beginTime);
 		QueryRankRuleResponse response = rankSV.queryRankRule(queryRankRuleRequest);
+		log.info("查询店铺等级服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		Map<String,String> urlMap=getUrlMap(user.getTenantId());
 		Map<String,String> nameMap=getNameMap(user.getTenantId());
@@ -174,11 +185,14 @@ public class RankController {
 			}
 			rankRuleRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
 			// 调dubbo服务
+			Long beginTime = System.currentTimeMillis();
+			log.info("保存店铺等级信息服务开始"+beginTime);
 			rankSV.insertRankRule(rankRuleRequest);
 			custfileSV.insertCustFileExt(custFileExtRequest);
+			log.info("保存店铺等级服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			view = new ModelAndView("/jsp/crm/success");
 		} catch (Exception e) {
-			LOG.error("保存失败");
+			log.error("保存失败");
 			view = new ModelAndView("/jsp/crm/fail");
 		}
 		return view;
@@ -224,11 +238,14 @@ public class RankController {
 			// 调dubbo服务
 			rankRuleRequest.setTenantId(user.getTenantId());
 			custFileExtRequest.setTenantId(user.getTenantId());
+			Long beginTime = System.currentTimeMillis();
+			log.info("更新店铺等级信息服务开始"+beginTime);
 			rankSV.updateRankRule(rankRuleRequest);
 			custfileSV.updateCustFileExt(custFileExtRequest);
+			log.info("更新店铺等级服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			view = new ModelAndView("/jsp/crm/success");
 		} catch (Exception e) {
-			LOG.error("更新失败");
+			log.error("更新失败");
 			view = new ModelAndView("/jsp/crm/fail");
 		}
 		return view;
@@ -244,7 +261,10 @@ public class RankController {
 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
 		
 		custFileExtRequest.setTenantId(tenantId);
+		Long beginTime = System.currentTimeMillis();
+		log.info("查询附件信息服务开始"+beginTime);
 		QueryCustFileExtResponse response = custfileSV.queryCustFileExt(custFileExtRequest);
+		log.info("查询附件信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		Map<String,String> urlMap = new HashMap<String,String>();
 		if(response!=null&&!response.getList().isEmpty()){
 			for (CmCustFileExtVo cmCustFileExtVo : response.getList()) {
@@ -259,7 +279,10 @@ public class RankController {
 		ICustFileSV custfileSV = DubboConsumerFactory.getService("iCustfileSV");
 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
 		custFileExtRequest.setTenantId(tenantId);
+		Long beginTime = System.currentTimeMillis();
+		log.info("查询附件信息服务开始"+beginTime);
 		QueryCustFileExtResponse response = custfileSV.queryCustFileExt(custFileExtRequest);
+		log.info("查询附件服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		Map<String,String> nameMap = new HashMap<String,String>();
 		if(response!=null&&!response.getList().isEmpty()){
 			for (CmCustFileExtVo cmCustFileExtVo : response.getList()) {
@@ -273,7 +296,10 @@ public class RankController {
 		ICustFileSV custfileSV = DubboConsumerFactory.getService("iCustfileSV");
 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
 		custFileExtRequest.setTenantId(tenantId);
+		Long beginTime = System.currentTimeMillis();
+		log.info("查询图片信息服务开始"+beginTime);
 		QueryCustFileExtResponse response = custfileSV.queryCustFileExt(custFileExtRequest);
+		log.info("查询图片服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		Map<String,String> nameMap = new HashMap<String,String>();
 		if(response!=null&&!response.getList().isEmpty()){
 			for (CmCustFileExtVo cmCustFileExtVo : response.getList()) {

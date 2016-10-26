@@ -29,6 +29,8 @@ import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.alibaba.dubbo.common.logger.Logger;
+import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -37,6 +39,7 @@ import com.alibaba.fastjson.JSONObject;
 @RequestMapping("/qualification")
 public class QualificationController {
 	
+	private static final Logger log = LoggerFactory.getLogger(BillingController.class);
 
 	//电商平台位置
 	static private String[] shopOwner = {"京东","天猫","淘宝","苏宁","一号店","自有电商平台"};
@@ -79,9 +82,6 @@ public class QualificationController {
 	@RequestMapping(value="/toSuplierCheckPager",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ModelAndView toSuplierCheckPager(String username,String userId) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/supplier/auditeQualification");
-		/*String url=request.getQueryString();
-		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
-		String username = url.substring(url.lastIndexOf("username=")+9);*/
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -89,7 +89,10 @@ public class QualificationController {
 		map.put("companyId", userId);
 		String str ="";
 		try {
+			Long beginTime = System.currentTimeMillis();
+			log.info("长虹查询店铺信息服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
+			log.info("长虹查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -175,9 +178,6 @@ public class QualificationController {
 	@RequestMapping(value="/toShopCheckPager",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ModelAndView toShopCheckDetailPager(String username,String userId) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/shop/auditeQualification");
-		/*String url=request.getQueryString();
-		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
-		String username = url.substring(url.lastIndexOf("username=")+9);*/
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -185,7 +185,10 @@ public class QualificationController {
 		map.put("companyId", userId);
 		String str ="";
 		try {
+			Long beginTime = System.currentTimeMillis();
+			log.info("长虹查询店铺信息服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
+			log.info("长虹查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -198,7 +201,10 @@ public class QualificationController {
 		QueryShopInfoRequest queryShopInfoRequest = new QueryShopInfoRequest();
 		queryShopInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
 		queryShopInfoRequest.setUserId(userId);
+		Long shopBeginTime = System.currentTimeMillis();
+		log.info("查询店铺信息服务开始"+shopBeginTime);
 		QueryShopInfoResponse response=shopInfoSV.queryShopInfo(queryShopInfoRequest);
+		log.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-shopBeginTime)+"毫秒");
 		if(data2.getString("createTime")!=null&&data2.getString("createTime").length()!=0){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
@@ -307,9 +313,6 @@ public class QualificationController {
 	@RequestMapping(value="/toSuplierDetailPager",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ModelAndView toSuplierDetailPager(String userId,String username) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/supplier/checkedDetail");
-		/*String url=request.getQueryString();
-		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
-		String username = url.substring(url.lastIndexOf("username=")+9);*/
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -317,7 +320,10 @@ public class QualificationController {
 		map.put("companyId", userId);
 		String str ="";
 		try {
+			Long beginTime = System.currentTimeMillis();
+			log.info("长虹查询店铺信息服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
+			log.info("长虹查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -403,9 +409,6 @@ public class QualificationController {
 	@RequestMapping(value="/toShopDetailPager",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ModelAndView toShopDetailPager(String userId,String username) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/shop/checkedDetail");
-		/*String url=request.getQueryString();
-		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
-		String username = url.substring(url.lastIndexOf("username=")+9);*/
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -416,10 +419,16 @@ public class QualificationController {
 		QueryShopInfoRequest queryShopInfoRequest = new QueryShopInfoRequest();
 		queryShopInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
 		queryShopInfoRequest.setUserId(userId);
+		Long shopBeginTime = System.currentTimeMillis();
+		log.info("查询店铺信息服务开始"+shopBeginTime);
 		QueryShopInfoResponse response=shopInfoSV.queryShopInfo(queryShopInfoRequest);
+		log.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-shopBeginTime)+"毫秒");
 		String str ="";
 		try {
+			Long beginTime = System.currentTimeMillis();
+			log.info("长虹查询店铺信息服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
+			log.info("长虹查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -550,7 +559,10 @@ public class QualificationController {
 			map.put("auditState", auditState);
 		String str ="";
 		try {
+			Long beginTime = System.currentTimeMillis();
+			log.info("长虹查询店铺信息服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
+			log.info("长虹查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -620,7 +632,10 @@ public class QualificationController {
 				map.put("auditState", auditState);
 			String str ="";
 			try {
+				Long beginTime = System.currentTimeMillis();
+				log.info("长虹查询店铺信息服务开始"+beginTime);
 				str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
+				log.info("长虹查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			} catch (IOException | URISyntaxException e) {
 				e.printStackTrace();
 			}

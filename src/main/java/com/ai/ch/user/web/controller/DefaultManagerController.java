@@ -14,8 +14,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +65,6 @@ import com.ylink.upp.base.oxm.util.HandlerMsgUtil;
 import com.ylink.upp.base.oxm.util.HeaderBean;
 import com.ylink.upp.base.oxm.util.MsgUtils;
 import com.ylink.upp.base.oxm.util.OxmHandler;
-
 import com.ylink.upp.oxm.entity.upp_100_001_01.PayOrderDetail;
 import com.ylink.upp.oxm.entity.upp_711_001_01.GrpBody;
 import com.ylink.upp.oxm.entity.upp_711_001_01.GrpHdr;
@@ -126,7 +127,10 @@ public class DefaultManagerController {
 			/**
 			 *拼装报文头
 			 */
+			Long beginTime = System.currentTimeMillis();
+			LOGGER.info("扣款服务开始"+beginTime);
 			String msgHeader = payUtil.initMsgHeader(hdr.getMerNo(), TranType.PAY_GUARANTEE_MONEY_QUERY.getValue());
+			LOGGER.info("扣款服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			param.put("msgHeader", msgHeader);
 			param.put("xmlBody", xmlMsg);
 			LOGGER.info("msgHeader================="+msgHeader);
@@ -144,7 +148,10 @@ public class DefaultManagerController {
 		String result = null;
 		try {
 			String url = PropertiesUtil.getStringByKey("balance_http_url");
+			Long beginTime = System.currentTimeMillis();
+			LOGGER.info("查询保证金余额服务开始"+beginTime);
 			result = payUtil.sendHttpPost(url, param, "UTF-8");
+			LOGGER.info("查询保证金余额服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (Exception e) {
 			LOGGER.error("获取保证金余额出错",e);
 			return new ModelAndView("/jsp/defaultManager/fail");
@@ -252,7 +259,10 @@ public class DefaultManagerController {
 			 defaultLogRequest.setOperName(userQueryResponse.getLoginName());
 			 defaultLogRequest.setTenantId(userClient.getTenantId());
 			
-			 defaultLogResponse = defaultLog.insertDefaultLog(defaultLogRequest);
+			 	Long beginTime = System.currentTimeMillis();
+				LOGGER.info("保存扣款信息服务开始"+beginTime);
+				defaultLogResponse = defaultLog.insertDefaultLog(defaultLogRequest);
+				LOGGER.info("保存扣款信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
         	
         	/**
         	 * 组装数据
@@ -289,7 +299,10 @@ public class DefaultManagerController {
 			body.setPayOrderDetail(details);
 			body.setRemark("margindeposittest");
 			//获取支付通知的url
+			Long payBeginTime = System.currentTimeMillis();
+			LOGGER.info("支付通知服务开始"+payBeginTime);
 			String paymentOrderurl = PropertiesUtil.getStringByKey("paymentOrder_http_url");
+			LOGGER.info("支付通知服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-payBeginTime)+"毫秒");
 			body.setNotifyUrl(paymentOrderurl);
 			body.setReturnUrl(paymentOrderurl);
 			body.setProductTypeName("margindeposit");
@@ -386,7 +399,10 @@ public class DefaultManagerController {
 			IDefaultLogSV defaultLog = DubboConsumerFactory.getService("iDefaultLogSV");
 			QueryDefaultLogResponse defaultLogResponse = defaultLog.queryDefaultLog(defaultLogRequest);
 			if (defaultLogResponse != null && defaultLogResponse.getResponseHeader().isSuccess()) {
+				Long beginTime = System.currentTimeMillis();
+				LOGGER.info("获取供货商列表信息服务开始"+beginTime);
 				PageInfo<DefaultLogVo> pageInfo = defaultLogResponse.getPageInfo();
+				LOGGER.info("获取供货商列表信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 				responseData = new ResponseData<PageInfo<DefaultLogVo>>(ChWebConstants.OperateCode.SUCCESS, "查询成功", pageInfo);
 			} else {
 				responseData = new ResponseData<PageInfo<DefaultLogVo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
@@ -418,7 +434,10 @@ public class DefaultManagerController {
 			map.put("companyType", companyType);
 		String str ="";
 		try {
+			Long beginTime = System.currentTimeMillis();
+			LOGGER.info("长虹查询商户列表信息服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
+			LOGGER.info("长虹查询商户列表信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -490,7 +509,10 @@ public class DefaultManagerController {
 	        	//net.sf.json.JSONObject conditionObject = net.sf.json.JSONObject.fromObject(receive.getGrpBody().getMerOrderId());
 	        	//InsertDefaultLogRequest defaultLogRequest = (InsertDefaultLogRequest)conditionObject.toBean(conditionObject, InsertDefaultLogRequest.class);
 	        	IDefaultLogSV defaultLog = DubboConsumerFactory.getService("iDefaultLogSV");
-	        	defaultLog.deleteDefaultLog(receive.getGrpBody().getMerOrderId());
+	        	Long beginTime = System.currentTimeMillis();
+				LOGGER.info("删除扣款信息服务开始"+beginTime);
+				defaultLog.deleteDefaultLog(receive.getGrpBody().getMerOrderId());
+				LOGGER.info("删除扣款信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 	        }
 	        LOGGER.info("扣款结束===================");
 	        flag = true;

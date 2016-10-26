@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ai.ch.user.api.rank.params.QueryRankRuleResponse;
 import com.ai.ch.user.api.score.interfaces.IScoreSV;
 import com.ai.ch.user.api.score.param.CountScoreAvgRequest;
+import com.ai.ch.user.api.score.param.CountScoreAvgResponse;
 import com.ai.ch.user.api.score.param.InsertCurrentScoreRequest;
 import com.ai.ch.user.api.score.param.InsertScoreLogRequest;
 import com.ai.ch.user.api.score.param.QueryScoreKpiRequest;
@@ -43,7 +45,7 @@ import com.alibaba.fastjson.JSONObject;
 @RequestMapping("/score")
 public class ScoreController {
 	
-	private static final Log LOG = LogFactory.getLog(ScoreController.class);
+	private static final Log log = LogFactory.getLog(ScoreController.class);
 	
 	//跳转供货商评价管理
 	@RequestMapping("/scorelist")
@@ -56,9 +58,6 @@ public class ScoreController {
 	@RequestMapping("/scorepage")
 	public ModelAndView scorePage(String username,String userId) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/crm/scorepage"); 
-/*		String url=request.getQueryString();
-		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
-		String username = url.substring(url.lastIndexOf("username=")+9);*/
 		//查询商户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -66,7 +65,10 @@ public class ScoreController {
 		map.put("companyId", userId);
 		String str ="";
 		try {
+			Long beginTime = System.currentTimeMillis();
+			log.info("长虹查询店铺列表信息服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map),mapHeader);
+			log.info("长虹查询店铺列表信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -79,7 +81,10 @@ public class ScoreController {
 		IScoreSV scoreSV = DubboConsumerFactory.getService("iScoreSV");
 		QueryScoreKpiRequest queryScoreKpiRequest = new QueryScoreKpiRequest();
 		queryScoreKpiRequest.setTenantId("changhong");
+		Long beginTime = System.currentTimeMillis();
+		log.info("查询店铺综合评分服务开始"+beginTime);
 		QueryScoreKpiResponse queryScoreKpiResponse = scoreSV.queryScoreKpi(queryScoreKpiRequest);
+		log.info("查询店铺综合评分结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		model.addObject("scoreKpiList", queryScoreKpiResponse.getList());
 		return model;
 	}
@@ -122,8 +127,11 @@ public class ScoreController {
 		scoreLogRequest.setUserId(userId);
 		scoreLogRequest.setTotalScore(totalScore);
 		try{
+			Long beginTime = System.currentTimeMillis();
+			log.info("保存供应商评分信息服务开始"+beginTime);
 			scoreSV.insertCurrentScore(currentScoreRequest);
 			scoreSV.insertScoreLog(scoreLogRequest);
+			log.info("保存供应商评分信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			response.setStatusCode(ChWebConstants.OperateCode.SUCCESS);
 			response.setStatusInfo("操作成功");
 			responseHeader = new ResponseHeader(true,ChWebConstants.OperateCode.SUCCESS,"操作成功");
@@ -131,7 +139,7 @@ public class ScoreController {
 		response.setStatusCode(ChWebConstants.OperateCode.Fail);
 		response.setStatusInfo("操作失败");
 		responseHeader = new ResponseHeader(false,ChWebConstants.OperateCode.Fail,"操作失败");
-		LOG.error("保存失败");
+		log.error("保存失败");
 		}
 		response.setResponseHeader(responseHeader);
 		return response;
@@ -156,7 +164,10 @@ public class ScoreController {
 			map.put("companyType", companyType);
 		String str ="";
 		try {
+			Long beginTime = System.currentTimeMillis();
+			log.info("长虹查询店铺列表信息服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
+			log.info("长虹查询店铺列表结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -193,14 +204,17 @@ public class ScoreController {
 					 //查询综合分
 					 IScoreSV scoreSV = DubboConsumerFactory.getService("iScoreSV");
 					 GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-					 CountScoreAvgRequest scoreAvgRequest = new CountScoreAvgRequest();
+					 Long avgBeginTime = System.currentTimeMillis();
+						log.info("查询店铺评分信息服务开始"+avgBeginTime);
+						CountScoreAvgRequest scoreAvgRequest = new CountScoreAvgRequest();
+						log.info("查询店铺评分信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-avgBeginTime)+"毫秒");
 					 scoreAvgRequest.setTenantId(user.getTenantId());
 					 scoreAvgRequest.setUserId(object.getString("companyId"));
-					 int avgScore = (int)scoreSV.countScoreAvg(scoreAvgRequest);
+					 CountScoreAvgResponse avgScore = scoreSV.countScoreAvg(scoreAvgRequest);
 					 supplierScoreVo.setUserId(object.getString("companyId"));
 					 supplierScoreVo.setUserName(object.getString("username"));
 					 supplierScoreVo.setGroupName(object.getString("name"));
-					 supplierScoreVo.setTotalScore(Integer.valueOf(avgScore));
+					 supplierScoreVo.setTotalScore(Integer.valueOf(avgScore.getScoreAvg()+""));
 					 responseList.add(supplierScoreVo);
 				}
 				pageInfo.setResult(responseList);

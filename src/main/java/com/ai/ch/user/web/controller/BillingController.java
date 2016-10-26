@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ai.ch.user.api.shopinfo.interfaces.IShopInfoSV;
 import com.ai.ch.user.api.shopinfo.params.InsertShopInfoRequst;
 import com.ai.ch.user.api.shopinfo.params.QueryShopDepositRequest;
+import com.ai.ch.user.api.shopinfo.params.QueryShopDepositResponse;
 import com.ai.ch.user.api.shopinfo.params.QueryShopInfoRequest;
 import com.ai.ch.user.api.shopinfo.params.QueryShopInfoResponse;
 import com.ai.ch.user.api.shopinfo.params.UpdateShopInfoRequest;
@@ -35,6 +36,8 @@ import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.opt.sdk.util.BeanUtils;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
+import com.alibaba.dubbo.common.logger.Logger;
+import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -43,7 +46,7 @@ import com.alibaba.fastjson.JSONObject;
 @RequestMapping("/billing")
 public class BillingController {
 
-	//private static final Logger log = LoggerFactory.getLogger(BillingController.class);
+	private static final Logger log = LoggerFactory.getLogger(BillingController.class);
 
 	@RequestMapping("/billingpager")
 	public ModelAndView billingPager() {
@@ -53,14 +56,15 @@ public class BillingController {
 	@RequestMapping("/marginsetting")
 	public ModelAndView marginSetting(String userId, String username) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/billing/marginSetting");
-/*		String url=request.getQueryString();
-		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
-		String username = url.substring(url.lastIndexOf("username=")+9);*/
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopDepositRequest queryShopDepositRequest = new QueryShopDepositRequest();
 		queryShopDepositRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
 		queryShopDepositRequest.setUserId(userId);
-		Long deposit=shopInfoSV.queryShopDeposit(queryShopDepositRequest);
+		
+		Long beginTime = System.currentTimeMillis();
+		log.info("查询店铺保证金服务开始"+beginTime);
+		QueryShopDepositResponse response=shopInfoSV.queryShopDeposit(queryShopDepositRequest);
+		log.info("查询店铺保证金服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		//查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -69,7 +73,10 @@ public class BillingController {
 		map.put("companyId", userId);
 		String str ="";
 		try {
+			Long chBeginTime = System.currentTimeMillis();
+			log.info("长虹查询店铺信息服务开始"+chBeginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
+			log.info("长虹查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-chBeginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -77,7 +84,7 @@ public class BillingController {
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
-		model.addObject("deposit", deposit);
+		model.addObject("deposit", response.getDeposit());
 		model.addObject("userId", userId);
 		return model;
 	}
@@ -85,15 +92,16 @@ public class BillingController {
 	@RequestMapping("/servicefeesetting")
 	public ModelAndView serviceFeeSetting(String userId,String username,HttpServletRequest request) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/billing/serviceFeeSetting");
-		/*String url=request.getQueryString();
-		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
-		String username = url.substring(url.lastIndexOf("username=")+9);*/
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopInfoRequest shopInfoRequest = new QueryShopInfoRequest();
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		shopInfoRequest.setTenantId(user.getTenantId());
 		shopInfoRequest.setUserId(userId);
+		Long beginTime = System.currentTimeMillis();
+		log.info("查询店铺信息服务开始"+beginTime);
 		QueryShopInfoResponse shopInfoResponse = shopInfoSV.queryShopInfo(shopInfoRequest);
+		log.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+		
 		String rentFeeStr="";
 		String ratioStr="";
 		
@@ -120,7 +128,11 @@ public class BillingController {
 		map.put("companyId", userId);
 		String str ="";
 		try {
+			long chBeginTime = System.currentTimeMillis();
+			log.info("长虹查询店铺信息服务开始"+chBeginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
+			log.info("长虹查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-chBeginTime)+"毫秒");
+			
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -137,15 +149,16 @@ public class BillingController {
 	@RequestMapping("/servicefee")
 	public ModelAndView serviceFee(String userId,String username,HttpServletRequest request) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/billing/serviceFee");
-/*		String url=request.getQueryString();
-		String userId = url.substring(url.lastIndexOf("userId=")+7, url.lastIndexOf("username=")-1);
-		String username = url.substring(url.lastIndexOf("username=")+9);*/
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopInfoRequest shopInfoRequest = new QueryShopInfoRequest();
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		shopInfoRequest.setTenantId(user.getTenantId());
 		shopInfoRequest.setUserId(userId);
+		long beginTime = System.currentTimeMillis();
+		log.info("查询店铺信息服务开始"+beginTime);
 		QueryShopInfoResponse shopInfoResponse = shopInfoSV.queryShopInfo(shopInfoRequest);
+		log.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+		
 		String rentFeeStr="";
 		String ratioStr="";
 		String deposit="";
@@ -170,8 +183,9 @@ public class BillingController {
 			QueryShopDepositRequest queryShopDepositRequest = new QueryShopDepositRequest();
 			queryShopDepositRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
 			queryShopDepositRequest.setUserId(userId);
-			Long depositBalance = shopInfoSV.queryShopDeposit(queryShopDepositRequest);
-			deposit = depositBalance.toString()+"元";
+			
+			QueryShopDepositResponse depositBalance = shopInfoSV.queryShopDeposit(queryShopDepositRequest);
+			deposit = depositBalance.getDeposit()+"元";
 		}
 		
 			//查询账户信息
@@ -181,7 +195,10 @@ public class BillingController {
 			map.put("companyId", userId);
 			String str ="";
 			try {
+				Long chBeginTime = System.currentTimeMillis();
+				log.info("长虹查询店铺列表服务开始"+chBeginTime);
 				str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
+				log.info("长虹查询店铺列表服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-chBeginTime)+"毫秒");
 			} catch (IOException | URISyntaxException e) {
 				e.printStackTrace();
 			}
@@ -208,7 +225,10 @@ public class BillingController {
 		shopInfoRequst.setDepositBalance(Long.valueOf(request.getParameter("depositBalance")));
 		try{
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
+		Long beginTime = System.currentTimeMillis();
+		log.info("更新店铺信息服务开始"+beginTime);
 		shopInfoSV.updateShopInfo(shopInfoRequst);
+		log.info("更新店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		responseHeader = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 		}catch(Exception e){
 			responseHeader = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败");
@@ -232,7 +252,10 @@ public class BillingController {
 			shopInfoRequst.setRatio(0.0F);
 		try{
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
+		Long beginTime = System.currentTimeMillis();
+		log.info("更新店铺信息服务开始"+beginTime);
 		shopInfoSV.updateShopInfo(shopInfoRequst);
+		log.info("更新店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		responseHeader = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 		}catch(Exception e){
 			responseHeader = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败");
@@ -254,7 +277,10 @@ public class BillingController {
 		shopInfoRequest.setUserId(userId);
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		shopInfoRequest.setTenantId(user.getTenantId());
+		Long beginTime = System.currentTimeMillis();
+		log.info("查询店铺信息服务开始"+beginTime);
 		QueryShopInfoResponse response = shopInfo.queryShopInfo(shopInfoRequest);
+		log.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		Map<String, Object> model = new HashMap<String, Object>();
  		model.put("shopInfo", response);
  		try {
@@ -275,19 +301,28 @@ public class BillingController {
 		String tenantId = user.getTenantId();
 		shopInfoRequest.setUserId(userId);
 		shopInfoRequest.setTenantId(tenantId);
+		Long beginTime = System.currentTimeMillis();
+		log.info("查询店铺信息服务开始"+beginTime);
 		QueryShopInfoResponse response = shopInfo.queryShopInfo(shopInfoRequest);
+		log.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		if("".equals(response.getUserId())||response.getUserId()==null){
 			InsertShopInfoRequst insertShopInfo = new InsertShopInfoRequst();
 			insertShopInfo.setTenantId(tenantId);
 			insertShopInfo.setUserId(userId);
 			insertShopInfo.setPeriodType(periodType);
 			insertShopInfo.setStatus(0);
+			Long insertBeginTime = System.currentTimeMillis();
+			log.info("保存店铺信息服务开始"+insertBeginTime);
 			shopInfo.insertShopInfo(insertShopInfo);
+			log.info("保存店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		}else{
 			UpdateShopInfoRequest updateShopInfoRequest = new UpdateShopInfoRequest();
 			BeanUtils.copyProperties(updateShopInfoRequest, response);
 			updateShopInfoRequest.setPeriodType(periodType);
+			Long updateBeginTime = System.currentTimeMillis();
+			log.info("更新店铺信息服务开始"+updateBeginTime);
 			shopInfo.updateShopInfo(updateShopInfoRequest);
+			log.info("更新店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-updateBeginTime)+"毫秒");
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("periodType", periodType);
@@ -308,7 +343,10 @@ public class BillingController {
 		shopInfoRequest.setUserId(userId);
 		 GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		shopInfoRequest.setTenantId(user.getTenantId());
+		Long beginTime = System.currentTimeMillis();
+		log.info("查询店铺信息服务开始"+beginTime);
 		QueryShopInfoResponse response = shopInfo.queryShopInfo(shopInfoRequest);
+		log.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		Map<String, Object> model = new HashMap<String, Object>();
  		model.put("shopInfo", response);
  		try {
@@ -340,7 +378,11 @@ public class BillingController {
 			map.put("companyType", companyType);
 		String str ="";
 		try {
+			Long beginTime = System.currentTimeMillis();
+			log.info("长虹接口查询列表服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
+			log.info("长虹接口查询列表服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -409,7 +451,11 @@ public class BillingController {
 			map.put("companyType", companyType);
 		String str ="";
 		try {
+			Long beginTime = System.currentTimeMillis();
+			log.info("长虹接口查询列表服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
+			log.info("长虹接口查询列表服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -447,13 +493,13 @@ public class BillingController {
 					QueryShopDepositRequest queryShopDepositRequest = new QueryShopDepositRequest();
 					queryShopDepositRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
 					queryShopDepositRequest.setUserId(object.getString("companyId"));
-					Long deposit=shopInfoSV.queryShopDeposit(queryShopDepositRequest);
+					QueryShopDepositResponse deposit=shopInfoSV.queryShopDeposit(queryShopDepositRequest);
 					ShopManageVo shopManageVo = new ShopManageVo(); 
 					shopManageVo.setUserId(object.getString("companyId"));
 					shopManageVo.setCommodityType(object.getString("commodityType"));
 					shopManageVo.setShopName(object.getString("name"));
 					shopManageVo.setUserName(object.getString("username"));
-					shopManageVo.setDeposit(deposit);
+					shopManageVo.setDeposit(deposit.getDeposit());
 					responseList.add(shopManageVo);
 				}
  				pageInfo.setResult(responseList);

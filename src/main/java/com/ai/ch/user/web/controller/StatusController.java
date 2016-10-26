@@ -10,10 +10,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ai.ch.user.api.rank.params.QueryRankRuleResponse;
 import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.util.PropertiesUtil;
@@ -31,6 +34,8 @@ import com.alibaba.fastjson.JSONObject;
 @RequestMapping("/status")
 public class StatusController {
 
+	private static final Log log = LogFactory.getLog(ScoreController.class);
+	
 	@RequestMapping("/updateStatus")
 	@ResponseBody
 	public ResponseData<String> updateStatus(HttpServletRequest request,String companyState,String companyId){
@@ -43,7 +48,10 @@ public class StatusController {
 		map.put("companyId", companyId);
 		String str ="";
 		try {
+			Long beginTime = System.currentTimeMillis();
+			log.info("长虹修改账户状态服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateCompanyState_http_url"), JSON.toJSONString(map), mapHeader);
+			log.info("长虹修改账户状态服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -84,6 +92,10 @@ public class StatusController {
 		map.put("companyId",companyId);
 		String str ="";
 		try {
+			Long beginTime = System.currentTimeMillis();
+			log.info("长虹修改审核状态服务开始"+beginTime);
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateCompanyState_http_url"), JSON.toJSONString(map), mapHeader);
+			log.info("长虹修改审核状态服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateAuditState_http_url"), JSON.toJSONString(map), mapHeader);
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
@@ -130,6 +142,10 @@ public class StatusController {
 			map.put("companyType", companyType);
 		String str ="";
 		try {
+			Long beginTime = System.currentTimeMillis();
+			log.info("长虹获取列表服务开始"+beginTime);
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateCompanyState_http_url"), JSON.toJSONString(map), mapHeader);
+			log.info("长虹获取列表服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
