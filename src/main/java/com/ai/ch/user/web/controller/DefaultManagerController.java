@@ -92,6 +92,8 @@ public class DefaultManagerController {
 	
 	@RequestMapping("/addDefaultInfo")
 	public ModelAndView addDefaultInfo(HttpServletRequest request,String userId,String userName,String custName) {
+		long startTime = System.currentTimeMillis();
+		LOGGER.info("扣款请求开始----------"+startTime);
 		ReqsInfo reqsInfo = new ReqsInfo();
 		PayUtil payUtil = new PayUtil();
 		Map<String, String> param = new TreeMap<String, String>();
@@ -127,10 +129,7 @@ public class DefaultManagerController {
 			/**
 			 *拼装报文头
 			 */
-			Long beginTime = System.currentTimeMillis();
-			LOGGER.info("扣款服务开始"+beginTime);
 			String msgHeader = payUtil.initMsgHeader(hdr.getMerNo(), TranType.PAY_GUARANTEE_MONEY_QUERY.getValue());
-			LOGGER.info("扣款服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			param.put("msgHeader", msgHeader);
 			param.put("xmlBody", xmlMsg);
 			LOGGER.info("msgHeader================="+msgHeader);
@@ -203,6 +202,10 @@ public class DefaultManagerController {
 		}else{
 			return new ModelAndView("/jsp/defaultManager/fail");
 		}
+		
+		long endTime = System.currentTimeMillis();
+		LOGGER.info("扣款请求结束,扣款共耗时----------"+(endTime-startTime));
+		
 		return new ModelAndView("/jsp/defaultManager/addDefault",model);
 	}
 	
@@ -227,6 +230,8 @@ public class DefaultManagerController {
 	@RequestMapping("/saveDefaultInfo")
 	@ResponseBody
 	public ResponseData<String> saveDefaultInfo(HttpServletRequest request,DefaultLogVo defaultLogInfo) {
+		long startTime = System.currentTimeMillis();
+		LOGGER.info("保存扣款记录开始---------"+startTime);
 		ISysUserQuerySV sysUserQuery = DubboConsumerFactory.getService("iSysUserQuerySV");
 		ResponseData<String> responseData = null;
         ResponseHeader responseHeader = null;
@@ -300,9 +305,9 @@ public class DefaultManagerController {
 			body.setRemark("margindeposittest");
 			//获取支付通知的url
 			Long payBeginTime = System.currentTimeMillis();
-			LOGGER.info("支付通知服务开始"+payBeginTime);
+			LOGGER.info("支付申请服务开始"+payBeginTime);
 			String paymentOrderurl = PropertiesUtil.getStringByKey("paymentOrder_http_url");
-			LOGGER.info("支付通知服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-payBeginTime)+"毫秒");
+			LOGGER.info("支付申请服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-payBeginTime)+"毫秒");
 			body.setNotifyUrl(paymentOrderurl);
 			body.setReturnUrl(paymentOrderurl);
 			body.setProductTypeName("margindeposit");
@@ -373,6 +378,8 @@ public class DefaultManagerController {
         }
         responseData.setResponseHeader(responseHeader);
         responseData.setData(JSON.toJSONString(defaultLogRequest));
+        long endTime = System.currentTimeMillis();
+        LOGGER.info("保存扣款记录结束,共耗时"+(endTime-startTime));
         return responseData;
 	}
 	
@@ -394,6 +401,8 @@ public class DefaultManagerController {
 	@RequestMapping("/getDefaultHistoryList")
 	@ResponseBody
 	public ResponseData<PageInfo<DefaultLogVo>> getDefaultHistoryList(HttpServletRequest request,QueryDefaultLogRequest defaultLogRequest) {
+		long startTime = System.currentTimeMillis();
+		LOGGER.info("获取扣款历史记录开始--------"+startTime);
 		ResponseData<PageInfo<DefaultLogVo>> responseData = null;
 		try {
 			IDefaultLogSV defaultLog = DubboConsumerFactory.getService("iDefaultLogSV");
@@ -411,6 +420,8 @@ public class DefaultManagerController {
 			e.printStackTrace();
 			responseData = new ResponseData<PageInfo<DefaultLogVo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
 		}
+		long endTime = System.currentTimeMillis();
+		LOGGER.info("获取扣款历史记录结束，共耗时--------"+(endTime-startTime));
 		return responseData;
 	}
 	
@@ -418,6 +429,8 @@ public class DefaultManagerController {
 	@RequestMapping("/getList")
 	@ResponseBody
 	public ResponseData<PageInfo<BusinessListInfo>> getList(HttpServletRequest request,String companyName,String username,String companyType){
+		long startTime = System.currentTimeMillis();
+		LOGGER.info("获取用户列表开始"+startTime);
 		ResponseData<PageInfo<BusinessListInfo>> response = null;
 		PageInfo<BusinessListInfo> pageInfo =null;
 		ResponseHeader header = null;
@@ -441,6 +454,7 @@ public class DefaultManagerController {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
+		long resultTime = System.currentTimeMillis();
 		JSONObject json = JSON.parseObject(str);
 		if (!"000000".equals(json.getString("resultCode"))){
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
@@ -483,6 +497,10 @@ public class DefaultManagerController {
 			response.setResponseHeader(header);
 			response.setData(pageInfo);
 		}
+		long resultEndtime = System.currentTimeMillis();
+		LOGGER.info("处理结果耗时"+(resultEndtime-resultTime));
+		long endTime = System.currentTimeMillis();
+		LOGGER.info("获取用户列表结束"+(endTime-startTime));
 		return response;
 	}
 	

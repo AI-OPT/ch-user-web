@@ -96,10 +96,11 @@ public class ContractController {
 		 	GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		 	contactInfo.setTenantId(userClient.getTenantId());
 		 	contactInfo.setUserId(userId);
+		 	
+		 	long queryTime = System.currentTimeMillis();
 	 		ContractInfoResponse response = contract.queryContractInfo(contactInfo);
-	 		
 	 		long ctContractInfoTime = System.currentTimeMillis();
-	 		LOGGER.info("查询ct_contract_info耗时----------"+(ctContractInfoTime-startTime));
+	 		LOGGER.info("查询ct_contract_info耗时----------"+(ctContractInfoTime-queryTime));
 	 		
 	 		response.setUserId(userId);
 	 		Map<String, Object> model = new HashMap<String, Object>();
@@ -116,10 +117,10 @@ public class ContractController {
 	 		custFileExtRequest.setUsreId(userId);
 	 		custFileExtRequest.setInfoType(ChWebConstants.INFOTYPE_SUPPLIER);
 	 		ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
+	 		long queryCustFileTime = System.currentTimeMillis();
 	 		QueryCustFileExtResponse custFileExtResponse = custFileSV.queryCustFileExt(custFileExtRequest);
-	 		
 	 		long cmcustFileTime = System.currentTimeMillis();
-	 		LOGGER.info("查询cm_cust_file_ext耗时----------"+(cmcustFileTime-ctContractInfoTime));
+	 		LOGGER.info("查询cm_cust_file_ext耗时----------"+(cmcustFileTime-queryCustFileTime));
 	 		
 	 		List<CmCustFileExtVo> list = custFileExtResponse.getList();
 	 		
@@ -171,10 +172,10 @@ public class ContractController {
 		 	contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SHOP);
 		 	contactInfo.setTenantId(user.getTenantId());
 		 	contactInfo.setUserId(userId);
+		 	long querycontracttime = System.currentTimeMillis();
 	 		ContractInfoResponse response = contract.queryContractInfo(contactInfo);
-	 		
 	 		long ctContractInfoTime = System.currentTimeMillis();
-	 		LOGGER.info("查询ct_contract_info耗时----------"+(ctContractInfoTime-startTime));
+	 		LOGGER.info("查询ct_contract_info耗时----------"+(ctContractInfoTime-querycontracttime));
 	 		
 	 		Map<String, Object> model = new HashMap<String, Object>();
 	 		model.put("contactInfo", response);
@@ -190,10 +191,11 @@ public class ContractController {
 	 		custFileExtRequest.setUsreId(userId);
 	 		custFileExtRequest.setInfoType(ChWebConstants.INFOTYPE_SHOP);
 	 		ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
-	 		QueryCustFileExtResponse custFileExtResponse = custFileSV.queryCustFileExt(custFileExtRequest);
 	 		
+	 		long querycustTime = System.currentTimeMillis();
+	 		QueryCustFileExtResponse custFileExtResponse = custFileSV.queryCustFileExt(custFileExtRequest);
 	 		long cmcustFileTime = System.currentTimeMillis();
-	 		LOGGER.info("查询cm_cust_file_ext耗时----------"+(cmcustFileTime-ctContractInfoTime));
+	 		LOGGER.info("查询cm_cust_file_ext耗时----------"+(cmcustFileTime-querycustTime));
 	 		
 	 		List<CmCustFileExtVo> list = custFileExtResponse.getList();
 	 		
@@ -253,19 +255,21 @@ public class ContractController {
 		 	GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		 	contactInfo.setTenantId(user.getTenantId());
 		 	contactInfo.setUserId(userId);
+		 	
+		 	long querycontracttime = System.currentTimeMillis();
 	 		ContractInfoResponse response = contract.queryContractInfo(contactInfo);
-	 		
 	 		long ctContractInfoTime = System.currentTimeMillis();
-	 		LOGGER.info("查询ct_contract_info耗时----------"+(ctContractInfoTime-startTime));
+	 		LOGGER.info("查询ct_contract_info耗时----------"+(ctContractInfoTime-querycontracttime));
 	 		
 	 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
 	 		custFileExtRequest.setTenantId(user.getTenantId());
 	 		custFileExtRequest.setUsreId(userId);
 	 		custFileExtRequest.setInfoType(ChWebConstants.INFOTYPE_SUPPLIER);
-	 		QueryCustFileExtResponse custFileExtResponse = custFileSV.queryCustFileExt(custFileExtRequest);
 	 		
+	 		long querycusttime = System.currentTimeMillis();
+	 		QueryCustFileExtResponse custFileExtResponse = custFileSV.queryCustFileExt(custFileExtRequest);
 	 		long cmcustFileTime = System.currentTimeMillis();
-	 		LOGGER.info("查询cm_cust_file_ext耗时----------"+(cmcustFileTime-ctContractInfoTime));
+	 		LOGGER.info("查询cm_cust_file_ext耗时----------"+(cmcustFileTime-querycusttime));
 	 		
 	 		List<CmCustFileExtVo> list = custFileExtResponse.getList();
 	 		
@@ -345,10 +349,11 @@ public class ContractController {
 		 	contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SHOP);
 		 	contactInfo.setTenantId(user.getTenantId());
 		 	contactInfo.setUserId(userId);
+		 	
+		 	long querycontract = System.currentTimeMillis();
 	 		ContractInfoResponse response = contract.queryContractInfo(contactInfo);
-	 		
 	 		long ctContractInfoTime = System.currentTimeMillis();
-	 		LOGGER.info("查询ct_contract_info耗时----------"+(ctContractInfoTime-startTime));
+	 		LOGGER.info("查询ct_contract_info耗时----------"+(ctContractInfoTime-querycontract));
 	 		
 	 		/**
 	 		 * 附件信息
@@ -357,10 +362,11 @@ public class ContractController {
 	 		custFileExtRequest.setTenantId(user.getTenantId());
 	 		custFileExtRequest.setUsreId(userId);
 	 		custFileExtRequest.setInfoType(ChWebConstants.INFOTYPE_SHOP);
-	 		QueryCustFileExtResponse custFileExtResponse = custFileSV.queryCustFileExt(custFileExtRequest);
 	 		
+	 		long querycusttime = System.currentTimeMillis();
+	 		QueryCustFileExtResponse custFileExtResponse = custFileSV.queryCustFileExt(custFileExtRequest);
 	 		long cmcustFileTime = System.currentTimeMillis();
-	 		LOGGER.info("查询cm_cust_file_ext耗时----------"+(cmcustFileTime-ctContractInfoTime));
+	 		LOGGER.info("查询cm_cust_file_ext耗时----------"+(cmcustFileTime-querycusttime));
 	 		
 	 		List<CmCustFileExtVo> list = custFileExtResponse.getList();
 	 		
@@ -440,11 +446,13 @@ public class ContractController {
 	        	
 	        	IContractSV contract = DubboConsumerFactory.getService("iContractSV");
 	        	ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
+	        	
+	        	long insertcontracttime = System.currentTimeMillis();
 	 	        contract.insertContractInfo(contractInfo);
-	 	        
 	 	        long insertContractTime = System.currentTimeMillis();
-	 	        LOGGER.info("添加店铺合同信息表ct_contract_info耗时----------"+(insertContractTime-start));
+	 	        LOGGER.info("添加店铺合同信息表ct_contract_info耗时----------"+(insertContractTime-insertcontracttime));
 	 	        
+	 	        long uploadtime = System.currentTimeMillis();
 	 	        MultipartHttpServletRequest file = (MultipartHttpServletRequest) request;
 	 	        MultipartFile multiScanFile = file.getFile("scanFile");
 	 	        MultipartFile multiElectronicFile = file.getFile("electronicFile");
@@ -489,15 +497,16 @@ public class ContractController {
 	 	        	}
 	 	        }
 	 	        
-	 	       long uploadTime = System.currentTimeMillis();
-	 	       LOGGER.info("上传合同附件耗时----------"+(uploadTime-insertContractTime));
+	 	       long uploadTimeEnd = System.currentTimeMillis();
+	 	       LOGGER.info("上传合同附件耗时----------"+(uploadTimeEnd-uploadtime));
 	 	       
+	 	       long updatecustfilestart = System.currentTimeMillis();
 	 	        if(!CollectionUtil.isEmpty(fileList)&&fileList.size()>0){
 		 	    	  updateCustFileExtRequest.setList(fileList);
 			          custFileSV.updateCustFileExtBycondition(updateCustFileExtRequest);
 		 	     }
 	 	      long insertCustFileTime = System.currentTimeMillis();
-	 	      LOGGER.info("添加附件信息表耗时----------"+(insertCustFileTime-uploadTime));
+	 	      LOGGER.info("添加附件信息表耗时----------"+(insertCustFileTime-updatecustfilestart));
 	 	      
 	        }catch(Exception e){
 	        	LOGGER.error("操作失败");
@@ -533,10 +542,13 @@ public class ContractController {
 	        	contractInfo.setUserId(contractInfo.getUserId());
 	        	IContractSV contract = DubboConsumerFactory.getService("iContractSV");
 	        	ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
+	        	
+	        	long insertcontract = System.currentTimeMillis();
 	 	        contract.insertContractInfo(contractInfo);
 	 	        long insertContractTime = System.currentTimeMillis();
-	 	        LOGGER.info("添加店铺合同信息表ct_contract_info耗时----------"+(insertContractTime-start));
+	 	        LOGGER.info("添加店铺合同信息表ct_contract_info耗时----------"+(insertContractTime-insertcontract));
 	 	        
+	 	        long uploadfiletime = System.currentTimeMillis();
 	 	        MultipartHttpServletRequest file = (MultipartHttpServletRequest) request;
 	 	        MultipartFile multiScanFile = file.getFile("scanFile");
 	 	        MultipartFile multiElectronicFile = file.getFile("electronicFile");
@@ -581,7 +593,7 @@ public class ContractController {
 	 	        	}
 	 	        }
 	 	       long uploadTime = System.currentTimeMillis();
-	 	       LOGGER.info("上传合同附件耗时----------"+(uploadTime-insertContractTime));	
+	 	       LOGGER.info("上传合同附件耗时----------"+(uploadTime-uploadfiletime));	
 	 	        if(!CollectionUtil.isEmpty(fileList)&&fileList.size()>0){
 		 	    	  updateCustFileExtRequest.setList(fileList);
 			          custFileSV.updateCustFileExtBycondition(updateCustFileExtRequest);
@@ -817,8 +829,10 @@ public class ContractController {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		LOGGER.info("通过o2p获取列表信息耗时----------"+(sendPostTime-startTime));
+		long sendPostEndTime = System.currentTimeMillis();
+		LOGGER.info("通过o2p获取列表信息耗时----------"+(sendPostEndTime-sendPostTime));
 		
+		long resultstarttime = System.currentTimeMillis();
 		JSONObject json = JSON.parseObject(str);
 		if (!"000000".equals(json.getString("resultCode"))){
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
@@ -873,7 +887,7 @@ public class ContractController {
 		
 		long listTime = System.currentTimeMillis();
 		
-		LOGGER.info("处理返回结果耗时--------------"+(listTime-sendPostTime));
+		LOGGER.info("处理返回结果耗时--------------"+(listTime-resultstarttime));
 		
 		long endTime = System.currentTimeMillis();
 		LOGGER.info("查询列表结束-----------------"+(endTime-startTime));
