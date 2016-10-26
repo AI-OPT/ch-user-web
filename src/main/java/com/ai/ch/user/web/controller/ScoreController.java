@@ -204,17 +204,17 @@ public class ScoreController {
 					 //查询综合分
 					 IScoreSV scoreSV = DubboConsumerFactory.getService("iScoreSV");
 					 GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-					 Long avgBeginTime = System.currentTimeMillis();
+					 	Long avgBeginTime = System.currentTimeMillis();
+					 	CountScoreAvgRequest scoreAvgRequest = new CountScoreAvgRequest();
+					 	scoreAvgRequest.setTenantId(user.getTenantId());
+					 	scoreAvgRequest.setUserId(object.getString("companyId"));
 						log.info("查询店铺评分信息服务开始"+avgBeginTime);
-						CountScoreAvgRequest scoreAvgRequest = new CountScoreAvgRequest();
+						CountScoreAvgResponse avgScore = scoreSV.countScoreAvg(scoreAvgRequest);
 						log.info("查询店铺评分信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-avgBeginTime)+"毫秒");
-					 scoreAvgRequest.setTenantId(user.getTenantId());
-					 scoreAvgRequest.setUserId(object.getString("companyId"));
-					 CountScoreAvgResponse avgScore = scoreSV.countScoreAvg(scoreAvgRequest);
 					 supplierScoreVo.setUserId(object.getString("companyId"));
 					 supplierScoreVo.setUserName(object.getString("username"));
 					 supplierScoreVo.setGroupName(object.getString("name"));
-					 supplierScoreVo.setTotalScore(Integer.valueOf(avgScore.getScoreAvg()+""));
+					 supplierScoreVo.setTotalScore((int)avgScore.getScoreAvg());
 					 responseList.add(supplierScoreVo);
 				}
 				pageInfo.setResult(responseList);
