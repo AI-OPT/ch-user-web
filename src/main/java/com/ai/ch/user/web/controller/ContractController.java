@@ -661,16 +661,19 @@ public class ContractController {
     	LOGGER.info("下载文件开始---------------"+startTime);
     	OutputStream os = null;
 		try {
+			LOGGER.info("response-------"+response);
 			os = response.getOutputStream();// 取得输出流
 			response.reset();// 清空输出流
 			response.setContentType("application/pdf");// 定义输出类型
 			response.setHeader("Content-disposition", "attachment; filename=" + fileName);// 设定输出文件头
-			 String dssns = "ch-user-detail-dss";
-			 IDSSClient client=DSSClientFactory.getDSSClient(dssns);
-	    	 byte[] b=client.read(attrValue);
-	         os.write(b); 
-	         os.flush(); 
-			 os.close();
+			String dssns = "ch-user-detail-dss";
+			IDSSClient client=DSSClientFactory.getDSSClient(dssns);
+			LOGGER.info("client-------"+client);
+	    	byte[] b=client.read(attrValue);
+	    	LOGGER.info("os-------"+os);
+	        os.write(b); 
+	        os.flush(); 
+			os.close();
 		} catch (Exception e) {
 			LOGGER.error("下载文件失败",e);
 			if(os!=null){
