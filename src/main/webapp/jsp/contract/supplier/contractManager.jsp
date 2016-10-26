@@ -85,7 +85,7 @@
 								 <ul>
 									<li>
 										<p class="word">合同金额</p>
-										<p><input type="text" class="int-text int-medium" placeholder="请输入合同金额" id="contractAmount" name="contractAmount" value="${contractAmount}"/>元</p>
+										<p><input type="text" class="int-text int-medium" placeholder="请输入合同金额" id="contractAmount" name="contractAmount" value="${contactInfo.contractAmount}"/>元</p>
 									</li>
 									<li><label id="contractAmountErrMsg" style="display: none;"><span class="ash" id="contractAmountText"></span></label></li>
 								</ul>

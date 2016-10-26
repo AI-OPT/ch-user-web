@@ -76,7 +76,7 @@
 									<li>
 									  <p class="word" style="font-style: ">合同金额:</p>
 									</li>
-									<li>${contractAmount}元</li>
+									<li>${contactInfo.contractAmount}元</li>
 								</ul>
 								
 						    	<ul>

@@ -355,7 +355,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			}
 		},
 		_checkContractAmountValue:function(){
-			var reg = /^([1-9][\d]{0,9}|([1-9][\d]{0,8}|0)(\.[\d]{1,2}))?$/;
+			var reg = /^([1-9][\d]{0,9}|0{1}|([1-9][\d]{0,7}|0)(\.[\d]{1,2}))?$/;
 			var amount = $("#contractAmount").val();
 			if(amount.match(reg)){
 				$("#contractAmountErrMsg").hide();
