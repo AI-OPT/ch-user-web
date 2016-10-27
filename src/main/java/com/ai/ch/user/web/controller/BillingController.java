@@ -35,6 +35,7 @@ import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.opt.sdk.util.BeanUtils;
+import com.ai.opt.sdk.util.ParseO2pDataUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.alibaba.dubbo.common.logger.Logger;
@@ -84,7 +85,7 @@ public class BillingController {
 		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
-		model.addObject("deposit", response.getDeposit());
+		model.addObject("deposit", response.getDepositBalance());
 		model.addObject("userId", userId);
 		return model;
 	}
@@ -185,7 +186,7 @@ public class BillingController {
 			queryShopDepositRequest.setUserId(userId);
 			
 			QueryShopDepositResponse depositBalance = shopInfoSV.queryShopDeposit(queryShopDepositRequest);
-			deposit = depositBalance.getDeposit()+"元";
+			deposit = depositBalance.getDepositBalance()+"元";
 		}
 		
 			//查询账户信息
@@ -471,13 +472,7 @@ public class BillingController {
 				header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败"); 
 				response.setResponseHeader(header);
 			}else {
-				if(data == null){
-					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
-					response.setResponseHeader(header);
-					return response;
-				}
-				//获取返回操作码
+				if(data != null){
 					Integer pageNo = Integer.valueOf(data.getString("pages"));
 					Integer pageSize = Integer.valueOf(data.getString("pageSize"));
 					Integer total = Integer.valueOf(data.getString("total"));
@@ -503,12 +498,20 @@ public class BillingController {
 						shopManageVo.setCommodityType(object.getString("commodityType"));
 						shopManageVo.setShopName(object.getString("name"));
 						shopManageVo.setUserName(object.getString("username"));
-						shopManageVo.setDeposit(deposit.getDeposit());
+						shopManageVo.setDeposit(deposit.getDepositBalance());
 						responseList.add(shopManageVo);
 					}
-	 				pageInfo.setResult(responseList);
+					pageInfo.setResult(responseList);
 					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+					
+				}else{
+				//获取返回操作码
+				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				response.setResponseHeader(header);
+				return response;
+				}
 				}
 				response.setResponseHeader(header);
 				response.setData(pageInfo);

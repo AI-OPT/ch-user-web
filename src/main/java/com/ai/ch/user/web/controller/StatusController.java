@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ai.ch.user.api.rank.params.QueryRankRuleResponse;
 import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.constants.ChWebConstants.OperateCode;
 import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
@@ -25,6 +24,7 @@ import com.ai.ch.user.web.vo.StatusListVo;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
+import com.ai.opt.sdk.util.ParseO2pDataUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.alibaba.fastjson.JSON;
@@ -105,7 +105,7 @@ public class StatusController {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		JSONObject data = parseO2pDataUtil.getData(str);
+		JSONObject data = ParseO2pDataUtil.getData(str);
 		String resultCode = data.getString("resultCode");
 		if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
@@ -153,7 +153,7 @@ public class StatusController {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		JSONObject data = parseO2pDataUtil.getData(str);
+		JSONObject data = ParseO2pDataUtil.getData(str);
 		String resultCode = data.getString("resultCode");
 		if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");

@@ -29,6 +29,7 @@ import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
+import com.ai.opt.sdk.util.ParseO2pDataUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
@@ -122,10 +123,18 @@ public class QualificationController {
         //安全处理信息
         if(data2.getString("legalRepresentative")!=null)
         	legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"),1);
+        if(data2.getString("phone")!=null){
         phone = getStarString(data2.getString("phone"),4,7);
+        }
+        if(data2.getString("email")!=null){
         email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
+        }
+        if(data2.getString("idNumber")!=null){
         idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length()-10, data2.getString("idNumber").length()-4);
+        }
+        if(data2.getString("bankAccount")!=null){
         bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length()-7, data2.getString("bankAccount").length()-3);
+        }
         if(data2.getString("businessAddress")!=null){
         	if(data2.getString("businessAddress").length()<4)
         		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-1);
@@ -228,10 +237,18 @@ public class QualificationController {
 	        //安全处理信息
 	        if(data2.getString("legalRepresentative")!=null)
 	        	legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"),1);
+	        if(data2.getString("phone")!=null){
 	        phone = getStarString(data2.getString("phone"),4,7);
+	        }
+	        if(data2.getString("email")!=null){
 	        email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
+	        }
+	        if(data2.getString("idNumber")!=null){
 	        idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length()-10, data2.getString("idNumber").length()-4);
+	        }
+	        if(data2.getString("bankAccount")!=null){
 	        bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length()-7, data2.getString("bankAccount").length()-3);
+	        }
 	        if(data2.getString("businessAddress")!=null){
 	        	if(data2.getString("businessAddress").length()<4)
 	        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-1);
@@ -354,10 +371,18 @@ public class QualificationController {
         //安全处理信息
         if(data2.getString("legalRepresentative")!=null)
         	legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"),1);
+        if(data2.getString("phone")!=null){
         phone = getStarString(data2.getString("phone"),4,7);
+        }
+        if(data2.getString("email")!=null){
         email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
+        }
+        if(data2.getString("idNumber")!=null){
         idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length()-10, data2.getString("idNumber").length()-4);
+        }
+        if(data2.getString("bankAccount")!=null){
         bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length()-7, data2.getString("bankAccount").length()-3);
+        }
         if(data2.getString("businessAddress")!=null){
         	if(data2.getString("businessAddress").length()<4)
         		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-1);
@@ -459,10 +484,18 @@ public class QualificationController {
         //安全处理信息
         if(data2.getString("legalRepresentative")!=null)
         	legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"),1);
+        if(data2.getString("phone")!=null){
         phone = getStarString(data2.getString("phone"),4,7);
+        }
+        if(data2.getString("email")!=null){
         email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
+        }
+        if(data2.getString("idNumber")!=null){
         idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length()-10, data2.getString("idNumber").length()-4);
+        }
+        if(data2.getString("bankAccount")!=null){
         bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length()-7, data2.getString("bankAccount").length()-3);
+        }
         if(data2.getString("businessAddress")!=null){
         	if(data2.getString("businessAddress").length()<4)
         		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-1);
