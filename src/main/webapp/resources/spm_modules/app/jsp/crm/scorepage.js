@@ -132,7 +132,18 @@ define('app/jsp/crm/scorepage', function (require, exports, module) {
 			},
 	        success: function(data) {
 	        	if(data.responseHeader.resultCode='000000'){
-	        		window.location.href=_base+"/score/scorelist";
+	        		var d = Dialog({
+	    				title : '提示',
+	    				content : '评价成功',
+	    				icon:'success',
+	    				closeIconShow:false,
+	    				okValue : "确定",
+	    				ok : function() {
+	    					this.close;
+	    					window.location.href=_base+"/score/scorelist";
+	    				}
+	    			});
+	    			d.show();
 	        	}
 	            },
 				error: function(error) {

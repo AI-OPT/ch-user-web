@@ -26,7 +26,7 @@ public class SupplierScoreVo {
 	private String groupName;
 
 	/**
-	 * 总分
+	 * 综合评分
 	 */
 	private Integer totalScore;
 
