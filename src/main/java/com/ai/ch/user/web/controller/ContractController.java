@@ -34,6 +34,7 @@ import com.ai.ch.user.api.custfile.params.QueryCustFileExtResponse;
 import com.ai.ch.user.api.custfile.params.UpdateCustFileExtRequest;
 import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.constants.ChWebConstants.ExceptionCode;
+import com.ai.ch.user.web.constants.ChWebConstants.OperateCode;
 import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.model.user.CustFileListVo;
 import com.ai.ch.user.web.util.PropertiesUtil;
@@ -812,7 +813,7 @@ public class ContractController {
 		long startTime = System.currentTimeMillis();
 		LOGGER.info("查询列表开始-----------------"+startTime);
 		ResponseData<PageInfo<BusinessListInfo>> response = null;
-		PageInfo<BusinessListInfo> pageInfo =null;
+		PageInfo<BusinessListInfo> pageInfo =new PageInfo<>();
 		ResponseHeader header = null;
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
@@ -834,64 +835,57 @@ public class ContractController {
 		}
 		long sendPostEndTime = System.currentTimeMillis();
 		LOGGER.info("通过o2p获取列表信息耗时----------"+(sendPostEndTime-sendPostTime));
-		
+		List<BusinessListInfo> responseList = new ArrayList<>();
 		long resultstarttime = System.currentTimeMillis();
-		JSONObject json = JSON.parseObject(str);
-		if (!"000000".equals(json.getString("resultCode"))){
+		try{
+			JSONObject data = ParseO2pDataUtil.getData(str);
+			String resultCode = data.getString("resultCode");
+			/**
+			 * 如果resultCode不为空说明获取结果是正确的
+			 */
+			if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
+				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
+				header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败"); 
+				response.setResponseHeader(header);
+			}else{
+					Integer pageNo = Integer.valueOf(data.getString("pages"));
+					Integer pageSize = Integer.valueOf(data.getString("pageSize"));
+					Integer total = Integer.valueOf(data.getString("total"));
+					Integer pageCount = Integer.valueOf(data.getString("pageNum"));
+					pageInfo.setCount(total);
+					pageInfo.setPageCount(pageCount);
+					pageInfo.setPageNo(pageNo);
+					pageInfo.setPageSize(pageSize);
+					JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
+					Iterator<Object> iterator = list.iterator();
+					GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+					Map<String,ContractInfoResponse> contractMap = getContractList(userClient.getTenantId());
+					while(iterator.hasNext()){
+						BusinessListInfo businessInfo = new BusinessListInfo(); 
+						 JSONObject object = (JSONObject) iterator.next();
+						 businessInfo.setUserId(object.getString("companyId"));
+						 businessInfo.setUserName(object.getString("username"));
+						 businessInfo.setCustName(object.getString("name"));
+						 if(contractMap.get(businessInfo.getUserId()+companyType)!=null){
+								businessInfo.setUploadStatus("已上传");
+							}else{
+								businessInfo.setUploadStatus("未上传");
+							}
+						 responseList.add(businessInfo);
+					}
+					pageInfo.setResult(responseList);
+					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "查询成功");
+					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "查询成功");
+			}
+			response.setResponseHeader(header);
+			response.setData(pageInfo);
+		}catch(Exception e){
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
 			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败"); 
 			response.setResponseHeader(header);
 		}
-		else {
-			//获取返回操作码
-			//JSONObject resultData = (JSONObject) JSON.parse(json.getString("data"));
-			JSONObject data = (JSONObject) JSON.parse(json.getString("data"));
-			JSONObject responseHeader = (JSONObject) JSON.parse(data.getString("responseHeader"));
-			//"SCORE02003".equals(responseHeader.getString("resultCode"))
-			if(responseHeader!=null){
-				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.ISNULL, "查询为空");
-			}else{
-				//JSONObject data = (JSONObject) JSON.parse(resultData.getString("data"));
-				Integer pageNo = Integer.valueOf(data.getString("pages"));
-				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
-				Integer total = Integer.valueOf(data.getString("total"));
-				Integer pageCount = Integer.valueOf(data.getString("pageNum"));
-				pageInfo = new PageInfo<>();
-				pageInfo.setCount(total);
-				pageInfo.setPageCount(pageCount);
-				pageInfo.setPageNo(pageNo);
-				pageInfo.setPageSize(pageSize);
-				List<BusinessListInfo> responseList = new ArrayList<>();
-				JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
-				Iterator<Object> iterator = list.iterator();
-				GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-				Map<String,ContractInfoResponse> contractMap = getContractList(userClient.getTenantId());
-				while(iterator.hasNext()){
-					BusinessListInfo businessInfo = new BusinessListInfo(); 
-					 JSONObject object = (JSONObject) iterator.next();
-					 businessInfo.setUserId(object.getString("companyId"));
-					 businessInfo.setUserName(object.getString("username"));
-					 businessInfo.setCustName(object.getString("name"));
-					 if(contractMap.get(businessInfo.getUserId()+companyType)!=null){
-							businessInfo.setUploadStatus("已上传");
-						}else{
-							businessInfo.setUploadStatus("未上传");
-						}
-					 responseList.add(businessInfo);
-				}
-				pageInfo.setResult(responseList);
-				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
-			}
-			response.setResponseHeader(header);
-			response.setData(pageInfo);
-		}
-		
 		long listTime = System.currentTimeMillis();
-		
 		LOGGER.info("处理返回结果耗时--------------"+(listTime-resultstarttime));
-		
 		long endTime = System.currentTimeMillis();
 		LOGGER.info("查询列表结束-----------------"+(endTime-startTime));
 		return response;

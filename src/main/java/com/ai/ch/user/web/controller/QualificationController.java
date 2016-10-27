@@ -22,6 +22,7 @@ import com.ai.ch.user.api.shopinfo.interfaces.IShopInfoSV;
 import com.ai.ch.user.api.shopinfo.params.QueryShopInfoRequest;
 import com.ai.ch.user.api.shopinfo.params.QueryShopInfoResponse;
 import com.ai.ch.user.web.constants.ChWebConstants;
+import com.ai.ch.user.web.constants.ChWebConstants.OperateCode;
 import com.ai.ch.user.web.util.PropertiesUtil;
 import com.ai.ch.user.web.vo.BusinessListInfo;
 import com.ai.opt.base.vo.PageInfo;
@@ -566,20 +567,12 @@ public class QualificationController {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		JSONObject json = JSON.parseObject(str);
-		if (!"000000".equals(json.getString("resultCode"))){
+		JSONObject data = ParseO2pDataUtil.getData(str);
+		String resultCode = data.getString("resultCode");
+		if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
 			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
-		}
-		else {
-			//获取返回操作码
-			JSONObject data = (JSONObject) JSON.parse(json.getString("data"));
-			JSONObject responseHeader = (JSONObject) JSON.parse(data.getString("responseHeader"));
-			//"SCORE02003".equals(responseHeader.getString("resultCode"))
-			if(responseHeader!=null){
-				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.ISNULL, "查询为空");
-			}else{
+		}else {
 				Integer pageNo = Integer.valueOf(data.getString("pages"));
 				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
 				Integer total = Integer.valueOf(data.getString("total"));
@@ -606,7 +599,6 @@ public class QualificationController {
 			}
 			response.setResponseHeader(header);
 			response.setData(pageInfo);
-		}
 		return response;
 	}
 		
@@ -639,60 +631,62 @@ public class QualificationController {
 			} catch (IOException | URISyntaxException e) {
 				e.printStackTrace();
 			}
-			JSONObject json = JSON.parseObject(str);
-			if (!"000000".equals(json.getString("resultCode"))){
+			try{
+				JSONObject data = ParseO2pDataUtil.getData(str);
+				String resultCode = data.getString("resultCode");
+				if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
+					response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
+					header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
+				}else{
+						if(data == null){
+							response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+							header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+							response.setResponseHeader(header);
+							return response;
+						}
+						Integer pageNo = Integer.valueOf(data.getString("pages"));
+						Integer pageSize = Integer.valueOf(data.getString("pageSize"));
+						Integer total = Integer.valueOf(data.getString("total"));
+						Integer pageCount = Integer.valueOf(data.getString("pageNum"));
+						pageInfo = new PageInfo<>();
+						pageInfo.setCount(total);
+						pageInfo.setPageCount(pageCount);
+						pageInfo.setPageNo(pageNo);
+						pageInfo.setPageSize(pageSize);
+						List<BusinessListInfo> responseList = new ArrayList<>();
+						JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
+						Iterator<Object> iterator = list.iterator();
+						while(iterator.hasNext()){
+							BusinessListInfo businessInfo = new BusinessListInfo(); 
+							 JSONObject object = (JSONObject) iterator.next();
+							 String date = "";
+							 if(object.getString("createTime")!=null&&object.getString("createTime").length()!=0){
+									SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+									date = sdf.format(Long.parseLong(object.getString("createTime")));
+								}
+							 String auditTime = "";
+							 if(object.getString("auditStateTime")!=null&&object.getString("auditStateTime").length()!=0){
+									SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+									auditTime = sdf.format(Long.parseLong(object.getString("auditStateTime")));
+								}
+							 businessInfo.setUserId(object.getString("companyId"));
+							 businessInfo.setUserName(object.getString("username"));
+							 businessInfo.setCustName(object.getString("name"));
+							 businessInfo.setCreateTime(date);
+							 businessInfo.setAuditTime(auditTime);
+							 responseList.add(businessInfo);
+						}
+						pageInfo.setResult(responseList);
+						//System.out.println(JSON.toJSONString(responseList));
+						response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+						header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+					}
+			}catch(Exception e){
 				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
 			}
-			else {
-				//获取返回操作码
-				JSONObject data = (JSONObject) JSON.parse(json.getString("data"));
-				JSONObject responseHeader = (JSONObject) JSON.parse(data.getString("responseHeader"));
-				//"SCORE02003".equals(responseHeader.getString("resultCode"))
-				if(responseHeader!=null){
-					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-					header = new ResponseHeader(true, ChWebConstants.OperateCode.ISNULL, "查询为空");
-				}else{
-					Integer pageNo = Integer.valueOf(data.getString("pages"));
-					Integer pageSize = Integer.valueOf(data.getString("pageSize"));
-					Integer total = Integer.valueOf(data.getString("total"));
-					Integer pageCount = Integer.valueOf(data.getString("pageNum"));
-					pageInfo = new PageInfo<>();
-					pageInfo.setCount(total);
-					pageInfo.setPageCount(pageCount);
-					pageInfo.setPageNo(pageNo);
-					pageInfo.setPageSize(pageSize);
-					List<BusinessListInfo> responseList = new ArrayList<>();
-					JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
-					Iterator<Object> iterator = list.iterator();
-					while(iterator.hasNext()){
-						BusinessListInfo businessInfo = new BusinessListInfo(); 
-						 JSONObject object = (JSONObject) iterator.next();
-						 String date = "";
-						 if(object.getString("createTime")!=null&&object.getString("createTime").length()!=0){
-								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-								date = sdf.format(Long.parseLong(object.getString("createTime")));
-							}
-						 String auditTime = "";
-						 if(object.getString("auditStateTime")!=null&&object.getString("auditStateTime").length()!=0){
-								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-								auditTime = sdf.format(Long.parseLong(object.getString("auditStateTime")));
-							}
-						 businessInfo.setUserId(object.getString("companyId"));
-						 businessInfo.setUserName(object.getString("username"));
-						 businessInfo.setCustName(object.getString("name"));
-						 businessInfo.setCreateTime(date);
-						 businessInfo.setAuditTime(auditTime);
-						 responseList.add(businessInfo);
-					}
-					pageInfo.setResult(responseList);
-					//System.out.println(JSON.toJSONString(responseList));
-					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
-				}
 				response.setResponseHeader(header);
 				response.setData(pageInfo);
-			}
 			return response;
 	}
 		

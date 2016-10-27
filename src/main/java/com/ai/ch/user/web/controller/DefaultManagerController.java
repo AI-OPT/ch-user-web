@@ -35,6 +35,7 @@ import com.ai.ch.user.api.defaultlog.params.QueryDefaultLogRequest;
 import com.ai.ch.user.api.defaultlog.params.QueryDefaultLogResponse;
 import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.constants.ChWebConstants.ExceptionCode;
+import com.ai.ch.user.web.constants.ChWebConstants.OperateCode;
 import com.ai.ch.user.web.constants.TranType;
 import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.util.PayUtil;
@@ -455,48 +456,51 @@ public class DefaultManagerController {
 			e.printStackTrace();
 		}
 		long resultTime = System.currentTimeMillis();
-		JSONObject json = JSON.parseObject(str);
-		if (!"000000".equals(json.getString("resultCode"))){
-			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
-			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
-		}
-		else {
-			//获取返回操作码
-			JSONObject data = (JSONObject) JSON.parse(json.getString("data"));
-			JSONObject responseHeader = (JSONObject) JSON.parse(data.getString("responseHeader"));
-			//"SCORE02003".equals(responseHeader.getString("resultCode"))
-			if(responseHeader!=null){
-				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.ISNULL, "查询为空");
-			}else{
-				Integer pageNo = Integer.valueOf(data.getString("pages"));
-				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
-				Integer total = Integer.valueOf(data.getString("total"));
-				Integer pageCount = Integer.valueOf(data.getString("pageNum"));
-				pageInfo = new PageInfo<>();
-				pageInfo.setCount(total);
-				pageInfo.setPageCount(pageCount);
-				pageInfo.setPageNo(pageNo);
-				pageInfo.setPageSize(pageSize);
-				List<BusinessListInfo> responseList = new ArrayList<>();
-				JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
-				Iterator<Object> iterator = list.iterator();
-				while(iterator.hasNext()){
-					BusinessListInfo businessListInfo = new BusinessListInfo(); 
-					 JSONObject object = (JSONObject) iterator.next();
-					 businessListInfo.setUserId(object.getString("companyId"));
-					 businessListInfo.setUserName(object.getString("username"));
-					 businessListInfo.setCustName(object.getString("name"));
-					 businessListInfo.setBusinessCategory(object.getString("commodityType"));
-					 responseList.add(businessListInfo);
+		try{
+			JSONObject data = ParseO2pDataUtil.getData(str);
+			String resultCode = data.getString("resultCode");
+			if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
+				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
+				header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败"); 
+				response.setResponseHeader(header);
+			}else {
+					if(data == null){
+						response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+						header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+						response.setResponseHeader(header);
+						return response;
+					}
+					Integer pageNo = Integer.valueOf(data.getString("pages"));
+					Integer pageSize = Integer.valueOf(data.getString("pageSize"));
+					Integer total = Integer.valueOf(data.getString("total"));
+					Integer pageCount = Integer.valueOf(data.getString("pageNum"));
+					pageInfo = new PageInfo<>();
+					pageInfo.setCount(total);
+					pageInfo.setPageCount(pageCount);
+					pageInfo.setPageNo(pageNo);
+					pageInfo.setPageSize(pageSize);
+					List<BusinessListInfo> responseList = new ArrayList<>();
+					JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
+					Iterator<Object> iterator = list.iterator();
+					while(iterator.hasNext()){
+						BusinessListInfo businessListInfo = new BusinessListInfo(); 
+						 JSONObject object = (JSONObject) iterator.next();
+						 businessListInfo.setUserId(object.getString("companyId"));
+						 businessListInfo.setUserName(object.getString("username"));
+						 businessListInfo.setCustName(object.getString("name"));
+						 businessListInfo.setBusinessCategory(object.getString("commodityType"));
+						 responseList.add(businessListInfo);
+					}
+					pageInfo.setResult(responseList);
+					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				}
-				pageInfo.setResult(responseList);
-				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
-			}
+		}catch(Exception e){
+			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
+			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败"); 
+		}
 			response.setResponseHeader(header);
 			response.setData(pageInfo);
-		}
 		long resultEndtime = System.currentTimeMillis();
 		LOGGER.info("处理结果耗时"+(resultEndtime-resultTime));
 		long endTime = System.currentTimeMillis();

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ai.ch.user.api.rank.params.QueryRankRuleResponse;
 import com.ai.ch.user.web.constants.ChWebConstants;
+import com.ai.ch.user.web.constants.ChWebConstants.OperateCode;
 import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.util.PropertiesUtil;
 import com.ai.ch.user.web.vo.StatusListVo;
@@ -51,30 +52,34 @@ public class StatusController {
 			Long beginTime = System.currentTimeMillis();
 			log.info("长虹修改账户状态服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateCompanyState_http_url"), JSON.toJSONString(map), mapHeader);
+			JSONObject data = ParseO2pDataUtil.getData(str);
+			String resultCode = data.getString("resultCode");
+			if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
+				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
+			}
+			else {
+				//获取返回操作码
+				String result = data.getString("result");
+				if ("success".equals(result)){
+					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				}
+				else{
+					response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
+					header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
+				}
+				response.setResponseHeader(header);
+
+			}
 			log.info("长虹修改账户状态服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
+			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
+			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
+			response.setResponseHeader(header);
 			e.printStackTrace();
 		}
-		JSONObject json = JSON.parseObject(str);
-		if (!"000000".equals(json.getString("resultCode"))){
-			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
-			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
-		}
-		else {
-			//获取返回操作码
-			JSONObject data = (JSONObject) JSON.parse(json.getString("data"));
-			String result = data.getString("result");
-			if ("success".equals(result)){
-				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
-			}
-			else{
-				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
-			}
-			response.setResponseHeader(header);
-
-		}
+		
 		return response;
 	}
 	
@@ -100,14 +105,12 @@ public class StatusController {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		JSONObject json = JSON.parseObject(str);
-		if (!"000000".equals(json.getString("resultCode"))){
+		JSONObject data = parseO2pDataUtil.getData(str);
+		String resultCode = data.getString("resultCode");
+		if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
 			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
-		}
-		else {
-			//获取返回操作码
-			JSONObject data = (JSONObject) JSON.parse(json.getString("data"));
+		}else {
 			String result = data.getString("result");
 			if ("success".equals(result)){
 				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
@@ -150,20 +153,12 @@ public class StatusController {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		JSONObject json = JSON.parseObject(str);
-		if (!"000000".equals(json.getString("resultCode"))){
+		JSONObject data = parseO2pDataUtil.getData(str);
+		String resultCode = data.getString("resultCode");
+		if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
 			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
-		}
-		else {
-			//获取返回操作码
-			JSONObject data = (JSONObject) JSON.parse(json.getString("data"));
-			JSONObject responseHeader = (JSONObject) JSON.parse(data.getString("responseHeader"));
-			//"SCORE02003".equals(responseHeader.getString("resultCode"))
-			if(responseHeader!=null){
-				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.ISNULL, "查询为空");
-			}else{
+		}else {
 				Integer pageNo = Integer.valueOf(data.getString("pages"));
 				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
 				Integer total = Integer.valueOf(data.getString("total"));
@@ -200,7 +195,6 @@ public class StatusController {
 			response.setResponseHeader(header);
 			response.setData(pageInfo);
 			//System.out.println(JSON.toJSONString(response));
-		}
 		return response;
 	}
 }

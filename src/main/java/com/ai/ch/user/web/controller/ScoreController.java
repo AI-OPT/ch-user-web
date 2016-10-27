@@ -28,6 +28,7 @@ import com.ai.ch.user.api.score.param.InsertScoreLogRequest;
 import com.ai.ch.user.api.score.param.QueryScoreKpiRequest;
 import com.ai.ch.user.api.score.param.QueryScoreKpiResponse;
 import com.ai.ch.user.web.constants.ChWebConstants;
+import com.ai.ch.user.web.constants.ChWebConstants.OperateCode;
 import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.util.PropertiesUtil;
 import com.ai.ch.user.web.vo.SupplierScoreVo;
@@ -171,20 +172,18 @@ public class ScoreController {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		JSONObject json = JSON.parseObject(str);
-		if (!"000000".equals(json.getString("resultCode"))){
+		JSONObject data = ParseO2pDataUtil.getData(str);
+		String resultCode = data.getString("resultCode");
+		if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
 			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
-		}
-		else {
-			//获取返回操作码
-			JSONObject data = (JSONObject) JSON.parse(json.getString("data"));
-			JSONObject responseHeader = (JSONObject) JSON.parse(data.getString("responseHeader"));
-			//"SCORE02003".equals(responseHeader.getString("resultCode"))
-			if(responseHeader!=null){
-				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.ISNULL, "查询为空");
-			}else{
+		}else {
+				if(data == null){
+					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+					response.setResponseHeader(header);
+					return response;
+				}
 				Integer pageNo = Integer.valueOf(data.getString("pages"));
 				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
 				Integer total = Integer.valueOf(data.getString("total"));
@@ -223,7 +222,6 @@ public class ScoreController {
 			}
 			response.setResponseHeader(header);
 			response.setData(pageInfo);
-		}
 		return response;
 	}
 	
