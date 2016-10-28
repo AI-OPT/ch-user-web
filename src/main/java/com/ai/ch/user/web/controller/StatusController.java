@@ -153,6 +153,7 @@ public class StatusController {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
+		try{
 		JSONObject data = ParseO2pDataUtil.getData(str);
 		String resultCode = data.getString("resultCode");
 		if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
@@ -194,6 +195,11 @@ public class StatusController {
 			}
 			response.setResponseHeader(header);
 			response.setData(pageInfo);
+		}catch(Exception e){
+			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "查询失败");
+			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "查询失败"); 
+			response.setResponseHeader(header);
+		}
 			//System.out.println(JSON.toJSONString(response));
 		return response;
 	}

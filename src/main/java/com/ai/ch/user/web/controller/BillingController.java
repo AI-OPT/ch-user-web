@@ -394,13 +394,7 @@ public class BillingController {
 				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
 				header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败"); 
 				response.setResponseHeader(header);
-			}else {
-				if(data == null){
-					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
-					response.setResponseHeader(header);
-					return response;
-				}
+			}else{
 					Integer pageNo = Integer.valueOf(data.getString("pages"));
 					Integer pageSize = Integer.valueOf(data.getString("pageSize"));
 					Integer total = Integer.valueOf(data.getString("total"));
@@ -429,8 +423,8 @@ public class BillingController {
 				response.setResponseHeader(header);
 				response.setData(pageInfo);
 		}catch(Exception e){
-			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
-			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败"); 
+			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "查询失败");
+			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "查询失败"); 
 			response.setResponseHeader(header);
 		}
 		return response;
@@ -472,7 +466,6 @@ public class BillingController {
 				header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败"); 
 				response.setResponseHeader(header);
 			}else {
-				if(data != null){
 					Integer pageNo = Integer.valueOf(data.getString("pages"));
 					Integer pageSize = Integer.valueOf(data.getString("pageSize"));
 					Integer total = Integer.valueOf(data.getString("total"));
@@ -504,23 +497,15 @@ public class BillingController {
 					pageInfo.setResult(responseList);
 					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
-					
-				}else{
-				//获取返回操作码
-				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
-				response.setResponseHeader(header);
-				return response;
-				}
 				}
 				response.setResponseHeader(header);
 				response.setData(pageInfo);
 		}catch(Exception e){
-			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
-			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败"); 
+			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "查询失败");
+			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "查询失败"); 
 			response.setResponseHeader(header);
 		}
-		
 		return response;
 	}
+	
 }

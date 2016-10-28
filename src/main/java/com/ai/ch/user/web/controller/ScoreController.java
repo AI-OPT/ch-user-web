@@ -172,18 +172,13 @@ public class ScoreController {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
+		try{
 		JSONObject data = ParseO2pDataUtil.getData(str);
 		String resultCode = data.getString("resultCode");
 		if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
 			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
 		}else {
-				if(data == null){
-					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
-					response.setResponseHeader(header);
-					return response;
-				}
 				Integer pageNo = Integer.valueOf(data.getString("pages"));
 				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
 				Integer total = Integer.valueOf(data.getString("total"));
@@ -222,6 +217,11 @@ public class ScoreController {
 			}
 			response.setResponseHeader(header);
 			response.setData(pageInfo);
+		}catch(Exception e){
+				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "查询失败");
+				header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "查询失败"); 
+				response.setResponseHeader(header);
+			}
 		return response;
 	}
 	

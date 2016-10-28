@@ -881,8 +881,8 @@ public class ContractController {
 			response.setResponseHeader(header);
 			response.setData(pageInfo);
 		}catch(Exception e){
-			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
-			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败"); 
+			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "查询失败");
+			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "查询失败"); 
 			response.setResponseHeader(header);
 		}
 		long listTime = System.currentTimeMillis();

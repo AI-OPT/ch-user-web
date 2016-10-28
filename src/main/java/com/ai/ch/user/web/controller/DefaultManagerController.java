@@ -456,7 +456,6 @@ public class DefaultManagerController {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		long resultTime = System.currentTimeMillis();
 		try{
 			JSONObject data = ParseO2pDataUtil.getData(str);
 			String resultCode = data.getString("resultCode");
@@ -465,36 +464,30 @@ public class DefaultManagerController {
 				header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败"); 
 				response.setResponseHeader(header);
 			}else {
-					if(data == null){
-						response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-						header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
-						response.setResponseHeader(header);
-						return response;
-					}
-					Integer pageNo = Integer.valueOf(data.getString("pages"));
-					Integer pageSize = Integer.valueOf(data.getString("pageSize"));
-					Integer total = Integer.valueOf(data.getString("total"));
-					Integer pageCount = Integer.valueOf(data.getString("pageNum"));
-					pageInfo = new PageInfo<>();
-					pageInfo.setCount(total);
-					pageInfo.setPageCount(pageCount);
-					pageInfo.setPageNo(pageNo);
-					pageInfo.setPageSize(pageSize);
-					List<BusinessListInfo> responseList = new ArrayList<>();
-					JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
-					Iterator<Object> iterator = list.iterator();
-					while(iterator.hasNext()){
-						BusinessListInfo businessListInfo = new BusinessListInfo(); 
-						 JSONObject object = (JSONObject) iterator.next();
-						 businessListInfo.setUserId(object.getString("companyId"));
-						 businessListInfo.setUserName(object.getString("username"));
-						 businessListInfo.setCustName(object.getString("name"));
-						 businessListInfo.setBusinessCategory(object.getString("commodityType"));
-						 responseList.add(businessListInfo);
-					}
-					pageInfo.setResult(responseList);
-					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				Integer pageNo = Integer.valueOf(data.getString("pages"));
+				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
+				Integer total = Integer.valueOf(data.getString("total"));
+				Integer pageCount = Integer.valueOf(data.getString("pageNum"));
+				pageInfo = new PageInfo<>();
+				pageInfo.setCount(total);
+				pageInfo.setPageCount(pageCount);
+				pageInfo.setPageNo(pageNo);
+				pageInfo.setPageSize(pageSize);
+				List<BusinessListInfo> responseList = new ArrayList<>();
+				JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
+				Iterator<Object> iterator = list.iterator();
+				while(iterator.hasNext()){
+					BusinessListInfo businessListInfo = new BusinessListInfo(); 
+					 JSONObject object = (JSONObject) iterator.next();
+					 businessListInfo.setUserId(object.getString("companyId"));
+					 businessListInfo.setUserName(object.getString("username"));
+					 businessListInfo.setCustName(object.getString("name"));
+					 businessListInfo.setBusinessCategory(object.getString("commodityType"));
+					 responseList.add(businessListInfo);
+				}
+				pageInfo.setResult(responseList);
+				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				}
 		}catch(Exception e){
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
@@ -502,10 +495,6 @@ public class DefaultManagerController {
 		}
 			response.setResponseHeader(header);
 			response.setData(pageInfo);
-		long resultEndtime = System.currentTimeMillis();
-		LOGGER.info("处理结果耗时"+(resultEndtime-resultTime));
-		long endTime = System.currentTimeMillis();
-		LOGGER.info("获取用户列表结束"+(endTime-startTime));
 		return response;
 	}
 	
