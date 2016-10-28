@@ -81,8 +81,9 @@ public class BillingController {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		JSONObject data = (JSONObject) JSON.parse(str);
-		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+		JSONObject data0 = (JSONObject) JSON.parse(str);
+		JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
+		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
 		model.addObject("deposit", response.getDepositBalance());
@@ -137,8 +138,9 @@ public class BillingController {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		JSONObject data = (JSONObject) JSON.parse(str);
-		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+		JSONObject data0 = (JSONObject) JSON.parse(str);
+		JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
+		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
 		model.addObject("rentFeeStr", rentFeeStr);
@@ -203,8 +205,9 @@ public class BillingController {
 			} catch (IOException | URISyntaxException e) {
 				e.printStackTrace();
 			}
-			JSONObject data = (JSONObject) JSON.parse(str);
-			JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+			JSONObject data0 = (JSONObject) JSON.parse(str);
+			JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
+			JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
 			model.addObject("userName", username);
 			model.addObject("shopName", data2.getString("name"));
 			model.addObject("rentFeeStr", rentFeeStr);

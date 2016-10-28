@@ -73,8 +73,9 @@ public class ScoreController {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		JSONObject data = (JSONObject) JSON.parse(str);
-		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+		JSONObject data0 = (JSONObject) JSON.parse(str);
+		JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
+		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
 		model.addObject("supplier_name", username);
 		model.addObject("company_name", data2.getString("name"));
 		model.addObject("userId", userId);

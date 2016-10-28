@@ -43,9 +43,11 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     		
     		//"focus [id='contractAmount']":"_showContractAmountTip",
     		"keyup [id='contractAmount']":"_checkContractAmountValue",
+    		"blur [id='contractAmount']":"_checkContractAmountValue",
     		
     		//"focus [id='contractRemark']":"_showContractRemarkTip",
     		"keyup  [id='contractRemark']":"_checkContractRemarValue",
+    		"blur  [id='contractRemark']":"_checkContractRemarValue",
     		
         },
     	//重写父类
@@ -373,6 +375,8 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			$("#scanFileText").val("");
 			$("#scanContractErrMsg").hide();
 			$("#scanContractText").text('');
+			var obj = document.getElementById('scanFile') ; 
+			obj.outerHTML=obj.outerHTML; 
 		},
 		_deleteElectronicExtFile:function(){
 			$("#electronicContractText").val("");

@@ -94,7 +94,7 @@
 										<p></p>
 									</li>
 									<li><textarea class="int-text textarea-large"
-												id="contractRemark" name="remark" cols="50" rows="3" >${contactInfo.remark}</textarea></li>
+												id="contractRemark" name="remark" cols="50" rows="3" onblur="pager.__checkFileValue();">${contactInfo.remark}</textarea></li>
 									<li><label id="remarkErrMsg" style="display: none;"><span class="ash" id="remarkText"></span></label></li>
 								</ul>
 								<ul>
@@ -108,7 +108,7 @@
 							               <input type="hidden" value="changhong" name="list[0].tenantId"/>
 							               
 										   <input class="int-text int-large" value="${scanContractInfoName }" id="scanFileText" type="text">
-										   <input type="button" id="scanContract" class="btn-default btn-medium" value="浏览文件"/>
+										   <input type="button" id="scanContract" class="btn-primary btn-medium" value="浏览文件"/>
 										   <input type="file" name="scanFile" id="scanFile" onchange="uploadFile('scanFile','scanFileText','scanContractErrMsg','scanContractText','scanVersionContractFlag','ddsId1')"  class="int-file"/>
 										   <input type="button"
 											class="biu-btn  btn-primary btn-blue btn-medium ml-10"
@@ -128,7 +128,7 @@
 								             <input type="hidden" id="electronicFileUserId" value="${userId}" name="list[1].userId"/>
 								             <input type="hidden" id="electronicFileTennatId" value="changhong" name="list[1].tenantId"/>
 											 <input class="int-text int-large" value="${electronicContractInfoName}" id="electronicContractText" type="text">
-											 <input type="button" id="electronicContract" class="btn-default btn-medium" value="浏览文件"/>
+											 <input type="button" id="electronicContract" class="btn-primary btn-medium" value="浏览文件"/>
 											 <input type="file" name="electronicFile" id="electronicFile" onchange="uploadFile('electronicFile','electronicContractText','electronicContractErrMsg','electronicContractFileText','electronicContractFlag','ddsId2')" class="int-file"/>
 											 <input type="button"
 												class="biu-btn  btn-primary btn-blue btn-medium ml-10"

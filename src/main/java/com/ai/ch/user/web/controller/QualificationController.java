@@ -98,8 +98,10 @@ public class QualificationController {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		JSONObject data = (JSONObject) JSON.parse(str);
-		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+		JSONObject data0 = (JSONObject) JSON.parse(str);
+		JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
+		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
+		
 		//转换时间
 		String createTime ="";
 		if("".equals(data2.getString("createTime"))){
@@ -202,8 +204,9 @@ public class QualificationController {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		JSONObject data = (JSONObject) JSON.parse(str);
-		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+		JSONObject data0 = (JSONObject) JSON.parse(str);
+		JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
+		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
 		//转换时间
 		String createTime="";
 		//查询商户信息
@@ -345,8 +348,9 @@ public class QualificationController {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		JSONObject data = (JSONObject) JSON.parse(str);
-		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+		JSONObject data0 = (JSONObject) JSON.parse(str);
+		JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
+		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
 		//转换时间
 		String createTime ="";
 		if("".equals(data2.getString("createTime"))){
@@ -458,8 +462,9 @@ public class QualificationController {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		JSONObject data = (JSONObject) JSON.parse(str);
-		JSONObject data2 = (JSONObject) JSON.parse(data.getString("data"));
+		JSONObject data0 = (JSONObject) JSON.parse(str);
+		JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
+		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
 		//转换时间
 		String createTime ="";
 		if("".equals(data2.getString("createTime"))){
