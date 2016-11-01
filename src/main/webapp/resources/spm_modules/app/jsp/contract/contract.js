@@ -382,6 +382,8 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			$("#electronicContractText").val("");
 			$("#electronicContractErrMsg").hide();
 			$("#electronicContractFileText").text('');
+			var obj = document.getElementById('electronicFile') ; 
+			obj.outerHTML=obj.outerHTML; 
 		},
 		_checkContractRemarValue:function(){
 			var remark = $("#contractRemark").val();
