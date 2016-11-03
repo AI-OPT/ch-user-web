@@ -72,7 +72,7 @@
 											<th>用户名</th>
 											<th>企业名称</th>
 											<th>经营品类</th>
-											<th>状态</th>
+											<th>操作</th>
 										</tr>
 									</thead>
 									<tbody id="TBODY_DEFAULTLIST">
