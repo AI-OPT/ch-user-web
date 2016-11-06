@@ -2,6 +2,10 @@ package com.ai.ch.user.web.vo;
 
 public class BusinessListInfo {
 	/**
+	 * 计数
+	 */
+	public Integer index;
+	/**
 	 * 用户Id
 	 */
 	public String userId;
@@ -50,6 +54,16 @@ public class BusinessListInfo {
 	 * 审核时间
 	 */
 	public String auditTime;
+
+	
+	
+	public Integer getIndex() {
+		return index;
+	}
+
+	public void setIndex(Integer index) {
+		this.index = index;
+	}
 
 	public String getAuditTime() {
 		return auditTime;

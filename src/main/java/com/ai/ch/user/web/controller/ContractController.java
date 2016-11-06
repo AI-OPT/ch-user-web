@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -288,7 +289,8 @@ public class ContractController {
 	 			
 	 			if(ChWebConstants.SCAN_CONTRACT_SUPPLIER.equals(extVp.getInfoItem())){
 		 			model.put("scanContractInfoName",infoName);
-		 			model.put("scanDownLoadName", new Date().getTime()+infoName.substring(infoName.lastIndexOf("."),infoName.length()));
+		 			//model.put("scanDownLoadName", new Date().getTime()+infoName.substring(infoName.lastIndexOf("."),infoName.length()));
+		 			model.put("scanDownLoadName", UUIDUtil.genShortId()+infoName.substring(infoName.lastIndexOf("."),infoName.length()));
 		 			model.put("scanContractAttrValue",attrValue);
 		 			model.put("scanContractInfoItem",infoItem);
 	 			}else{
@@ -385,7 +387,8 @@ public class ContractController {
 	 			
 	 			if(ChWebConstants.SCAN_CONTRACT_SHOP.equals(extVp.getInfoItem())){
 		 			model.put("scanContractInfoName",infoName);
-		 			model.put("scanDownLoadName", new Date().getTime()+infoName.substring(infoName.lastIndexOf("."),infoName.length()));
+		 			//model.put("scanDownLoadName", new Date().getTime()+infoName.substring(infoName.lastIndexOf("."),infoName.length()));
+		 			model.put("scanDownLoadName", UUIDUtil.genShortId()+infoName.substring(infoName.lastIndexOf("."),infoName.length()));
 		 			model.put("scanContractAttrValue",attrValue);
 		 			model.put("scanContractInfoItem",infoItem);
 	 			}else{
@@ -861,18 +864,21 @@ public class ContractController {
 					Iterator<Object> iterator = list.iterator();
 					GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 					Map<String,ContractInfoResponse> contractMap = getContractList(userClient.getTenantId());
+					int index=0;
 					while(iterator.hasNext()){
 						BusinessListInfo businessInfo = new BusinessListInfo(); 
 						 JSONObject object = (JSONObject) iterator.next();
 						 businessInfo.setUserId(object.getString("companyId"));
 						 businessInfo.setUserName(object.getString("username"));
 						 businessInfo.setCustName(object.getString("name"));
+						 businessInfo.setIndex(index);
 						 if(contractMap.get(businessInfo.getUserId()+companyType)!=null){
 								businessInfo.setUploadStatus("已上传");
 							}else{
 								businessInfo.setUploadStatus("未上传");
 							}
 						 responseList.add(businessInfo);
+						 index++;
 					}
 					pageInfo.setResult(responseList);
 					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "查询成功");
