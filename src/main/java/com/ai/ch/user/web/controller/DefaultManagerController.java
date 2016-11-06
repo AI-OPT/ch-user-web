@@ -294,11 +294,12 @@ public class DefaultManagerController {
 			BigDecimal orderAmt = new BigDecimal("0");
 			List<PayOrderDetail> details = new ArrayList<PayOrderDetail>();
 			PayOrderDetail detail = new PayOrderDetail();
-			detail.setProductAmt("1");//扣保证金金额（分）
+			//detail.setProductAmt();//扣保证金金额（分）
+			detail.setProductAmt(new Double(defaultLogInfo.getDeductBalance()*100).longValue()+"");//扣保证金金额（分）
 			detail.setProductName("productName1");//扣保证金原因
 			detail.setSonMerNo(gnTenantVo.getReceivingSide());//收取保证金商户号
 			detail.setMerSeqId(UUIDUtil.genId32());//商户主订单号
-			orderAmt = BigDecimal.valueOf(Long.parseLong(detail.getProductAmt()));//订单总金额(当前与扣款金额相同)
+			orderAmt = new BigDecimal(detail.getProductAmt());//订单总金额(当前与扣款金额相同)
 			details.add(detail);
 			body.setOrderAmt(orderAmt.toString());
 			body.setOrderNum(details.size() + "");
