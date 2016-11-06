@@ -7,8 +7,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,19 +28,16 @@ import com.ai.ch.user.api.rank.params.ShopRankRuleVo;
 import com.ai.ch.user.api.rank.params.UpdateRankRuleRequest;
 import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
-import com.ai.ch.user.web.util.PropertiesUtil;
 import com.ai.ch.user.web.vo.ShopRankParamVo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
-import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.paas.ipaas.image.IImageClient;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
-import com.alibaba.fastjson.JSON;
 
 @RestController
 @RequestMapping("/rank")
