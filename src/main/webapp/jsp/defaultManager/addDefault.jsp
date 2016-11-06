@@ -82,15 +82,15 @@
 												class="ash" id="amountText">1-12位字符，可用数字及"."</span></label></li>
 									</ul>
 									<ul>
-										<li class="form-btn"><input type="button"
+										<li><p class="word">&nbsp;</p>
+										<p><input type="button"
 											class="biu-btn  btn-primary btn-blue btn-medium ml-10"
-											 id="saveDefaultManager" value="保存">
+											 id="saveDefaultManager" value="保存"></p><p>
 											<input type="button"  class="biu-btn  btn-primary btn-blue btn-medium ml-5"
-											onclick="history.go(-1)"	value="返回">
+											onclick="backup();"	value="返回"></p>
 											<input type="hidden" id="defaultReasonFlag" /> 
 											<input
 											type="hidden" id="amountFlag" /></li>
-										
 									</ul>
 								</div>
 							</div>
@@ -115,6 +115,9 @@
 			});
 			defaultPagerManager.render();
 		});
+		function backup(){
+			window.location.href=_base+"/defaultManager/defaultManagerPager";
+		}
 	</script>
 </body>
 </html>

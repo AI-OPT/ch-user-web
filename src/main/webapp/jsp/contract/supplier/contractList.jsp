@@ -108,8 +108,8 @@ var pager;
 		<td>{{:custName}}</td>
 		<td>{{:uploadStatus}}</td>
 		<td  id="operation">
-			<a class＝"btn-primary" href="javascript:void(0)" onclick="pager._toContractManager('{{:userId}}','{{:userName}}','{{:custName}}')">管理</a>
-            <a class＝"btn-primary" href="javascript:void(0)" onclick="pager._toContractDetail('{{:userId}}','{{:userName}}','{{:custName}}')">查看</a>
+			<a class＝"btn-primary" id="manager{{:index}}" style="display:none" href="javascript:void(0)" onclick="pager._toContractManager('{{:userId}}','{{:userName}}','{{:custName}}')">管理</a>
+            <a class＝"btn-primary" id="view{{:index}}" style="display:none" href="javascript:void(0)" onclick="pager._toContractDetail('{{:userId}}','{{:userName}}','{{:custName}}')">查看</a>
 		</td>
 	</tr>
 {{/for}}

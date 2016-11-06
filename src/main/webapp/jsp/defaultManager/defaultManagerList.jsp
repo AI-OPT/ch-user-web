@@ -12,10 +12,6 @@
 <%@include file="/inc/inc.jsp"%>
 </head>
 <body>
-	<div class="row">
-		<!--外围框架-->
-		<div class="col-lg-12">
-			<!--删格化-->
 			<div class="row">
 				<!--内侧框架-->
 				<div class="col-lg-12">
@@ -46,14 +42,6 @@
 								</li>
 							</ul>
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-				<div class="row">
-					<!--外围框架-->
-					<div class="col-lg-12">
 						<!--删格化-->
 						<div class="row">
 							<!--内侧框架-->
@@ -88,9 +76,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-	</div>
+				</div>
 	<script type="text/javascript">
 		(function() {
 			seajs.use('app/jsp/billing/defaultManagerList', function(
