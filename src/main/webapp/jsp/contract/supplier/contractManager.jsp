@@ -199,7 +199,9 @@
 			contractPager.render();
 		});
 	})();  
-	
+	function backup(){
+		window.location.href=_base+"/contract/billingpager";
+	}
 </script>
 </body>
 </html>

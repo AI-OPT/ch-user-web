@@ -113,7 +113,7 @@
 								<p class="word">&nbsp;</p>
 								<p>
                              			<input type="button" style="margin-left: 30%" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
-										onclick="history.go(-1)"	value="返回">
+										onclick="backup();"	value="返回">
 										</p>
                              		</li>
                              	</ul>	
@@ -125,6 +125,10 @@
             
             </div>
     </div>
-    
+        <script type="text/javascript">
+	function backup(){
+		window.location.href=_base+"/contract/contractSupplierPager";
+	}
+	</script>
 </body>
 </html>
