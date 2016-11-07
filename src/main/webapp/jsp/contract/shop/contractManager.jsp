@@ -200,7 +200,7 @@
 	})();  
 	
 	function backup(){
-		window.location.href=_base+"/contract/contractSupplierPager";
+		window.location.href=_base+"/contract/contractShopPager";
 	}
 </script>
 

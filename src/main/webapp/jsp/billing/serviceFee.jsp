@@ -58,10 +58,9 @@
 					                <p>${ratioStr }</p> 
 					              </li>
 					            </ul>  
-       				   	</div>
-					            <div class="text-c">  
 					            <ul>
-								 	<li><p><input type="button"
+								 	<li>
+								 	<p class="word">&nbsp;</p><p><input type="button"
 												onclick="backup();" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
 												value="返回"></p></li>
 								 	</ul>   

@@ -151,7 +151,7 @@
 										<input type="button" class="biu-btn btn-primary btn-blue btn-medium ml-10" id="supplierSave"    value="保存">	
 										</p><p>
 										<input type="button"  class="biu-btn  btn-primary btn-blue btn-medium ml-5"
-										onclick="history.go(-1)"	value="返回">
+										onclick="backup();"	value="返回">
 										</p>
 										<input type="hidden" id="contractCodeFlag" value="0"/>
 										<input type="hidden" id="contractNameFlag" value="0"/>
@@ -200,7 +200,7 @@
 		});
 	})();  
 	function backup(){
-		window.location.href=_base+"/contract/billingpager";
+		window.location.href=_base+"/contract/contractSupplierPager";
 	}
 </script>
 </body>
