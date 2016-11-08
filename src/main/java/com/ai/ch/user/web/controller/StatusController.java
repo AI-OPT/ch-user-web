@@ -2,6 +2,7 @@ package com.ai.ch.user.web.controller;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,8 +11,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,9 +23,12 @@ import com.ai.ch.user.web.vo.StatusListVo;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
+import com.ai.opt.sdk.util.DateUtil;
 import com.ai.opt.sdk.util.ParseO2pDataUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
+import com.alibaba.dubbo.common.logger.Logger;
+import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -35,7 +37,8 @@ import com.alibaba.fastjson.JSONObject;
 @RequestMapping("/status")
 public class StatusController {
 
-	private static final Log log = LogFactory.getLog(ScoreController.class);
+	private static final Logger log = LoggerFactory.getLogger(StatusController.class);
+	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	@RequestMapping("/updateStatus")
 	@ResponseBody
@@ -98,9 +101,10 @@ public class StatusController {
 		String str ="";
 		try {
 			Long beginTime = System.currentTimeMillis();
-			log.info("长虹修改审核状态服务开始"+beginTime);
+			log.info("向通行证发起修改审核状态请求开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateCompanyState_http_url"), JSON.toJSONString(map), mapHeader);
-			log.info("长虹修改审核状态服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			log.info("向通行证发起修改审核状态请求结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateAuditState_http_url"), JSON.toJSONString(map), mapHeader);
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
@@ -113,10 +117,16 @@ public class StatusController {
 		}else {
 			String result = data.getString("result");
 			if ("success".equals(result)){
+				log.info("操作员Id:"+user.getUserId());
+				log.info("操作员姓名:"+user.getLoginName());
+				log.info("审核通过时间:"+format.format(DateUtil.getSysDate()));
 				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 			}
 			else{
+				log.info("操作员Id:"+user.getUserId());
+				log.info("操作员姓名:"+user.getLoginName());
+				log.info("审核失败时间:"+format.format(DateUtil.getSysDate()));
 				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
 			}
