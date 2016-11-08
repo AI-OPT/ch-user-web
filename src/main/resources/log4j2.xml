@@ -4,8 +4,8 @@
     <Console name="STDOUT" target="SYSTEM_OUT">
       <PatternLayout pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
     </Console>
-    <RollingFile name="RollingFile" fileName="logs/ch-user-web.log"
-                     filePattern="logs/$${date:yyyy-MM}/ch-user-web-%d{yyyy-MM-dd}-%i.log.gz">
+    <RollingFile name="RollingFile" fileName="/logs/ch-user-web.log"
+                     filePattern="/logs/$${date:yyyy-MM}/ch-user-web-%d{yyyy-MM-dd}-%i.log.gz">
        <PatternLayout>
          <Pattern>%d %-5p [%t] %C{2} (%F:%L) - %m%n</Pattern>
        </PatternLayout>
@@ -15,15 +15,29 @@
        </Policies>
        <DefaultRolloverStrategy max="20"/>
      </RollingFile>
+     
+     <RollingFile name="qualificationLogFile" fileName="logs/ch-user-qualification.log"
+                     filePattern="logs/$${date:yyyy-MM}/ch-user-web-%d{yyyy-MM-dd}-%i.log.gz">
+       <PatternLayout>
+         <Pattern>%d %-5p [%t] %C{2} (%F:%L) - %m%n</Pattern>
+       </PatternLayout>
+       <Policies>
+         <TimeBasedTriggeringPolicy />
+         <SizeBasedTriggeringPolicy size="20 MB"/>
+       </Policies>
+       <DefaultRolloverStrategy max="20"/>
+     </RollingFile>
     <Async name="ASYNC">
       <AppenderRef ref="RollingFile"/>
       <AppenderRef ref="STDOUT"/>
+      <AppenderRef ref="qualificationLogFile"/>
     </Async>
   </Appenders>
   <Loggers>
     <Root level="info">
       <AppenderRef ref="RollingFile"/>
       <AppenderRef ref="STDOUT"/>
+      <AppenderRef ref="qualificationLogFile"/>
     </Root>
   </Loggers>
 </Configuration>
