@@ -25,14 +25,17 @@ import com.ai.ch.user.api.shopinfo.params.QueryShopInfoRequest;
 import com.ai.ch.user.api.shopinfo.params.QueryShopInfoResponse;
 import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.constants.ChWebConstants.OperateCode;
+import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.util.PropertiesUtil;
 import com.ai.ch.user.web.vo.BusinessListInfo;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
+import com.ai.opt.sdk.util.DateUtil;
 import com.ai.opt.sdk.util.ParseO2pDataUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -43,6 +46,7 @@ public class QualificationController {
 	
 	private static final Logger log = LoggerFactory.getLogger(QualificationController.class);
 	
+	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	//电商平台位置
 	static private String[] shopOwner = {"京东","天猫","淘宝","苏宁","一号店","自有电商平台"};
 	
@@ -727,6 +731,56 @@ public class QualificationController {
 				response.setData(pageInfo);
 			return response;
 	}
+		
+		@RequestMapping("/updateAudit")
+		@ResponseBody
+		public ResponseData<String> updateAudit(HttpServletRequest request,String companyId,String auditState){
+			ResponseData<String> response = null;
+			ResponseHeader header = null;
+			GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+			Map<String, String> map = new HashMap<>();
+			Map<String, String> mapHeader = new HashMap<>();
+			mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
+			map.put("openId", user.getUserId());
+			map.put("auditState",auditState);
+			map.put("companyId",companyId);
+			String str ="";
+			try {
+				Long beginTime = System.currentTimeMillis();
+				log.info("向通行证发起修改审核状态请求开始"+beginTime);
+				str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateCompanyState_http_url"), JSON.toJSONString(map), mapHeader);
+				log.info("向通行证发起修改审核状态请求结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			} catch (IOException | URISyntaxException e) {
+				e.printStackTrace();
+			}
+			JSONObject data = ParseO2pDataUtil.getData(str);
+			String resultCode = data.getString("resultCode");
+			if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
+				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
+			}else {
+				String result = data.getString("result");
+				if ("success".equals(result)){
+					log.info("操作员Id:"+user.getUserId());
+					log.info("操作员姓名:"+user.getLoginName());
+					log.info("被审核Id:"+companyId);
+					log.info("审核通过时间:"+format.format(DateUtil.getSysDate()));
+					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				}
+				else{
+					log.info("操作员Id:"+user.getUserId());
+					log.info("操作员姓名:"+user.getLoginName());
+					log.info("被审核Id:"+companyId);
+					log.info("审核失败时间:"+format.format(DateUtil.getSysDate()));
+					response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
+					header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
+				}
+				response.setResponseHeader(header);
+
+			}
+			return response;
+		}
 		
 		/** 
 	     * 对字符串处理:将指定位置到指定位置的字符以星号代替 

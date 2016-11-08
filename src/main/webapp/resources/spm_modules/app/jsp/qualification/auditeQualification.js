@@ -51,7 +51,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 					this.close;
 					$.ajax({
 		    			type:"post",
-		    			url:_base+"/status/updateAudit",
+		    			url:_base+"/qualification/updateAudit",
 		    			dataType: "json",
 		    			data:{
 		    				"auditState":"2",
@@ -118,7 +118,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 					this.close;
 					$.ajax({
 		    			type:"post",
-		    			url:_base+"/status/updateAudit",
+		    			url:_base+"/qualification/updateAudit",
 		    			dataType: "json",
 		    			data:{
 		    				"auditState":'3',
