@@ -37,7 +37,7 @@ import com.alibaba.fastjson.JSONObject;
 @RequestMapping("/status")
 public class StatusController {
 
-	private static final Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
+	private static final Logger logger = LoggerFactory.getLogger(StatusController.class);
 	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	@RequestMapping("/updateStatus")
@@ -119,6 +119,7 @@ public class StatusController {
 			if ("success".equals(result)){
 				logger.info("操作员Id:"+user.getUserId());
 				logger.info("操作员姓名:"+user.getLoginName());
+				logger.info("被审核Id:"+companyId);
 				logger.info("审核通过时间:"+format.format(DateUtil.getSysDate()));
 				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
@@ -126,6 +127,7 @@ public class StatusController {
 			else{
 				logger.info("操作员Id:"+user.getUserId());
 				logger.info("操作员姓名:"+user.getLoginName());
+				logger.info("被审核Id:"+companyId);
 				logger.info("审核失败时间:"+format.format(DateUtil.getSysDate()));
 				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
