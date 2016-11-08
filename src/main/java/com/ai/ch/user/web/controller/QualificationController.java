@@ -761,18 +761,22 @@ public class QualificationController {
 			}else {
 				String result = data.getString("result");
 				if ("success".equals(result)){
-					log.info("+++++++++++++++++++++++++++++++++++++++++++++操作员Id:"+user.getUserId());
-					//log.info("操作员姓名:"+user.getLoginName());
-					//log.info("被审核Id:"+companyId);
-					//log.info("审核通过时间:"+format.format(DateUtil.getSysDate()));
+					log.info("+++++++++++++++++++++++++++++++++++++++++++++");
+					log.info("操作员Id:"+user.getUserId());
+					log.info("操作员姓名:"+user.getLoginName());
+					log.info("被审核Id:"+companyId);
+					log.info("审核通过时间:"+format.format(DateUtil.getSysDate()));
+					log.info("+++++++++++++++++++++++++++++++++++++++++++++");
 					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				}
 				else{
+					log.info("+++++++++++++++++++++++++++++++++++++++++++++");
 					log.info("操作员Id:"+user.getUserId());
-					//log.info("操作员姓名:"+user.getLoginName());
-					//log.info("被审核Id:"+companyId);
-					//log.info("审核失败时间:"+format.format(DateUtil.getSysDate()));
+					log.info("操作员姓名:"+user.getLoginName());
+					log.info("被审核Id:"+companyId);
+					log.info("审核失败时间:"+format.format(DateUtil.getSysDate()));
+					log.info("+++++++++++++++++++++++++++++++++++++++++++++");
 					response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
 					header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
 				}
