@@ -41,7 +41,7 @@ import com.alibaba.fastjson.JSONObject;
 @RequestMapping("/qualification")
 public class QualificationController {
 	
-	private static final Log logger = LogFactory.getLog("qualificationLogFile");
+	private static final Log logger = LogFactory.getLog("com.ai");
 	
 	
 	//电商平台位置
