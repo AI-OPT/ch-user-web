@@ -11,6 +11,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +29,6 @@ import com.ai.opt.sdk.util.DateUtil;
 import com.ai.opt.sdk.util.ParseO2pDataUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
-import com.alibaba.dubbo.common.logger.Logger;
-import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -37,7 +37,7 @@ import com.alibaba.fastjson.JSONObject;
 @RequestMapping("/status")
 public class StatusController {
 
-	private static final Logger log = LoggerFactory.getLogger(StatusController.class);
+	private static final Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
 	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	@RequestMapping("/updateStatus")
@@ -53,7 +53,7 @@ public class StatusController {
 		String str ="";
 		try {
 			Long beginTime = System.currentTimeMillis();
-			log.info("长虹修改账户状态服务开始"+beginTime);
+			logger.info("长虹修改账户状态服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateCompanyState_http_url"), JSON.toJSONString(map), mapHeader);
 			JSONObject data = ParseO2pDataUtil.getData(str);
 			String resultCode = data.getString("resultCode");
@@ -75,7 +75,7 @@ public class StatusController {
 				response.setResponseHeader(header);
 
 			}
-			log.info("长虹修改账户状态服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			logger.info("长虹修改账户状态服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
 			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
@@ -101,9 +101,9 @@ public class StatusController {
 		String str ="";
 		try {
 			Long beginTime = System.currentTimeMillis();
-			log.info("向通行证发起修改审核状态请求开始"+beginTime);
+			logger.info("向通行证发起修改审核状态请求开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateCompanyState_http_url"), JSON.toJSONString(map), mapHeader);
-			log.info("向通行证发起修改审核状态请求结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			logger.info("向通行证发起修改审核状态请求结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateAuditState_http_url"), JSON.toJSONString(map), mapHeader);
 		} catch (IOException | URISyntaxException e) {
@@ -117,16 +117,16 @@ public class StatusController {
 		}else {
 			String result = data.getString("result");
 			if ("success".equals(result)){
-				log.info("操作员Id:"+user.getUserId());
-				log.info("操作员姓名:"+user.getLoginName());
-				log.info("审核通过时间:"+format.format(DateUtil.getSysDate()));
+				logger.info("操作员Id:"+user.getUserId());
+				logger.info("操作员姓名:"+user.getLoginName());
+				logger.info("审核通过时间:"+format.format(DateUtil.getSysDate()));
 				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 			}
 			else{
-				log.info("操作员Id:"+user.getUserId());
-				log.info("操作员姓名:"+user.getLoginName());
-				log.info("审核失败时间:"+format.format(DateUtil.getSysDate()));
+				logger.info("操作员Id:"+user.getUserId());
+				logger.info("操作员姓名:"+user.getLoginName());
+				logger.info("审核失败时间:"+format.format(DateUtil.getSysDate()));
 				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
 			}
@@ -156,9 +156,9 @@ public class StatusController {
 		String str ="";
 		try {
 			Long beginTime = System.currentTimeMillis();
-			log.info("长虹获取列表服务开始"+beginTime);
+			logger.info("长虹获取列表服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateCompanyState_http_url"), JSON.toJSONString(map), mapHeader);
-			log.info("长虹获取列表服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			logger.info("长虹获取列表服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();

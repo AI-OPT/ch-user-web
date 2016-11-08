@@ -12,6 +12,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,8 +33,6 @@ import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.opt.sdk.util.ParseO2pDataUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
-import com.alibaba.dubbo.common.logger.Logger;
-import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -92,9 +92,9 @@ public class QualificationController {
 		String str ="";
 		try {
 			Long beginTime = System.currentTimeMillis();
-			log.info("长虹查询店铺信息服务开始"+beginTime);
+			log.info("长虹查询供应商信息服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
-			log.info("长虹查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			log.info("长虹查询供应商信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -342,9 +342,9 @@ public class QualificationController {
 		String str ="";
 		try {
 			Long beginTime = System.currentTimeMillis();
-			log.info("长虹查询店铺信息服务开始"+beginTime);
+			log.info("长虹查询供应商信息服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
-			log.info("长虹查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			log.info("长虹查询供应商信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -599,9 +599,9 @@ public class QualificationController {
 		String str ="";
 		try {
 			Long beginTime = System.currentTimeMillis();
-			log.info("长虹查询店铺信息服务开始"+beginTime);
+			log.info("长虹查询未审核列表信息服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
-			log.info("长虹查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			log.info("长虹查询未审核列表信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -669,9 +669,9 @@ public class QualificationController {
 			String str ="";
 			try {
 				Long beginTime = System.currentTimeMillis();
-				log.info("长虹查询店铺信息服务开始"+beginTime);
+				log.info("长虹查询已审核列表信息服务开始"+beginTime);
 				str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
-				log.info("长虹查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+				log.info("长虹查询已审核列表信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			} catch (IOException | URISyntaxException e) {
 				e.printStackTrace();
 			}
