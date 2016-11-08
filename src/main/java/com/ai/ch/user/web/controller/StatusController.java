@@ -38,6 +38,7 @@ import com.alibaba.fastjson.JSONObject;
 public class StatusController {
 
 	private static final Logger logger = LoggerFactory.getLogger(StatusController.class);
+	
 	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	@RequestMapping("/updateStatus")
@@ -104,8 +105,6 @@ public class StatusController {
 			logger.info("向通行证发起修改审核状态请求开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateCompanyState_http_url"), JSON.toJSONString(map), mapHeader);
 			logger.info("向通行证发起修改审核状态请求结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
-			
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateAuditState_http_url"), JSON.toJSONString(map), mapHeader);
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
