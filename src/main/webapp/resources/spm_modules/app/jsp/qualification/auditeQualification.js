@@ -30,6 +30,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
     	//事件代理
     	events: {
     		"click #scoreListForm":"_getScoreList",
+    		"blur #reason":"_checkReason",
         },
     	//重写父类
     	setup: function () {
@@ -55,7 +56,8 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    			dataType: "json",
 		    			data:{
 		    				"auditState":"2",
-		    				"companyId":userId
+		    				"companyId":userId,
+		    				"reason":$("#reason").val()
 		    			},
 		    	        success: function(data) {
 		    	        	if(data.responseHeader.resultCode=='000000'){
@@ -106,8 +108,34 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 			});
 			d.show();
     	},
-
+		_checkReason:function(){
+			var remark = $("#reason").val();
+			if(remark.length==0){
+				$("#reasonErrMsg").show();
+				$("#reasonText").show();;
+				$("#reasonText").text("审核原因不能为空");
+				$("#reasonFlag").val("0");
+				return false;
+			}
+			if(remark.length>0&&remark.length<=256){
+				$("#reasonErrMsg").hide();
+				$("#reasonText").hide();
+				$("#reasonText").val("")
+				$("#reasonFlag").val("1");
+				
+			}else{
+				$("#reasonErrMsg").show();
+				$("#reasonText").show();;
+				$("#reasonText").text("1-256位字符");
+				$("#reasonFlag").val("0");
+			}
+		},
+		
     	_rejectAudit:function(userId,url){
+    		auditeQualificationPager._checkReason();
+    		if($("#reasonFlag").val=='0'){
+    			return false;
+    		}
     		var d = Dialog({
 				title : '提示',
 				content : '审核拒绝此资质信息吗？',
@@ -122,7 +150,8 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    			dataType: "json",
 		    			data:{
 		    				"auditState":'3',
-		    				"companyId":userId
+		    				"companyId":userId,
+		    				"reason":$("#reason").val()
 		    			},
 		    	        success: function(data) {
 		    	        	if(data.responseHeader.resultCode=='000000'){

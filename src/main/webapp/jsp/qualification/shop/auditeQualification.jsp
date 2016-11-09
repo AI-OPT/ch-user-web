@@ -443,8 +443,16 @@
 								</li>
 							</ul>
 							<ul>
+									<li>
+										<p class="word">审核原因</p>
+										<p></p>
+									</li>
+									<li><textarea class="int-text textarea-large"
+												id="reason" name="reason" cols="50" rows="3"></textarea></li>
+									<li><label id="reasonErrMsg" style="display: none;"><span class="ash" id="reasonText"></span></label></li>
+								</ul>
+							<ul>
 							<li>
-							<p class="word">&nbsp;</p>
 							<p class="word">&nbsp;</p>
 							<p>
 								<input type="button"
