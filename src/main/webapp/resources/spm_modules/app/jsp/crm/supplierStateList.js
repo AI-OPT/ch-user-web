@@ -100,7 +100,7 @@ define('app/jsp/crm/supplierStateList', function (require, exports, module) {
 		    				"companyId":userId
 		    			},
 		    	        success: function(data) {
-		    	        	if(data.responseHeader.resultCode='000000'){
+		    	        	if(data.responseHeader.resultCode=='000000'){
 		    	        		var d = Dialog({
 		    	    				title : '提示',
 		    	    				content : '保存成功',
@@ -163,7 +163,7 @@ define('app/jsp/crm/supplierStateList', function (require, exports, module) {
 		    				"companyId":userId
 		    			},
 		    	        success: function(data) {
-		    	        	if(data.responseHeader.resultCode='000000'){
+		    	        	if(data.responseHeader.resultCode=='000000'){
 		    	        		var d = Dialog({
 		    	    				title : '提示',
 		    	    				content : '保存成功',
@@ -226,7 +226,7 @@ define('app/jsp/crm/supplierStateList', function (require, exports, module) {
 		    				"companyId":userId
 		    			},
 		    	        success: function(data) {
-		    	        	if(data.responseHeader.resultCode='000000'){
+		    	        	if(data.responseHeader.resultCode=='000000'){
 		    	        		var d = Dialog({
 		    	    				title : '提示',
 		    	    				content : '保存成功',
@@ -289,7 +289,7 @@ define('app/jsp/crm/supplierStateList', function (require, exports, module) {
 		    				"companyId":userId
 		    			},
 		    	        success: function(data) {
-		    	        	if(data.responseHeader.resultCode='000000'){
+		    	        	if(data.responseHeader.resultCode=='000000'){
 		    	        		var d = Dialog({
 		    	    				title : '提示',
 		    	    				content : '保存成功',

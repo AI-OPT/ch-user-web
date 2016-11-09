@@ -603,9 +603,9 @@ public class QualificationController {
 		String str ="";
 		try {
 			Long beginTime = System.currentTimeMillis();
-			log.info("+++++++++++++++++++++++++++长虹查询未审核列表信息服务开始"+beginTime);
+			log.info("++++++++++长虹查询未审核列表信息服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
-			log.info("+++++++++++++++++++++++++++长虹查询未审核列表信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			log.info("++++++++++长虹查询未审核列表信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -673,9 +673,9 @@ public class QualificationController {
 			String str ="";
 			try {
 				Long beginTime = System.currentTimeMillis();
-				log.info("++++++++++++++++++++长虹查询已审核列表信息服务开始"+beginTime);
+				log.info("++++++++++长虹查询已审核列表信息服务开始"+beginTime);
 				str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
-				log.info("++++++++++++++++++++长虹查询已审核列表信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+				log.info("++++++++++长虹查询已审核列表信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			} catch (IOException | URISyntaxException e) {
 				e.printStackTrace();
 			}
@@ -747,9 +747,9 @@ public class QualificationController {
 			String str ="";
 			try {
 				Long beginTime = System.currentTimeMillis();
-				log.info("+++++++++++++++++++++++++++向通行证发起修改审核状态请求开始"+beginTime);
+				log.info("++++++++++向通行证发起修改审核状态请求开始"+beginTime);
 				str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateCompanyState_http_url"), JSON.toJSONString(map), mapHeader);
-				log.info("+++++++++++++++++++++++++++向通行证发起修改审核状态请求结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+				log.info("++++++++++向通行证发起修改审核状态请求结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			} catch (IOException | URISyntaxException e) {
 				e.printStackTrace();
 			}
@@ -762,20 +762,20 @@ public class QualificationController {
 				String result = data.getString("result");
 				if ("success".equals(result)){
 					log.info("+++++++++++++++++++++++++++++++++++++++++++++");
-					log.info("操作员Id:"+user.getUserId());
-					log.info("操作员姓名:"+user.getLoginName());
-					log.info("被审核Id:"+companyId);
-					log.info("审核通过时间:"+format.format(DateUtil.getSysDate()));
+					log.info("++++++++++操作员Id:"+user.getUserId());
+					log.info("++++++++++操作员姓名:"+user.getLoginName());
+					log.info("++++++++++被审核Id:"+companyId);
+					log.info("++++++++++审核通过时间:"+format.format(DateUtil.getSysDate()));
 					log.info("+++++++++++++++++++++++++++++++++++++++++++++");
 					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				}
 				else{
 					log.info("+++++++++++++++++++++++++++++++++++++++++++++");
-					log.info("操作员Id:"+user.getUserId());
-					log.info("操作员姓名:"+user.getLoginName());
-					log.info("被审核Id:"+companyId);
-					log.info("审核失败时间:"+format.format(DateUtil.getSysDate()));
+					log.info("++++++++++操作员Id:"+user.getUserId());
+					log.info("++++++++++操作员姓名:"+user.getLoginName());
+					log.info("++++++++++被审核Id:"+companyId);
+					log.info("++++++++++审核失败时间:"+format.format(DateUtil.getSysDate()));
 					log.info("+++++++++++++++++++++++++++++++++++++++++++++");
 					response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
 					header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");

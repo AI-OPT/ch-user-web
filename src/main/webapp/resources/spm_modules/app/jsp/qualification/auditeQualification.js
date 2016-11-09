@@ -58,7 +58,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    				"companyId":userId
 		    			},
 		    	        success: function(data) {
-		    	        	if(data.responseHeader.resultCode='000000'){
+		    	        	if(data.responseHeader.resultCode=='000000'){
 		    	        		var d = Dialog({
 		    	    				title : '提示',
 		    	    				content : '保存成功',
@@ -125,7 +125,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    				"companyId":userId
 		    			},
 		    	        success: function(data) {
-		    	        	if(data.responseHeader.resultCode='000000'){
+		    	        	if(data.responseHeader.resultCode=='000000'){
 		    	        		var d = Dialog({
 		    	    				title : '提示',
 		    	    				content : '保存成功',
