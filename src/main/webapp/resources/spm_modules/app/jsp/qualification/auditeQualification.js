@@ -42,7 +42,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
     	},
     	
     	_passAudit:function(userId,url){
-    		pager._checkReason();
+    		this._checkReason();
     		if($("#reasonFlag").val()=='0'){
     			return false;
     		}
@@ -136,7 +136,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		},
 		
     	_rejectAudit:function(userId,url){
-    		pager._checkReason();
+    		this._checkReason();
     		if($("#reasonFlag").val()=='0'){
     			return;
     		}
