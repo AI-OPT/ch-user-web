@@ -762,22 +762,22 @@ public class QualificationController {
 				String result = data.getString("result");
 				if ("success".equals(result)){
 					log.info("+++++++++++++++++++资质审核日志+++++++++++++++++++++");
-					log.info("操作员Id:"+user.getUserId());
-					log.info("操作员姓名:"+user.getLoginName());
-					log.info("被审核Id:"+companyId);
-					log.info("审核原因:"+reason);
-					log.info("审核通过时间:"+format.format(DateUtil.getSysDate()));
+					log.info("资质审核日志:操作员Id:"+user.getUserId());
+					log.info("资质审核日志:操作员姓名:"+user.getLoginName());
+					log.info("资质审核日志:被审核Id:"+companyId);
+					log.info("资质审核日志:审核原因:"+reason);
+					log.info("资质审核日志:审核通过时间:"+format.format(DateUtil.getSysDate()));
 					log.info("+++++++++++++++++++资质审核日志++++++++++++++++++++++");
 					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				}
 				else{
 					log.info("++++++++++++++++++++资质审核日志++++++++++++++++++++++");
-					log.info("操作员Id:"+user.getUserId());
-					log.info("操作员姓名:"+user.getLoginName());
-					log.info("被审核Id:"+companyId);
-					log.info("审核原因:"+reason);
-					log.info("审核失败时间:"+format.format(DateUtil.getSysDate()));
+					log.info("资质审核日志:操作员Id:"+user.getUserId());
+					log.info("资质审核日志:操作员姓名:"+user.getLoginName());
+					log.info("资质审核日志:被审核Id:"+companyId);
+					log.info("资质审核日志审:核原因:"+reason);
+					log.info("资质审核日志:审核失败时间:"+format.format(DateUtil.getSysDate()));
 					log.info("++++++++++++++++++++资质审核日志+++++++++++++++++++++++");
 					response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
 					header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
