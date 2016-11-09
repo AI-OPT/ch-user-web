@@ -42,6 +42,10 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
     	},
     	
     	_passAudit:function(userId,url){
+    		pager._checkReason();
+    		if($("#reasonFlag").val()=='0'){
+    			return false;
+    		}
     		var d = Dialog({
 				title : '提示',
 				content : '审核通过此资质信息吗？',
@@ -115,9 +119,8 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 				$("#reasonText").show();;
 				$("#reasonText").text("审核原因不能为空");
 				$("#reasonFlag").val("0");
-				return false;
-			}
-			if(remark.length>0&&remark.length<=256){
+				return;
+			}else if(remark.length>0&&remark.length<=256){
 				$("#reasonErrMsg").hide();
 				$("#reasonText").hide();
 				$("#reasonText").val("")
@@ -128,13 +131,14 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 				$("#reasonText").show();;
 				$("#reasonText").text("1-256位字符");
 				$("#reasonFlag").val("0");
+				return;
 			}
 		},
 		
     	_rejectAudit:function(userId,url){
-    		auditeQualificationPager._checkReason();
-    		if($("#reasonFlag").val=='0'){
-    			return false;
+    		pager._checkReason();
+    		if($("#reasonFlag").val()=='0'){
+    			return;
     		}
     		var d = Dialog({
 				title : '提示',
