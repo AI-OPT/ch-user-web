@@ -104,9 +104,8 @@ public class StatusController {
 		try {
 			Long beginTime = System.currentTimeMillis();
 			logger.info("长虹获取列表服务开始"+beginTime);
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateCompanyState_http_url"), JSON.toJSONString(map), mapHeader);
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map), mapHeader);
 			logger.info("长虹获取列表服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}

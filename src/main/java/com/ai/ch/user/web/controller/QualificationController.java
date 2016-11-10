@@ -748,7 +748,7 @@ public class QualificationController {
 			try {
 				Long beginTime = System.currentTimeMillis();
 				log.info("++++++++++向通行证发起修改审核状态请求开始"+beginTime);
-				str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateCompanyState_http_url"), JSON.toJSONString(map), mapHeader);
+				str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateAuditState_http_url"), JSON.toJSONString(map), mapHeader);
 				log.info("++++++++++向通行证发起修改审核状态请求结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			} catch (IOException | URISyntaxException e) {
 				e.printStackTrace();
