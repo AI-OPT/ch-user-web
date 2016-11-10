@@ -61,7 +61,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    			data:{
 		    				"auditState":"2",
 		    				"companyId":userId,
-		    				"reason":$("#reason").val()
+		    				"reason":$.trim($("#reason").val())
 		    			},
 		    	        success: function(data) {
 		    	        	if(data.responseHeader.resultCode=='000000'){
@@ -155,7 +155,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    			data:{
 		    				"auditState":'3',
 		    				"companyId":userId,
-		    				"reason":$("#reason").val()
+		    				"reason":$.trim($("#reason").val())
 		    			},
 		    	        success: function(data) {
 		    	        	if(data.responseHeader.resultCode=='000000'){
