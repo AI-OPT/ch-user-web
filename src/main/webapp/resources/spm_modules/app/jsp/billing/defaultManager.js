@@ -64,7 +64,7 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     		}
     	},
     	_checkAmount:function(){
-    		var amount = $("#amount").val();
+    		var amount = $.trim($("#amount").val());
     		if(amount==""||amount==null){
     			$("#amountErrMsg").show();
     			$("#amountText").show();
@@ -94,6 +94,12 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     				}
         			$("#amountFlag").val("0");
     			}
+    		}
+    		if(parseFloat(amount)==0){
+    			$("#amountErrMsg").show();
+    			$("#amountText").text("请输入数字，最多有两位小数");
+    			$("#amountText").show();
+    			$("#amountFlag").val("0");
     		}
     	},
     	_dialog:function(title,content,icon,okValue,url){

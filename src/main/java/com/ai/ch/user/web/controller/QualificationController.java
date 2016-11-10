@@ -108,7 +108,7 @@ public class QualificationController {
 		
 		//转换时间
 		String createTime ="";
-		if("".equals(data2.getString("createTime"))){
+		if(data2.getString("createTime")!=null&&data2.getString("createTime").length()!=0){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
 		}
@@ -357,7 +357,7 @@ public class QualificationController {
 		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
 		//转换时间
 		String createTime ="";
-		if("".equals(data2.getString("createTime"))){
+		if(data2.getString("createTime")!=null&&data2.getString("createTime").length()!=0){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
 		}
@@ -471,7 +471,7 @@ public class QualificationController {
 		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
 		//转换时间
 		String createTime ="";
-		if("".equals(data2.getString("createTime"))){
+		if(data2.getString("createTime")!=null&&data2.getString("createTime").length()!=0){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
 		}

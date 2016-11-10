@@ -357,7 +357,8 @@ public class DefaultManagerController {
 				}
 		        if(receive == null){
 		        	com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo receive2 = (com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo) resultMsg;
-		            if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
+		        	LOGGER.info("+++++++++++++支付通知返回报文+++++++++"+JSON.toJSONString(receive2));
+ 		            if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
 		            	responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
 			            responseHeader = new ResponseHeader(false,ExceptionCode.ERROR_CODE, "操作失败");
 			            responseData.setResponseHeader(responseHeader);
