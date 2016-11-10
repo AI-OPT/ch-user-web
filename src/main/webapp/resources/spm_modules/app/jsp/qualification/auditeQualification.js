@@ -113,7 +113,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 			d.show();
     	},
 		_checkReason:function(){
-			var remark = $("#reason").val();
+			var remark = $.trim($("#reason").val());
 			if(remark.length==0){
 				$("#reasonErrMsg").show();
 				$("#reasonText").show();;
