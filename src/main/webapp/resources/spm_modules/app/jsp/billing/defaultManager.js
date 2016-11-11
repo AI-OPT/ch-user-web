@@ -90,14 +90,14 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     				if(amount.length>12){
     					$("#amountText").text("不能超过12个字符");
     				}else{
-    					$("#amountText").text("请输入数字，最多有两位小数");
+    					$("#amountText").text("请输入大于0的数字，最多有两位小数");
     				}
         			$("#amountFlag").val("0");
     			}
     		}
     		if(parseFloat(amount)==0){
     			$("#amountErrMsg").show();
-    			$("#amountText").text("请输入数字，最多有两位小数");
+    			$("#amountText").text("请输入大于0的数字，最多有两位小数");
     			$("#amountText").show();
     			$("#amountFlag").val("0");
     		}
