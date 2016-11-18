@@ -64,5 +64,5 @@
 
 	<dubbo:reference id="iSysMenuQuerySV"
 		interface="com.ai.platform.common.api.menu.interfaces.ISysMenuQuerySV"
-		registry="baasRegistry" />
+		registry="chRegistry" />
 </beans>

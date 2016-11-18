@@ -14,7 +14,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.jasig.cas.client.authentication.AttributePrincipal;
@@ -80,16 +79,17 @@ public class AssembleUserInfoFilter implements Filter {
 			}
 			// 判断权限 若果没有权限跳到403，判断规则 request.getRequestURI
 			// 去掉request.getContext前缀
-			boolean authMenuFlag = authMenu(req);
-			if (!authMenuFlag) {
-				// ((HttpServletResponse)response).setStatus(HttpServletResponse.SC_FORBIDDEN);
-				((HttpServletResponse) response).sendRedirect(req.getContextPath() + "/403.jsp");
-			} else {
-				chain.doFilter(req, response);
-			}
+			/*
+			 * boolean authMenuFlag = authMenu(req); if (!authMenuFlag) { //
+			 * ((HttpServletResponse)response).setStatus(HttpServletResponse.
+			 * SC_FORBIDDEN); ((HttpServletResponse)
+			 * response).sendRedirect(req.getContextPath() + "/403.jsp"); } else
+			 * {
+			 */
+			chain.doFilter(req, response);
 		}
-
 	}
+
 
 	@Override
 	public void destroy() {
