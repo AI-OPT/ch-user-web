@@ -127,7 +127,7 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     				url:_base+"/defaultManager/saveDefaultInfo",
     				dataType: "json",
     				data:$("#defaultManagerForm").serialize(),
-    				beforeSend:{
+    				beforeSend:function(){
     					$("#back").attr("disabled","disabled");
     				},
     		        success: function(data) {
@@ -174,6 +174,7 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     				}
     				});
     		}
+    	}
     });
     
     module.exports = DefaultPagerManager
