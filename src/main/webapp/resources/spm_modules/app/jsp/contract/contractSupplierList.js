@@ -99,7 +99,16 @@ define('app/jsp/contract/contractSupplierList', function (require, exports, modu
 	            		var template = $.templates("#contractImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_DEFAULTLIST").html(htmlOutput);
-	                   
+	                    var result = data.result;
+	                    for(var i=0;i<result.length;i++){
+	                    	if(result[i].uploadStatus=='已上传'){
+	                    		$("#manager"+i).show();
+	                    		$("#view"+i).show();
+	                    	}
+	                    	else{
+	                    		$("#manager"+i).show();
+	                    	}
+	                    }
 	            	}
 	            }
     		});
