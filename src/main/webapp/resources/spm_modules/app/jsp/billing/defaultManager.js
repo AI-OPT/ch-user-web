@@ -127,6 +127,9 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     				url:_base+"/defaultManager/saveDefaultInfo",
     				dataType: "json",
     				data:$("#defaultManagerForm").serialize(),
+    				beforeSend:{
+    					$("#back").attr("disabled","disabled");
+    				},
     		        success: function(data) {
     		        	if(data.responseHeader.resultCode=="111111"){
     		        		var d =new Dialog({
@@ -157,11 +160,20 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     		        	}
     		          },
     				error: function(error) {
-    						alert("error:"+ error);
-    					}
+    					var d =new Dialog({
+		        			title : "提示",
+		        			content : "请求超时,请重试",
+		        			icon:"fail",
+		        			closeIconShow:false,
+		        			okValue : "确定",
+		        			ok : function() {
+		        				this.close;
+		        			}
+		        		});
+		        		d.show();
+    				}
     				});
     		}
-    	}
     });
     
     module.exports = DefaultPagerManager

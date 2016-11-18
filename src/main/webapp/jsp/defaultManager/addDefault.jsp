@@ -86,7 +86,7 @@
 										<p><input type="button"
 											class="biu-btn  btn-primary btn-blue btn-medium ml-10"
 											 id="saveDefaultManager" value="保存"></p><p>
-											<input type="button"  class="biu-btn  btn-primary btn-blue btn-medium ml-5"
+											<input type="button"  id="back" class="biu-btn  btn-primary btn-blue btn-medium ml-5"
 											onclick="backup();"	value="返回"></p>
 											<input type="hidden" id="defaultReasonFlag" /> 
 											<input
