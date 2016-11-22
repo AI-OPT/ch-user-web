@@ -815,7 +815,11 @@ public class QualificationController {
 	        for (int i = begin; i < end; i++) {  
 	            starStr = starStr + "*";  
 	        }  
-	        return content.substring(0, begin) + starStr + content.substring(end, content.length());  
+	        String str ="";
+	        if(content!=null){
+	        	str = content.substring(0, begin) + starStr + content.substring(end, content.length());
+	        }
+	        return str;  
 	  
 	    }  
 	    /** 
@@ -841,7 +845,11 @@ public class QualificationController {
 	        for (int i = begin; i < content.length(); i++) {  
 	            starStr = starStr + "*";  
 	        }  
-	        return content.substring(0, begin) + starStr;  
+	        String str ="";
+	        if(content!=null){
+	        	str = content.substring(0, begin) + starStr;  
+	        }
+	        return str; 
 	  
 	    }  
 		

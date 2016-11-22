@@ -38,6 +38,7 @@ public class PayUtil {
 
 	@Autowired
 	private OxmHandler oxmHandler;
+
 	/**
 	 * 加签
 	 * 
@@ -45,21 +46,29 @@ public class PayUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public  String sign(String xmlMsg) throws Exception {
-		ResourceLoader resourceLoader = new DefaultResourceLoader();
-		Resource pfxResource = resourceLoader.getResource(PropertiesUtil.getStringByKey("sigh_classpath")); 
-		InputStream in = new FileInputStream(pfxResource.getFile());
-		byte[] pfxByte = IOUtils.toByteArray(in);
-		String sign = SecurityUtil.pfxWithSign(pfxByte, xmlMsg, "111111");
-		return sign;
+	public String sign(String xmlMsg) throws Exception {
+		InputStream in = null;
+		String sign="";
+		try {
+			ResourceLoader resourceLoader = new DefaultResourceLoader();
+			Resource pfxResource = resourceLoader.getResource(PropertiesUtil.getStringByKey("sigh_classpath"));
+			in = new FileInputStream(pfxResource.getFile());
+			byte[] pfxByte = IOUtils.toByteArray(in);
+			sign = SecurityUtil.pfxWithSign(pfxByte, xmlMsg, "111111");
+		}finally {
+			if (in != null) {
+				in.close();
+			}
+		}
+	return sign;
 	}
-	
+
 	/**
 	 * 拼装报文头
 	 * 
 	 * @return
 	 */
-	public  String initMsgHeader(String merNo, String tranType) {
+	public String initMsgHeader(String merNo, String tranType) {
 		StringBuffer buffer = new StringBuffer("{H:01");
 		buffer.append(merNo);
 		buffer.append("1000000000000000");
@@ -69,8 +78,7 @@ public class PayUtil {
 		buffer.append("}");
 		return buffer.toString();
 	}
-	
-	
+
 	/**
 	 * 验签
 	 * 
@@ -80,21 +88,27 @@ public class PayUtil {
 	 * @throws Exception
 	 */
 	public boolean verify(String xmlMsg, String sign) throws Exception {
+		InputStream in=null;
+		byte[] cerByte;
+		try{
 		ResourceLoader resourceLoader = new DefaultResourceLoader();
-		Resource pfxResource = resourceLoader.getResource(PropertiesUtil.getStringByKey("check_sign_classpath")); 
-		InputStream in = new FileInputStream(pfxResource.getFile());
-		byte[] cerByte = IOUtils.toByteArray(in);
-		;
+		Resource pfxResource = resourceLoader.getResource(PropertiesUtil.getStringByKey("check_sign_classpath"));
+		in = new FileInputStream(pfxResource.getFile());
+		cerByte = IOUtils.toByteArray(in);
+		}finally {
+			if (in != null) {
+				in.close();
+			}
+		}
 		return SecurityUtil.verify(cerByte, xmlMsg, sign);
 	}
 
-	
-	public  boolean checkUrl(String url) {
+	public boolean checkUrl(String url) {
 		Pattern p = Pattern.compile("^(http|https)://.+?(?=/)");
 		Matcher m = p.matcher(url);
 		return m.find();
 	}
-	
+
 	public String sendHttpPost(String url, Map<String, String> param, String charset) throws Exception {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(100000).setConnectTimeout(100000).build();
@@ -132,7 +146,7 @@ public class PayUtil {
 			}
 		}
 	}
-	
+
 	protected static String findUrl(String url) {
 		Pattern p = Pattern.compile("^(http|https)://.+?(?=/)");
 		Matcher m = p.matcher(url);
@@ -141,8 +155,8 @@ public class PayUtil {
 		}
 		return null;
 	}
-	
-	private  String sendHttpPostGet(String url, Map<String, String> data, String charset) throws Exception {
+
+	private String sendHttpPostGet(String url, Map<String, String> data, String charset) throws Exception {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(100000).setConnectTimeout(100000).build();
 		try {
