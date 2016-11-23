@@ -85,17 +85,17 @@ public class AssembleUserInfoFilter implements Filter {
             } 
             //判断权限 若果没有权限跳到403，判断规则  request.getRequestURI 去掉request.getContext前缀    
             boolean authMenuFlag=authMenu(req);
-            if(!authMenuFlag){
+           /* if(!authMenuFlag){
             	//((HttpServletResponse)response).setStatus(HttpServletResponse.SC_FORBIDDEN);
             	((HttpServletResponse)response).sendRedirect(req.getContextPath()+"/403.jsp");
             }
             else{
+            */
             	chain.doFilter(req, response);
             }
         }
         
         
-    }
 
     @Override
     public void destroy() {
@@ -150,9 +150,9 @@ public class AssembleUserInfoFilter implements Filter {
     private boolean authMenu(HttpServletRequest request) {
     	
     	String currentURL = request.getRequestURI(); // 取得根目录所对应的绝对路径:
-    	LOG.debug("currentURL=" + currentURL);
+    	LOG.info("currentURL=" + currentURL);
 		String targetURL =currentURL.replace(request.getContextPath(), "");
-		LOG.debug("targetURL=" + targetURL);
+		LOG.info("targetURL=" + targetURL);
 		List<String> menuList=new ArrayList<String>();
 		List<String> allMenuList=new ArrayList<String>();
 		

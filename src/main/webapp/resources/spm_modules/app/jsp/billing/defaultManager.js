@@ -28,8 +28,8 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     	},
     	//事件代理
     	events: {
-    		"blur [id='defaultReason']":"_checkDefaultReason",
-    		"blur [id='amount']":"_checkAmount",
+    		/*"blur [id='defaultReason']":"_checkDefaultReason",
+    		"blur [id='amount']":"_checkAmount",*/
     		"click [id='saveDefaultManager']":"_saveDefaultManager"
         },
     	//重写父类
@@ -117,8 +117,8 @@ define('app/jsp/billing/defaultManager', function (require, exports, module) {
     		d.show();
     	},
     	_saveDefaultManager:function(){
-    		this._checkDefaultReason();
-    		this._checkAmount();
+    		/*this._checkDefaultReason();
+    		this._checkAmount();*/
     		var defaultReasonFlag = $("#defaultReasonFlag").val();
     		var amountFlag = $("#amountFlag").val();
     		if(defaultReasonFlag!="0"&&amountFlag!="0"){
