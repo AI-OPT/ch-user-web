@@ -132,9 +132,17 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     			        	
     			        },
     			        error: function(XMLHttpRequest, textStatus, errorThrown) {
-    						 alert(XMLHttpRequest.status);
-    						 alert(XMLHttpRequest.readyState);
-    						 alert(textStatus);
+    			        	var d =new Dialog({
+    		        			title : "提示",
+    		        			content : "请求超时,请重试",
+    		        			icon:"fail",
+    		        			closeIconShow:false,
+    		        			okValue : "确定",
+    		        			ok : function() {
+    		        				this.close;
+    		        			}
+    		        		});
+    		        		d.show();
     						}
     			        
     			    }); 
@@ -192,9 +200,17 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     			        	}
     			        },
     			        error: function(XMLHttpRequest, textStatus, errorThrown) {
-    						 alert(XMLHttpRequest.status);
-    						 alert(XMLHttpRequest.readyState);
-    						 alert(textStatus);
+    			        	var d =new Dialog({
+    		        			title : "提示",
+    		        			content : "请求超时,请重试",
+    		        			icon:"fail",
+    		        			closeIconShow:false,
+    		        			okValue : "确定",
+    		        			ok : function() {
+    		        				this.close;
+    		        			}
+    		        		});
+    		        		d.show();
     					}
     			        
     			    }); 
