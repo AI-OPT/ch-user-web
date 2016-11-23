@@ -161,7 +161,7 @@ public class PayUtil {
 		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(100000).setConnectTimeout(100000).build();
 		try {
 			url = url.replaceFirst("^http://|^http://", "");
-			URIBuilder uriBuilder = new URIBuilder().setScheme("http").setHost(url);
+			URIBuilder uriBuilder = new URIBuilder().setScheme("https").setHost(url);
 			if (!CollectionUtils.isEmpty(data)) {
 				for (String key : data.keySet()) {
 					uriBuilder.setParameter(key, data.get(key));
