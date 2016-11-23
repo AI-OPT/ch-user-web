@@ -89,7 +89,7 @@ define('app/jsp/contract/contractShopList', function (require, exports, module) 
 	            data : {
 	            	"username":$("#username").val().replace(/(^\s*)|(\s*$)/g,""),
 					"companyName":$("#companyName").val().replace(/(^\s*)|(\s*$)/g,""),
-					"companyType":"2"
+	            	"companyType":"2"
 				},
 	           	pageSize: ContractListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,

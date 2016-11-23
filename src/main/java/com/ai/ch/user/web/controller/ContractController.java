@@ -848,91 +848,80 @@ public class ContractController {
 	// 查询列表
 	@RequestMapping("/getList")
 	@ResponseBody
-	public ResponseData<PageInfo<BusinessListInfo>> getList(HttpServletRequest request, String companyName,
-			String username, String companyType) {
-		long startTime = System.currentTimeMillis();
-		LOGGER.info("查询列表开始-----------------" + startTime);
+	public ResponseData<PageInfo<BusinessListInfo>> getList(HttpServletRequest request,String companyName,String username,String companyType){
 		ResponseData<PageInfo<BusinessListInfo>> response = null;
-		PageInfo<BusinessListInfo> pageInfo = new PageInfo<>();
+		PageInfo<BusinessListInfo> pageInfo =null;
 		ResponseHeader header = null;
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
 		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("pageNo", request.getParameter("pageNo"));
 		map.put("pageSize", request.getParameter("pageSize"));
-		if (username != null && username.length() != 0)
+		if(username!=null&&username.length()!=0)
 			map.put("username", username);
-		if (companyName != null && companyName.length() != 0)
+		if(companyName!=null&&companyName.length()!=0)
 			map.put("companyName", companyName);
-		if (companyType != null && companyType.length() != 0)
+		if(companyType!=null&&companyType.length()!=0)
 			map.put("companyType", companyType);
-		String str = "";
-		long sendPostTime = System.currentTimeMillis();
+		String str ="";
 		try {
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"),
-					JSON.toJSONString(map), mapHeader);
+			Long beginTime = System.currentTimeMillis();
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
+			
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		long sendPostEndTime = System.currentTimeMillis();
-		LOGGER.info("通过o2p获取列表信息耗时----------" + (sendPostEndTime - sendPostTime));
 		List<BusinessListInfo> responseList = new ArrayList<>();
-		long resultstarttime = System.currentTimeMillis();
-		try {
+		try{
 			JSONObject data = ParseO2pDataUtil.getData(str);
 			String resultCode = data.getString("resultCode");
-			/**
-			 * 如果resultCode不为空说明获取结果是正确的
-			 */
-			if (resultCode != null && !OperateCode.SUCCESS.equals(resultCode)) {
+			if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
 				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
-				header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败");
+				header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败"); 
 				response.setResponseHeader(header);
-			} else {
-				Integer pageNo = Integer.valueOf(data.getString("pages"));
-				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
-				Integer total = Integer.valueOf(data.getString("total"));
-				Integer pageCount = Integer.valueOf(data.getString("pageNum"));
-				pageInfo.setCount(total);
-				pageInfo.setPageCount(pageCount);
-				pageInfo.setPageNo(pageNo);
-				pageInfo.setPageSize(pageSize);
-				JSONArray list = (JSONArray) JSON.parseArray(data.getString("list"));
-				Iterator<Object> iterator = list.iterator();
-				GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession()
-						.getAttribute(SSOClientConstants.USER_SESSION_KEY);
-				Map<String, ContractInfoResponse> contractMap = getContractList(userClient.getTenantId());
-				int index = 0;
-				while (iterator.hasNext()) {
-					BusinessListInfo businessInfo = new BusinessListInfo();
-					JSONObject object = (JSONObject) iterator.next();
-					businessInfo.setUserId(object.getString("companyId"));
-					businessInfo.setUserName(object.getString("username"));
-					businessInfo.setCustName(object.getString("name"));
-					businessInfo.setIndex(index);
-					if (contractMap.get(businessInfo.getUserId() + companyType) != null) {
-						businessInfo.setUploadStatus("已上传");
-					} else {
-						businessInfo.setUploadStatus("未上传");
+			}else{
+					Integer pageNo = Integer.valueOf(data.getString("pages"));
+					Integer pageSize = Integer.valueOf(data.getString("pageSize"));
+					Integer total = Integer.valueOf(data.getString("total"));
+					Integer pageCount = Integer.valueOf(data.getString("pageNum"));
+					pageInfo = new PageInfo<>();
+					pageInfo.setCount(total);
+					pageInfo.setPageCount(pageCount);
+					pageInfo.setPageNo(pageNo);
+					pageInfo.setPageSize(pageSize);
+					responseList = new ArrayList<>();
+					JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
+					Iterator<Object> iterator = list.iterator();
+					GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession()
+							.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+					Map<String, ContractInfoResponse> contractMap = getContractList(userClient.getTenantId());
+					int index = 0;
+					while (iterator.hasNext()) {
+						BusinessListInfo businessInfo = new BusinessListInfo();
+						JSONObject object = (JSONObject) iterator.next();
+						businessInfo.setUserId(object.getString("companyId"));
+						businessInfo.setUserName(object.getString("username"));
+						businessInfo.setCustName(object.getString("name"));
+						businessInfo.setIndex(index);
+						if (contractMap.get(businessInfo.getUserId() + companyType) != null) {
+							businessInfo.setUploadStatus("已上传");
+						} else {
+							businessInfo.setUploadStatus("未上传");
+						}
+						responseList.add(businessInfo);
+						index++;
 					}
-					responseList.add(businessInfo);
-					index++;
+					pageInfo.setResult(responseList);
+					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				}
-				pageInfo.setResult(responseList);
-				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "查询成功");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "查询成功");
-			}
-			response.setResponseHeader(header);
-			response.setData(pageInfo);
-		} catch (Exception e) {
+				response.setResponseHeader(header);
+				response.setData(pageInfo);
+		}catch(Exception e){
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "查询失败");
-			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "查询失败");
+			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "查询失败"); 
 			response.setResponseHeader(header);
 		}
-		long listTime = System.currentTimeMillis();
-		LOGGER.info("处理返回结果耗时--------------" + (listTime - resultstarttime));
-		long endTime = System.currentTimeMillis();
-		LOGGER.info("查询列表结束-----------------" + (endTime - startTime));
 		return response;
 	}
 
