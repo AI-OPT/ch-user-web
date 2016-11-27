@@ -55,6 +55,7 @@ public class AssembleUserInfoFilter implements Filter {
 					.getAttribute(SSOClientConstants.USER_SESSION_KEY);
 			if (user == null) {
 				user = assembleUser(req);
+				LOG.error("获取session数据信息"+JSON.toJSONString(user));
 				if (user != null) {
 					// 用户信息存入session
 					session.setAttribute(SSOClientConstants.USER_SESSION_KEY, user);
