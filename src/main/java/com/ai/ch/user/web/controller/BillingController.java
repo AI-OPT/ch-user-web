@@ -55,7 +55,7 @@ public class BillingController {
 	}
 
 	@RequestMapping("/marginsetting")
-	public ModelAndView marginSetting(String userId, String username) throws UnsupportedEncodingException {
+	public ModelAndView marginSetting(String userId, String username,String shopName) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/billing/marginSetting");
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopDepositRequest queryShopDepositRequest = new QueryShopDepositRequest();
@@ -66,33 +66,16 @@ public class BillingController {
 		log.info("查询店铺保证金服务开始"+beginTime);
 		QueryShopDepositResponse response=shopInfoSV.queryShopDeposit(queryShopDepositRequest);
 		log.info("查询店铺保证金服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
-		//查询账户信息
-		Map<String, String> map = new HashMap<>();
-		Map<String, String> mapHeader = new HashMap<>();
-		
-		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
-		map.put("companyId", userId);
-		String str ="";
-		try {
-			Long chBeginTime = System.currentTimeMillis();
-			log.info("长虹查询店铺信息服务开始"+chBeginTime);
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
-			log.info("长虹查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-chBeginTime)+"毫秒");
-		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
-		}
-		JSONObject data0 = (JSONObject) JSON.parse(str);
-		JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
-		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
-		model.addObject("userName", username);
-		model.addObject("shopName", data2.getString("name"));
+		model.addObject("userName", URLDecoder.decode(username,"utf-8"));
+		model.addObject("shopName", URLDecoder.decode(shopName,"utf-8"));
 		model.addObject("deposit", response.getDepositBalance());
 		model.addObject("userId", userId);
+		
 		return model;
 	}
 
 	@RequestMapping("/servicefeesetting")
-	public ModelAndView serviceFeeSetting(String userId,String username,HttpServletRequest request) throws UnsupportedEncodingException {
+	public ModelAndView serviceFeeSetting(String userId,String username,String shopName,HttpServletRequest request) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/billing/serviceFeeSetting");
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopInfoRequest shopInfoRequest = new QueryShopInfoRequest();
@@ -123,26 +106,8 @@ public class BillingController {
 		else{
 			ratioStr=shopInfoResponse.getRatio()+"%";
 		}
-		//查询账户信息
-		Map<String, String> map = new HashMap<>();
-		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
-		map.put("companyId", userId);
-		String str ="";
-		try {
-			long chBeginTime = System.currentTimeMillis();
-			log.info("长虹查询店铺信息服务开始"+chBeginTime);
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
-			log.info("长虹查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-chBeginTime)+"毫秒");
-			
-		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
-		}
-		JSONObject data0 = (JSONObject) JSON.parse(str);
-		JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
-		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
-		model.addObject("userName", username);
-		model.addObject("shopName", data2.getString("name"));
+		model.addObject("userName", URLDecoder.decode(username,"utf-8"));
+		model.addObject("shopName", URLDecoder.decode(shopName,"utf-8"));
 		model.addObject("rentFeeStr", rentFeeStr);
 		model.addObject("ratioStr", ratioStr);
 		model.addObject("userId", userId);
@@ -150,7 +115,7 @@ public class BillingController {
 	}
 	
 	@RequestMapping("/servicefee")
-	public ModelAndView serviceFee(String userId,String username,HttpServletRequest request) throws UnsupportedEncodingException {
+	public ModelAndView serviceFee(String userId,String username,String shopName,HttpServletRequest request) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/billing/serviceFee");
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopInfoRequest shopInfoRequest = new QueryShopInfoRequest();
@@ -191,25 +156,8 @@ public class BillingController {
 			deposit = depositBalance.getDepositBalance()+"元";
 		}
 		
-			//查询账户信息
-			Map<String, String> map = new HashMap<>();
-			Map<String, String> mapHeader = new HashMap<>();
-			mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
-			map.put("companyId", userId);
-			String str ="";
-			try {
-				Long chBeginTime = System.currentTimeMillis();
-				log.info("长虹查询店铺列表服务开始"+chBeginTime);
-				str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
-				log.info("长虹查询店铺列表服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-chBeginTime)+"毫秒");
-			} catch (IOException | URISyntaxException e) {
-				e.printStackTrace();
-			}
-			JSONObject data0 = (JSONObject) JSON.parse(str);
-			JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
-			JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
-			model.addObject("userName", username);
-			model.addObject("shopName", data2.getString("name"));
+			model.addObject("userName", URLDecoder.decode(username,"utf-8"));
+			model.addObject("shopName", URLDecoder.decode(shopName,"utf-8"));
 			model.addObject("rentFeeStr", rentFeeStr);
 			model.addObject("ratioStr", ratioStr);
 			model.addObject("deposit", deposit);

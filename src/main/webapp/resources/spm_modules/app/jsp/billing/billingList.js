@@ -89,17 +89,17 @@ define('app/jsp/billing/billingList', function (require, exports, module) {
             }
 		});
     	},
-    	_toMarginPage:function(userId,username){
-    		var url =  _base+"/billing/marginsetting?userId="+userId+'&username='+username;
-    		window.location.href=encodeURI(url);
+    	_toMarginPage:function(userId,username,shopName){
+    		var url =  _base+"/billing/marginsetting?userId="+userId+'&username='+escape(encodeURIComponent(username))+'&shopName='+escape(encodeURIComponent(shopName));
+    		window.location.href=url;
     	},
-    	_toServiceFeeSettingPage:function(userId,username){
-    		var url = _base+"/billing/servicefeesetting?userId="+userId+'&username='+username;
-    		window.location.href= encodeURI(url);
+    	_toServiceFeeSettingPage:function(userId,username,shopName){
+    		var url = _base+"/billing/servicefeesetting?userId="+userId+'&username='+escape(encodeURIComponent(username))+'&shopName='+escape(encodeURIComponent(shopName));
+    		window.location.href= url;
     	},
-    	_toServiceFeePage:function(userId,username){
-    		var url = _base+"/billing/servicefee?userId="+userId+'&username='+username;
-    		window.location.href= encodeURI(url); 
+    	_toServiceFeePage:function(userId,username,shopName){
+    		var url = _base+"/billing/servicefee?userId="+userId+'&username='+escape(encodeURIComponent(username))+'&shopName='+escape(encodeURIComponent(shopName));
+    		window.location.href= url; 
     	}
     });
     

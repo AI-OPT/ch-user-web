@@ -109,7 +109,7 @@
 			<td id='userId{{:userId}}'>{{:userName}}</td>
 			<td>{{:groupName}}</td>
 			<td>{{:totalScore}}</td>
-			<td><a class＝"btn-primary" href="javascript:pager._toScorePage('{{:userId}}','{{:userName}}');" class="click">评分</a></td>
+			<td><a class＝"btn-primary" href="javascript:pager._toScorePage('{{:userId}}','{{:userName}}','{{:shopName}}');" class="click">评分</a></td>
 		</tr>
 	{{/for}}
 </script>
