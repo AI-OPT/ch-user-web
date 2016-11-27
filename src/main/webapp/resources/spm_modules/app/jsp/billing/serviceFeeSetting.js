@@ -66,11 +66,11 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     			messages: {
     				rentFee: {
     					required:"服务费不能为空",
-    					digits: "请输入大于0的数字，最多有两位小数",
+    					digits: "请输入大于0的数字",
     					maxlength:"最多输入12位",
     					min:"最小值为{0}",
     					max:"最大值为{0}",
-    					pattern:"请输入数字，最多输入12位"
+    					pattern:"请输入大于0的数字，最多输入12位"
     					},
     				ratio: {
     					required:"服务费不能为空",
