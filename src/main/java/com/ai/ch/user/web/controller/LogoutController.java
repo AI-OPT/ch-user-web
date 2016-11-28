@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LogoutController {
 	private static final Logger LOG = LoggerFactory.getLogger(LogoutController.class);
 
-	@RequestMapping("/logout")
+	@RequestMapping("/ssologout")
 	public void logout(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		try {
