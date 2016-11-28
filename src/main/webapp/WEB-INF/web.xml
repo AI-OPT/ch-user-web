@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="WebApp_ID" version="3.0">
 	<display-name>ch-operate-web</display-name>
-	
+
 	<filter>
 		<filter-name>xss-firewall</filter-name>
 		<filter-class>com.ai.net.xss.filter.XSSFilter</filter-class>
@@ -42,20 +42,7 @@
 		<filter-name>encoding</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-	<filter>
-        <filter-name>sessionFilter</filter-name>
-        <filter-class>com.ai.opt.uni.session.filter.CacheSessionFilter</filter-class>
-        <init-param>
-            <param-name>ignore_suffix</param-name>
-            <param-value>.png,.jpg,.jpeg,.gif,.css,.js,.html,.htm,/ssologout</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>sessionFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-	
+
 	<servlet>
 		<servlet-name>springmvc</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -93,6 +80,19 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>ssoProxyFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>sessionFilter</filter-name>
+		<filter-class>com.ai.opt.uni.session.filter.CacheSessionFilter</filter-class>
+		<init-param>
+			<param-name>ignore_suffix</param-name>
+			<param-value>.png,.jpg,.jpeg,.gif,.css,.js,.html,.htm,/ssologout</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>sessionFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
