@@ -93,7 +93,7 @@ public class ScoreController {
 		String tenantId =ChWebConstants.COM_TENANT_ID;
 		//操作员ID
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-		log.error("获取封装用户信息"+JSON.toJSONString(user));
+		log.error("++++++++获取封装用户信息"+JSON.toJSONString(user));
 		String operId = user.getUserId();
 		//总分
 		Integer totalScore =0;

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.jasig.cas.client.authentication.AttributePrincipal;
+import org.omg.PortableInterceptor.LOCATION_FORWARD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,6 +57,7 @@ public class AssembleUserInfoFilter implements Filter {
         	HttpSession session = req.getSession();
             GeneralSSOClientUser user = (GeneralSSOClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
             GeneralSSOClientUser ssoUser = assembleUser(req);
+            LOG.error("+++++++++++++获取ssoUser用户信息"+JSON.toJSONString(ssoUser));
             if(user != null && ssoUser != null){
             	if(!user.getUserId().equalsIgnoreCase(ssoUser.getUserId())){
             		session.invalidate();
@@ -65,6 +67,7 @@ public class AssembleUserInfoFilter implements Filter {
             }
             if (user == null) {
                 user = ssoUser;
+                LOG.error("+++++++++++++++获取用户信息user"+JSON.toJSONString(user));
                 if(user!=null){
                 	//用户信息存入session
                 	session.setAttribute(SSOClientConstants.USER_SESSION_KEY, user);
