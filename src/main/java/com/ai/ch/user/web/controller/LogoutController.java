@@ -19,6 +19,7 @@ public class LogoutController {
 		try {
 			session.invalidate();
 			session = null;
+			LOG.error("+++++++++++++++++logout is success");
 		} catch (Exception e) {
 			LOG.error("用户登出失败", e);
 		}
