@@ -4,7 +4,18 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="WebApp_ID" version="3.0">
 	<display-name>ch-operate-web</display-name>
-
+	<listener>
+		<listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+	</listener>
+	<filter>
+		<filter-name>singleSignOutFilter</filter-name>
+		<filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>singleSignOutFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<filter>
 		<filter-name>xss-firewall</filter-name>
 		<filter-class>com.ai.net.xss.filter.XSSFilter</filter-class>
