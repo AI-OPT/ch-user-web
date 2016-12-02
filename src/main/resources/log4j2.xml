@@ -21,6 +21,7 @@
     </Async>
   </Appenders>
   <Loggers>
+  <!-- 默认级别info -->
     <Root level="info">
       <AppenderRef ref="RollingFile"/>
       <AppenderRef ref="STDOUT"/>

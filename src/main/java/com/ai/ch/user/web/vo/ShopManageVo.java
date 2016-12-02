@@ -3,7 +3,7 @@ package com.ai.ch.user.web.vo;
 public class ShopManageVo {
 
 	/**
-	 * tenantId
+	 * 租户Id
 	 */
 	private String tenantId;
 
