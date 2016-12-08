@@ -390,6 +390,29 @@
 									</p>
 								</li>
 							</ul>
+							<div class="nav-tplist-title bd-bottom pb-10">
+								<ul>
+									<li class="col-md-5">审核详情</li>
+								</ul>
+							</div>
+							<ul>
+								<li>
+									<p class="word">审核人:</p>
+									<p>${auditResponse.operName }</p>
+								</li>
+							</ul>
+							<ul>
+								<li>
+									<p class="word">审核状态:</p>
+									<p>${auditResponse.auditStatus }</p>
+								</li>
+							</ul>
+							<ul>
+								<li>
+									<p class="word">原因:</p>
+									<p>${auditResponse.auditDesc }</p>
+								</li>
+							</ul>
 							<ul>
 							<li>
 							<p class="word">&nbsp;</p>

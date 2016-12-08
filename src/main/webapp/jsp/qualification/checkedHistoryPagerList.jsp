@@ -7,7 +7,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<title>供应商已审核</title>
+<title>审核历史</title>
 <%@include file="/inc/inc.jsp" %>
 <script src="${uedroot}/scripts/modular/frame.js"></script>  
 <link rel="stylesheet" type="text/css" href="${uedroot}/css/modular/modular.css"/>
@@ -42,7 +42,7 @@
 									<p>
 										<input type="button"
 											class="biu-btn  btn-primary btn-blue btn-medium ml-10"
-											value="查询" onclick="pager._getList('2');" />
+											value="查询" onclick="pager._getList();" />
 									</p>
 								</li>
 							</ul>
@@ -65,60 +65,24 @@
 						<!--白色背景-->
 						<div class="main-box-body clearfix">
 						<header class="main-box-header clearfix">
-								<h5 class="pull-left">入驻商户已审核列表</h5>
+								<h5 class="pull-left">审核历史列表</h5>
 								</header>
 					 	<div class="main-box-body clearfix">
-					 	<div class="order-list-table">
-					           <ul>
-						           <li><a href="javascript:void(0)" class="current">已通过</a></li>
-						           <li><a href="javascript:void(0)">已拒绝</a></li>
-					           </ul>                                        
-					    </div>
 					     	<div id="date1">
                                 <div class="table-responsive clearfix">
                                     <table class="table table-hover table-border table-bordered">
                                         <thead>      
                                             <tr>
-                                            	<th>用户名</th>
-                                                <th>企业名称</th>
+                                            	<th>审核结果</th>
+                                                <th>审核人</th>
                                                 <th>审核时间</th>
-                                                <th>操作</th>
+                                                <th>审核原因</th>
                                             </tr>
                                         </thead>
-                                    <tbody id="TBODY_CHECKED_PASS">
+                                    <tbody id="TBODY_CHECKED">
                                     </tbody>
                                     </table>
                                </div>
-                                 <!--分页-->
-                                  <div class="paging">
-                            		<ul id="pagination-ul-pass"></ul>
-								</div>
-								<!--分页结束-->
-								<div id="showMessageDiv_pass" class="text-c"></div>
-                                </div>
-                                <div id="date2" style="display:none;">
-                                <div class="table-responsive clearfix">
-                                    <table class="table table-hover table-border table-bordered">
-                                        <thead>      
-                                            <tr>
-                                            	<th>用户名</th>
-                                                <th>企业名称</th>
-                                                <th>审核时间</th>
-                                                <th>操作</th>
-                                            </tr>
-                                        </thead>
-                                    <tbody id="TBODY_CHECKED_REJECT">
-                                    </tbody>
-                                    </table>
-                               </div>
-                                 <!--分页-->
-                                  <div class="paging">
-                            		<ul id="pagination-ul-reject"></ul>
-								</div>
-								<!--分页结束-->
-								<div id="showMessageDiv_reject" class="text-c"></div>
-                            	<!--/table表格结束-->
-                             </div>
                             <!--/table表格结束-->
                                 <!--分页-->
                                 <div class="paging">
@@ -131,14 +95,12 @@
                 </div>
                 </div>
             </div>
-    </div>
         <script type="text/javascript">
 		var pager;
 		(function () {
-			seajs.use('app/jsp/qualification/checkedPagerList', function (CheckedPagerListPager) {
-				pager = new CheckedPagerListPager({element: document.body});
+			seajs.use('app/jsp/qualification/checkedListPagerList', function (CheckedHistoryPagerListPager) {
+				pager = new CheckedHistoryPagerListPager({element: document.body});
 				pager.render();
-				pager._getInitList('2');
 			});
 		})();
 	</script>
@@ -151,7 +113,6 @@
 		<td>{{:auditTime}}</td>
 		<td>
             <a class＝"btn-primary" href="javascript:void(0)" onclick="pager._toViewShopPage('{{:userId}}','{{:userName}}');">查看</a>
-			<a class＝"btn-primary" href="javascript:void(0)" onclick="pager._toViewHistoryPage('{{:userId}}');">审核记录</a>
 		</td>
 	</tr>
 {{/for}}

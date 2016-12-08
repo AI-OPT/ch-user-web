@@ -8,14 +8,29 @@ package com.ai.ch.user.web.vo;
  */
 public class GroupStateVo {
 
+	/**用户id
+	 * 
+	 */
 	private String userId;
 
+	/**
+	 * 状态
+	 */
 	private String state;
 
+	/**
+	 * 状态值
+	 */
 	private String stateValue;
 
+	/**
+	 * 企业名称
+	 */
 	private String groupName;
 
+	/**
+	 * 用户名
+	 */
 	private String userName;
 
 	public String getStateValue() {

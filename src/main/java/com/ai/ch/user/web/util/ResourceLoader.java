@@ -18,6 +18,14 @@ public final class ResourceLoader {
         return loader;  
     }  
       
+    /**
+     * 获取properties文件
+     * @param fileName
+     * @return
+     * @throws Exception
+     * @author zhangqiang7
+     * @UCUSER
+     */
     public Properties getPropFromProperties(String fileName) throws Exception {  
           
         Properties prop = loaderMap.get(fileName);  

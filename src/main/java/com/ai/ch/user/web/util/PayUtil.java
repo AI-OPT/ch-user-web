@@ -109,6 +109,16 @@ public class PayUtil {
 		return m.find();
 	}
 
+	/**
+	 * 发送请求
+	 * @param url
+	 * @param param
+	 * @param charset
+	 * @return
+	 * @throws Exception
+	 * @author zhangqiang7
+	 * @UCUSER
+	 */
 	public String sendHttpPost(String url, Map<String, String> param, String charset) throws Exception {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(100000).setConnectTimeout(100000).build();
@@ -147,6 +157,13 @@ public class PayUtil {
 		}
 	}
 
+	/**
+	 * 匹配url
+	 * @param url
+	 * @return
+	 * @author zhangqiang7
+	 * @UCUSER
+	 */
 	protected static String findUrl(String url) {
 		Pattern p = Pattern.compile("^(http|https)://.+?(?=/)");
 		Matcher m = p.matcher(url);
@@ -156,6 +173,16 @@ public class PayUtil {
 		return null;
 	}
 
+	/**
+	 * 发送请求
+	 * @param url
+	 * @param data
+	 * @param charset
+	 * @return
+	 * @throws Exception
+	 * @author zhangqiang7
+	 * @UCUSER
+	 */
 	private String sendHttpPostGet(String url, Map<String, String> data, String charset) throws Exception {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(100000).setConnectTimeout(100000).build();

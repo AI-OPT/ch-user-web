@@ -12,11 +12,29 @@ import com.ai.ch.user.api.rank.params.ShopRankRuleVo;
  * @author zhangqiang7
  */
 public class ShopRankParamVo {
+	/**
+	 * 店铺评级列表
+	 */
 	private ShopRankListVo shopRankListVo;
+	/**
+	 * 图片urlMap
+	 */
 	private Map<String, String> urlMap;
+	/**
+	 * 图片名称map
+	 */
 	private Map<String, String> nameMap;
+	/**
+	 * 图片idpsIdMap
+	 */
 	private Map<String, String> idpsMap;
+	/**
+	 * 评级对象集合
+	 */
 	private List<ShopRankRuleVo> result;
+	/**
+	 * 评级对象集合
+	 */
 	private List<ShopRankRuleVo> middleData;
 
 	public List<ShopRankRuleVo> getMiddleData() {
