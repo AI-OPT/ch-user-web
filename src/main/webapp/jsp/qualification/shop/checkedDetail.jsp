@@ -165,8 +165,8 @@
 									</p>
 									<p>${establishDate }</p>
 								</li>
-								</ul>
-								<ul>
+							</ul>
+							<ul>
 								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>营业执照副本:
@@ -174,13 +174,13 @@
 									<p>
 										<a class="popup" title="点击看缩略图"
 											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
-											height="80px"></a>
+											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"
+											width="80px" height="80px"></a>
 									</p>
 								</li>
 							</ul>
 							<ul>
-								
+
 								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>注册资本:
@@ -214,15 +214,15 @@
 									<p>
 										<a class="popup" title="点击看缩略图"
 											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
-											height="80px"></a>
+											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"
+											width="80px" height="80px"></a>
 									</p>
 									<p>&nbsp;</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
 											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
-											height="80px"></a>
+											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"
+											width="80px" height="80px"></a>
 									</p>
 								</li>
 							</ul>
@@ -252,8 +252,8 @@
 									</p>
 									<p>${taxCode }</p>
 								</li>
-								</ul>
-								<ul>
+							</ul>
+							<ul>
 								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>税务登记证:
@@ -261,8 +261,8 @@
 									<p>
 										<a class="popup" title="点击看缩略图"
 											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
-											height="80px"></a>
+											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"
+											width="80px" height="80px"></a>
 									</p>
 								</li>
 							</ul>
@@ -278,8 +278,8 @@
 									</p>
 									<p>${organizationCode }</p>
 								</li>
-								</ul>
-								<ul>
+							</ul>
+							<ul>
 								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>代码证电子版:
@@ -287,8 +287,8 @@
 									<p>
 										<a class="popup" title="点击看缩略图"
 											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
-											height="80px"></a>
+											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"
+											width="80px" height="80px"></a>
 									</p>
 								</li>
 							</ul>
@@ -319,8 +319,8 @@
 									<p>
 										<a class="popup" title="点击看缩略图"
 											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
-											height="80px"></a>
+											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"
+											width="80px" height="80px"></a>
 									</p>
 								</li>
 							</ul>
@@ -336,8 +336,8 @@
 									</p>
 									<p>${commodityType }</p>
 								</li>
-								</ul>
-								<ul>
+							</ul>
+							<ul>
 								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>品牌名称(中文):
@@ -350,8 +350,8 @@
 									</p>
 									<p>${brandNameEn }</p>
 								</li>
-								</ul>
-								<ul>
+							</ul>
+							<ul>
 								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>商标注册证:
@@ -359,8 +359,8 @@
 									<p>
 										<a class="popup" title="点击看缩略图"
 											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
-											height="80px"></a>
+											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"
+											width="80px" height="80px"></a>
 									</p>
 								</li>
 								<li class="col-md-5">
@@ -370,12 +370,12 @@
 									<p>
 										<a class="popup" title="点击看缩略图"
 											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
-											height="80px"></a>
+											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"
+											width="80px" height="80px"></a>
 									</p>
 								</li>
-								</ul>
-								<ul>
+							</ul>
+							<ul>
 								<li class="col-md-5">
 									<p class="word">
 										<b class="red">*</b>商品质检/检验报告:
@@ -383,8 +383,8 @@
 									<p>
 										<a class="popup" title="点击看缩略图"
 											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
-											height="80px"></a>
+											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"
+											width="80px" height="80px"></a>
 									</p>
 								</li>
 								<li class="col-md-5">
@@ -394,8 +394,8 @@
 									<p>
 										<a class="popup" title="点击看缩略图"
 											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
-											height="80px"></a>
+											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"
+											width="80px" height="80px"></a>
 									</p>
 								</li>
 							</ul>
@@ -406,57 +406,91 @@
 							</div>
 							<ul>
 								<li class="col-md-5">
-								<p class="word"><b class="red">*</b>期望店铺名称:</p>
-								<p>${wantShopName }</p>
+									<p class="word">
+										<b class="red">*</b>期望店铺名称:
+									</p>
+									<p>${wantShopName }</p>
 								</li>
 								<li class="col-md-5">
-								<p class="word"><b class="red">*</b>可售商品数量:</p>
-								<p >${goodsNum }</p>
+									<p class="word">
+										<b class="red">*</b>可售商品数量:
+									</p>
+									<p>${goodsNum }</p>
 								</li>
-								</ul>
-								<ul>
+							</ul>
+							<ul>
 								<li class="col-md-5">
-								<p class="word"><b class="red">*</b>经营类型:</p>
-								<p>${busiType }</p>
+									<p class="word">
+										<b class="red">*</b>经营类型:
+									</p>
+									<p>${busiType }</p>
 								</li>
 								<li class="col-md-5">
-								<p class="word"><b class="red">*</b>有无电商经验:</p>
-								<p>${hasExperi }</p>
+									<p class="word">
+										<b class="red">*</b>有无电商经验:
+									</p>
+									<p>${hasExperi }</p>
 								</li>
-								</ul>
-								<ul>
+							</ul>
+							<ul>
 								<li class="col-md-5">
-								<p class="word"><b class="red">*</b>现有电商平台:</p>
-								<p>${ecommOwner }</p>
+									<p class="word">
+										<b class="red">*</b>现有电商平台:
+									</p>
+									<p>${ecommOwner }</p>
 								</li>
 							</ul>
 							<ul>
 								<li>
-								<p class="word">店铺介绍:</p>
-								<p>${shopDesc }</p>
+									<p class="word">店铺介绍:</p>
+									<p>${shopDesc }</p>
+								</li>
+							</ul>
+							<div class="nav-tplist-title bd-bottom pb-10">
+								<ul>
+									<li class="col-md-5">审核详情</li>
+								</ul>
+							</div>
+							<ul>
+								<li>
+									<p class="word">审核人:</p>
+									<p>${auditResponse.operName }</p>
 								</li>
 							</ul>
 							<ul>
-							<li>
-							<p class="word">&nbsp;</p>
-							<p class="word">&nbsp;</p>
-							<p>
-							<input type="button"
-							onclick="backup();" class="biu-btn  btn-primary btn-blue btn-medium ml-5" value="返回">
-							</p>
-							</li>
+								<li>
+									<p class="word">审核状态:</p>
+									<p>${auditResponse.auditStatus }</p>
+								</li>
 							</ul>
-							</div>
+							<ul>
+								<li>
+									<p class="word">原因:</p>
+									<p>${auditResponse.auditDesc }</p>
+								</li>
+							</ul>
+							<ul>
+								<li>
+									<p class="word">&nbsp;</p>
+									<p class="word">&nbsp;</p>
+									<p>
+										<input type="button" onclick="backup();"
+											class="biu-btn  btn-primary btn-blue btn-medium ml-5"
+											value="返回">
+									</p>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
 
 		</div>
 	</div>
-		<script type="text/javascript">
-			function backup(){
-				window.location.href=_base+"/qualification/toCheckedShopPager";
-			}
+	<script type="text/javascript">
+		function backup() {
+			window.location.href = _base + "/qualification/toCheckedShopPager";
+		}
 	</script>
 </body>
 </html>

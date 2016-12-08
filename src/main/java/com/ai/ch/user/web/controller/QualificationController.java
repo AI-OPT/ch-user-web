@@ -22,9 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.ch.user.api.audit.interfaces.IAuditSV;
+import com.ai.ch.user.api.audit.params.AuditLogVo;
 import com.ai.ch.user.api.audit.params.InsertAuditInfoRequest;
 import com.ai.ch.user.api.audit.params.QueryAuditInfoRequest;
 import com.ai.ch.user.api.audit.params.QueryAuditInfoResponse;
+import com.ai.ch.user.api.audit.params.QueryAuditLogInfoRequest;
+import com.ai.ch.user.api.audit.params.QueryAuditLogInfoResponse;
 import com.ai.ch.user.api.shopinfo.interfaces.IShopInfoSV;
 import com.ai.ch.user.api.shopinfo.params.QueryShopInfoRequest;
 import com.ai.ch.user.api.shopinfo.params.QueryShopInfoResponse;
@@ -48,12 +51,12 @@ import com.alibaba.fastjson.JSONObject;
 @RestController
 @RequestMapping("/qualification")
 public class QualificationController {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(QualificationController.class);
-	
-	//电商平台位置
-	static private String[] shopOwner = {"京东","天猫","淘宝","苏宁","一号店","自有电商平台"};
-	
+
+	// 电商平台位置
+	static private String[] shopOwner = { "京东", "天猫", "淘宝", "苏宁", "一号店", "自有电商平台" };
+
 	/**
 	 * 供应商审核列表页面
 	 */
@@ -61,6 +64,7 @@ public class QualificationController {
 	public ModelAndView toCheckedSupplierPager() {
 		return new ModelAndView("/jsp/qualification/supplier/checkedPagerList");
 	}
+
 	/**
 	 * 供应商未审核列表页面
 	 */
@@ -68,100 +72,120 @@ public class QualificationController {
 	public ModelAndView toNoCheckedSupplierPager() {
 		return new ModelAndView("/jsp/qualification/supplier/noCheckedPagerList");
 	}
+
+	/**
+	 * 审核历史列表页面
+	 */
+	@RequestMapping("/toViewHistoryPage")
+	public ModelAndView toViewHistoryPage() {
+		return new ModelAndView("/jsp/qualification/checkedHistoryPagerList");
+	}
+
 	/**
 	 * 店铺审核列表
+	 * 
 	 * @return
 	 */
 	@RequestMapping("/toCheckedShopPager")
 	public ModelAndView toCheckedShopPager(HttpServletRequest request) {
 		return new ModelAndView("/jsp/qualification/shop/checkedPagerList");
 	}
+
 	/**
 	 * 店铺未审核列表
+	 * 
 	 * @return
 	 */
 	@RequestMapping("/toNoCheckedShopPager")
 	public ModelAndView toNoCheckedShopPager() {
 		return new ModelAndView("/jsp/qualification/shop/noCheckedPagerList");
 	}
+
 	/**
 	 * 供应商审核页面
+	 * 
 	 * @return
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
-	@RequestMapping(value="/toSuplierCheckPager",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public ModelAndView toSuplierCheckPager(String username,String userId) throws UnsupportedEncodingException {
+	@RequestMapping(value = "/toSuplierCheckPager", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public ModelAndView toSuplierCheckPager(String username, String userId) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/supplier/auditeQualification");
-		//查询账户信息
+		// 查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
 		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("companyId", userId);
-		String str ="";
+		String str = "";
 		try {
 			Long beginTime = System.currentTimeMillis();
-			log.info("长虹查询供应商信息服务开始"+beginTime);
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
-			log.info("长虹查询供应商信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			log.info("长虹查询供应商信息服务开始" + beginTime);
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"),
+					JSON.toJSONString(map), mapHeader);
+			log.info("长虹查询供应商信息服务结束" + System.currentTimeMillis() + "耗时:" + (System.currentTimeMillis() - beginTime)
+					+ "毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
 		JSONObject data0 = (JSONObject) JSON.parse(str);
 		JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
 		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
-		
-		//转换时间
-		String createTime ="";
-		if(data2.getString("createTime")!=null&&data2.getString("createTime").length()!=0){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
+
+		// 转换时间
+		String createTime = "";
+		if (data2.getString("createTime") != null && data2.getString("createTime").length() != 0) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
 		}
-        String taxpayerType = "";
-        if("1".equals(data2.getString("taxpayerType"))){
-        	taxpayerType = "一般纳税人";
-        }else if("2".equals(data2.getString("taxpayerType"))){
-        	taxpayerType = "小规模纳税人";
-        }else if("3".equals(data2.getString("taxpayerType")))
-        	taxpayerType = "非增值税纳税人";
-        String legalRepresentative="";
-        String phone="";
-        String email = "";
-        String idNumber="";
-        String bankAccount = "";
-        String businessAddress = "";
-        String location = "";
-        //安全处理信息
-        if(data2.getString("legalRepresentative")!=null)
-        	legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"),1);
-        if(data2.getString("phone")!=null){
-        phone = getStarString(data2.getString("phone"),4,7);
-        }
-        if(data2.getString("email")!=null){
-        email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
-        }
-        if(data2.getString("idNumber")!=null){
-        idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length()-10, data2.getString("idNumber").length()-4);
-        }
-        if(data2.getString("bankAccount")!=null){
-        bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length()-7, data2.getString("bankAccount").length()-3);
-        }
-        if(data2.getString("businessAddress")!=null){
-        	if(data2.getString("businessAddress").length()<4)
-        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-1);
-        	else
-        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-4);		
-        }
-        if(data2.getString("location")!=null){
-        	if(data2.getString("location").length()<4)
-        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-1);
-        	else
-        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
-        }
-        //System.out.println(JSON.toJSONString(data2));
+		String taxpayerType = "";
+		if ("1".equals(data2.getString("taxpayerType"))) {
+			taxpayerType = "一般纳税人";
+		} else if ("2".equals(data2.getString("taxpayerType"))) {
+			taxpayerType = "小规模纳税人";
+		} else if ("3".equals(data2.getString("taxpayerType")))
+			taxpayerType = "非增值税纳税人";
+		String legalRepresentative = "";
+		String phone = "";
+		String email = "";
+		String idNumber = "";
+		String bankAccount = "";
+		String businessAddress = "";
+		String location = "";
+		// 安全处理信息
+		if (data2.getString("legalRepresentative") != null)
+			legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"), 1);
+		if (data2.getString("phone") != null) {
+			phone = getStarString(data2.getString("phone"), 4, 7);
+		}
+		if (data2.getString("email") != null) {
+			email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
+		}
+		if (data2.getString("idNumber") != null) {
+			idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length() - 10,
+					data2.getString("idNumber").length() - 4);
+		}
+		if (data2.getString("bankAccount") != null) {
+			bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length() - 7,
+					data2.getString("bankAccount").length() - 3);
+		}
+		if (data2.getString("businessAddress") != null) {
+			if (data2.getString("businessAddress").length() < 4)
+				businessAddress = getStarStringNoEnd(data2.getString("businessAddress"),
+						data2.getString("businessAddress").length() - 1);
+			else
+				businessAddress = getStarStringNoEnd(data2.getString("businessAddress"),
+						data2.getString("businessAddress").length() - 4);
+		}
+		if (data2.getString("location") != null) {
+			if (data2.getString("location").length() < 4)
+				location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length() - 1);
+			else
+				location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length() - 4);
+		}
+		// System.out.println(JSON.toJSONString(data2));
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
-		model.addObject("createTime",createTime);
+		model.addObject("createTime", createTime);
 		model.addObject("industryType", data2.getString("industryType"));
 		model.addObject("officialWebsite", data2.getString("officialWebsite"));
 		model.addObject("companiesNumber", data2.getString("companiesNumber"));
@@ -190,92 +214,101 @@ public class QualificationController {
 		model.addObject("registerCapital", data2.getString("registerCapital"));
 		return model;
 	}
+
 	/**
 	 * 店铺审核页面
+	 * 
 	 * @return
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
-	@RequestMapping(value="/toShopCheckPager",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public ModelAndView toShopCheckDetailPager(String username,String userId) throws UnsupportedEncodingException {
+	@RequestMapping(value = "/toShopCheckPager", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public ModelAndView toShopCheckDetailPager(String username, String userId) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/shop/auditeQualification");
-		//查询账户信息
+		// 查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
 		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("companyId", userId);
-		String str ="";
+		String str = "";
 		try {
 			Long beginTime = System.currentTimeMillis();
-			log.info("长虹查询店铺信息服务开始"+beginTime);
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
-			log.info("长虹查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			log.info("长虹查询店铺信息服务开始" + beginTime);
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"),
+					JSON.toJSONString(map), mapHeader);
+			log.info("长虹查询店铺信息服务结束" + System.currentTimeMillis() + "耗时:" + (System.currentTimeMillis() - beginTime)
+					+ "毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
 		JSONObject data0 = (JSONObject) JSON.parse(str);
 		JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
 		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
-		//转换时间
-		String createTime="";
-		//查询商户信息
+		// 转换时间
+		String createTime = "";
+		// 查询商户信息
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopInfoRequest queryShopInfoRequest = new QueryShopInfoRequest();
 		queryShopInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
 		queryShopInfoRequest.setUserId(userId);
 		Long shopBeginTime = System.currentTimeMillis();
-		log.info("查询店铺信息服务开始"+shopBeginTime);
-		QueryShopInfoResponse response=shopInfoSV.queryShopInfo(queryShopInfoRequest);
-		log.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-shopBeginTime)+"毫秒");
-		if(data2.getString("createTime")!=null&&data2.getString("createTime").length()!=0){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
+		log.info("查询店铺信息服务开始" + shopBeginTime);
+		QueryShopInfoResponse response = shopInfoSV.queryShopInfo(queryShopInfoRequest);
+		log.info("查询店铺信息服务结束" + System.currentTimeMillis() + "耗时:" + (System.currentTimeMillis() - shopBeginTime)
+				+ "毫秒");
+		if (data2.getString("createTime") != null && data2.getString("createTime").length() != 0) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
 		}
-		 String taxpayerType = "";
-		 if("1".equals(data2.getString("taxpayerType"))){
-	        	taxpayerType = "一般纳税人";
-	        }else if("2".equals(data2.getString("taxpayerType"))){
-	        	taxpayerType = "小规模纳税人";
-	        }else if("3".equals(data2.getString("taxpayerType")))
-	        	taxpayerType = "非增值税纳税人";
-	        
-	        String legalRepresentative="";
-	        String phone="";
-	        String email = "";
-	        String idNumber="";
-	        String bankAccount = "";
-	        String businessAddress = "";
-	        String location = "";
-	        //安全处理信息
-	        if(data2.getString("legalRepresentative")!=null)
-	        	legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"),1);
-	        if(data2.getString("phone")!=null){
-	        phone = getStarString(data2.getString("phone"),4,7);
-	        }
-	        if(data2.getString("email")!=null){
-	        email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
-	        }
-	        if(data2.getString("idNumber")!=null){
-	        idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length()-10, data2.getString("idNumber").length()-4);
-	        }
-	        if(data2.getString("bankAccount")!=null){
-	        bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length()-7, data2.getString("bankAccount").length()-3);
-	        }
-	        if(data2.getString("businessAddress")!=null){
-	        	if(data2.getString("businessAddress").length()<4)
-	        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-1);
-	        	else
-	        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-4);		
-	        }
-	        if(data2.getString("location")!=null){
-	        	if(data2.getString("location").length()<4)
-	        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-1);
-	        	else
-	        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
-	        }
+		String taxpayerType = "";
+		if ("1".equals(data2.getString("taxpayerType"))) {
+			taxpayerType = "一般纳税人";
+		} else if ("2".equals(data2.getString("taxpayerType"))) {
+			taxpayerType = "小规模纳税人";
+		} else if ("3".equals(data2.getString("taxpayerType")))
+			taxpayerType = "非增值税纳税人";
+
+		String legalRepresentative = "";
+		String phone = "";
+		String email = "";
+		String idNumber = "";
+		String bankAccount = "";
+		String businessAddress = "";
+		String location = "";
+		// 安全处理信息
+		if (data2.getString("legalRepresentative") != null)
+			legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"), 1);
+		if (data2.getString("phone") != null) {
+			phone = getStarString(data2.getString("phone"), 4, 7);
+		}
+		if (data2.getString("email") != null) {
+			email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
+		}
+		if (data2.getString("idNumber") != null) {
+			idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length() - 10,
+					data2.getString("idNumber").length() - 4);
+		}
+		if (data2.getString("bankAccount") != null) {
+			bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length() - 7,
+					data2.getString("bankAccount").length() - 3);
+		}
+		if (data2.getString("businessAddress") != null) {
+			if (data2.getString("businessAddress").length() < 4)
+				businessAddress = getStarStringNoEnd(data2.getString("businessAddress"),
+						data2.getString("businessAddress").length() - 1);
+			else
+				businessAddress = getStarStringNoEnd(data2.getString("businessAddress"),
+						data2.getString("businessAddress").length() - 4);
+		}
+		if (data2.getString("location") != null) {
+			if (data2.getString("location").length() < 4)
+				location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length() - 1);
+			else
+				location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length() - 4);
+		}
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
-		model.addObject("createTime",createTime);
+		model.addObject("createTime", createTime);
 		model.addObject("industryType", data2.getString("industryType"));
 		model.addObject("officialWebsite", data2.getString("officialWebsite"));
 		model.addObject("companiesNumber", data2.getString("companiesNumber"));
@@ -301,32 +334,32 @@ public class QualificationController {
 		model.addObject("commodityType", data2.getString("commodityType"));
 		model.addObject("brandNameCh", data2.getString("brandNameCh"));
 		model.addObject("brandNameEn", data2.getString("brandNameEn"));
-		if(response!=null){
-			String busiType="";
-			if("1".equals(response.getBusiType())){
-				busiType="生产厂商";
-			}else if("2".equals(response.getBusiType())){
-				busiType="品牌代理商";
+		if (response != null) {
+			String busiType = "";
+			if ("1".equals(response.getBusiType())) {
+				busiType = "生产厂商";
+			} else if ("2".equals(response.getBusiType())) {
+				busiType = "品牌代理商";
 			}
-			String hasExperi ="";
-			if("0".equals(response.getHasExperi()+"")){
+			String hasExperi = "";
+			if ("0".equals(response.getHasExperi() + "")) {
 				hasExperi = "无";
-			}else if("1".equals(response.getHasExperi()+""))
+			} else if ("1".equals(response.getHasExperi() + ""))
 				hasExperi = "有";
-				
+
 			model.addObject("wantShopName", response.getShopName());
 			model.addObject("goodsNum", response.getGoodsNum());
 			model.addObject("busiType", busiType);
 			model.addObject("hasExperi", hasExperi);
 			model.addObject("shopDesc", response.getShopDesc());
 			String ecommOwner = "";
-			if(response!=null&&response.getEcommOwner()!=null){
-				for (int index=0;index<response.getEcommOwner().length();index++) {
-					if('1'==response.getEcommOwner().charAt(index))
-						ecommOwner+=shopOwner[index]+"/";
+			if (response != null && response.getEcommOwner() != null) {
+				for (int index = 0; index < response.getEcommOwner().length(); index++) {
+					if ('1' == response.getEcommOwner().charAt(index))
+						ecommOwner += shopOwner[index] + "/";
 				}
-				if(ecommOwner.length()>1)
-					ecommOwner = ecommOwner.substring(0,ecommOwner.length()-1);
+				if (ecommOwner.length() > 1)
+					ecommOwner = ecommOwner.substring(0, ecommOwner.length() - 1);
 				else
 					ecommOwner = "无平台";
 			}
@@ -334,93 +367,108 @@ public class QualificationController {
 		}
 		return model;
 	}
+
 	/**
 	 * 供应商详情页面
+	 * 
 	 * @return
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
-	@RequestMapping(value="/toSuplierDetailPager",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public ModelAndView toSuplierDetailPager(String userId,String username) throws UnsupportedEncodingException {
+	@RequestMapping(value = "/toSuplierDetailPager", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public ModelAndView toSuplierDetailPager(String userId, String username) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/supplier/checkedDetail");
-		//查询账户信息
+		// 查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
 		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("companyId", userId);
-		String str ="";
+		String str = "";
 		try {
 			Long beginTime = System.currentTimeMillis();
-			log.info("长虹查询供应商信息服务开始"+beginTime);
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
-			log.info("长虹查询供应商信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			log.info("长虹查询供应商信息服务开始" + beginTime);
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"),
+					JSON.toJSONString(map), mapHeader);
+			log.info("长虹查询供应商信息服务结束" + System.currentTimeMillis() + "耗时:" + (System.currentTimeMillis() - beginTime)
+					+ "毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
 		JSONObject data0 = (JSONObject) JSON.parse(str);
 		JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
 		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
-		//转换时间
-		String createTime ="";
-		if(data2.getString("createTime")!=null&&data2.getString("createTime").length()!=0){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
+		// 转换时间
+		String createTime = "";
+		if (data2.getString("createTime") != null && data2.getString("createTime").length() != 0) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
 		}
-        String taxpayerType = "";
-        if("1".equals(data2.getString("taxpayerType"))){
-        	taxpayerType = "一般纳税人";
-        }else if("2".equals(data2.getString("taxpayerType"))){
-        	taxpayerType = "小规模纳税人";
-        }else if("3".equals(data2.getString("taxpayerType")))
-        	taxpayerType = "非增值税纳税人";
-        
-        String legalRepresentative="";
-        String phone="";
-        String email = "";
-        String idNumber="";
-        String bankAccount = "";
-        String businessAddress = "";
-        String location = "";
-        //安全处理信息
-        if(data2.getString("legalRepresentative")!=null)
-        	legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"),1);
-        if(data2.getString("phone")!=null){
-        phone = getStarString(data2.getString("phone"),4,7);
-        }
-        if(data2.getString("email")!=null){
-        email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
-        }
-        if(data2.getString("idNumber")!=null){
-        idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length()-10, data2.getString("idNumber").length()-4);
-        }
-        if(data2.getString("bankAccount")!=null){
-        bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length()-7, data2.getString("bankAccount").length()-3);
-        }
-        if(data2.getString("businessAddress")!=null){
-        	if(data2.getString("businessAddress").length()<4)
-        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-1);
-        	else
-        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-4);		
-        }
-        if(data2.getString("location")!=null){
-        	if(data2.getString("location").length()<4)
-        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-1);
-        	else
-        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
-        }
-        QueryAuditInfoResponse auditResponse = new QueryAuditInfoResponse();
-        if(StringUtil.isBlank(data2.getString("companyId"))){
-        	QueryAuditInfoRequest request = new QueryAuditInfoRequest();
-        	IAuditSV auditSV = DubboConsumerFactory.getService(IAuditSV.class);
-        	request.setTenantId(ChWebConstants.COM_TENANT_ID);
-        	request.setUserId(data2.getString("companyId"));
-        	auditResponse = auditSV.queryAuditInfo(request);
-        	Log.info("审核结果"+JSON.toJSONString(auditResponse));
-        }
-        model.addObject("auditResponse", auditResponse);
+		String taxpayerType = "";
+		if ("1".equals(data2.getString("taxpayerType"))) {
+			taxpayerType = "一般纳税人";
+		} else if ("2".equals(data2.getString("taxpayerType"))) {
+			taxpayerType = "小规模纳税人";
+		} else if ("3".equals(data2.getString("taxpayerType")))
+			taxpayerType = "非增值税纳税人";
+
+		String legalRepresentative = "";
+		String phone = "";
+		String email = "";
+		String idNumber = "";
+		String bankAccount = "";
+		String businessAddress = "";
+		String location = "";
+		// 安全处理信息
+		if (data2.getString("legalRepresentative") != null)
+			legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"), 1);
+		if (data2.getString("phone") != null) {
+			phone = getStarString(data2.getString("phone"), 4, 7);
+		}
+		if (data2.getString("email") != null) {
+			email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
+		}
+		if (data2.getString("idNumber") != null) {
+			idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length() - 10,
+					data2.getString("idNumber").length() - 4);
+		}
+		if (data2.getString("bankAccount") != null) {
+			bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length() - 7,
+					data2.getString("bankAccount").length() - 3);
+		}
+		if (data2.getString("businessAddress") != null) {
+			if (data2.getString("businessAddress").length() < 4)
+				businessAddress = getStarStringNoEnd(data2.getString("businessAddress"),
+						data2.getString("businessAddress").length() - 1);
+			else
+				businessAddress = getStarStringNoEnd(data2.getString("businessAddress"),
+						data2.getString("businessAddress").length() - 4);
+		}
+		if (data2.getString("location") != null) {
+			if (data2.getString("location").length() < 4)
+				location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length() - 1);
+			else
+				location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length() - 4);
+		}
+		QueryAuditInfoResponse auditResponse = new QueryAuditInfoResponse();
+		if (!StringUtil.isBlank(data2.getString("companyId"))) {
+			QueryAuditInfoRequest request = new QueryAuditInfoRequest();
+			IAuditSV auditSV = DubboConsumerFactory.getService(IAuditSV.class);
+			request.setTenantId(ChWebConstants.COM_TENANT_ID);
+			request.setUserId(data2.getString("companyId"));
+			auditResponse = auditSV.queryAuditInfo(request);
+			if (!StringUtil.isBlank(auditResponse.getAuditStatus())) {
+				if ("2".equals(auditResponse.getAuditStatus())) {
+					auditResponse.setAuditStatus("审核已通过");
+				} else if ("3".equals(auditResponse.getAuditStatus())) {
+					auditResponse.setAuditStatus("审核已拒绝");
+				}
+			}
+			Log.info("审核结果" + JSON.toJSONString(auditResponse));
+		}
+		model.addObject("auditResponse", auditResponse);
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
-		model.addObject("createTime",createTime);
+		model.addObject("createTime", createTime);
 		model.addObject("industryType", data2.getString("industryType"));
 		model.addObject("officialWebsite", data2.getString("officialWebsite"));
 		model.addObject("companiesNumber", data2.getString("companiesNumber"));
@@ -449,103 +497,119 @@ public class QualificationController {
 		model.addObject("registerCapital", data2.getString("registerCapital"));
 		return model;
 	}
+
 	/**
 	 * 店铺详情页面
+	 * 
 	 * @return
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
-	@RequestMapping(value="/toShopDetailPager",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public ModelAndView toShopDetailPager(String userId,String username) throws UnsupportedEncodingException {
+	@RequestMapping(value = "/toShopDetailPager", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public ModelAndView toShopDetailPager(String userId, String username) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/shop/checkedDetail");
-		//查询账户信息
+		// 查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
 		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("companyId", userId);
-		//查询商户信息
+		// 查询商户信息
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopInfoRequest queryShopInfoRequest = new QueryShopInfoRequest();
 		queryShopInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
 		queryShopInfoRequest.setUserId(userId);
 		Long shopBeginTime = System.currentTimeMillis();
-		log.info("查询店铺信息服务开始"+shopBeginTime);
-		QueryShopInfoResponse response=shopInfoSV.queryShopInfo(queryShopInfoRequest);
-		log.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-shopBeginTime)+"毫秒");
-		String str ="";
+		log.info("查询店铺信息服务开始" + shopBeginTime);
+		QueryShopInfoResponse response = shopInfoSV.queryShopInfo(queryShopInfoRequest);
+		log.info("查询店铺信息服务结束" + System.currentTimeMillis() + "耗时:" + (System.currentTimeMillis() - shopBeginTime)
+				+ "毫秒");
+		String str = "";
 		try {
 			Long beginTime = System.currentTimeMillis();
-			log.info("长虹查询店铺信息服务开始"+beginTime);
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
-			log.info("长虹查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			log.info("长虹查询店铺信息服务开始" + beginTime);
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"),
+					JSON.toJSONString(map), mapHeader);
+			log.info("长虹查询店铺信息服务结束" + System.currentTimeMillis() + "耗时:" + (System.currentTimeMillis() - beginTime)
+					+ "毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
 		JSONObject data0 = (JSONObject) JSON.parse(str);
 		JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
 		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
-		//转换时间
-		String createTime ="";
-		if(data2.getString("createTime")!=null&&data2.getString("createTime").length()!=0){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
+		// 转换时间
+		String createTime = "";
+		if (data2.getString("createTime") != null && data2.getString("createTime").length() != 0) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
 		}
-        String taxpayerType = "";
-        if("1".equals(data2.getString("taxpayerType"))){
-        	taxpayerType = "一般纳税人";
-        }else if("2".equals(data2.getString("taxpayerType"))){
-        	taxpayerType = "小规模纳税人";
-        }else if("3".equals(data2.getString("taxpayerType")))
-        	taxpayerType = "非增值税纳税人";
-        
-        String legalRepresentative="";
-        String phone="";
-        String email = "";
-        String idNumber="";
-        String bankAccount = "";
-        String businessAddress = "";
-        String location = "";
-        //安全处理信息
-        if(data2.getString("legalRepresentative")!=null)
-        	legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"),1);
-        if(data2.getString("phone")!=null){
-        phone = getStarString(data2.getString("phone"),4,7);
-        }
-        if(data2.getString("email")!=null){
-        email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
-        }
-        if(data2.getString("idNumber")!=null){
-        idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length()-10, data2.getString("idNumber").length()-4);
-        }
-        if(data2.getString("bankAccount")!=null){
-        bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length()-7, data2.getString("bankAccount").length()-3);
-        }
-        if(data2.getString("businessAddress")!=null){
-        	if(data2.getString("businessAddress").length()<4)
-        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-1);
-        	else
-        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-4);		
-        }
-        if(data2.getString("location")!=null){
-        	if(data2.getString("location").length()<4)
-        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-1);
-        	else
-        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
-        }
-        //审核日志
-        QueryAuditInfoResponse auditResponse = new QueryAuditInfoResponse();
-        if(StringUtil.isBlank(data2.getString("companyId"))){
-        	QueryAuditInfoRequest request = new QueryAuditInfoRequest();
-        	IAuditSV auditSV = DubboConsumerFactory.getService(IAuditSV.class);
-        	request.setTenantId(ChWebConstants.COM_TENANT_ID);
-        	request.setUserId(data2.getString("companyId"));
-        	auditResponse = auditSV.queryAuditInfo(request);
-        	Log.info("审核结果"+JSON.toJSONString(auditResponse));
-        }
-        model.addObject("auditResponse", auditResponse);
+		String taxpayerType = "";
+		if ("1".equals(data2.getString("taxpayerType"))) {
+			taxpayerType = "一般纳税人";
+		} else if ("2".equals(data2.getString("taxpayerType"))) {
+			taxpayerType = "小规模纳税人";
+		} else if ("3".equals(data2.getString("taxpayerType")))
+			taxpayerType = "非增值税纳税人";
+
+		String legalRepresentative = "";
+		String phone = "";
+		String email = "";
+		String idNumber = "";
+		String bankAccount = "";
+		String businessAddress = "";
+		String location = "";
+		// 安全处理信息
+		if (data2.getString("legalRepresentative") != null)
+			legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"), 1);
+		if (data2.getString("phone") != null) {
+			phone = getStarString(data2.getString("phone"), 4, 7);
+		}
+		if (data2.getString("email") != null) {
+			email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
+		}
+		if (data2.getString("idNumber") != null) {
+			idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length() - 10,
+					data2.getString("idNumber").length() - 4);
+		}
+		if (data2.getString("bankAccount") != null) {
+			bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length() - 7,
+					data2.getString("bankAccount").length() - 3);
+		}
+		if (data2.getString("businessAddress") != null) {
+			if (data2.getString("businessAddress").length() < 4)
+				businessAddress = getStarStringNoEnd(data2.getString("businessAddress"),
+						data2.getString("businessAddress").length() - 1);
+			else
+				businessAddress = getStarStringNoEnd(data2.getString("businessAddress"),
+						data2.getString("businessAddress").length() - 4);
+		}
+		if (data2.getString("location") != null) {
+			if (data2.getString("location").length() < 4)
+				location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length() - 1);
+			else
+				location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length() - 4);
+		}
+		// 审核日志
+		QueryAuditInfoResponse auditResponse = new QueryAuditInfoResponse();
+		if (!StringUtil.isBlank(data2.getString("companyId"))) {
+			QueryAuditInfoRequest request = new QueryAuditInfoRequest();
+			IAuditSV auditSV = DubboConsumerFactory.getService(IAuditSV.class);
+			request.setTenantId(ChWebConstants.COM_TENANT_ID);
+			request.setUserId(data2.getString("companyId"));
+			auditResponse = auditSV.queryAuditInfo(request);
+			if (!StringUtil.isBlank(auditResponse.getAuditStatus())) {
+				if ("2".equals(auditResponse.getAuditStatus())) {
+					auditResponse.setAuditStatus("审核已通过");
+				} else if ("3".equals(auditResponse.getAuditStatus())) {
+					auditResponse.setAuditStatus("审核已拒绝");
+				}
+			}
+			Log.info("审核结果" + JSON.toJSONString(auditResponse));
+		}
+		model.addObject("auditResponse", auditResponse);
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
-		model.addObject("createTime",createTime);
+		model.addObject("createTime", createTime);
 		model.addObject("industryType", data2.getString("industryType"));
 		model.addObject("officialWebsite", data2.getString("officialWebsite"));
 		model.addObject("companiesNumber", data2.getString("companiesNumber"));
@@ -572,17 +636,17 @@ public class QualificationController {
 		model.addObject("brandNameCh", data2.getString("brandNameCh"));
 		model.addObject("brandNameEn", data2.getString("brandNameEn"));
 		model.addObject("registerCapital", data2.getString("registerCapital"));
-		if(response!=null){
-			String busiType="";
-			if("1".equals(response.getBusiType())){
-				busiType="生产厂商";
-			}else if("2".equals(response.getBusiType())){
-				busiType="品牌代理商";
+		if (response != null) {
+			String busiType = "";
+			if ("1".equals(response.getBusiType())) {
+				busiType = "生产厂商";
+			} else if ("2".equals(response.getBusiType())) {
+				busiType = "品牌代理商";
 			}
-			String hasExperi ="";
-			if("0".equals(response.getHasExperi()+"")){
+			String hasExperi = "";
+			if ("0".equals(response.getHasExperi() + "")) {
 				hasExperi = "无";
-			}else if("1".equals(response.getHasExperi()+""))
+			} else if ("1".equals(response.getHasExperi() + ""))
 				hasExperi = "有";
 			model.addObject("wantShopName", response.getShopName());
 			model.addObject("goodsNum", response.getGoodsNum());
@@ -590,57 +654,60 @@ public class QualificationController {
 			model.addObject("hasExperi", hasExperi);
 			model.addObject("shopDesc", response.getShopDesc());
 			String ecommOwner = "";
-			if(response!=null&&response.getEcommOwner()!=null){
-				for (int index=0;index<response.getEcommOwner().length();index++) {
-					if('1'==response.getEcommOwner().charAt(index))
-						ecommOwner+=shopOwner[index]+"/";
+			if (response != null && response.getEcommOwner() != null) {
+				for (int index = 0; index < response.getEcommOwner().length(); index++) {
+					if ('1' == response.getEcommOwner().charAt(index))
+						ecommOwner += shopOwner[index] + "/";
 				}
-			if(ecommOwner.length()>1)
-			ecommOwner = ecommOwner.substring(0,ecommOwner.length()-1);
-			else
-				ecommOwner = "无平台";
+				if (ecommOwner.length() > 1)
+					ecommOwner = ecommOwner.substring(0, ecommOwner.length() - 1);
+				else
+					ecommOwner = "无平台";
 			}
 			model.addObject("ecommOwner", ecommOwner);
 		}
 		return model;
 	}
-	
-	//查询未审核列表
+
+	// 查询未审核列表
 	@RequestMapping("/getUncheckList")
 	@ResponseBody
-	public ResponseData<PageInfo<BusinessListInfo>> getUncheckList(HttpServletRequest request,String auditState,String companyName,String username,String companyType){
+	public ResponseData<PageInfo<BusinessListInfo>> getUncheckList(HttpServletRequest request, String auditState,
+			String companyName, String username, String companyType) {
 		ResponseData<PageInfo<BusinessListInfo>> response = null;
-		PageInfo<BusinessListInfo> pageInfo =null;
+		PageInfo<BusinessListInfo> pageInfo = null;
 		ResponseHeader header = null;
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
 		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("pageNo", request.getParameter("pageNo"));
 		map.put("pageSize", request.getParameter("pageSize"));
-		if(username!=null&&username.length()!=0)
+		if (username != null && username.length() != 0)
 			map.put("username", username);
-		if(companyName!=null&&companyName.length()!=0)
+		if (companyName != null && companyName.length() != 0)
 			map.put("companyName", companyName);
-		if(companyType!=null&&companyType.length()!=0)
+		if (companyType != null && companyType.length() != 0)
 			map.put("companyType", companyType);
-		if(auditState!=null&&auditState.length()!=0)
+		if (auditState != null && auditState.length() != 0)
 			map.put("auditState", auditState);
-		String str ="";
+		String str = "";
 		try {
 			Long beginTime = System.currentTimeMillis();
-			log.info("++++++++++长虹查询未审核列表信息服务开始"+beginTime);
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
-			log.info("++++++++++长虹查询未审核列表信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			log.info("++++++++++长虹查询未审核列表信息服务开始" + beginTime);
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"),
+					JSON.toJSONString(map), mapHeader);
+			log.info("++++++++++长虹查询未审核列表信息服务结束" + System.currentTimeMillis() + "耗时:"
+					+ (System.currentTimeMillis() - beginTime) + "毫秒");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		try{
-		JSONObject data = ParseO2pDataUtil.getData(str);
-		String resultCode = data.getString("resultCode");
-		if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
-			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
-			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
-		}else {
+		try {
+			JSONObject data = ParseO2pDataUtil.getData(str);
+			String resultCode = data.getString("resultCode");
+			if (resultCode != null && !OperateCode.SUCCESS.equals(resultCode)) {
+				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
+			} else {
 				Integer pageNo = Integer.valueOf(data.getString("pages"));
 				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
 				Integer total = Integer.valueOf(data.getString("total"));
@@ -651,242 +718,276 @@ public class QualificationController {
 				pageInfo.setPageNo(pageNo);
 				pageInfo.setPageSize(pageSize);
 				List<BusinessListInfo> responseList = new ArrayList<>();
-				JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
+				JSONArray list = (JSONArray) JSON.parseArray(data.getString("list"));
 				Iterator<Object> iterator = list.iterator();
-				while(iterator.hasNext()){
-					BusinessListInfo businessInfo = new BusinessListInfo(); 
-					 JSONObject object = (JSONObject) iterator.next();
-					 businessInfo.setUserId(object.getString("companyId"));
-					 businessInfo.setUserName(object.getString("username"));
-					 businessInfo.setCustName(object.getString("name"));
-					 responseList.add(businessInfo);
+				while (iterator.hasNext()) {
+					BusinessListInfo businessInfo = new BusinessListInfo();
+					JSONObject object = (JSONObject) iterator.next();
+					businessInfo.setUserId(object.getString("companyId"));
+					businessInfo.setUserName(object.getString("username"));
+					businessInfo.setCustName(object.getString("name"));
+					responseList.add(businessInfo);
 				}
 				pageInfo.setResult(responseList);
 				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "查询失败");
-			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "查询失败"); 
+			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "查询失败");
 			response.setResponseHeader(header);
 		}
-			response.setResponseHeader(header);
-			response.setData(pageInfo);
+		response.setResponseHeader(header);
+		response.setData(pageInfo);
 		return response;
 	}
-		
-		//查询已审核列表
-		@RequestMapping("/getCheckedList")
-		@ResponseBody
-		public ResponseData<PageInfo<BusinessListInfo>> getCheckedList(HttpServletRequest request,String companyName,String username,String auditState,String companyType){
-			ResponseData<PageInfo<BusinessListInfo>> response = null;
-			PageInfo<BusinessListInfo> pageInfo =null;
-			ResponseHeader header = null;
-			Map<String, String> map = new HashMap<>();
-			Map<String, String> mapHeader = new HashMap<>();
-			mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
-			map.put("pageNo", request.getParameter("pageNo"));
-			map.put("pageSize", request.getParameter("pageSize"));
-			if(username!=null&&username.length()!=0)
-				map.put("username", username);
-			if(companyName!=null&&companyName.length()!=0)
-				map.put("companyName", companyName);
-			if(companyType!=null&&companyType.length()!=0)
-				map.put("companyType", companyType);
-			if(auditState!=null&&auditState.length()!=0)
-				map.put("auditState", auditState);
-			String str ="";
-			try {
-				Long beginTime = System.currentTimeMillis();
-				log.info("++++++++++长虹查询已审核列表信息服务开始"+beginTime);
-				str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
-				log.info("++++++++++长虹查询已审核列表信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
-			} catch (IOException | URISyntaxException e) {
-				e.printStackTrace();
-			}
-			try{
-				JSONObject data = ParseO2pDataUtil.getData(str);
-				String resultCode = data.getString("resultCode");
-				if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
-					response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
-					header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
-				}else{
-					Integer pageNo = Integer.valueOf(data.getString("pages"));
-					Integer pageSize = Integer.valueOf(data.getString("pageSize"));
-					Integer total = Integer.valueOf(data.getString("total"));
-					Integer pageCount = Integer.valueOf(data.getString("pageNum"));
-					pageInfo = new PageInfo<>();
-					pageInfo.setCount(total);
-					pageInfo.setPageCount(pageCount);
-					pageInfo.setPageNo(pageNo);
-					pageInfo.setPageSize(pageSize);
-					List<BusinessListInfo> responseList = new ArrayList<>();
-					JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
-					Iterator<Object> iterator = list.iterator();
-					while(iterator.hasNext()){
-						BusinessListInfo businessInfo = new BusinessListInfo(); 
-						 JSONObject object = (JSONObject) iterator.next();
-						 String date = "";
-						 if(object.getString("createTime")!=null&&object.getString("createTime").length()!=0){
-								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-								date = sdf.format(Long.parseLong(object.getString("createTime")));
-							}
-						 String auditTime = "";
-						 if(object.getString("auditStateTime")!=null&&object.getString("auditStateTime").length()!=0){
-								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-								auditTime = sdf.format(Long.parseLong(object.getString("auditStateTime")));
-							}
-						 businessInfo.setUserId(object.getString("companyId"));
-						 businessInfo.setUserName(object.getString("username"));
-						 businessInfo.setCustName(object.getString("name"));
-						 businessInfo.setCreateTime(date);
-						 businessInfo.setAuditTime(auditTime);
-						 responseList.add(businessInfo);
-						}
-						pageInfo.setResult(responseList);
-						//System.out.println(JSON.toJSONString(responseList));
-						response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-						header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
-					}
-			}catch(Exception e){
-				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "查询失败");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "查询失败"); 
-			}
-				response.setResponseHeader(header);
-				response.setData(pageInfo);
-			return response;
-	}
-		
-		@RequestMapping("/updateAudit")
-		@ResponseBody
-		public ResponseData<String> updateAudit(HttpServletRequest request,String companyId,String auditState,String reason,String userType){
-			ResponseData<String> response = null;
-			ResponseHeader header = null;
-			GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-			Map<String, String> map = new HashMap<>();
-			Map<String, String> mapHeader = new HashMap<>();
-			mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
-			map.put("openId", user.getUserId());
-			map.put("auditState",auditState);
-			map.put("companyId",companyId);
-			String str ="";
-			try {
-				Long beginTime = System.currentTimeMillis();
-				log.info("++++++++++向通行证发起修改审核状态请求开始"+beginTime);
-				str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateAuditState_http_url"), JSON.toJSONString(map), mapHeader);
-				log.info("++++++++++向通行证发起修改审核状态请求结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
-			} catch (IOException | URISyntaxException e) {
-				e.printStackTrace();
-			}
+
+	// 查询已审核列表
+	@RequestMapping("/getCheckedList")
+	@ResponseBody
+	public ResponseData<PageInfo<BusinessListInfo>> getCheckedList(HttpServletRequest request, String companyName,
+			String username, String auditState, String companyType) {
+		ResponseData<PageInfo<BusinessListInfo>> response = null;
+		PageInfo<BusinessListInfo> pageInfo = null;
+		ResponseHeader header = null;
+		Map<String, String> map = new HashMap<>();
+		Map<String, String> mapHeader = new HashMap<>();
+		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
+		map.put("pageNo", request.getParameter("pageNo"));
+		map.put("pageSize", request.getParameter("pageSize"));
+		if (username != null && username.length() != 0)
+			map.put("username", username);
+		if (companyName != null && companyName.length() != 0)
+			map.put("companyName", companyName);
+		if (companyType != null && companyType.length() != 0)
+			map.put("companyType", companyType);
+		if (auditState != null && auditState.length() != 0)
+			map.put("auditState", auditState);
+		String str = "";
+		try {
+			Long beginTime = System.currentTimeMillis();
+			log.info("++++++++++长虹查询已审核列表信息服务开始" + beginTime);
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"),
+					JSON.toJSONString(map), mapHeader);
+			log.info("++++++++++长虹查询已审核列表信息服务结束" + System.currentTimeMillis() + "耗时:"
+					+ (System.currentTimeMillis() - beginTime) + "毫秒");
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
+		try {
 			JSONObject data = ParseO2pDataUtil.getData(str);
 			String resultCode = data.getString("resultCode");
-			if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
+			if (resultCode != null && !OperateCode.SUCCESS.equals(resultCode)) {
 				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
-			}else {
-				String result = data.getString("result");
-				InsertAuditInfoRequest auditRequest = new InsertAuditInfoRequest();
-				IAuditSV auditSV = DubboConsumerFactory.getService(IAuditSV.class);
-				if ("success".equals(result)){
-					log.info("+++++++++++++++++++资质审核日志开始+++++++++++++++++++++");
-					auditRequest.setUserId(companyId);
-					auditRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
-					auditRequest.setOperName(user.getLoginName());
-					auditRequest.setOperId(user.getUserId());
-					auditRequest.setCtType(userType);
-					auditRequest.setAuditDesc(reason);
-					auditRequest.setAuditStatus(auditState);
-					log.info("审核详情"+JSON.toJSONString(auditRequest));
-					auditSV.insertAuditInfo(auditRequest);
-					log.info("+++++++++++++++++++资质审核日志++++++++++++++++++++++");
-					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
+			} else {
+				Integer pageNo = Integer.valueOf(data.getString("pages"));
+				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
+				Integer total = Integer.valueOf(data.getString("total"));
+				Integer pageCount = Integer.valueOf(data.getString("pageNum"));
+				pageInfo = new PageInfo<>();
+				pageInfo.setCount(total);
+				pageInfo.setPageCount(pageCount);
+				pageInfo.setPageNo(pageNo);
+				pageInfo.setPageSize(pageSize);
+				List<BusinessListInfo> responseList = new ArrayList<>();
+				JSONArray list = (JSONArray) JSON.parseArray(data.getString("list"));
+				Iterator<Object> iterator = list.iterator();
+				while (iterator.hasNext()) {
+					BusinessListInfo businessInfo = new BusinessListInfo();
+					JSONObject object = (JSONObject) iterator.next();
+					String date = "";
+					if (object.getString("createTime") != null && object.getString("createTime").length() != 0) {
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						date = sdf.format(Long.parseLong(object.getString("createTime")));
+					}
+					String auditTime = "";
+					if (object.getString("auditStateTime") != null
+							&& object.getString("auditStateTime").length() != 0) {
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						auditTime = sdf.format(Long.parseLong(object.getString("auditStateTime")));
+					}
+					businessInfo.setUserId(object.getString("companyId"));
+					businessInfo.setUserName(object.getString("username"));
+					businessInfo.setCustName(object.getString("name"));
+					businessInfo.setCreateTime(date);
+					businessInfo.setAuditTime(auditTime);
+					responseList.add(businessInfo);
 				}
-				else{
-					log.info("++++++++++++++++++++资质审核日志开始++++++++++++++++++++++");
-					auditRequest.setUserId(companyId);
-					auditRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
-					auditRequest.setOperName(user.getLoginName());
-					auditRequest.setOperId(user.getUserId());
-					auditRequest.setCtType(userType);
-					auditRequest.setAuditDesc(reason);
-					auditRequest.setAuditStatus(auditState);
-					log.info("审核详情"+JSON.toJSONString(auditRequest));
-					auditSV.insertAuditInfo(auditRequest);
-					log.info("++++++++++++++++++++资质审核日志+++++++++++++++++++++++");
-					response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
-					header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
-				}
-				
-				response.setResponseHeader(header);
-
+				pageInfo.setResult(responseList);
+				// System.out.println(JSON.toJSONString(responseList));
+				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 			}
-			return response;
+		} catch (Exception e) {
+			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "查询失败");
+			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "查询失败");
 		}
-		
-		/** 
-	     * 对字符串处理:将指定位置到指定位置的字符以星号代替 
-	     *  
-	     * @param content 
-	     *            传入的字符串 
-	     * @param begin 
-	     *            开始位置 
-	     * @param end 
-	     *            结束位置 
-	     * @return 
-	     */  
-	    private static String getStarString(String content, int begin, int end) {  
-	    	if(content!=null){
-	        if (begin >= content.length() || begin < 0) {  
-	            return content;  
-	        }  
-	        if (end >= content.length() || end < 0) {  
-	            return content;  
-	        }  
-	        if (begin >= end) {  
-	            return content;  
-	        } 
-	    	}
-	        String starStr = "";  
-	        for (int i = begin; i < end; i++) {  
-	            starStr = starStr + "*";  
-	        }  
-	        String str ="";
-	        if(content!=null){
-	        	str = content.substring(0, begin) + starStr + content.substring(end, content.length());
-	        }
-	        return str;  
-	  
-	    }  
-	    /** 
-	     * 对字符串处理:将指定位置到指定位置的字符以星号代替 
-	     *  
-	     * @param content 
-	     *            传入的字符串 
-	     * @param begin 
-	     *            开始位置 
-	     * @param end 
-	     *            结束位置 
-	     * @return 
-	     */  
-	    private static String getStarStringNoEnd(String content, int begin) {  
-	  
-	        if (begin >= content.length() || begin < 0) {  
-	            return content;  
-	        }  
-	        if (begin >= content.length()) {  
-	            return content;  
-	        }  
-	        String starStr = "";  
-	        for (int i = begin; i < content.length(); i++) {  
-	            starStr = starStr + "*";  
-	        }  
-	        String str ="";
-	        if(content!=null){
-	        	str = content.substring(0, begin) + starStr;  
-	        }
-	        return str; 
-	  
-	    }  
-		
+		response.setResponseHeader(header);
+		response.setData(pageInfo);
+		return response;
+	}
+
+	// 审核历史记录
+	@RequestMapping("/getHistoryList")
+	@ResponseBody
+	public ResponseData<PageInfo<AuditLogVo>> getHistoryList(HttpServletRequest request, String userId) {
+		ResponseData<PageInfo<AuditLogVo>> response = null;
+		PageInfo<AuditLogVo> pageInfo = null;
+		ResponseHeader header = null;
+		try {
+			IAuditSV auditSV = DubboConsumerFactory.getService(IAuditSV.class);
+			QueryAuditLogInfoRequest auditLogInfoRequest = new QueryAuditLogInfoRequest();
+			auditLogInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+			auditLogInfoRequest.setUserId(auditLogInfoRequest.getUserId());
+			QueryAuditLogInfoResponse responseData = auditSV.queryAuditLogInfo(auditLogInfoRequest);
+			pageInfo = responseData.getPageInfo();
+			// System.out.println(JSON.toJSONString(responseList));
+			response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+			header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+		} catch (Exception e) {
+			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "查询失败");
+			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "查询失败");
+		}
+		response.setResponseHeader(header);
+		response.setData(pageInfo);
+		return response;
+	}
+
+	@RequestMapping("/updateAudit")
+	@ResponseBody
+	public ResponseData<String> updateAudit(HttpServletRequest request, String companyId, String auditState,
+			String reason, String userType) {
+		ResponseData<String> response = null;
+		ResponseHeader header = null;
+		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession()
+				.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+		Map<String, String> map = new HashMap<>();
+		Map<String, String> mapHeader = new HashMap<>();
+		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
+		map.put("openId", user.getUserId());
+		map.put("auditState", auditState);
+		map.put("companyId", companyId);
+		String str = "";
+		try {
+			Long beginTime = System.currentTimeMillis();
+			log.info("++++++++++向通行证发起修改审核状态请求开始" + beginTime);
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateAuditState_http_url"),
+					JSON.toJSONString(map), mapHeader);
+			log.info("++++++++++向通行证发起修改审核状态请求结束" + System.currentTimeMillis() + "耗时:"
+					+ (System.currentTimeMillis() - beginTime) + "毫秒");
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
+		JSONObject data = ParseO2pDataUtil.getData(str);
+		String resultCode = data.getString("resultCode");
+		if (resultCode != null && !OperateCode.SUCCESS.equals(resultCode)) {
+			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
+			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
+		} else {
+			String result = data.getString("result");
+			InsertAuditInfoRequest auditRequest = new InsertAuditInfoRequest();
+			IAuditSV auditSV = DubboConsumerFactory.getService(IAuditSV.class);
+			if ("success".equals(result)) {
+				log.info("+++++++++++++++++++资质审核日志开始+++++++++++++++++++++");
+				auditRequest.setUserId(companyId);
+				auditRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+				auditRequest.setOperName(user.getLoginName());
+				auditRequest.setOperId(user.getUserId());
+				auditRequest.setCtType(userType);
+				auditRequest.setAuditDesc(reason);
+				auditRequest.setAuditStatus(auditState);
+				log.info("审核详情" + JSON.toJSONString(auditRequest));
+				auditSV.insertAuditInfo(auditRequest);
+				log.info("+++++++++++++++++++资质审核日志++++++++++++++++++++++");
+				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+			} else {
+				log.info("++++++++++++++++++++资质审核日志开始++++++++++++++++++++++");
+				auditRequest.setUserId(companyId);
+				auditRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+				auditRequest.setOperName(user.getLoginName());
+				auditRequest.setOperId(user.getUserId());
+				auditRequest.setCtType(userType);
+				auditRequest.setAuditDesc(reason);
+				auditRequest.setAuditStatus(auditState);
+				log.info("审核详情" + JSON.toJSONString(auditRequest));
+				auditSV.insertAuditInfo(auditRequest);
+				log.info("++++++++++++++++++++资质审核日志+++++++++++++++++++++++");
+				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
+			}
+
+			response.setResponseHeader(header);
+
+		}
+		return response;
+	}
+
+	/**
+	 * 对字符串处理:将指定位置到指定位置的字符以星号代替
+	 * 
+	 * @param content
+	 *            传入的字符串
+	 * @param begin
+	 *            开始位置
+	 * @param end
+	 *            结束位置
+	 * @return
+	 */
+	private static String getStarString(String content, int begin, int end) {
+		if (content != null) {
+			if (begin >= content.length() || begin < 0) {
+				return content;
+			}
+			if (end >= content.length() || end < 0) {
+				return content;
+			}
+			if (begin >= end) {
+				return content;
+			}
+		}
+		String starStr = "";
+		for (int i = begin; i < end; i++) {
+			starStr = starStr + "*";
+		}
+		String str = "";
+		if (content != null) {
+			str = content.substring(0, begin) + starStr + content.substring(end, content.length());
+		}
+		return str;
+
+	}
+
+	/**
+	 * 对字符串处理:将指定位置到指定位置的字符以星号代替
+	 * 
+	 * @param content
+	 *            传入的字符串
+	 * @param begin
+	 *            开始位置
+	 * @param end
+	 *            结束位置
+	 * @return
+	 */
+	private static String getStarStringNoEnd(String content, int begin) {
+
+		if (begin >= content.length() || begin < 0) {
+			return content;
+		}
+		if (begin >= content.length()) {
+			return content;
+		}
+		String starStr = "";
+		for (int i = begin; i < content.length(); i++) {
+			starStr = starStr + "*";
+		}
+		String str = "";
+		if (content != null) {
+			str = content.substring(0, begin) + starStr;
+		}
+		return str;
+
+	}
+
 }
