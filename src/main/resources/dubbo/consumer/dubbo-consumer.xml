@@ -52,6 +52,10 @@
 	<dubbo:reference id="iDefaultLogSV"
 		interface="com.ai.ch.user.api.defaultlog.interfaces.IDefaultLogSV"
 		registry="chRegistry" />
+	<!-- 审核日志设置 -->
+	<dubbo:reference id="iAuditSV"
+		interface="com.ai.ch.user.api.audit.interfaces.IAuditSV"
+		registry="chRegistry" />
 
 	<!-- 获取系统管理信息 -->
 	<dubbo:reference id="iSysUserQuerySV"
