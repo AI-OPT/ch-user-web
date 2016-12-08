@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.mortbay.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ai.ch.user.api.audit.interfaces.IAuditSV;
+import com.ai.ch.user.api.audit.params.InsertAuditInfoRequest;
+import com.ai.ch.user.api.audit.params.QueryAuditInfoRequest;
+import com.ai.ch.user.api.audit.params.QueryAuditInfoResponse;
 import com.ai.ch.user.api.shopinfo.interfaces.IShopInfoSV;
 import com.ai.ch.user.api.shopinfo.params.QueryShopInfoRequest;
 import com.ai.ch.user.api.shopinfo.params.QueryShopInfoResponse;
@@ -32,8 +37,8 @@ import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
-import com.ai.opt.sdk.util.DateUtil;
 import com.ai.opt.sdk.util.ParseO2pDataUtil;
+import com.ai.opt.sdk.util.StringUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.alibaba.fastjson.JSON;
@@ -46,7 +51,6 @@ public class QualificationController {
 	
 	private static final Logger log = LoggerFactory.getLogger(QualificationController.class);
 	
-	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	//电商平台位置
 	static private String[] shopOwner = {"京东","天猫","淘宝","苏宁","一号店","自有电商平台"};
 	
@@ -403,6 +407,16 @@ public class QualificationController {
         	else
         		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
         }
+        QueryAuditInfoResponse auditResponse = new QueryAuditInfoResponse();
+        if(StringUtil.isBlank(data2.getString("companyId"))){
+        	QueryAuditInfoRequest request = new QueryAuditInfoRequest();
+        	IAuditSV auditSV = DubboConsumerFactory.getService(IAuditSV.class);
+        	request.setTenantId(ChWebConstants.COM_TENANT_ID);
+        	request.setUserId(data2.getString("companyId"));
+        	auditResponse = auditSV.queryAuditInfo(request);
+        	Log.info("审核结果"+JSON.toJSONString(auditResponse));
+        }
+        model.addObject("auditResponse", auditResponse);
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
@@ -517,6 +531,17 @@ public class QualificationController {
         	else
         		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
         }
+        //审核日志
+        QueryAuditInfoResponse auditResponse = new QueryAuditInfoResponse();
+        if(StringUtil.isBlank(data2.getString("companyId"))){
+        	QueryAuditInfoRequest request = new QueryAuditInfoRequest();
+        	IAuditSV auditSV = DubboConsumerFactory.getService(IAuditSV.class);
+        	request.setTenantId(ChWebConstants.COM_TENANT_ID);
+        	request.setUserId(data2.getString("companyId"));
+        	auditResponse = auditSV.queryAuditInfo(request);
+        	Log.info("审核结果"+JSON.toJSONString(auditResponse));
+        }
+        model.addObject("auditResponse", auditResponse);
 		model.addObject("userId", userId);
 		model.addObject("userName", username);
 		model.addObject("shopName", data2.getString("name"));
@@ -734,7 +759,7 @@ public class QualificationController {
 		
 		@RequestMapping("/updateAudit")
 		@ResponseBody
-		public ResponseData<String> updateAudit(HttpServletRequest request,String companyId,String auditState,String reason){
+		public ResponseData<String> updateAudit(HttpServletRequest request,String companyId,String auditState,String reason,String userType){
 			ResponseData<String> response = null;
 			ResponseHeader header = null;
 			GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
@@ -760,28 +785,39 @@ public class QualificationController {
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
 			}else {
 				String result = data.getString("result");
+				InsertAuditInfoRequest auditRequest = new InsertAuditInfoRequest();
+				IAuditSV auditSV = DubboConsumerFactory.getService(IAuditSV.class);
 				if ("success".equals(result)){
-					log.info("+++++++++++++++++++资质审核日志+++++++++++++++++++++");
-					log.info("资质审核日志:操作员Id:"+user.getUserId());
-					log.info("资质审核日志:操作员姓名:"+user.getLoginName());
-					log.info("资质审核日志:被审核Id:"+companyId);
-					log.info("资质审核日志:审核原因:"+reason);
-					log.info("资质审核日志:审核通过时间:"+format.format(DateUtil.getSysDate()));
+					log.info("+++++++++++++++++++资质审核日志开始+++++++++++++++++++++");
+					auditRequest.setUserId(companyId);
+					auditRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+					auditRequest.setOperName(user.getLoginName());
+					auditRequest.setOperId(user.getUserId());
+					auditRequest.setCtType(userType);
+					auditRequest.setAuditDesc(reason);
+					auditRequest.setAuditStatus(auditState);
+					log.info("审核详情"+JSON.toJSONString(auditRequest));
+					auditSV.insertAuditInfo(auditRequest);
 					log.info("+++++++++++++++++++资质审核日志++++++++++++++++++++++");
 					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				}
 				else{
-					log.info("++++++++++++++++++++资质审核日志++++++++++++++++++++++");
-					log.info("资质审核日志:操作员Id:"+user.getUserId());
-					log.info("资质审核日志:操作员姓名:"+user.getLoginName());
-					log.info("资质审核日志:被审核Id:"+companyId);
-					log.info("资质审核日志审:核原因:"+reason);
-					log.info("资质审核日志:审核失败时间:"+format.format(DateUtil.getSysDate()));
+					log.info("++++++++++++++++++++资质审核日志开始++++++++++++++++++++++");
+					auditRequest.setUserId(companyId);
+					auditRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+					auditRequest.setOperName(user.getLoginName());
+					auditRequest.setOperId(user.getUserId());
+					auditRequest.setCtType(userType);
+					auditRequest.setAuditDesc(reason);
+					auditRequest.setAuditStatus(auditState);
+					log.info("审核详情"+JSON.toJSONString(auditRequest));
+					auditSV.insertAuditInfo(auditRequest);
 					log.info("++++++++++++++++++++资质审核日志+++++++++++++++++++++++");
 					response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
 					header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
 				}
+				
 				response.setResponseHeader(header);
 
 			}
