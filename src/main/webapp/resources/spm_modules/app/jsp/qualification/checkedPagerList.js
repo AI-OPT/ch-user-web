@@ -96,7 +96,7 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
 			
 		},
 		_toViewHistoryPage:function(userId,username,custname){
-			var url = _base+'/qualification/toViewHistoryPager?userId='+escape(encodeURIComponent(userId))+'&username='+escape(encodeURIComponent(username))+'&custname='+escape(encodeURIComponent(custname));
+			var url = _base+"/qualification/toViewHistoryPager?userId='"+escape(encodeURIComponent(userId))+"'&username='"+escape(encodeURIComponent(username))+"'&custname='"+escape(encodeURIComponent(custname))+"'";
 			window.location.href = url;
 		},
 		

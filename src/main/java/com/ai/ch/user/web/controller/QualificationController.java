@@ -837,7 +837,7 @@ public class QualificationController {
 	// 审核历史记录
 	@RequestMapping("/getHistoryList")
 	@ResponseBody
-	public ResponseData<PageInfo<AuditLogVo>> getHistoryList(HttpServletRequest request, String userId,String userName) {
+	public ResponseData<PageInfo<AuditLogVo>> getHistoryList(HttpServletRequest request, String userId) {
 		ResponseData<PageInfo<AuditLogVo>> response = null;
 		PageInfo<AuditLogVo> pageInfo = null;
 		ResponseHeader header = null;
@@ -845,7 +845,9 @@ public class QualificationController {
 			IAuditSV auditSV = DubboConsumerFactory.getService(IAuditSV.class);
 			QueryAuditLogInfoRequest auditLogInfoRequest = new QueryAuditLogInfoRequest();
 			auditLogInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
-			auditLogInfoRequest.setUserId(auditLogInfoRequest.getUserId());
+			auditLogInfoRequest.setUserId(userId);
+			auditLogInfoRequest.setPageNo(Integer.valueOf(request.getParameter("pageNo")));
+			auditLogInfoRequest.setPageSize(Integer.valueOf(request.getParameter("pageSize")));
 			QueryAuditLogInfoResponse responseData = auditSV.queryAuditLogInfo(auditLogInfoRequest);
 			pageInfo = responseData.getPageInfo();
 			if(!pageInfo.getResult().isEmpty()){
