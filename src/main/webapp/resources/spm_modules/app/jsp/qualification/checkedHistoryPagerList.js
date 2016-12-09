@@ -34,69 +34,28 @@ define('app/jsp/qualification/checkedHistoryPagerList', function (require, expor
     	//重写父类
     	setup: function () {
     		checkedListPagerListPager.superclass.setup.call(this);
-    		this._getHistoryList(userId);
     	},
 
-    	_getInitList:function(userId){
+    	_toViewHistoryPage:function(userId){
     		var _this = this;
     		$("#pagination-ul").runnerPagination({
-    			url: _base+"/qualification/getUncheckList",
+    			url: _base+"/qualification/getHistoryList",
 	 			method: "POST",
 	 			dataType: "json",
 	 			processing: true,
-	 			renderId:"UN_CHECKED",
+	 			renderId:"TBODY_CHECKED",
 	 			messageId:"showMessageDiv",
 	            data : {
-	            	"companyType":companyType,
-	            	"auditState":'1',
+	            	"userId":userId,
 				},
 	           	pageSize: checkedListPagerListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",
 	            callback: function(data){
 	              	if(data.result != null && data.result != 'undefined' && data.result.length>0){
-	            		var template = $.templates("#unCheckedImpl");
+	            		var template = $.templates("#checkedImpl");
 	                    var htmlOutput = template.render(data);
-	                    $("#UN_CHECKED").html(htmlOutput);
-	            	}
-	            }
-    		}); 
-    	},
-    	
-    	_toAuditShopPage:function(userId,username){
-    		var url = _base+'/qualification/toShopCheckPager?userId='+userId+'&username='+username;
-			window.location.href = encodeURI(url);
-			
-		},
-		_toAuditSupplierPage:function(userId,username){
-			var url = _base+'/qualification/toSuplierCheckPager?userId='+userId+'&username='+username;
-			window.location.href = encodeURI(url);
-			
-		},
-		
-		_getList:function(companyType){
-    		var _this = this;
-    		$("#pagination-ul").runnerPagination({
-    			url: _base+"/qualification/getUncheckList",
-	 			method: "POST",
-	 			dataType: "json",
-	 			processing: true,
-	 			messageId:"showMessageDiv",
-	 			renderId:"UN_CHECKED",
-	            data : {
-	            	"username":$("#username").val().replace(/(^\s*)|(\s*$)/g,""),
-					"companyName":$("#companyName").val().replace(/(^\s*)|(\s*$)/g,""),
-					"companyType":companyType,
-					"auditState":'1',
-				},
-	           	pageSize: checkedListPagerListPager.DEFAULT_PAGE_SIZE,
-	           	visiblePages:5,
-	            message: "正在为您查询数据..",
-	            callback: function(data){
-	              	if(data.result != null && data.result != 'undefined' && data.result.length>0){
-	            		var template = $.templates("#unCheckedImpl");
-	                    var htmlOutput = template.render(data);
-	                    $("#UN_CHECKED").html(htmlOutput);
+	                    $("#TBODY_CHECKED").html(htmlOutput);
 	            	}
 	            }
     		}); 

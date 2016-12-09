@@ -3,6 +3,7 @@ package com.ai.ch.user.web.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,10 +76,15 @@ public class QualificationController {
 
 	/**
 	 * 审核历史列表页面
+	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping("/toViewHistoryPage")
-	public ModelAndView toViewHistoryPage() {
-		return new ModelAndView("/jsp/qualification/checkedHistoryPagerList");
+	@RequestMapping("/toViewHistoryPager")
+	public ModelAndView toViewHistoryPager(String userId,String username,String custname) throws UnsupportedEncodingException {
+		ModelAndView model = new ModelAndView("/jsp/qualification/checkedHistoryPagerList");
+		model.addObject("userId", URLDecoder.decode(userId,"utf-8"));
+		model.addObject("userName", URLDecoder.decode(username,"utf-8"));
+		model.addObject("custName", URLDecoder.decode(custname,"utf-8"));
+		return model;
 	}
 
 	/**
@@ -831,7 +837,7 @@ public class QualificationController {
 	// 审核历史记录
 	@RequestMapping("/getHistoryList")
 	@ResponseBody
-	public ResponseData<PageInfo<AuditLogVo>> getHistoryList(HttpServletRequest request, String userId) {
+	public ResponseData<PageInfo<AuditLogVo>> getHistoryList(HttpServletRequest request, String userId,String userName) {
 		ResponseData<PageInfo<AuditLogVo>> response = null;
 		PageInfo<AuditLogVo> pageInfo = null;
 		ResponseHeader header = null;
@@ -842,6 +848,17 @@ public class QualificationController {
 			auditLogInfoRequest.setUserId(auditLogInfoRequest.getUserId());
 			QueryAuditLogInfoResponse responseData = auditSV.queryAuditLogInfo(auditLogInfoRequest);
 			pageInfo = responseData.getPageInfo();
+			if(!pageInfo.getResult().isEmpty()){
+				for (AuditLogVo auditLogVo : pageInfo.getResult()) {
+					if(!StringUtil.isBlank(auditLogVo.getAuditStatus())){
+						if("2".equals(auditLogVo.getAuditStatus())){
+							auditLogVo.setAuditStatus("审核通过");
+						}else if("3".equals(auditLogVo.getAuditStatus())){
+							auditLogVo.setAuditStatus("审核拒绝");
+						}
+					}
+				}
+			}
 			// System.out.println(JSON.toJSONString(responseList));
 			response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 			header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");

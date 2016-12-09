@@ -151,7 +151,7 @@
 		<td>{{:auditTime}}</td>
 		<td>
             <a class＝"btn-primary" href="javascript:void(0)" onclick="pager._toViewShopPage('{{:userId}}','{{:userName}}');">查看</a>
-			<a class＝"btn-primary" href="javascript:void(0)" onclick="pager._toViewHistoryPage('{{:userId}}');">审核记录</a>
+			<a class＝"btn-primary" href="javascript:void(0)" onclick="pager._toViewHistoryPage('{{:userId}}','{{:userName}}','{{:custName}}');">审核记录</a>
 		</td>
 	</tr>
 {{/for}}
