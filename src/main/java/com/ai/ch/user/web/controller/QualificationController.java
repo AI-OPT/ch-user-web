@@ -76,14 +76,16 @@ public class QualificationController {
 
 	/**
 	 * 审核历史列表页面
-	 * @throws UnsupportedEncodingException 
+	 * 
+	 * @throws UnsupportedEncodingException
 	 */
 	@RequestMapping("/toViewHistoryPager")
-	public ModelAndView toViewHistoryPager(String userId,String username,String custname) throws UnsupportedEncodingException {
+	public ModelAndView toViewHistoryPager(String userId, String username, String custname)
+			throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/checkedHistoryPagerList");
-		model.addObject("userId", URLDecoder.decode(userId,"utf-8"));
-		model.addObject("userName", URLDecoder.decode(username,"utf-8"));
-		model.addObject("custName", URLDecoder.decode(custname,"utf-8"));
+		model.addObject("userId", URLDecoder.decode(userId, "utf-8"));
+		model.addObject("userName", URLDecoder.decode(username, "utf-8"));
+		model.addObject("custName", URLDecoder.decode(custname, "utf-8"));
 		return model;
 	}
 
@@ -850,12 +852,12 @@ public class QualificationController {
 			auditLogInfoRequest.setPageSize(Integer.valueOf(request.getParameter("pageSize")));
 			QueryAuditLogInfoResponse responseData = auditSV.queryAuditLogInfo(auditLogInfoRequest);
 			pageInfo = responseData.getPageInfo();
-			if(!pageInfo.getResult().isEmpty()){
+			if (!pageInfo.getResult().isEmpty()) {
 				for (AuditLogVo auditLogVo : pageInfo.getResult()) {
-					if(!StringUtil.isBlank(auditLogVo.getAuditStatus())){
-						if("2".equals(auditLogVo.getAuditStatus())){
+					if (!StringUtil.isBlank(auditLogVo.getAuditStatus())) {
+						if ("2".equals(auditLogVo.getAuditStatus())) {
 							auditLogVo.setAuditStatus("审核通过");
-						}else if("3".equals(auditLogVo.getAuditStatus())){
+						} else if ("3".equals(auditLogVo.getAuditStatus())) {
 							auditLogVo.setAuditStatus("审核拒绝");
 						}
 					}
@@ -990,20 +992,19 @@ public class QualificationController {
 	 * @return
 	 */
 	private static String getStarStringNoEnd(String content, int begin) {
-
-		if (begin >= content.length() || begin < 0) {
-			return content;
-		}
-		if (begin >= content.length()) {
-			return content;
-		}
-		String starStr = "";
-		for (int i = begin; i < content.length(); i++) {
-			starStr = starStr + "*";
-		}
 		String str = "";
 		if (content != null) {
-			str = content.substring(0, begin) + starStr;
+			if (begin >= content.length() || begin < 0) {
+				return content;
+			}
+			if (begin >= content.length()) {
+				return content;
+			}
+			String starStr = "";
+			for (int i = begin; i < content.length(); i++) {
+				starStr = starStr + "*";
+				str = content.substring(0, begin) + starStr;
+			}
 		}
 		return str;
 
