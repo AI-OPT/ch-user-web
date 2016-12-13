@@ -83,9 +83,9 @@ public class QualificationController {
 	public ModelAndView toViewHistoryPager(String userId, String username, String custname)
 			throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/checkedHistoryPagerList");
-		model.addObject("userId", URLDecoder.decode(userId, "utf-8"));
-		model.addObject("userName", URLDecoder.decode(username, "utf-8"));
-		model.addObject("custName", URLDecoder.decode(custname, "utf-8"));
+		model.addObject("userId",userId);
+		model.addObject("userName",username);
+		model.addObject("custName",custname);
 		return model;
 	}
 
