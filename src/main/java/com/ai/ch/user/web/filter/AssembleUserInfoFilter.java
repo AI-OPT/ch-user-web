@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.jasig.cas.client.authentication.AttributePrincipal;
+import org.omg.PortableInterceptor.LOCATION_FORWARD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,8 +56,18 @@ public class AssembleUserInfoFilter implements Filter {
         else{
         	HttpSession session = req.getSession();
             GeneralSSOClientUser user = (GeneralSSOClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+            GeneralSSOClientUser ssoUser = assembleUser(req);
+            LOG.error("+++++++++++++获取ssoUser用户信息"+JSON.toJSONString(ssoUser));
+            if(user != null && ssoUser != null){
+            	if(!user.getUserId().equalsIgnoreCase(ssoUser.getUserId())){
+            		session.invalidate();
+            		session = req.getSession();
+            		user =null;
+            	}
+            }
             if (user == null) {
-                user = assembleUser(req);
+                user = ssoUser;
+                LOG.error("+++++++++++++++获取用户信息user"+JSON.toJSONString(user));
                 if(user!=null){
                 	//用户信息存入session
                 	session.setAttribute(SSOClientConstants.USER_SESSION_KEY, user);
@@ -86,6 +97,7 @@ public class AssembleUserInfoFilter implements Filter {
                 else{
                 	LOG.info("未获取到用户信息");
                 }            
+
             } 
             //判断权限 若果没有权限跳到403，判断规则  request.getRequestURI 去掉request.getContext前缀    
             boolean authMenuFlag=authMenu(req);
