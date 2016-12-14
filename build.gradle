@@ -77,7 +77,7 @@ dependencies {
     compile 'com.ai.opt.sdk:opt-sdk:2.2-SNAPSHOT'
     compile 'com.ai.opt.xss.filter:opt-xss-firewall:1.0-SNAPSHOT'
     compile 'com.ai.opt.uni.session:opt-uni-session:2.0-SNAPSHOT'
-    compile 'com.ai.opt.sso.client:opt-sso-client:1.0.2-SNAPSHOT'
+    compile 'com.ai.opt.sso.client:opt-sso-client:1.0-ch-SNAPSHOT'
     compile "com.ai:ipaas-idps:0.3"
     
     compile 'org.sitemesh:sitemesh:3.0.1'
@@ -95,10 +95,7 @@ dependencies {
     //扣费设置
     compile "com.ai.ch.user:defaultlog:1.1-SNAPSHOT"
     
-    compile "com.ai.ch.user:audit:1.0-SNAPSHOT"
-    
     compile "com.ai.platform.common:sysuser:1.0-SNAPSHOT"
-    
     //租户信息
     compile "com.ai.platform.common:tenant:1.0-SNAPSHOT"
     

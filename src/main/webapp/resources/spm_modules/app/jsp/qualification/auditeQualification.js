@@ -41,7 +41,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
     		window.location.href=url;
     	},
     	
-    	_passAudit:function(userId,url,userType){
+    	_passAudit:function(userId,url){
     		this._checkReason();
     		if($("#reasonFlag").val()=='0'){
     			return false;
@@ -61,8 +61,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    			data:{
 		    				"auditState":"2",
 		    				"companyId":userId,
-		    				"reason":$.trim($("#reason").val()),
-		    				"userType":userType
+		    				"reason":$.trim($("#reason").val())
 		    			},
 		    	        success: function(data) {
 		    	        	if(data.responseHeader.resultCode=='000000'){
@@ -126,23 +125,17 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 				$("#reasonText").hide();
 				$("#reasonText").val("")
 				$("#reasonFlag").val("1");
-				var re= /select|insert|update|delete|exec|alert|count|'|"|=|;|>|<|%/i;
-				if(re.test(remark)){
-					$("#reasonErrMsg").show();
-					$("#reasonText").show();
-					$("#reasonText").text("请勿输入非法字符");
-					$("#reasonFlag").val("0");
-				}
+				
 			}else{
 				$("#reasonErrMsg").show();
-				$("#reasonText").show();
+				$("#reasonText").show();;
 				$("#reasonText").text("1-256位字符");
 				$("#reasonFlag").val("0");
 				return;
 			}
 		},
 		
-    	_rejectAudit:function(userId,url,userType){
+    	_rejectAudit:function(userId,url){
     		this._checkReason();
     		if($("#reasonFlag").val()=='0'){
     			return;
@@ -162,8 +155,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    			data:{
 		    				"auditState":'3',
 		    				"companyId":userId,
-		    				"reason":$.trim($("#reason").val()),
-		    				"userType":userType
+		    				"reason":$.trim($("#reason").val())
 		    			},
 		    	        success: function(data) {
 		    	        	if(data.responseHeader.resultCode=='000000'){

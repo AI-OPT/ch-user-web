@@ -96,7 +96,6 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
 			dataType: "json",
 			data:$("#depositForm").serialize(),
 	        success: function(data) {
-	        	alert(JSON.stringify(data));
 	        	if(data.responseHeader.resultCode=='000000'){
 	        		var d = Dialog({
 	    				title : '提示',
@@ -111,19 +110,19 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
 	    			});
 	    			d.show();
 	        	}else{
-	        	var d = Dialog({
-    				title : '提示',
-    				content : '保存失败',
-    				icon:'fail',
-    				closeIconShow:false,
-    				okValue : "确定",
-    				ok : function() {
-    					this.close;
-    					window.location.href=_base+"/billing/billingpager";
-    				}
-    			});
-    			d.show();
-	        		}
+	        		var d = Dialog({
+	    				title : '提示',
+	    				content : '保存失败',
+	    				icon:'fail',
+	    				closeIconShow:false,
+	    				okValue : "确定",
+	    				ok : function() {
+	    					this.close;
+	    					window.location.href=_base+"/billing/billingpager";
+	    				}
+	    			});
+	    			d.show();
+	        	}
 	            },
 				error: function(error) {
 					var d = Dialog({

@@ -82,14 +82,6 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				$("#contractCodeText").text('1-64位字符');
 	    		$("#contractCodeFlag").val("0");
 			}else{
-				var re= /select|insert|update|delete|exec|alert|count|'|"|=|;|>|<|%/i;
-				if(re.test(contractCode)){
-					$("#contractCodeErrMsg").show();
-					$("#contractCodeText").show();
-					$("#contractCodeText").text('请勿输入非法字符');
-		    		$("#contractCodeFlag").val("0");
-		    		return;
-				}
 				var	param={
 						contractCode:$("#contractCode").val(),
     					userId:userId,
@@ -165,13 +157,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				$("#contractNameText").text('1-64位字符');
 	    		$("#contractNameFlag").val("0");
 			}else{
-				var re= /select|insert|update|delete|exec|alert|count|'|"|=|;|>|<|%/i;
-				if(re.test(contractName)){
-					$("#contractNameErrMsg").show();
-					$("#contractNameText").show();
-					$("#contractNameText").text('请勿输入非法字符');
-		    		$("#contractNameFlag").val("0");
-				}
+				
 				var	param={
 						contractName:$("#contractName").val(),
     					userId:userId,
@@ -422,20 +408,12 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				$("#remarkText").hide();
 				$("#remarkText").val("")
 				$("#contractRemarkFlag").val("1");
-				var re= /select|insert|update|delete|exec|alert|count|'|"|=|;|>|<|%/i;
-				if(re.test(remark)){
-					$("#contractRemarkFlag").val("0");
-					$("#remarkErrMsg").show();
-					$("#remarkText").show();;
-					$("#remarkText").text("请勿输入非法字符");
-				}
 			}else{
 				$("#remarkErrMsg").show();
 				$("#remarkText").show();;
 				$("#remarkText").text("1-256位字符");
 				$("#contractRemarkFlag").val("0");
 			}
-			
 		},
 		_saveSupplierContract:function(){
 			this._checkContractCodeValue();

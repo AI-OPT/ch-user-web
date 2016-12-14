@@ -16,17 +16,6 @@ public class ChWebConstants {
      */
     public static final String CONTRACT_TYPE_SHOP="2";
     
-    /**
-     * 供应商  =1
-     */
-    public static final String USER_TYPE_SUPPLIER="1";
-    
-    /**
-     * 店铺  =2
-     */
-    public static final String USER_TYPE_SHOP="2";
-
-    
     public static final String SCAN_CONTRACT_SUPPLIER="30001";
     
     public static final String ELECTRONIC_CONTRACT_SUPPLIER="30002";

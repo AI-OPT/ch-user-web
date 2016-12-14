@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<bean id="dubboConfig"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="1" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="locations" value="classpath:dubbo.properties" />
+	</bean>
+
+	<!-- 消费方 -->
+	<dubbo:application name="${dubbo.appname}" />
+	<dubbo:registry protocol="${dubbo.registry.protocol}"
+		address="${dubbo.registry.address}" id="chRegistry" />
+	<dubbo:consumer timeout="${dubbo.provider.timeout}" />
+
+	<context:component-scan base-package="com.ai.ch">
+		<context:exclude-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
+
+	<dubbo:reference id="iNormProductSV"
+		interface="com.ai.ch.product.api.normproduct.interfaces.INormProductSV"
+		registry="chRegistry" />
+	<!-- 供货商评价 -->
+	<dubbo:reference id="iScoreSV"
+		interface="com.ai.ch.user.api.score.interfaces.IScoreSV" registry="chRegistry" />
+	<!-- 店铺评级 -->
+	<dubbo:reference id="iRankSV"
+		interface="com.ai.ch.user.api.rank.interfaces.IRankSV" registry="chRegistry" />
+	<!-- 合同管理 -->
+	<dubbo:reference id="iContractSV"
+		interface="com.ai.ch.user.api.contract.interfaces.IContractSV"
+		registry="chRegistry" />
+	<!-- 附件表 -->
+	<dubbo:reference id="iCustfileSV"
+		interface="com.ai.ch.user.api.custfile.interfaces.ICustFileSV"
+		registry="chRegistry" />
+	<!-- 店铺信息 -->
+	<dubbo:reference id="iShopInfoSV"
+		interface="com.ai.ch.user.api.shopinfo.interfaces.IShopInfoSV"
+		registry="chRegistry" />
+	<!-- 扣费设置 -->
+	<dubbo:reference id="iDefaultLogSV"
+		interface="com.ai.ch.user.api.defaultlog.interfaces.IDefaultLogSV"
+		registry="chRegistry" />
+
+	<!-- 获取系统管理信息 -->
+	<dubbo:reference id="iSysUserQuerySV"
+		interface="com.ai.platform.common.api.sysuser.interfaces.ISysUserQuerySV"
+		registry="chRegistry" />
+	<!--获取租户信息 -->
+	<dubbo:reference id="iGnTenantQuerySV"
+		interface="com.ai.platform.common.api.tenant.interfaces.IGnTenantQuerySV"
+		registry="chRegistry" />
+
+	<dubbo:reference id="iSysMenuQuerySV"
+		interface="com.ai.platform.common.api.menu.interfaces.ISysMenuQuerySV"
+		registry="chRegistry" />
+</beans>

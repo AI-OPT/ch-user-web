@@ -12,14 +12,6 @@ public class PropertiesUtil {
 	  
 	    private static Properties prop = null;  
 	  
-	    /**
-	     * 获取properties值
-	     * @param key
-	     * @param propName
-	     * @return
-	     * @author zhangqiang7
-	     * @UCUSER
-	     */
 	    public static String getStringByKey(String key, String propName) {  
 	        try {  
 	            prop = loader.getPropFromProperties(propName);  
@@ -35,22 +27,10 @@ public class PropertiesUtil {
 	        return configMap.get(key);  
 	    }  
 	  
-	    /**
-	     * 获取properties值
-	     * @param key
-	     * @return
-	     * @author zhangqiang7
-	     * @UCUSER
-	     */
 	    public static String getStringByKey(String key) {  
 	        return getStringByKey(key, DEFAULT_CONFIG_FILE);  
 	    }  
-	  /**
-	   * 获取properties文件
-	   * @return
-	   * @author zhangqiang7
-	   * @UCUSER
-	   */
+	  
 	    public static Properties getProperties() {  
 	        try {  
 	            return loader.getPropFromProperties(DEFAULT_CONFIG_FILE);  
