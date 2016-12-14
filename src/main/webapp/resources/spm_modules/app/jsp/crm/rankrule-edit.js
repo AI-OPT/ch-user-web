@@ -201,8 +201,8 @@ define('app/jsp/crm/rankrule-edit', function (require, exports, module) {
     		 var img = document.getElementById('img'+index).files;
     		 document.getElementById('imgInfo'+index).style.display="none";
     		 if(/\.(gif|jpg|jpeg|png|JPEG|GIF|JPG|PNG)$/.test(img[0].name)){
-    			 if(document.getElementById('img'+index).files[0]!=undefined&&document.getElementById('img'+index).files[0].size>=(3.05*1024*1024)-1){
-     				$("#picErr"+index).val("(图片不能超过3M)");
+    			 if(document.getElementById('img'+index).files[0]!=undefined&&document.getElementById('img'+index).files[0].size>=(200.5*1024-1)){
+     				$("#picErr"+index).val("(图片不能超过200KB)");
  				    $("#picName"+index).val("");
     			    $("#rankName"+index).val("");
  		   			$("#picErr"+index).show();

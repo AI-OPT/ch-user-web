@@ -30,8 +30,10 @@ import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.util.PropertiesUtil;
 import com.ai.ch.user.web.vo.BusinessListInfo;
 import com.ai.ch.user.web.vo.ShopManageVo;
+import com.ai.opt.base.vo.BaseResponse;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
+import com.ai.opt.sdk.constants.ExceptCodeConstants;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.opt.sdk.util.BeanUtils;
@@ -257,6 +259,7 @@ public class BillingController {
 		log.info("查询店铺信息服务开始"+beginTime);
 		QueryShopInfoResponse response = shopInfo.queryShopInfo(shopInfoRequest);
 		log.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+		BaseResponse baseResponse=null;
 		if("".equals(response.getUserId())||response.getUserId()==null){
 			InsertShopInfoRequst insertShopInfo = new InsertShopInfoRequst();
 			insertShopInfo.setTenantId(tenantId);
@@ -265,7 +268,7 @@ public class BillingController {
 			insertShopInfo.setStatus(0);
 			Long insertBeginTime = System.currentTimeMillis();
 			log.info("保存店铺信息服务开始"+insertBeginTime);
-			shopInfo.insertShopInfo(insertShopInfo);
+			baseResponse = shopInfo.insertShopInfo(insertShopInfo);
 			log.info("保存店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		}else{
 			UpdateShopInfoRequest updateShopInfoRequest = new UpdateShopInfoRequest();
@@ -273,19 +276,14 @@ public class BillingController {
 			updateShopInfoRequest.setPeriodType(periodType);
 			Long updateBeginTime = System.currentTimeMillis();
 			log.info("更新店铺信息服务开始"+updateBeginTime);
-			shopInfo.updateShopInfo(updateShopInfoRequest);
+			baseResponse = shopInfo.updateShopInfo(updateShopInfoRequest);
 			log.info("更新店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-updateBeginTime)+"毫秒");
 		}
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("periodType", periodType);
-		model.put("shopInfo", response);
-		try {
-			model.put("userName", URLDecoder.decode(userName,"utf-8"));
-			model.put("custName", URLDecoder.decode(custName,"utf-8"));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		if(ExceptCodeConstants.Special.SUCCESS.equals(baseResponse.getResponseHeader().getResultCode())){
+			return new ModelAndView("/jsp/billing/billingCyclesSccess");
+		}else{
+			return new ModelAndView("/jsp/billing/billingCyclesFail");
 		}
-		return new ModelAndView("/jsp/billing/billingCyclesSccess");
 	}
 	
 	@RequestMapping("/billingCycleDetail")

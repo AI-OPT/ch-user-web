@@ -136,13 +136,26 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     			dataType: "json",
     			data:$("#serviceFee").serialize(),
     	        success: function(data) {
-    	        	if(data.responseHeader.resultCode='000000'){
+    	        	if(data.responseHeader.resultCode=='000000'){
     	        		var d = Dialog({
     	    				title : '提示',
     	    				content : '保存成功',
     	    				icon:'success',
     	    				closeIconShow:false,
     	    				okValue : "确定",
+    	    				ok : function() {
+    	    					this.close;
+    	    					window.location.href=_base+"/billing/billingpager";
+    	    				}
+    	    			});
+    	    			d.show();
+    	        	}else{
+    	        		var d = Dialog({
+    	    				title : '提示',
+    	    				content : '保存失败',
+    	    				icon:'fail',
+    	    				okValue : "确定",
+    	    				closeIconShow:false,
     	    				ok : function() {
     	    					this.close;
     	    					window.location.href=_base+"/billing/billingpager";
