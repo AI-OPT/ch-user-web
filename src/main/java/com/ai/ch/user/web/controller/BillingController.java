@@ -30,6 +30,7 @@ import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.util.PropertiesUtil;
 import com.ai.ch.user.web.vo.BusinessListInfo;
 import com.ai.ch.user.web.vo.ShopManageVo;
+import com.ai.opt.base.vo.BaseResponse;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
@@ -206,9 +207,9 @@ public class BillingController {
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		Long beginTime = System.currentTimeMillis();
 		log.info("更新店铺信息服务开始"+beginTime);
-		shopInfoSV.updateShopInfo(shopInfoRequst);
+		BaseResponse baseResponse = shopInfoSV.updateShopInfo(shopInfoRequst);
 		log.info("更新店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
-		responseHeader = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+		responseHeader = baseResponse.getResponseHeader();
 		}catch(Exception e){
 			responseHeader = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败");
 		}

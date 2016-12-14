@@ -9,6 +9,7 @@
 		http://code.alibabatech.com/schema/dubbo
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
+    <!-- dubbo配置 -->
 	<bean id="dubboConfig"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="order" value="1" />
@@ -22,11 +23,13 @@
 		address="${dubbo.registry.address}" id="chRegistry" />
 	<dubbo:consumer timeout="${dubbo.provider.timeout}" />
 
+    <!-- 扫描基础包 -->
 	<context:component-scan base-package="com.ai.ch">
 		<context:exclude-filter expression="org.springframework.stereotype.Controller"
 			type="annotation" />
 	</context:component-scan>
 
+    <!-- 标准品查询服务 -->
 	<dubbo:reference id="iNormProductSV"
 		interface="com.ai.ch.product.api.normproduct.interfaces.INormProductSV"
 		registry="chRegistry" />
@@ -66,6 +69,7 @@
 		interface="com.ai.platform.common.api.tenant.interfaces.IGnTenantQuerySV"
 		registry="chRegistry" />
 
+	<!-- 系统管理菜单 -->
 	<dubbo:reference id="iSysMenuQuerySV"
 		interface="com.ai.platform.common.api.menu.interfaces.ISysMenuQuerySV"
 		registry="chRegistry" />
