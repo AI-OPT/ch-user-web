@@ -114,6 +114,14 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
     	},
 		_checkReason:function(){
 			var remark = $.trim($("#reason").val());
+			var re= /select|insert|update|delete|exec|alert|count|'|"|=|;|>|<|%/i;
+			if(re.test(remark)){
+				$("#reasonErrMsg").show();
+				$("#reasonText").show();
+				$("#reasonText").text('请勿输入非法字符');
+	    		$("#reasonFlag").val("0");
+	    		return;
+			}
 			if(remark.length==0){
 				$("#reasonErrMsg").show();
 				$("#reasonText").show();;
