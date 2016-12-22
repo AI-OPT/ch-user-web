@@ -28,11 +28,11 @@ import com.ai.ch.user.web.constants.ChWebConstants.OperateCode;
 import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.util.PropertiesUtil;
 import com.ai.ch.user.web.vo.BusinessListInfo;
+import com.ai.opt.base.exception.BusinessException;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
-import com.ai.opt.sdk.util.DateUtil;
 import com.ai.opt.sdk.util.ParseO2pDataUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
@@ -43,13 +43,67 @@ import com.alibaba.fastjson.JSONObject;
 @RestController
 @RequestMapping("/qualification")
 public class QualificationController {
-	
-	private static final Logger log = LoggerFactory.getLogger(QualificationController.class);
-	
-	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	//电商平台位置
-	static private String[] shopOwner = {"京东","天猫","淘宝","苏宁","一号店","自有电商平台"};
-	
+
+	private static final Logger LOG = LoggerFactory.getLogger(QualificationController.class);
+
+	private static final String APPKEY = "appkey";
+
+	private static final String COMPANY_ID = "companyId";
+
+	private static final String FINDBYCOMPANYID = "findByCompanyId_http_url";
+
+	private static final String CREATETIME = "createTime";
+
+	private static final String TAXPAYERTYPE = "taxpayerType";
+
+	private static final String GENERAL = "一般纳税人";
+
+	private static final String TAXPAYER = "小规模纳税人";
+
+	private static final String NONVALUE = "非增值税纳税人";
+
+	private static final String LEGALREPRESENTATIVE = "legalRepresentative";
+
+	private static final String PHONE = "phone";
+
+	private static final String EMAIL = "email";
+
+	private static final String IDNUMBER = "idNumber";
+
+	private static final String BANKACCOUNT = "bankAccount";
+
+	private static final String BUSINESSADDRESS = "businessAddress";
+
+	private static final String USERID = "userId";
+
+	private static final String USERNAME = "username";
+
+	private static final String SHOPNAME = "shopName";
+
+	private static final String INDUSTRYTYPE = "industryType";
+
+	private static final String OFFICIALWEBSITE = "officialWebsite";
+	private static final String COMPANIESNUMBER = "companiesNumber";
+	private static final String COMPANYNATURE = "companyNature";
+	private static final String ANNUALTURNOVER = "annualTurnover";
+	private static final String AREACOVER = "areaCover";
+	private static final String FAX = "fax";
+	private static final String LOCATION = "location";
+	private static final String BUSINESSLICENSEREGISTRATIONNUMBER = "businessLicenseRegistrationNumber";
+	private static final String ESTABLISHDATE = "establishDate";
+	private static final String TAXPAYERNUMBER = "taxpayerNumber";
+	private static final String BUSINESSSCOPE = "businessScope";
+	private static final String TAXCODE = "taxCode";
+	private static final String ORGANIZATIONCODE = "organizationCode";
+	private static final String BANKNAME = "bankName";
+	private static final String COMMODITYTYPE = "commodityType";
+	private static final String BRANDNAMECH = "brandNameCh";
+	private static final String REGISTERCAPITAL = "registerCapital";
+	private static final String BRANDNAMEEN = "brandNameEn";
+	private static final String PAGENO = "pageNo";
+	private static final String PAGESIZE = "pageSize";
+	static private String[] shopOwner = { "京东", "天猫", "淘宝", "苏宁", "一号店", "自有电商平台" };
+
 	/**
 	 * 供应商审核列表页面
 	 */
@@ -57,6 +111,7 @@ public class QualificationController {
 	public ModelAndView toCheckedSupplierPager() {
 		return new ModelAndView("/jsp/qualification/supplier/checkedPagerList");
 	}
+
 	/**
 	 * 供应商未审核列表页面
 	 */
@@ -64,560 +119,604 @@ public class QualificationController {
 	public ModelAndView toNoCheckedSupplierPager() {
 		return new ModelAndView("/jsp/qualification/supplier/noCheckedPagerList");
 	}
+
 	/**
 	 * 店铺审核列表
+	 * 
 	 * @return
 	 */
 	@RequestMapping("/toCheckedShopPager")
 	public ModelAndView toCheckedShopPager(HttpServletRequest request) {
 		return new ModelAndView("/jsp/qualification/shop/checkedPagerList");
 	}
+
 	/**
 	 * 店铺未审核列表
+	 * 
 	 * @return
 	 */
 	@RequestMapping("/toNoCheckedShopPager")
 	public ModelAndView toNoCheckedShopPager() {
 		return new ModelAndView("/jsp/qualification/shop/noCheckedPagerList");
 	}
+
 	/**
 	 * 供应商审核页面
+	 * 
 	 * @return
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
-	@RequestMapping(value="/toSuplierCheckPager",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public ModelAndView toSuplierCheckPager(String username,String userId) throws UnsupportedEncodingException {
+	@RequestMapping(value = "/toSuplierCheckPager", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public ModelAndView toSuplierCheckPager(String username, String userId) throws Exception {
 		ModelAndView model = new ModelAndView("/jsp/qualification/supplier/auditeQualification");
-		//查询账户信息
+		// 查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
-		map.put("companyId", userId);
-		String str ="";
+		mapHeader.put(APPKEY, PropertiesUtil.getStringByKey(APPKEY));
+		map.put(COMPANY_ID, userId);
+		String str = "";
 		try {
-			Long beginTime = System.currentTimeMillis();
-			log.info("长虹查询供应商信息服务开始"+beginTime);
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
-			log.info("长虹查询供应商信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey(FINDBYCOMPANYID), JSON.toJSONString(map),
+					mapHeader);
 		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
+			LOG.error("查询失败,失败信息" + JSON.toJSONString(e));
 		}
 		JSONObject data0 = (JSONObject) JSON.parse(str);
 		JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
 		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
-		
-		//转换时间
-		String createTime ="";
-		if(data2.getString("createTime")!=null&&data2.getString("createTime").length()!=0){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
+
+		// 转换时间
+		String createTime = "";
+		if (data2.getString(CREATETIME) != null && data2.getString(CREATETIME).length() != 0) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			createTime = sdf.format(Long.parseLong(data2.getString(CREATETIME)));
 		}
-        String taxpayerType = "";
-        if("1".equals(data2.getString("taxpayerType"))){
-        	taxpayerType = "一般纳税人";
-        }else if("2".equals(data2.getString("taxpayerType"))){
-        	taxpayerType = "小规模纳税人";
-        }else if("3".equals(data2.getString("taxpayerType")))
-        	taxpayerType = "非增值税纳税人";
-        String legalRepresentative="";
-        String phone="";
-        String email = "";
-        String idNumber="";
-        String bankAccount = "";
-        String businessAddress = "";
-        String location = "";
-        //安全处理信息
-        if(data2.getString("legalRepresentative")!=null)
-        	legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"),1);
-        if(data2.getString("phone")!=null){
-        phone = getStarString(data2.getString("phone"),4,7);
-        }
-        if(data2.getString("email")!=null){
-        email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
-        }
-        if(data2.getString("idNumber")!=null){
-        idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length()-10, data2.getString("idNumber").length()-4);
-        }
-        if(data2.getString("bankAccount")!=null){
-        bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length()-7, data2.getString("bankAccount").length()-3);
-        }
-        if(data2.getString("businessAddress")!=null){
-        	if(data2.getString("businessAddress").length()<4)
-        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-1);
-        	else
-        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-4);		
-        }
-        if(data2.getString("location")!=null){
-        	if(data2.getString("location").length()<4)
-        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-1);
-        	else
-        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
-        }
-        //System.out.println(JSON.toJSONString(data2));
-		model.addObject("userId", userId);
-		model.addObject("userName", username);
-		model.addObject("shopName", data2.getString("name"));
-		model.addObject("createTime",createTime);
-		model.addObject("industryType", data2.getString("industryType"));
-		model.addObject("officialWebsite", data2.getString("officialWebsite"));
-		model.addObject("companiesNumber", data2.getString("companiesNumber"));
-		model.addObject("companyNature", data2.getString("companyNature"));
-		model.addObject("location", location);
-		model.addObject("annualTurnover", data2.getString("annualTurnover"));
-		model.addObject("areaCover", data2.getString("areaCover"));
-		model.addObject("phone", phone);
-		model.addObject("fax", data2.getString("fax"));
-		model.addObject("email", email);
-		model.addObject("businessAddress", businessAddress);
-		model.addObject("businessLicenseRegistrationNumber", data2.getString("businessLicenseRegistrationNumber"));
-		model.addObject("establishDate", data2.getString("establishDate"));
-		model.addObject("businessScope", data2.getString("businessScope"));
-		model.addObject("legalRepresentative", legalRepresentative);
-		model.addObject("idNumber", idNumber);
-		model.addObject("taxpayerNumber", data2.getString("taxpayerNumber"));
-		model.addObject("taxpayerType", taxpayerType);
-		model.addObject("taxCode", data2.getString("taxCode"));
-		model.addObject("organizationCode", data2.getString("organizationCode"));
-		model.addObject("bankName", data2.getString("bankName"));
-		model.addObject("bankAccount", bankAccount);
-		model.addObject("commodityType", data2.getString("commodityType"));
-		model.addObject("brandNameCh", data2.getString("brandNameCh"));
-		model.addObject("brandNameEn", data2.getString("brandNameEn"));
-		model.addObject("registerCapital", data2.getString("registerCapital"));
+		String taxpayerType = "";
+		if ("1".equals(data2.getString(TAXPAYERTYPE))) {
+			taxpayerType = GENERAL;
+		} else if ("2".equals(data2.getString(TAXPAYERTYPE))) {
+			taxpayerType = TAXPAYER;
+		} else if ("3".equals(data2.getString(TAXPAYERTYPE))) {
+			taxpayerType = NONVALUE;
+		}
+		String legalRepresentative = "";
+		String phone = "";
+		String email = "";
+		String idNumber = "";
+		String bankAccount = "";
+		String businessAddress = "";
+		String location = "";
+		// 安全处理信息
+		if (data2.getString(LEGALREPRESENTATIVE) != null) {
+			legalRepresentative = getStarStringNoEnd(data2.getString(LEGALREPRESENTATIVE), 1);
+		}
+		if (data2.getString(PHONE) != null) {
+			phone = getStarString(data2.getString(PHONE), 4, 7);
+		}
+		if (data2.getString(EMAIL) != null) {
+			email = getStarString(data2.getString(EMAIL), 2, data2.getString(EMAIL).lastIndexOf("@"));
+		}
+		if (data2.getString(IDNUMBER) != null) {
+			idNumber = getStarString(data2.getString(IDNUMBER), data2.getString(IDNUMBER).length() - 10,
+					data2.getString(IDNUMBER).length() - 4);
+		}
+		if (data2.getString(BANKACCOUNT) != null) {
+			bankAccount = getStarString(data2.getString(BANKACCOUNT), data2.getString(BANKACCOUNT).length() - 7,
+					data2.getString(BANKACCOUNT).length() - 3);
+		}
+		if (data2.getString(BUSINESSADDRESS) != null) {
+			if (data2.getString(BUSINESSADDRESS).length() < 4) {
+				businessAddress = getStarStringNoEnd(data2.getString(BUSINESSADDRESS),
+						data2.getString(BUSINESSADDRESS).length() - 1);
+			} else {
+				businessAddress = getStarStringNoEnd(data2.getString(BUSINESSADDRESS),
+						data2.getString(BUSINESSADDRESS).length() - 4);
+			}
+		}
+		if (data2.getString(LOCATION) != null) {
+			if (data2.getString(LOCATION).length() < 4) {
+				location = getStarStringNoEnd(data2.getString(LOCATION), data2.getString(LOCATION).length() - 1);
+			} else {
+				location = getStarStringNoEnd(data2.getString(LOCATION), data2.getString(LOCATION).length() - 4);
+			}
+		}
+		// System.out.println(JSON.toJSONString(data2));
+		model.addObject(USERID, userId);
+		model.addObject(USERNAME, username);
+		model.addObject(SHOPNAME, data2.getString("name"));
+		model.addObject(CREATETIME, createTime);
+		model.addObject(INDUSTRYTYPE, data2.getString(INDUSTRYTYPE));
+		model.addObject(OFFICIALWEBSITE, data2.getString(OFFICIALWEBSITE));
+		model.addObject(COMPANIESNUMBER, data2.getString(COMPANIESNUMBER));
+		model.addObject(COMPANYNATURE, data2.getString(COMPANYNATURE));
+		model.addObject(LOCATION, location);
+		model.addObject(ANNUALTURNOVER, data2.getString(ANNUALTURNOVER));
+		model.addObject(AREACOVER, data2.getString(AREACOVER));
+		model.addObject(PHONE, phone);
+		model.addObject(FAX, data2.getString(FAX));
+		model.addObject(EMAIL, email);
+		model.addObject(BUSINESSADDRESS, businessAddress);
+		model.addObject(BUSINESSLICENSEREGISTRATIONNUMBER, data2.getString(BUSINESSLICENSEREGISTRATIONNUMBER));
+		model.addObject(ESTABLISHDATE, data2.getString(ESTABLISHDATE));
+		model.addObject(BUSINESSSCOPE, data2.getString(BUSINESSSCOPE));
+		model.addObject(LEGALREPRESENTATIVE, legalRepresentative);
+		model.addObject(IDNUMBER, idNumber);
+		model.addObject(TAXPAYERNUMBER, data2.getString(TAXPAYERNUMBER));
+		model.addObject(TAXPAYERTYPE, taxpayerType);
+		model.addObject(TAXCODE, data2.getString(TAXCODE));
+		model.addObject(ORGANIZATIONCODE, data2.getString(ORGANIZATIONCODE));
+		model.addObject(BANKNAME, data2.getString(BANKNAME));
+		model.addObject(BANKACCOUNT, bankAccount);
+		model.addObject(COMMODITYTYPE, data2.getString(COMMODITYTYPE));
+		model.addObject(BRANDNAMECH, data2.getString(BRANDNAMECH));
+		model.addObject(BRANDNAMEEN, data2.getString(BRANDNAMEEN));
+		model.addObject(REGISTERCAPITAL, data2.getString(REGISTERCAPITAL));
 		return model;
 	}
+
 	/**
 	 * 店铺审核页面
+	 * 
 	 * @return
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
-	@RequestMapping(value="/toShopCheckPager",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public ModelAndView toShopCheckDetailPager(String username,String userId) throws UnsupportedEncodingException {
+	@RequestMapping(value = "/toShopCheckPager", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public ModelAndView toShopCheckDetailPager(String username, String userId) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/shop/auditeQualification");
-		//查询账户信息
+		// 查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
-		map.put("companyId", userId);
-		String str ="";
+		mapHeader.put(APPKEY, PropertiesUtil.getStringByKey(APPKEY));
+		map.put(COMPANY_ID, userId);
+		String str = "";
 		try {
-			Long beginTime = System.currentTimeMillis();
-			log.info("长虹查询店铺信息服务开始"+beginTime);
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
-			log.info("长虹查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey(FINDBYCOMPANYID), JSON.toJSONString(map),
+					mapHeader);
 		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
+			LOG.error("查询失败,失败信息" + JSON.toJSONString(e));
 		}
 		JSONObject data0 = (JSONObject) JSON.parse(str);
 		JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
 		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
-		//转换时间
-		String createTime="";
-		//查询商户信息
+		// 转换时间
+		String createTime = "";
+		// 查询商户信息
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopInfoRequest queryShopInfoRequest = new QueryShopInfoRequest();
 		queryShopInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
 		queryShopInfoRequest.setUserId(userId);
-		Long shopBeginTime = System.currentTimeMillis();
-		log.info("查询店铺信息服务开始"+shopBeginTime);
-		QueryShopInfoResponse response=shopInfoSV.queryShopInfo(queryShopInfoRequest);
-		log.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-shopBeginTime)+"毫秒");
-		if(data2.getString("createTime")!=null&&data2.getString("createTime").length()!=0){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
+		QueryShopInfoResponse response = shopInfoSV.queryShopInfo(queryShopInfoRequest);
+		if (data2.getString(CREATETIME) != null && data2.getString(CREATETIME).length() != 0) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			createTime = sdf.format(Long.parseLong(data2.getString(CREATETIME)));
 		}
-		 String taxpayerType = "";
-		 if("1".equals(data2.getString("taxpayerType"))){
-	        	taxpayerType = "一般纳税人";
-	        }else if("2".equals(data2.getString("taxpayerType"))){
-	        	taxpayerType = "小规模纳税人";
-	        }else if("3".equals(data2.getString("taxpayerType")))
-	        	taxpayerType = "非增值税纳税人";
-	        
-	        String legalRepresentative="";
-	        String phone="";
-	        String email = "";
-	        String idNumber="";
-	        String bankAccount = "";
-	        String businessAddress = "";
-	        String location = "";
-	        //安全处理信息
-	        if(data2.getString("legalRepresentative")!=null)
-	        	legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"),1);
-	        if(data2.getString("phone")!=null){
-	        phone = getStarString(data2.getString("phone"),4,7);
-	        }
-	        if(data2.getString("email")!=null){
-	        email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
-	        }
-	        if(data2.getString("idNumber")!=null){
-	        idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length()-10, data2.getString("idNumber").length()-4);
-	        }
-	        if(data2.getString("bankAccount")!=null){
-	        bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length()-7, data2.getString("bankAccount").length()-3);
-	        }
-	        if(data2.getString("businessAddress")!=null){
-	        	if(data2.getString("businessAddress").length()<4)
-	        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-1);
-	        	else
-	        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-4);		
-	        }
-	        if(data2.getString("location")!=null){
-	        	if(data2.getString("location").length()<4)
-	        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-1);
-	        	else
-	        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
-	        }
-		model.addObject("userId", userId);
-		model.addObject("userName", username);
-		model.addObject("shopName", data2.getString("name"));
-		model.addObject("createTime",createTime);
-		model.addObject("industryType", data2.getString("industryType"));
-		model.addObject("officialWebsite", data2.getString("officialWebsite"));
-		model.addObject("companiesNumber", data2.getString("companiesNumber"));
-		model.addObject("companyNature", data2.getString("companyNature"));
-		model.addObject("location", location);
-		model.addObject("annualTurnover", data2.getString("annualTurnover"));
-		model.addObject("areaCover", data2.getString("areaCover"));
-		model.addObject("phone", phone);
-		model.addObject("fax", data2.getString("fax"));
-		model.addObject("email", email);
-		model.addObject("businessAddress", businessAddress);
-		model.addObject("businessLicenseRegistrationNumber", data2.getString("businessLicenseRegistrationNumber"));
-		model.addObject("establishDate", data2.getString("establishDate"));
-		model.addObject("businessScope", data2.getString("businessScope"));
-		model.addObject("legalRepresentative", legalRepresentative);
-		model.addObject("idNumber", idNumber);
-		model.addObject("taxpayerNumber", data2.getString("taxpayerNumber"));
-		model.addObject("taxpayerType", taxpayerType);
-		model.addObject("taxCode", data2.getString("taxCode"));
-		model.addObject("organizationCode", data2.getString("organizationCode"));
-		model.addObject("bankName", data2.getString("bankName"));
-		model.addObject("bankAccount", bankAccount);
-		model.addObject("commodityType", data2.getString("commodityType"));
-		model.addObject("brandNameCh", data2.getString("brandNameCh"));
-		model.addObject("brandNameEn", data2.getString("brandNameEn"));
-		if(response!=null){
-			String busiType="";
-			if("1".equals(response.getBusiType())){
-				busiType="生产厂商";
-			}else if("2".equals(response.getBusiType())){
-				busiType="品牌代理商";
+		String taxpayerType = "";
+		if ("1".equals(data2.getString(TAXPAYERTYPE))) {
+			taxpayerType = GENERAL;
+		} else if ("2".equals(data2.getString(TAXPAYERTYPE))) {
+			taxpayerType = TAXPAYER;
+		} else if ("3".equals(data2.getString(TAXPAYERTYPE))) {
+			taxpayerType = NONVALUE;
+		}
+
+		String legalRepresentative = "";
+		String phone = "";
+		String email = "";
+		String idNumber = "";
+		String bankAccount = "";
+		String businessAddress = "";
+		String location = "";
+		// 安全处理信息
+		if (data2.getString(LEGALREPRESENTATIVE) != null) {
+			legalRepresentative = getStarStringNoEnd(data2.getString(LEGALREPRESENTATIVE), 1);
+		}
+		if (data2.getString(PHONE) != null) {
+			phone = getStarString(data2.getString(PHONE), 4, 7);
+		}
+		if (data2.getString(EMAIL) != null) {
+			email = getStarString(data2.getString(EMAIL), 2, data2.getString(EMAIL).lastIndexOf("@"));
+		}
+		if (data2.getString(IDNUMBER) != null) {
+			idNumber = getStarString(data2.getString(IDNUMBER), data2.getString(IDNUMBER).length() - 10,
+					data2.getString(IDNUMBER).length() - 4);
+		}
+		if (data2.getString(BANKACCOUNT) != null) {
+			bankAccount = getStarString(data2.getString(BANKACCOUNT), data2.getString(BANKACCOUNT).length() - 7,
+					data2.getString(BANKACCOUNT).length() - 3);
+		}
+		if (data2.getString(BUSINESSADDRESS) != null) {
+			if (data2.getString(BUSINESSADDRESS).length() < 4) {
+				businessAddress = getStarStringNoEnd(data2.getString(BUSINESSADDRESS),
+						data2.getString(BUSINESSADDRESS).length() - 1);
+			} else {
+				businessAddress = getStarStringNoEnd(data2.getString(BUSINESSADDRESS),
+						data2.getString(BUSINESSADDRESS).length() - 4);
 			}
-			String hasExperi ="";
-			if("0".equals(response.getHasExperi()+"")){
+		}
+		if (data2.getString(LOCATION) != null) {
+			if (data2.getString(LOCATION).length() < 4) {
+				location = getStarStringNoEnd(data2.getString(LOCATION), data2.getString(LOCATION).length() - 1);
+			} else {
+				location = getStarStringNoEnd(data2.getString(LOCATION), data2.getString(LOCATION).length() - 4);
+			}
+		}
+		model.addObject(USERID, userId);
+		model.addObject(USERNAME, username);
+		model.addObject(SHOPNAME, data2.getString("name"));
+		model.addObject(CREATETIME, createTime);
+		model.addObject(INDUSTRYTYPE, data2.getString(INDUSTRYTYPE));
+		model.addObject(OFFICIALWEBSITE, data2.getString(OFFICIALWEBSITE));
+		model.addObject(COMPANIESNUMBER, data2.getString(COMPANIESNUMBER));
+		model.addObject(COMPANYNATURE, data2.getString(COMPANYNATURE));
+		model.addObject(LOCATION, location);
+		model.addObject(ANNUALTURNOVER, data2.getString(ANNUALTURNOVER));
+		model.addObject(AREACOVER, data2.getString(AREACOVER));
+		model.addObject(PHONE, phone);
+		model.addObject(FAX, data2.getString(FAX));
+		model.addObject(EMAIL, email);
+		model.addObject(BUSINESSADDRESS, businessAddress);
+		model.addObject(BUSINESSLICENSEREGISTRATIONNUMBER, data2.getString(BUSINESSLICENSEREGISTRATIONNUMBER));
+		model.addObject(ESTABLISHDATE, data2.getString(ESTABLISHDATE));
+		model.addObject(BUSINESSSCOPE, data2.getString(BUSINESSSCOPE));
+		model.addObject(LEGALREPRESENTATIVE, legalRepresentative);
+		model.addObject(IDNUMBER, idNumber);
+		model.addObject(TAXPAYERNUMBER, data2.getString(TAXPAYERNUMBER));
+		model.addObject(TAXPAYERTYPE, taxpayerType);
+		model.addObject(TAXCODE, data2.getString(TAXCODE));
+		model.addObject(ORGANIZATIONCODE, data2.getString(ORGANIZATIONCODE));
+		model.addObject(BANKNAME, data2.getString(BANKNAME));
+		model.addObject(BANKACCOUNT, bankAccount);
+		model.addObject(COMMODITYTYPE, data2.getString(COMMODITYTYPE));
+		model.addObject(BRANDNAMECH, data2.getString(BRANDNAMECH));
+		model.addObject(BRANDNAMEEN, data2.getString(BRANDNAMEEN));
+		if (response != null) {
+			String busiType = "";
+			if ("1".equals(response.getBusiType())) {
+				busiType = "生产厂商";
+			} else if ("2".equals(response.getBusiType())) {
+				busiType = "品牌代理商";
+			}
+			String hasExperi = "";
+			if ("0".equals(response.getHasExperi() + "")) {
 				hasExperi = "无";
-			}else if("1".equals(response.getHasExperi()+""))
+			} else if ("1".equals(response.getHasExperi() + "")) {
 				hasExperi = "有";
-				
+			}
+
 			model.addObject("wantShopName", response.getShopName());
 			model.addObject("goodsNum", response.getGoodsNum());
 			model.addObject("busiType", busiType);
 			model.addObject("hasExperi", hasExperi);
 			model.addObject("shopDesc", response.getShopDesc());
+			StringBuffer ecomm = new StringBuffer();
 			String ecommOwner = "";
-			if(response!=null&&response.getEcommOwner()!=null){
-				for (int index=0;index<response.getEcommOwner().length();index++) {
-					if('1'==response.getEcommOwner().charAt(index))
-						ecommOwner+=shopOwner[index]+"/";
+			if (response.getEcommOwner() != null) {
+				for (int index = 0; index < response.getEcommOwner().length(); index++) {
+					if ('1' == response.getEcommOwner().charAt(index)) {
+						ecomm.append(shopOwner[index]);
+						ecomm.append("/");
+					}
 				}
-				if(ecommOwner.length()>1)
-					ecommOwner = ecommOwner.substring(0,ecommOwner.length()-1);
-				else
+				if (ecommOwner.length() > 1) {
+					ecommOwner = ecomm.substring(0, ecommOwner.length() - 1);
+				} else {
 					ecommOwner = "无平台";
+				}
 			}
 			model.addObject("ecommOwner", ecommOwner);
 		}
 		return model;
 	}
+
 	/**
 	 * 供应商详情页面
+	 * 
 	 * @return
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
-	@RequestMapping(value="/toSuplierDetailPager",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public ModelAndView toSuplierDetailPager(String userId,String username) throws UnsupportedEncodingException {
+	@RequestMapping(value = "/toSuplierDetailPager", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public ModelAndView toSuplierDetailPager(String userId, String username) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/supplier/checkedDetail");
-		//查询账户信息
+		// 查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
-		map.put("companyId", userId);
-		String str ="";
+		mapHeader.put(APPKEY, PropertiesUtil.getStringByKey(APPKEY));
+		map.put(COMPANY_ID, userId);
+		String str = "";
 		try {
-			Long beginTime = System.currentTimeMillis();
-			log.info("长虹查询供应商信息服务开始"+beginTime);
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
-			log.info("长虹查询供应商信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey(FINDBYCOMPANYID), JSON.toJSONString(map),
+					mapHeader);
 		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
+			LOG.error("查询失败,失败信息" + JSON.toJSONString(e));
 		}
 		JSONObject data0 = (JSONObject) JSON.parse(str);
 		JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
 		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
-		//转换时间
-		String createTime ="";
-		if(data2.getString("createTime")!=null&&data2.getString("createTime").length()!=0){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
+		// 转换时间
+		String createTime = "";
+		if (data2.getString(CREATETIME) != null && data2.getString(CREATETIME).length() != 0) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			createTime = sdf.format(Long.parseLong(data2.getString(CREATETIME)));
 		}
-        String taxpayerType = "";
-        if("1".equals(data2.getString("taxpayerType"))){
-        	taxpayerType = "一般纳税人";
-        }else if("2".equals(data2.getString("taxpayerType"))){
-        	taxpayerType = "小规模纳税人";
-        }else if("3".equals(data2.getString("taxpayerType")))
-        	taxpayerType = "非增值税纳税人";
-        
-        String legalRepresentative="";
-        String phone="";
-        String email = "";
-        String idNumber="";
-        String bankAccount = "";
-        String businessAddress = "";
-        String location = "";
-        //安全处理信息
-        if(data2.getString("legalRepresentative")!=null)
-        	legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"),1);
-        if(data2.getString("phone")!=null){
-        phone = getStarString(data2.getString("phone"),4,7);
-        }
-        if(data2.getString("email")!=null){
-        email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
-        }
-        if(data2.getString("idNumber")!=null){
-        idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length()-10, data2.getString("idNumber").length()-4);
-        }
-        if(data2.getString("bankAccount")!=null){
-        bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length()-7, data2.getString("bankAccount").length()-3);
-        }
-        if(data2.getString("businessAddress")!=null){
-        	if(data2.getString("businessAddress").length()<4)
-        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-1);
-        	else
-        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-4);		
-        }
-        if(data2.getString("location")!=null){
-        	if(data2.getString("location").length()<4)
-        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-1);
-        	else
-        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
-        }
-		model.addObject("userId", userId);
-		model.addObject("userName", username);
-		model.addObject("shopName", data2.getString("name"));
-		model.addObject("createTime",createTime);
-		model.addObject("industryType", data2.getString("industryType"));
-		model.addObject("officialWebsite", data2.getString("officialWebsite"));
-		model.addObject("companiesNumber", data2.getString("companiesNumber"));
-		model.addObject("companyNature", data2.getString("companyNature"));
-		model.addObject("location", location);
-		model.addObject("annualTurnover", data2.getString("annualTurnover"));
-		model.addObject("areaCover", data2.getString("areaCover"));
-		model.addObject("phone", phone);
-		model.addObject("fax", data2.getString("fax"));
-		model.addObject("email", email);
-		model.addObject("businessAddress", businessAddress);
-		model.addObject("businessLicenseRegistrationNumber", data2.getString("businessLicenseRegistrationNumber"));
-		model.addObject("establishDate", data2.getString("establishDate"));
-		model.addObject("businessScope", data2.getString("businessScope"));
-		model.addObject("legalRepresentative", legalRepresentative);
-		model.addObject("idNumber", idNumber);
-		model.addObject("taxpayerNumber", data2.getString("taxpayerNumber"));
-		model.addObject("taxpayerType", taxpayerType);
-		model.addObject("taxCode", data2.getString("taxCode"));
-		model.addObject("organizationCode", data2.getString("organizationCode"));
-		model.addObject("bankName", data2.getString("bankName"));
-		model.addObject("bankAccount", bankAccount);
-		model.addObject("commodityType", data2.getString("commodityType"));
-		model.addObject("brandNameCh", data2.getString("brandNameCh"));
-		model.addObject("brandNameEn", data2.getString("brandNameEn"));
-		model.addObject("registerCapital", data2.getString("registerCapital"));
+		String taxpayerType = "";
+		if ("1".equals(data2.getString(TAXPAYERTYPE))) {
+			taxpayerType = GENERAL;
+		} else if ("2".equals(data2.getString(TAXPAYERTYPE))) {
+			taxpayerType = TAXPAYER;
+		} else if ("3".equals(data2.getString(TAXPAYERTYPE))) {
+			taxpayerType = NONVALUE;
+		}
+
+		String legalRepresentative = "";
+		String phone = "";
+		String email = "";
+		String idNumber = "";
+		String bankAccount = "";
+		String businessAddress = "";
+		String location = "";
+		// 安全处理信息
+		if (data2.getString(LEGALREPRESENTATIVE) != null) {
+			legalRepresentative = getStarStringNoEnd(data2.getString(LEGALREPRESENTATIVE), 1);
+		}
+		if (data2.getString(PHONE) != null) {
+			phone = getStarString(data2.getString(PHONE), 4, 7);
+		}
+		if (data2.getString(EMAIL) != null) {
+			email = getStarString(data2.getString(EMAIL), 2, data2.getString(EMAIL).lastIndexOf("@"));
+		}
+		if (data2.getString(IDNUMBER) != null) {
+			idNumber = getStarString(data2.getString(IDNUMBER), data2.getString(IDNUMBER).length() - 10,
+					data2.getString(IDNUMBER).length() - 4);
+		}
+		if (data2.getString(BANKACCOUNT) != null) {
+			bankAccount = getStarString(data2.getString(BANKACCOUNT), data2.getString(BANKACCOUNT).length() - 7,
+					data2.getString(BANKACCOUNT).length() - 3);
+		}
+		if (data2.getString(BUSINESSADDRESS) != null) {
+			if (data2.getString(BUSINESSADDRESS).length() < 4) {
+				businessAddress = getStarStringNoEnd(data2.getString(BUSINESSADDRESS),
+						data2.getString(BUSINESSADDRESS).length() - 1);
+			} else {
+				businessAddress = getStarStringNoEnd(data2.getString(BUSINESSADDRESS),
+						data2.getString(BUSINESSADDRESS).length() - 4);
+			}
+		}
+		if (data2.getString(LOCATION) != null) {
+			if (data2.getString(LOCATION).length() < 4) {
+				location = getStarStringNoEnd(data2.getString(LOCATION), data2.getString(LOCATION).length() - 1);
+			} else {
+				location = getStarStringNoEnd(data2.getString(LOCATION), data2.getString(LOCATION).length() - 4);
+			}
+		}
+		model.addObject(USERID, userId);
+		model.addObject(USERNAME, username);
+		model.addObject(SHOPNAME, data2.getString("name"));
+		model.addObject(CREATETIME, createTime);
+		model.addObject(INDUSTRYTYPE, data2.getString(INDUSTRYTYPE));
+		model.addObject(OFFICIALWEBSITE, data2.getString(OFFICIALWEBSITE));
+		model.addObject(COMPANIESNUMBER, data2.getString(COMPANIESNUMBER));
+		model.addObject(COMPANYNATURE, data2.getString(COMPANYNATURE));
+		model.addObject(LOCATION, location);
+		model.addObject(ANNUALTURNOVER, data2.getString(ANNUALTURNOVER));
+		model.addObject(AREACOVER, data2.getString(AREACOVER));
+		model.addObject(PHONE, phone);
+		model.addObject(FAX, data2.getString(FAX));
+		model.addObject(EMAIL, email);
+		model.addObject(BUSINESSADDRESS, businessAddress);
+		model.addObject(BUSINESSLICENSEREGISTRATIONNUMBER, data2.getString(BUSINESSLICENSEREGISTRATIONNUMBER));
+		model.addObject(ESTABLISHDATE, data2.getString(ESTABLISHDATE));
+		model.addObject(BUSINESSSCOPE, data2.getString(BUSINESSSCOPE));
+		model.addObject(LEGALREPRESENTATIVE, legalRepresentative);
+		model.addObject(IDNUMBER, idNumber);
+		model.addObject(TAXPAYERNUMBER, data2.getString(TAXPAYERNUMBER));
+		model.addObject(TAXPAYERTYPE, taxpayerType);
+		model.addObject(TAXCODE, data2.getString(TAXCODE));
+		model.addObject(ORGANIZATIONCODE, data2.getString(ORGANIZATIONCODE));
+		model.addObject(BANKNAME, data2.getString(BANKNAME));
+		model.addObject(BANKACCOUNT, bankAccount);
+		model.addObject(COMMODITYTYPE, data2.getString(COMMODITYTYPE));
+		model.addObject(BRANDNAMECH, data2.getString(BRANDNAMECH));
+		model.addObject(BRANDNAMEEN, data2.getString(BRANDNAMEEN));
+		model.addObject(REGISTERCAPITAL, data2.getString(REGISTERCAPITAL));
 		return model;
 	}
+
 	/**
 	 * 店铺详情页面
+	 * 
 	 * @return
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
-	@RequestMapping(value="/toShopDetailPager",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public ModelAndView toShopDetailPager(String userId,String username) throws UnsupportedEncodingException {
+	@RequestMapping(value = "/toShopDetailPager", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public ModelAndView toShopDetailPager(String userId, String username) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/qualification/shop/checkedDetail");
-		//查询账户信息
+		// 查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
-		map.put("companyId", userId);
-		//查询商户信息
+		mapHeader.put(APPKEY, PropertiesUtil.getStringByKey(APPKEY));
+		map.put(COMPANY_ID, userId);
+		// 查询商户信息
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopInfoRequest queryShopInfoRequest = new QueryShopInfoRequest();
 		queryShopInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
 		queryShopInfoRequest.setUserId(userId);
-		Long shopBeginTime = System.currentTimeMillis();
-		log.info("查询店铺信息服务开始"+shopBeginTime);
-		QueryShopInfoResponse response=shopInfoSV.queryShopInfo(queryShopInfoRequest);
-		log.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-shopBeginTime)+"毫秒");
-		String str ="";
+		QueryShopInfoResponse response = shopInfoSV.queryShopInfo(queryShopInfoRequest);
+		String str = "";
 		try {
-			Long beginTime = System.currentTimeMillis();
-			log.info("长虹查询店铺信息服务开始"+beginTime);
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("findByCompanyId_http_url"), JSON.toJSONString(map), mapHeader);
-			log.info("长虹查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey(FINDBYCOMPANYID), JSON.toJSONString(map),
+					mapHeader);
 		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
+			LOG.error("查询失败,失败信息" + JSON.toJSONString(e));
 		}
 		JSONObject data0 = (JSONObject) JSON.parse(str);
 		JSONObject data1 = (JSONObject) JSON.parse(data0.getString("data"));
 		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
-		//转换时间
-		String createTime ="";
-		if(data2.getString("createTime")!=null&&data2.getString("createTime").length()!=0){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        createTime = sdf.format(Long.parseLong(data2.getString("createTime")));
+		// 转换时间
+		String createTime = "";
+		if (data2.getString(CREATETIME) != null && data2.getString(CREATETIME).length() != 0) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			createTime = sdf.format(Long.parseLong(data2.getString(CREATETIME)));
 		}
-        String taxpayerType = "";
-        if("1".equals(data2.getString("taxpayerType"))){
-        	taxpayerType = "一般纳税人";
-        }else if("2".equals(data2.getString("taxpayerType"))){
-        	taxpayerType = "小规模纳税人";
-        }else if("3".equals(data2.getString("taxpayerType")))
-        	taxpayerType = "非增值税纳税人";
-        
-        String legalRepresentative="";
-        String phone="";
-        String email = "";
-        String idNumber="";
-        String bankAccount = "";
-        String businessAddress = "";
-        String location = "";
-        //安全处理信息
-        if(data2.getString("legalRepresentative")!=null)
-        	legalRepresentative = getStarStringNoEnd(data2.getString("legalRepresentative"),1);
-        if(data2.getString("phone")!=null){
-        phone = getStarString(data2.getString("phone"),4,7);
-        }
-        if(data2.getString("email")!=null){
-        email = getStarString(data2.getString("email"), 2, data2.getString("email").lastIndexOf("@"));
-        }
-        if(data2.getString("idNumber")!=null){
-        idNumber = getStarString(data2.getString("idNumber"), data2.getString("idNumber").length()-10, data2.getString("idNumber").length()-4);
-        }
-        if(data2.getString("bankAccount")!=null){
-        bankAccount = getStarString(data2.getString("bankAccount"), data2.getString("bankAccount").length()-7, data2.getString("bankAccount").length()-3);
-        }
-        if(data2.getString("businessAddress")!=null){
-        	if(data2.getString("businessAddress").length()<4)
-        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-1);
-        	else
-        		businessAddress = getStarStringNoEnd(data2.getString("businessAddress"), data2.getString("businessAddress").length()-4);		
-        }
-        if(data2.getString("location")!=null){
-        	if(data2.getString("location").length()<4)
-        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-1);
-        	else
-        		location = getStarStringNoEnd(data2.getString("location"), data2.getString("location").length()-4);		
-        }
-		model.addObject("userId", userId);
-		model.addObject("userName", username);
-		model.addObject("shopName", data2.getString("name"));
-		model.addObject("createTime",createTime);
-		model.addObject("industryType", data2.getString("industryType"));
-		model.addObject("officialWebsite", data2.getString("officialWebsite"));
-		model.addObject("companiesNumber", data2.getString("companiesNumber"));
-		model.addObject("companyNature", data2.getString("companyNature"));
-		model.addObject("location", location);
-		model.addObject("annualTurnover", data2.getString("annualTurnover"));
-		model.addObject("areaCover", data2.getString("areaCover"));
-		model.addObject("phone", phone);
-		model.addObject("fax", data2.getString("fax"));
-		model.addObject("email", email);
-		model.addObject("businessAddress", businessAddress);
-		model.addObject("businessLicenseRegistrationNumber", data2.getString("businessLicenseRegistrationNumber"));
-		model.addObject("establishDate", data2.getString("establishDate"));
-		model.addObject("businessScope", data2.getString("businessScope"));
-		model.addObject("legalRepresentative", legalRepresentative);
-		model.addObject("idNumber", idNumber);
-		model.addObject("taxpayerNumber", data2.getString("taxpayerNumber"));
-		model.addObject("taxpayerType", taxpayerType);
-		model.addObject("taxCode", data2.getString("taxCode"));
-		model.addObject("organizationCode", data2.getString("organizationCode"));
-		model.addObject("bankName", data2.getString("bankName"));
-		model.addObject("bankAccount", bankAccount);
-		model.addObject("commodityType", data2.getString("commodityType"));
-		model.addObject("brandNameCh", data2.getString("brandNameCh"));
-		model.addObject("brandNameEn", data2.getString("brandNameEn"));
-		model.addObject("registerCapital", data2.getString("registerCapital"));
-		if(response!=null){
-			String busiType="";
-			if("1".equals(response.getBusiType())){
-				busiType="生产厂商";
-			}else if("2".equals(response.getBusiType())){
-				busiType="品牌代理商";
+		String taxpayerType = "";
+		if ("1".equals(data2.getString(TAXPAYERTYPE))) {
+			taxpayerType = GENERAL;
+		} else if ("2".equals(data2.getString(TAXPAYERTYPE))) {
+			taxpayerType = TAXPAYER;
+		} else if ("3".equals(data2.getString(TAXPAYERTYPE))) {
+			taxpayerType = NONVALUE;
+		}
+
+		String legalRepresentative = "";
+		String phone = "";
+		String email = "";
+		String idNumber = "";
+		String bankAccount = "";
+		String businessAddress = "";
+		String location = "";
+		// 安全处理信息
+		if (data2.getString(LEGALREPRESENTATIVE) != null) {
+			legalRepresentative = getStarStringNoEnd(data2.getString(LEGALREPRESENTATIVE), 1);
+		}
+		if (data2.getString(PHONE) != null) {
+			phone = getStarString(data2.getString(PHONE), 4, 7);
+		}
+		if (data2.getString(EMAIL) != null) {
+			email = getStarString(data2.getString(EMAIL), 2, data2.getString(EMAIL).lastIndexOf("@"));
+		}
+		if (data2.getString(IDNUMBER) != null) {
+			idNumber = getStarString(data2.getString(IDNUMBER), data2.getString(IDNUMBER).length() - 10,
+					data2.getString(IDNUMBER).length() - 4);
+		}
+		if (data2.getString(BANKACCOUNT) != null) {
+			bankAccount = getStarString(data2.getString(BANKACCOUNT), data2.getString(BANKACCOUNT).length() - 7,
+					data2.getString(BANKACCOUNT).length() - 3);
+		}
+		if (data2.getString(BUSINESSADDRESS) != null) {
+			if (data2.getString(BUSINESSADDRESS).length() < 4) {
+				businessAddress = getStarStringNoEnd(data2.getString(BUSINESSADDRESS),
+						data2.getString(BUSINESSADDRESS).length() - 1);
+			} else {
+				businessAddress = getStarStringNoEnd(data2.getString(BUSINESSADDRESS),
+						data2.getString(BUSINESSADDRESS).length() - 4);
 			}
-			String hasExperi ="";
-			if("0".equals(response.getHasExperi()+"")){
+		}
+		if (data2.getString(LOCATION) != null) {
+			if (data2.getString(LOCATION).length() < 4) {
+				location = getStarStringNoEnd(data2.getString(LOCATION), data2.getString(LOCATION).length() - 1);
+			} else {
+				location = getStarStringNoEnd(data2.getString(LOCATION), data2.getString(LOCATION).length() - 4);
+			}
+		}
+		model.addObject(USERID, userId);
+		model.addObject(USERNAME, username);
+		model.addObject(SHOPNAME, data2.getString("name"));
+		model.addObject(CREATETIME, createTime);
+		model.addObject(INDUSTRYTYPE, data2.getString(INDUSTRYTYPE));
+		model.addObject(OFFICIALWEBSITE, data2.getString(OFFICIALWEBSITE));
+		model.addObject(COMPANIESNUMBER, data2.getString(COMPANIESNUMBER));
+		model.addObject(COMPANYNATURE, data2.getString(COMPANYNATURE));
+		model.addObject(LOCATION, location);
+		model.addObject(ANNUALTURNOVER, data2.getString(ANNUALTURNOVER));
+		model.addObject(AREACOVER, data2.getString(AREACOVER));
+		model.addObject(PHONE, phone);
+		model.addObject(FAX, data2.getString(FAX));
+		model.addObject(EMAIL, email);
+		model.addObject(BUSINESSADDRESS, businessAddress);
+		model.addObject(BUSINESSLICENSEREGISTRATIONNUMBER, data2.getString(BUSINESSLICENSEREGISTRATIONNUMBER));
+		model.addObject(ESTABLISHDATE, data2.getString(ESTABLISHDATE));
+		model.addObject(BUSINESSSCOPE, data2.getString(BUSINESSSCOPE));
+		model.addObject(LEGALREPRESENTATIVE, legalRepresentative);
+		model.addObject(IDNUMBER, idNumber);
+		model.addObject(TAXPAYERNUMBER, data2.getString(TAXPAYERNUMBER));
+		model.addObject(TAXPAYERTYPE, taxpayerType);
+		model.addObject(TAXCODE, data2.getString(TAXCODE));
+		model.addObject(ORGANIZATIONCODE, data2.getString(ORGANIZATIONCODE));
+		model.addObject(BANKNAME, data2.getString(BANKNAME));
+		model.addObject(BANKACCOUNT, bankAccount);
+		model.addObject(COMMODITYTYPE, data2.getString(COMMODITYTYPE));
+		model.addObject(BRANDNAMECH, data2.getString(BRANDNAMECH));
+		model.addObject(BRANDNAMEEN, data2.getString(BRANDNAMEEN));
+		model.addObject(REGISTERCAPITAL, data2.getString(REGISTERCAPITAL));
+		if (response != null) {
+			String busiType = "";
+			if ("1".equals(response.getBusiType())) {
+				busiType = "生产厂商";
+			} else if ("2".equals(response.getBusiType())) {
+				busiType = "品牌代理商";
+			}
+			String hasExperi = "";
+			if ("0".equals(response.getHasExperi() + "")) {
 				hasExperi = "无";
-			}else if("1".equals(response.getHasExperi()+""))
+			} else if ("1".equals(response.getHasExperi() + "")) {
 				hasExperi = "有";
+			}
 			model.addObject("wantShopName", response.getShopName());
 			model.addObject("goodsNum", response.getGoodsNum());
 			model.addObject("busiType", busiType);
 			model.addObject("hasExperi", hasExperi);
 			model.addObject("shopDesc", response.getShopDesc());
+			StringBuffer ecomm = new StringBuffer();
 			String ecommOwner = "";
-			if(response!=null&&response.getEcommOwner()!=null){
-				for (int index=0;index<response.getEcommOwner().length();index++) {
-					if('1'==response.getEcommOwner().charAt(index))
-						ecommOwner+=shopOwner[index]+"/";
+			if (response.getEcommOwner() != null) {
+				for (int index = 0; index < response.getEcommOwner().length(); index++) {
+					if ('1' == response.getEcommOwner().charAt(index)) {
+						ecomm.append(shopOwner[index]);
+						ecomm.append("/");
+					}
 				}
-			if(ecommOwner.length()>1)
-			ecommOwner = ecommOwner.substring(0,ecommOwner.length()-1);
-			else
-				ecommOwner = "无平台";
+				if (ecomm.length() > 1) {
+					ecommOwner = ecomm.substring(0, ecomm.length() - 1);
+				} else {
+					ecommOwner = "无平台";
+				}
 			}
 			model.addObject("ecommOwner", ecommOwner);
 		}
 		return model;
 	}
-	
-	//查询未审核列表
+
+	// 查询未审核列表
 	@RequestMapping("/getUncheckList")
 	@ResponseBody
-	public ResponseData<PageInfo<BusinessListInfo>> getUncheckList(HttpServletRequest request,String auditState,String companyName,String username,String companyType){
+	public ResponseData<PageInfo<BusinessListInfo>> getUncheckList(HttpServletRequest request, String auditState,
+			String companyName, String username, String companyType) {
 		ResponseData<PageInfo<BusinessListInfo>> response = null;
-		PageInfo<BusinessListInfo> pageInfo =null;
+		PageInfo<BusinessListInfo> pageInfo = null;
 		ResponseHeader header = null;
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
-		map.put("pageNo", request.getParameter("pageNo"));
-		map.put("pageSize", request.getParameter("pageSize"));
-		if(username!=null&&username.length()!=0)
-			map.put("username", username);
-		if(companyName!=null&&companyName.length()!=0)
-			map.put("companyName", companyName);
-		if(companyType!=null&&companyType.length()!=0)
-			map.put("companyType", companyType);
-		if(auditState!=null&&auditState.length()!=0)
-			map.put("auditState", auditState);
-		String str ="";
-		try {
-			Long beginTime = System.currentTimeMillis();
-			log.info("++++++++++长虹查询未审核列表信息服务开始"+beginTime);
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
-			log.info("++++++++++长虹查询未审核列表信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
-		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
+		mapHeader.put(APPKEY, PropertiesUtil.getStringByKey(APPKEY));
+		map.put(PAGENO, request.getParameter(PAGENO));
+		map.put(PAGESIZE, request.getParameter(PAGESIZE));
+		if (username != null && username.length() != 0) {
+			map.put(USERNAME, username);
 		}
-		try{
-		JSONObject data = ParseO2pDataUtil.getData(str);
-		String resultCode = data.getString("resultCode");
-		if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
-			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
-			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
-		}else {
+		if (companyName != null && companyName.length() != 0) {
+			map.put("companyName", companyName);
+		}
+		if (companyType != null && companyType.length() != 0) {
+			map.put("companyType", companyType);
+		}
+		if (auditState != null && auditState.length() != 0) {
+			map.put("auditState", auditState);
+		}
+		String str = "";
+		try {
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"),
+					JSON.toJSONString(map), mapHeader);
+		} catch (IOException | URISyntaxException e) {
+			LOG.error("查询失败,失败信息" + JSON.toJSONString(e));
+		}
+		try {
+			JSONObject data = ParseO2pDataUtil.getData(str);
+			String resultCode = data.getString("resultCode");
+			if (resultCode != null && !OperateCode.SUCCESS.equals(resultCode)) {
+				LOG.error("调用失败,resultCode" + resultCode);
+				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
+			} else {
 				Integer pageNo = Integer.valueOf(data.getString("pages"));
-				Integer pageSize = Integer.valueOf(data.getString("pageSize"));
+				Integer pageSize = Integer.valueOf(data.getString(PAGESIZE));
 				Integer total = Integer.valueOf(data.getString("total"));
 				Integer pageCount = Integer.valueOf(data.getString("pageNum"));
 				pageInfo = new PageInfo<>();
@@ -626,231 +725,221 @@ public class QualificationController {
 				pageInfo.setPageNo(pageNo);
 				pageInfo.setPageSize(pageSize);
 				List<BusinessListInfo> responseList = new ArrayList<>();
-				JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
+				JSONArray list = (JSONArray) JSON.parseArray(data.getString("list"));
 				Iterator<Object> iterator = list.iterator();
-				while(iterator.hasNext()){
-					BusinessListInfo businessInfo = new BusinessListInfo(); 
-					 JSONObject object = (JSONObject) iterator.next();
-					 businessInfo.setUserId(object.getString("companyId"));
-					 businessInfo.setUserName(object.getString("username"));
-					 businessInfo.setCustName(object.getString("name"));
-					 responseList.add(businessInfo);
+				while (iterator.hasNext()) {
+					BusinessListInfo businessInfo = new BusinessListInfo();
+					JSONObject object = (JSONObject) iterator.next();
+					businessInfo.setUserId(object.getString(COMPANY_ID));
+					businessInfo.setUserName(object.getString(USERNAME));
+					businessInfo.setCustName(object.getString("name"));
+					responseList.add(businessInfo);
 				}
 				pageInfo.setResult(responseList);
 				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 			}
-		}catch(Exception e){
+		} catch (BusinessException e) {
+			LOG.error("操作失败,原因:" + JSON.toJSONString(e));
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "查询失败");
-			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "查询失败"); 
+			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "查询失败");
 			response.setResponseHeader(header);
 		}
-			response.setResponseHeader(header);
-			response.setData(pageInfo);
+		response.setResponseHeader(header);
+		response.setData(pageInfo);
 		return response;
 	}
-		
-		//查询已审核列表
-		@RequestMapping("/getCheckedList")
-		@ResponseBody
-		public ResponseData<PageInfo<BusinessListInfo>> getCheckedList(HttpServletRequest request,String companyName,String username,String auditState,String companyType){
-			ResponseData<PageInfo<BusinessListInfo>> response = null;
-			PageInfo<BusinessListInfo> pageInfo =null;
-			ResponseHeader header = null;
-			Map<String, String> map = new HashMap<>();
-			Map<String, String> mapHeader = new HashMap<>();
-			mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
-			map.put("pageNo", request.getParameter("pageNo"));
-			map.put("pageSize", request.getParameter("pageSize"));
-			if(username!=null&&username.length()!=0)
-				map.put("username", username);
-			if(companyName!=null&&companyName.length()!=0)
-				map.put("companyName", companyName);
-			if(companyType!=null&&companyType.length()!=0)
-				map.put("companyType", companyType);
-			if(auditState!=null&&auditState.length()!=0)
-				map.put("auditState", auditState);
-			String str ="";
-			try {
-				Long beginTime = System.currentTimeMillis();
-				log.info("++++++++++长虹查询已审核列表信息服务开始"+beginTime);
-				str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
-				log.info("++++++++++长虹查询已审核列表信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
-			} catch (IOException | URISyntaxException e) {
-				e.printStackTrace();
-			}
-			try{
-				JSONObject data = ParseO2pDataUtil.getData(str);
-				String resultCode = data.getString("resultCode");
-				if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
-					response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
-					header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
-				}else{
-					Integer pageNo = Integer.valueOf(data.getString("pages"));
-					Integer pageSize = Integer.valueOf(data.getString("pageSize"));
-					Integer total = Integer.valueOf(data.getString("total"));
-					Integer pageCount = Integer.valueOf(data.getString("pageNum"));
-					pageInfo = new PageInfo<>();
-					pageInfo.setCount(total);
-					pageInfo.setPageCount(pageCount);
-					pageInfo.setPageNo(pageNo);
-					pageInfo.setPageSize(pageSize);
-					List<BusinessListInfo> responseList = new ArrayList<>();
-					JSONArray list =(JSONArray) JSON.parseArray(data.getString("list"));
-					Iterator<Object> iterator = list.iterator();
-					while(iterator.hasNext()){
-						BusinessListInfo businessInfo = new BusinessListInfo(); 
-						 JSONObject object = (JSONObject) iterator.next();
-						 String date = "";
-						 if(object.getString("createTime")!=null&&object.getString("createTime").length()!=0){
-								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-								date = sdf.format(Long.parseLong(object.getString("createTime")));
-							}
-						 String auditTime = "";
-						 if(object.getString("auditStateTime")!=null&&object.getString("auditStateTime").length()!=0){
-								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-								auditTime = sdf.format(Long.parseLong(object.getString("auditStateTime")));
-							}
-						 businessInfo.setUserId(object.getString("companyId"));
-						 businessInfo.setUserName(object.getString("username"));
-						 businessInfo.setCustName(object.getString("name"));
-						 businessInfo.setCreateTime(date);
-						 businessInfo.setAuditTime(auditTime);
-						 responseList.add(businessInfo);
-						}
-						pageInfo.setResult(responseList);
-						//System.out.println(JSON.toJSONString(responseList));
-						response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-						header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
-					}
-			}catch(Exception e){
-				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "查询失败");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "查询失败"); 
-			}
-				response.setResponseHeader(header);
-				response.setData(pageInfo);
-			return response;
-	}
-		
-		@RequestMapping("/updateAudit")
-		@ResponseBody
-		public ResponseData<String> updateAudit(HttpServletRequest request,String companyId,String auditState,String reason){
-			ResponseData<String> response = null;
-			ResponseHeader header = null;
-			GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-			Map<String, String> map = new HashMap<>();
-			Map<String, String> mapHeader = new HashMap<>();
-			mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
-			map.put("openId", user.getUserId());
-			map.put("auditState",auditState);
-			map.put("companyId",companyId);
-			String str ="";
-			try {
-				Long beginTime = System.currentTimeMillis();
-				log.info("++++++++++向通行证发起修改审核状态请求开始"+beginTime);
-				str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateAuditState_http_url"), JSON.toJSONString(map), mapHeader);
-				log.info("++++++++++向通行证发起修改审核状态请求结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
-			} catch (IOException | URISyntaxException e) {
-				e.printStackTrace();
-			}
+
+	// 查询已审核列表
+	@RequestMapping("/getCheckedList")
+	@ResponseBody
+	public ResponseData<PageInfo<BusinessListInfo>> getCheckedList(HttpServletRequest request, String companyName,
+			String username, String auditState, String companyType) {
+		ResponseData<PageInfo<BusinessListInfo>> response = null;
+		PageInfo<BusinessListInfo> pageInfo = null;
+		ResponseHeader header = null;
+		Map<String, String> map = new HashMap<>();
+		Map<String, String> mapHeader = new HashMap<>();
+		mapHeader.put(APPKEY, PropertiesUtil.getStringByKey(APPKEY));
+		map.put(PAGENO, request.getParameter(PAGENO));
+		map.put(PAGESIZE, request.getParameter(PAGESIZE));
+		if (username != null && username.length() != 0) {
+			map.put(USERNAME, username);
+		}
+		if (companyName != null && companyName.length() != 0) {
+			map.put("companyName", companyName);
+		}
+		if (companyType != null && companyType.length() != 0) {
+			map.put("companyType", companyType);
+		}
+		if (auditState != null && auditState.length() != 0) {
+			map.put("auditState", auditState);
+		}
+		String str = "";
+		try {
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"),
+					JSON.toJSONString(map), mapHeader);
+		} catch (IOException | URISyntaxException e) {
+			LOG.error("查询失败,失败信息" + JSON.toJSONString(e));
+		}
+		try {
 			JSONObject data = ParseO2pDataUtil.getData(str);
 			String resultCode = data.getString("resultCode");
-			if (resultCode!=null&&!OperateCode.SUCCESS.equals(resultCode)){
+			if (resultCode != null && !OperateCode.SUCCESS.equals(resultCode)) {
+				LOG.error("调用失败,resultCode" + resultCode);
 				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败"); 
-			}else {
-				String result = data.getString("result");
-				if ("success".equals(result)){
-					log.info("+++++++++++++++++++资质审核日志+++++++++++++++++++++");
-					log.info("资质审核日志:操作员Id:"+user.getUserId());
-					log.info("资质审核日志:操作员姓名:"+user.getLoginName());
-					log.info("资质审核日志:被审核Id:"+companyId);
-					log.info("资质审核日志:审核原因:"+reason);
-					log.info("资质审核日志:审核通过时间:"+format.format(DateUtil.getSysDate()));
-					log.info("+++++++++++++++++++资质审核日志++++++++++++++++++++++");
-					response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-					header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
+			} else {
+				Integer pageNo = Integer.valueOf(data.getString("pages"));
+				Integer pageSize = Integer.valueOf(data.getString(PAGESIZE));
+				Integer total = Integer.valueOf(data.getString("total"));
+				Integer pageCount = Integer.valueOf(data.getString("pageNum"));
+				pageInfo = new PageInfo<>();
+				pageInfo.setCount(total);
+				pageInfo.setPageCount(pageCount);
+				pageInfo.setPageNo(pageNo);
+				pageInfo.setPageSize(pageSize);
+				List<BusinessListInfo> responseList = new ArrayList<>();
+				JSONArray list = (JSONArray) JSON.parseArray(data.getString("list"));
+				Iterator<Object> iterator = list.iterator();
+				while (iterator.hasNext()) {
+					BusinessListInfo businessInfo = new BusinessListInfo();
+					JSONObject object = (JSONObject) iterator.next();
+					String date = "";
+					if (object.getString(CREATETIME) != null && object.getString(CREATETIME).length() != 0) {
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						date = sdf.format(Long.parseLong(object.getString(CREATETIME)));
+					}
+					String auditTime = "";
+					if (object.getString("auditStateTime") != null
+							&& object.getString("auditStateTime").length() != 0) {
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						auditTime = sdf.format(Long.parseLong(object.getString("auditStateTime")));
+					}
+					businessInfo.setUserId(object.getString(COMPANY_ID));
+					businessInfo.setUserName(object.getString(USERNAME));
+					businessInfo.setCustName(object.getString("name"));
+					businessInfo.setCreateTime(date);
+					businessInfo.setAuditTime(auditTime);
+					responseList.add(businessInfo);
 				}
-				else{
-					log.info("++++++++++++++++++++资质审核日志++++++++++++++++++++++");
-					log.info("资质审核日志:操作员Id:"+user.getUserId());
-					log.info("资质审核日志:操作员姓名:"+user.getLoginName());
-					log.info("资质审核日志:被审核Id:"+companyId);
-					log.info("资质审核日志审:核原因:"+reason);
-					log.info("资质审核日志:审核失败时间:"+format.format(DateUtil.getSysDate()));
-					log.info("++++++++++++++++++++资质审核日志+++++++++++++++++++++++");
-					response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
-					header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
-				}
-				response.setResponseHeader(header);
-
+				pageInfo.setResult(responseList);
+				// System.out.println(JSON.toJSONString(responseList));
+				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 			}
-			return response;
+		} catch (BusinessException e) {
+			LOG.error("操作失败,原因:" + JSON.toJSONString(e));
+			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "查询失败");
+			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "查询失败");
 		}
-		
-		/** 
-	     * 对字符串处理:将指定位置到指定位置的字符以星号代替 
-	     *  
-	     * @param content 
-	     *            传入的字符串 
-	     * @param begin 
-	     *            开始位置 
-	     * @param end 
-	     *            结束位置 
-	     * @return 
-	     */  
-	    private static String getStarString(String content, int begin, int end) {  
-	    	if(content!=null){
-	        if (begin >= content.length() || begin < 0) {  
-	            return content;  
-	        }  
-	        if (end >= content.length() || end < 0) {  
-	            return content;  
-	        }  
-	        if (begin >= end) {  
-	            return content;  
-	        } 
-	    	}
-	        String starStr = "";  
-	        for (int i = begin; i < end; i++) {  
-	            starStr = starStr + "*";  
-	        }  
-	        String str ="";
-	        if(content!=null){
-	        	str = content.substring(0, begin) + starStr + content.substring(end, content.length());
-	        }
-	        return str;  
-	  
-	    }  
-	    /** 
-	     * 对字符串处理:将指定位置到指定位置的字符以星号代替 
-	     *  
-	     * @param content 
-	     *            传入的字符串 
-	     * @param begin 
-	     *            开始位置 
-	     * @param end 
-	     *            结束位置 
-	     * @return 
-	     */  
-	    private static String getStarStringNoEnd(String content, int begin) {  
-	  
-	        if (begin >= content.length() || begin < 0) {  
-	            return content;  
-	        }  
-	        if (begin >= content.length()) {  
-	            return content;  
-	        }  
-	        String starStr = "";  
-	        for (int i = begin; i < content.length(); i++) {  
-	            starStr = starStr + "*";  
-	        }  
-	        String str ="";
-	        if(content!=null){
-	        	str = content.substring(0, begin) + starStr;  
-	        }
-	        return str; 
-	  
-	    }  
-		
+		response.setResponseHeader(header);
+		response.setData(pageInfo);
+		return response;
+	}
+
+	@RequestMapping("/updateAudit")
+	@ResponseBody
+	public ResponseData<String> updateAudit(HttpServletRequest request, String companyId, String auditState,
+			String reason) {
+		ResponseData<String> response = null;
+		ResponseHeader header = null;
+		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession()
+				.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+		Map<String, String> map = new HashMap<>();
+		Map<String, String> mapHeader = new HashMap<>();
+		mapHeader.put(APPKEY, PropertiesUtil.getStringByKey(APPKEY));
+		map.put("openId", user.getUserId());
+		map.put("auditState", auditState);
+		map.put(COMPANY_ID, companyId);
+		String str = "";
+		try {
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateAuditState_http_url"),
+					JSON.toJSONString(map), mapHeader);
+		} catch (IOException | URISyntaxException e) {
+			LOG.error("查询失败,失败信息" + JSON.toJSONString(e));
+		}
+		JSONObject data = ParseO2pDataUtil.getData(str);
+		String resultCode = data.getString("resultCode");
+		if (resultCode != null && !OperateCode.SUCCESS.equals(resultCode)) {
+			LOG.error("调用失败,resultCode" + resultCode);
+			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
+			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
+		} else {
+			String result = data.getString("result");
+			if ("success".equals(result)) {
+				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+			} else {
+				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
+				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
+			}
+			response.setResponseHeader(header);
+
+		}
+		return response;
+	}
+
+	/**
+	 * 对字符串处理:将指定位置到指定位置的字符以星号代替
+	 * 
+	 * @param content
+	 *            传入的字符串
+	 * @param begin
+	 *            开始位置
+	 * @param end
+	 *            结束位置
+	 * @return
+	 */
+	private static String getStarString(String content, int begin, int end) {
+		if (content != null) {
+			if (begin >= content.length() || begin < 0) {
+				return content;
+			}
+			if (end >= content.length() || end < 0) {
+				return content;
+			}
+			if (begin >= end) {
+				return content;
+			}
+		}
+		StringBuffer starStr = new StringBuffer();
+		for (int i = begin; i < end; i++) {
+			starStr.append("*");
+		}
+		String str = "";
+		str = content.substring(0, begin) + starStr + content.substring(end, content.length());
+		return str;
+
+	}
+
+	/**
+	 * 对字符串处理:将指定位置到指定位置的字符以星号代替
+	 * 
+	 * @param content
+	 *            传入的字符串
+	 * @param begin
+	 *            开始位置
+	 * @param end
+	 *            结束位置
+	 * @return
+	 */
+	private static String getStarStringNoEnd(String content, int begin) {
+
+		if (begin >= content.length() || begin < 0) {
+			return content;
+		}
+		if (begin >= content.length()) {
+			return content;
+		}
+		StringBuffer starStr = new StringBuffer();
+		for (int i = begin; i < content.length(); i++) {
+			starStr.append("*");
+		}
+		String str = "";
+		str = content.substring(0, begin) + starStr;
+		return str;
+
+	}
+
 }

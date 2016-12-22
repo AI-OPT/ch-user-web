@@ -48,7 +48,7 @@ public class BusinessListInfo {
 	/**
 	 * 经营品类
 	 */
-	public String BusinessCategory;
+	public String businessCategory;
 
 	/**
 	 * 审核时间
@@ -146,11 +146,11 @@ public class BusinessListInfo {
 	}
 
 	public String getBusinessCategory() {
-		return BusinessCategory;
+		return businessCategory;
 	}
 
 	public void setBusinessCategory(String businessCategory) {
-		BusinessCategory = businessCategory;
+		this.businessCategory = businessCategory;
 	}
 
 }

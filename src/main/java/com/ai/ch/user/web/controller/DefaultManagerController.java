@@ -41,6 +41,7 @@ import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.util.PayUtil;
 import com.ai.ch.user.web.util.PropertiesUtil;
 import com.ai.ch.user.web.vo.BusinessListInfo;
+import com.ai.opt.base.exception.BusinessException;
 import com.ai.opt.base.exception.SystemException;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
@@ -60,6 +61,7 @@ import com.ai.platform.common.api.tenant.param.GnTenantVo;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.esotericsoftware.minlog.Log;
 import com.upp.docking.covn.MsgString;
 import com.ylink.upp.base.oxm.XmlBodyEntity;
 import com.ylink.upp.base.oxm.util.Dom4jHelper;
@@ -93,7 +95,7 @@ public class DefaultManagerController {
 	
 	
 	@RequestMapping("/addDefaultInfo")
-	public ModelAndView addDefaultInfo(HttpServletRequest request,String userId,String userName,String custName) {
+	public ModelAndView addDefaultInfo(HttpServletRequest request,String userId,String userName,String custName) throws Exception {
 		long startTime = System.currentTimeMillis();
 		LOGGER.info("扣款请求开始----------"+startTime);
 		ReqsInfo reqsInfo = new ReqsInfo();
@@ -138,7 +140,7 @@ public class DefaultManagerController {
 			LOGGER.info("msgXmlMsg================="+msgHeader);
 			LOGGER.info("msgHeader================="+msgHeader);
 			
-		}catch(Exception e){
+		}catch(BusinessException e){
 			LOGGER.error("组装数据出错",e);
 			return new ModelAndView("/jsp/defaultManager/fail");
 		}
@@ -194,11 +196,11 @@ public class DefaultManagerController {
 		 		try {
 					model.put("userName", URLDecoder.decode(userName,"utf-8"));
 					model.put("custName", URLDecoder.decode(custName,"utf-8"));
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
+				} catch (BusinessException e) {
+					Log.error("操作失败"+JSON.toJSONString(e));
 				}
 		 		model.put("balance", Double.parseDouble(balance)/100);
-			}catch(Exception e){
+			}catch(BusinessException e){
 				return new ModelAndView("/jsp/defaultManager/fail");
 			}
 		}else{
@@ -216,22 +218,21 @@ public class DefaultManagerController {
 			PayUtil payUtil = new PayUtil();
 			boolean verify = payUtil.verify(xmlMsg, sign);
 			if (!verify) {
-				 throw new Exception("验签失败.");
+				 throw new BusinessException("验签失败.");
 			}
 			HeaderBean headerBean = new HeaderBean();
 			HandlerMsgUtil.conversion(msgHeader, headerBean);
 			xmlMsg = Dom4jHelper.addNamespace(xmlMsg, headerBean.getMesgType(), "UTF-8");
 			return (XmlBodyEntity) oxmHandler.unmarshaller(xmlMsg);
 		} catch (Exception e) {
-			System.out.println("接收数据时发生异常，错误信息为:" + e.getMessage());
-			throw new RuntimeException(e);
+			throw new BusinessException(e);
 		}
 
 	}
 
 	@RequestMapping("/saveDefaultInfo")
 	@ResponseBody
-	public ResponseData<String> saveDefaultInfo(HttpServletRequest request,DefaultLogVo defaultLogInfo) {
+	public ResponseData<String> saveDefaultInfo(HttpServletRequest request,DefaultLogVo defaultLogInfo) throws Exception {
 		long startTime = System.currentTimeMillis();
 		LOGGER.info("保存扣款记录开始---------"+startTime);
 		ISysUserQuerySV sysUserQuery = DubboConsumerFactory.getService("iSysUserQuerySV");
@@ -291,7 +292,7 @@ public class DefaultManagerController {
 			body.setCustType("02");//企业
 			//扣保证金的企业
 			body.setPayCustNo(gnTenantVo.getDebitSide());
-			BigDecimal orderAmt = new BigDecimal("0");
+			BigDecimal orderAmt = new BigDecimal(0);
 			List<PayOrderDetail> details = new ArrayList<PayOrderDetail>();
 			PayOrderDetail detail = new PayOrderDetail();
 			//detail.setProductAmt();//扣保证金金额（分）
@@ -374,7 +375,7 @@ public class DefaultManagerController {
 	            responseHeader = new ResponseHeader(false,ExceptionCode.ERROR_CODE, "操作失败");
 	            LOGGER.error("返回结果result为空");
 			}
-        }catch(Exception e){
+        }catch(BusinessException e){
         	defaultLog.deleteDefaultLog(defaultLogResponse.getSerialCode());
         	responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
             responseHeader = new ResponseHeader(false,ExceptionCode.ERROR_CODE, "操作失败");
@@ -388,14 +389,14 @@ public class DefaultManagerController {
 	}
 	
 	@RequestMapping("/defaultHistoryPager")
-	public ModelAndView defaultHistoryPager(HttpServletRequest request,String userId,String userName,String custName) {
+	public ModelAndView defaultHistoryPager(HttpServletRequest request,String userId,String userName,String custName) throws UnsupportedEncodingException {
 		Map<String, Object> model = new HashMap<String, Object>();
  		model.put("userId", userId);
  		try {
 			model.put("userName", URLDecoder.decode(userName,"utf-8"));
 			model.put("custName", URLDecoder.decode(custName,"utf-8"));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		} catch (BusinessException e) {
+			Log.error("操作失败"+JSON.toJSONString(e));
 		}
 		return new ModelAndView("/jsp/defaultManager/defaultHistoryList",model);
 	}
@@ -420,8 +421,8 @@ public class DefaultManagerController {
 			} else {
 				responseData = new ResponseData<PageInfo<DefaultLogVo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (BusinessException e) {
+			Log.error("操作失败"+JSON.toJSONString(e));
 			responseData = new ResponseData<PageInfo<DefaultLogVo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
 		}
 		long endTime = System.currentTimeMillis();
@@ -432,7 +433,7 @@ public class DefaultManagerController {
 	//查询列表
 	@RequestMapping("/getList")
 	@ResponseBody
-	public ResponseData<PageInfo<BusinessListInfo>> getList(HttpServletRequest request,String companyName,String username,String companyType){
+	public ResponseData<PageInfo<BusinessListInfo>> getList(HttpServletRequest request,String companyName,String username,String companyType)throws Exception{
 		long startTime = System.currentTimeMillis();
 		LOGGER.info("获取用户列表开始"+startTime);
 		ResponseData<PageInfo<BusinessListInfo>> response = null;
@@ -443,12 +444,15 @@ public class DefaultManagerController {
 		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("pageNo", request.getParameter("pageNo"));
 		map.put("pageSize", request.getParameter("pageSize"));
-		if(username!=null&&username.length()!=0)
+		if(username!=null&&username.length()!=0){
 			map.put("username", username);
-		if(companyName!=null&&companyName.length()!=0)
+		}
+		if(companyName!=null&&companyName.length()!=0){
 			map.put("companyName", companyName);
-		if(companyType!=null&&companyType.length()!=0)
+		}
+		if(companyType!=null&&companyType.length()!=0){
 			map.put("companyType", companyType);
+		}
 		String str ="";
 		try {
 			Long beginTime = System.currentTimeMillis();
@@ -456,7 +460,7 @@ public class DefaultManagerController {
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
 			LOGGER.info("长虹查询商户列表信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
+			Log.error("操作失败"+JSON.toJSONString(e));
 		}
 		try{
 			JSONObject data = ParseO2pDataUtil.getData(str);
@@ -491,7 +495,7 @@ public class DefaultManagerController {
 				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				}
-		}catch(Exception e){
+		}catch(BusinessException e){
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
 			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败"); 
 		}
@@ -512,7 +516,7 @@ public class DefaultManagerController {
 	        	com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo receive2 = (com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo) resultMsg;
 	            if(!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())){
 	            	flag = false;
-	            	throw new RuntimeException("系统异常.");
+	            	throw new BusinessException("系统异常.");
 	            }
 	        }
 	        
@@ -530,9 +534,9 @@ public class DefaultManagerController {
 	        }
 	        LOGGER.info("扣款结束===================");
 	        flag = true;
-		}catch(Exception e){
+		}catch(BusinessException e){
 			flag = false;
-			e.printStackTrace();
+			Log.error("操作失败"+JSON.toJSONString(e));
 		}
 		if(flag){
 			return "SUCCESS";
@@ -549,7 +553,7 @@ public class DefaultManagerController {
 			GnTenantConditon condition = new GnTenantConditon();
 			condition.setTenantId(user.getTenantId());
 			gntenatVo = GnTenantQuerySV.getTenant(condition);
-		}catch(Exception e){
+		}catch(BusinessException e){
 			LOGGER.error("获取租户信息出错",e);
 		}
 		return gntenatVo;

@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,6 +39,7 @@ import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.model.user.CustFileListVo;
 import com.ai.ch.user.web.util.PropertiesUtil;
 import com.ai.ch.user.web.vo.BusinessListInfo;
+import com.ai.opt.base.exception.BusinessException;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.dss.DSSClientFactory;
@@ -64,6 +64,10 @@ import com.alibaba.fastjson.JSONObject;
 public class ContractController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ContractController.class);
+	
+	private static final String ICONTRACTSV = "iContractSV";
+	private static final String FORMAT = "yyyy-MM-dd";
+	private static final String CONTACTINFO = "contactInfo";
 
 	/**
 	 * 合同供应商列表信息
@@ -93,9 +97,7 @@ public class ContractController {
 	@RequestMapping("/contractSupplierManagerPager")
 	public ModelAndView contractManagerPager(HttpServletRequest request, String userId, String userName,
 			String custName) {
-		long startTime = System.currentTimeMillis();
-		LOGGER.info("合同管理，供应商管理页面请求开始----------" + startTime);
-		IContractSV contract = DubboConsumerFactory.getService("iContractSV");
+		IContractSV contract = DubboConsumerFactory.getService(ICONTRACTSV);
 		ContactInfoRequest contactInfo = new ContactInfoRequest();
 		contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SUPPLIER);
 		GeneralSSOClientUser userClient = (GeneralSSOClientUser) request.getSession()
@@ -103,19 +105,16 @@ public class ContractController {
 		contactInfo.setTenantId(userClient.getTenantId());
 		contactInfo.setUserId(userId);
 
-		long queryTime = System.currentTimeMillis();
 		ContractInfoResponse response = contract.queryContractInfo(contactInfo);
-		long ctContractInfoTime = System.currentTimeMillis();
-		LOGGER.info("查询ct_contract_info耗时----------" + (ctContractInfoTime - queryTime));
 
 		response.setUserId(userId);
 		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("contactInfo", response);
+		model.put(CONTACTINFO, response);
 		if (response.getActiveTime() != null) {
-			model.put("startTime", DateUtil.getDateString(response.getActiveTime(), "yyyy-MM-dd"));
+			model.put("startTime", DateUtil.getDateString(response.getActiveTime(), FORMAT));
 		}
 		if (response.getInactiveTime() != null) {
-			model.put("endTime", DateUtil.getDateString(response.getInactiveTime(), "yyyy-MM-dd"));
+			model.put("endTime", DateUtil.getDateString(response.getInactiveTime(), FORMAT));
 		}
 		model.put("userId", userId);
 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
@@ -123,10 +122,7 @@ public class ContractController {
 		custFileExtRequest.setUsreId(userId);
 		custFileExtRequest.setInfoType(ChWebConstants.INFOTYPE_SUPPLIER);
 		ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
-		long queryCustFileTime = System.currentTimeMillis();
 		QueryCustFileExtResponse custFileExtResponse = custFileSV.queryCustFileExt(custFileExtRequest);
-		long cmcustFileTime = System.currentTimeMillis();
-		LOGGER.info("查询cm_cust_file_ext耗时----------" + (cmcustFileTime - queryCustFileTime));
 
 		List<CmCustFileExtVo> list = custFileExtResponse.getList();
 
@@ -155,11 +151,8 @@ public class ContractController {
 			model.put("userName", URLDecoder.decode(userName, "utf-8"));
 			model.put("custName", URLDecoder.decode(custName, "utf-8"));
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			LOGGER.error("操作失败,原因:"+JSON.toJSONString(e));
 		}
-		long endTime = System.currentTimeMillis();
-		LOGGER.info("合同管理，供应商管理页面请求结束----------" + endTime);
-		LOGGER.info("供应商管理页面一共耗时" + (endTime - startTime));
 		return new ModelAndView("/jsp/contract/supplier/contractManager", model);
 	}
 
@@ -175,25 +168,22 @@ public class ContractController {
 			String custName) {
 		long startTime = System.currentTimeMillis();
 		LOGGER.info("合同管理，店铺管理页面请求开始----------" + startTime);
-		IContractSV contract = DubboConsumerFactory.getService("iContractSV");
+		IContractSV contract = DubboConsumerFactory.getService(ICONTRACTSV);
 		ContactInfoRequest contactInfo = new ContactInfoRequest();
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession()
 				.getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SHOP);
 		contactInfo.setTenantId(user.getTenantId());
 		contactInfo.setUserId(userId);
-		long querycontracttime = System.currentTimeMillis();
 		ContractInfoResponse response = contract.queryContractInfo(contactInfo);
-		long ctContractInfoTime = System.currentTimeMillis();
-		LOGGER.info("查询ct_contract_info耗时----------" + (ctContractInfoTime - querycontracttime));
 
 		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("contactInfo", response);
+		model.put(CONTACTINFO, response);
 		if (response.getActiveTime() != null) {
-			model.put("startTime", DateUtil.getDateString(response.getActiveTime(), "yyyy-MM-dd"));
+			model.put("startTime", DateUtil.getDateString(response.getActiveTime(), FORMAT));
 		}
 		if (response.getInactiveTime() != null) {
-			model.put("endTime", DateUtil.getDateString(response.getInactiveTime(), "yyyy-MM-dd"));
+			model.put("endTime", DateUtil.getDateString(response.getInactiveTime(), FORMAT));
 		}
 		model.put("userId", userId);
 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
@@ -234,12 +224,8 @@ public class ContractController {
 			model.put("userName", URLDecoder.decode(userName, "utf-8"));
 			model.put("custName", URLDecoder.decode(custName, "utf-8"));
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			LOGGER.error("操作失败,原因:"+JSON.toJSONString(e));
 		}
-
-		long endTime = System.currentTimeMillis();
-		LOGGER.info("合同管理，店铺管理页面请求结束----------" + endTime);
-		LOGGER.info("店铺管理页面一共耗时" + (endTime - startTime));
 
 		return new ModelAndView("/jsp/contract/shop/contractManager", model);
 	}
@@ -259,7 +245,7 @@ public class ContractController {
 		long startTime = System.currentTimeMillis();
 		LOGGER.info("合同管理，供应商合同详情页面请求开始----------" + startTime);
 
-		IContractSV contract = DubboConsumerFactory.getService("iContractSV");
+		IContractSV contract = DubboConsumerFactory.getService(ICONTRACTSV);
 		ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
 
 		ContactInfoRequest contactInfo = new ContactInfoRequest();
@@ -269,10 +255,7 @@ public class ContractController {
 		contactInfo.setTenantId(user.getTenantId());
 		contactInfo.setUserId(userId);
 
-		long querycontracttime = System.currentTimeMillis();
 		ContractInfoResponse response = contract.queryContractInfo(contactInfo);
-		long ctContractInfoTime = System.currentTimeMillis();
-		LOGGER.info("查询ct_contract_info耗时----------" + (ctContractInfoTime - querycontracttime));
 
 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
 		custFileExtRequest.setTenantId(user.getTenantId());
@@ -302,7 +285,7 @@ public class ContractController {
 				// model.put("scanDownLoadName", new
 				// Date().getTime()+infoName.substring(infoName.lastIndexOf("."),infoName.length()));
 				model.put("scanDownLoadName",
-						UUIDUtil.genShortId() + infoName.substring(infoName.lastIndexOf("."), infoName.length()));
+						UUIDUtil.genShortId() + infoName.substring(infoName.lastIndexOf('.'), infoName.length()));
 				model.put("scanContractAttrValue", attrValue);
 				model.put("scanContractInfoItem", infoItem);
 			} else {
@@ -310,13 +293,13 @@ public class ContractController {
 				model.put("electronicContractInfoName", infoName);
 				if (!"".equals(infoName)) {
 					model.put("electronicDownLoadName",
-							new Date().getTime() + infoName.substring(infoName.lastIndexOf("."), infoName.length()));
+							new Date().getTime() + infoName.substring(infoName.lastIndexOf('.'), infoName.length()));
 				}
 				model.put("electronicContractAttrValue", attrValue);
 				model.put("electronicContractInfoItem", infoItem);
 			}
 		}
-		model.put("contactInfo", response);
+		model.put(CONTACTINFO, response);
 		int remarkLength = 0;
 		if (response.getRemark() != null) {
 			remarkLength = response.getRemark().length();
@@ -327,21 +310,17 @@ public class ContractController {
 			}
 		}
 		if (response.getActiveTime() != null) {
-			model.put("startTime", DateUtil.getDateString(response.getActiveTime(), "yyyy-MM-dd"));
+			model.put("startTime", DateUtil.getDateString(response.getActiveTime(), FORMAT));
 		}
 		if (response.getInactiveTime() != null) {
-			model.put("endTime", DateUtil.getDateString(response.getInactiveTime(), "yyyy-MM-dd"));
+			model.put("endTime", DateUtil.getDateString(response.getInactiveTime(), FORMAT));
 		}
 		try {
 			model.put("userName", URLDecoder.decode(userName, "utf-8"));
 			model.put("custName", URLDecoder.decode(custName, "utf-8"));
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			LOGGER.error("操作失败,原因:"+JSON.toJSONString(e));
 		}
-
-		long endTime = System.currentTimeMillis();
-		LOGGER.info("合同管理，供应商合同页面请求结束----------" + endTime);
-		LOGGER.info("供应商合同详情一共耗时" + (endTime - startTime));
 
 		return new ModelAndView("/jsp/contract/supplier/contractDetail", model);
 	}
@@ -361,7 +340,7 @@ public class ContractController {
 		long startTime = System.currentTimeMillis();
 		LOGGER.info("合同管理，店铺合同详情页面请求开始----------" + startTime);
 
-		IContractSV contract = DubboConsumerFactory.getService("iContractSV");
+		IContractSV contract = DubboConsumerFactory.getService(ICONTRACTSV);
 		ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
 		ContactInfoRequest contactInfo = new ContactInfoRequest();
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession()
@@ -370,10 +349,7 @@ public class ContractController {
 		contactInfo.setTenantId(user.getTenantId());
 		contactInfo.setUserId(userId);
 
-		long querycontract = System.currentTimeMillis();
 		ContractInfoResponse response = contract.queryContractInfo(contactInfo);
-		long ctContractInfoTime = System.currentTimeMillis();
-		LOGGER.info("查询ct_contract_info耗时----------" + (ctContractInfoTime - querycontract));
 
 		/**
 		 * 附件信息
@@ -406,21 +382,21 @@ public class ContractController {
 				// model.put("scanDownLoadName", new
 				// Date().getTime()+infoName.substring(infoName.lastIndexOf("."),infoName.length()));
 				model.put("scanDownLoadName",
-						UUIDUtil.genShortId() + infoName.substring(infoName.lastIndexOf("."), infoName.length()));
+						UUIDUtil.genShortId() + infoName.substring(infoName.lastIndexOf('.'), infoName.length()));
 				model.put("scanContractAttrValue", attrValue);
 				model.put("scanContractInfoItem", infoItem);
 			} else {
 				model.put("electronicContractInfoName", infoName);
 				if (!"".equals(infoName)) {
 					model.put("electronicDownLoadName",
-							new Date().getTime() + infoName.substring(infoName.lastIndexOf("."), infoName.length()));
+							new Date().getTime() + infoName.substring(infoName.lastIndexOf('.'), infoName.length()));
 				}
 				model.put("electronicContractAttrValue", attrValue);
 				model.put("electronicContractInfoItem", infoItem);
 			}
 		}
 
-		model.put("contactInfo", response);
+		model.put(CONTACTINFO, response);
 		int remarkLength = 0;
 		if (response.getRemark() != null) {
 			remarkLength = response.getRemark().length();
@@ -431,20 +407,17 @@ public class ContractController {
 			}
 		}
 		if (response.getActiveTime() != null) {
-			model.put("startTime", DateUtil.getDateString(response.getActiveTime(), "yyyy-MM-dd"));
+			model.put("startTime", DateUtil.getDateString(response.getActiveTime(), FORMAT));
 		}
 		if (response.getInactiveTime() != null) {
-			model.put("endTime", DateUtil.getDateString(response.getInactiveTime(), "yyyy-MM-dd"));
+			model.put("endTime", DateUtil.getDateString(response.getInactiveTime(), FORMAT));
 		}
 		try {
 			model.put("userName", URLDecoder.decode(userName, "utf-8"));
 			model.put("custName", URLDecoder.decode(custName, "utf-8"));
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			LOGGER.error("操作失败,原因:"+JSON.toJSONString(e));
 		}
-		long endTime = System.currentTimeMillis();
-		LOGGER.info("合同管理，店铺合同页面请求结束----------" + endTime);
-		LOGGER.info("店铺合同详情一共耗时" + (endTime - startTime));
 		return new ModelAndView("/jsp/contract/shop/contractDetail", model);
 	}
 
@@ -458,7 +431,7 @@ public class ContractController {
 	@RequestMapping("/addShopContractInfo")
 	@ResponseBody
 	public ModelAndView addShopContractInfo(HttpServletRequest request, ContactInfoRequest contractInfo,
-			CustFileListVo custFileListVo) {
+			CustFileListVo custFileListVo)throws Exception {
 		long start = System.currentTimeMillis();
 		LOGGER.info("添加店铺合同信息开始----------" + start);
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession()
@@ -472,7 +445,7 @@ public class ContractController {
 			contractInfo.setTenantId(user.getTenantId());
 			contractInfo.setUserId(contractInfo.getUserId());
 
-			IContractSV contract = DubboConsumerFactory.getService("iContractSV");
+			IContractSV contract = DubboConsumerFactory.getService(ICONTRACTSV);
 			ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
 
 			long uploadtime = System.currentTimeMillis();
@@ -539,7 +512,7 @@ public class ContractController {
 			contract.insertContractInfo(contractInfo);
 			long insertContractTime = System.currentTimeMillis();
 			LOGGER.info("添加店铺合同信息表ct_contract_info耗时----------" + (insertContractTime - insertcontracttime));
-		} catch (Exception e) {
+		} catch (BusinessException | IOException e) {
 			LOGGER.error("操作失败");
 			return new ModelAndView("/jsp/contract/shop/fail");
 		}
@@ -559,10 +532,7 @@ public class ContractController {
 	@RequestMapping("/addSupplierContractInfo")
 	@ResponseBody
 	public ModelAndView addSupplierContractInfo(HttpServletRequest request, ContactInfoRequest contractInfo,
-			CustFileListVo custFileListVo) {
-
-		long start = System.currentTimeMillis();
-		LOGGER.info("添加供应商合同信息开始----------" + start);
+			CustFileListVo custFileListVo) throws Exception{
 
 		String startTime = request.getParameter("startTime");
 		String endTime = request.getParameter("endTime");
@@ -575,10 +545,9 @@ public class ContractController {
 			contractInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SUPPLIER);
 			contractInfo.setTenantId(user.getTenantId());
 			contractInfo.setUserId(contractInfo.getUserId());
-			IContractSV contract = DubboConsumerFactory.getService("iContractSV");
+			IContractSV contract = DubboConsumerFactory.getService(ICONTRACTSV);
 			ICustFileSV custFileSV = DubboConsumerFactory.getService("iCustfileSV");
 
-			long uploadfiletime = System.currentTimeMillis();
 			MultipartHttpServletRequest file = (MultipartHttpServletRequest) request;
 			MultipartFile multiScanFile = file.getFile("scanFile");
 			MultipartFile multiElectronicFile = file.getFile("electronicFile");
@@ -627,26 +596,16 @@ public class ContractController {
 					fileList.add(extVo);
 				}
 			}
-			long uploadTime = System.currentTimeMillis();
-			LOGGER.info("上传合同附件耗时----------" + (uploadTime - uploadfiletime));
 			if (!CollectionUtil.isEmpty(fileList) && fileList.size() > 0) {
 				updateCustFileExtRequest.setList(fileList);
 				custFileSV.updateCustFileExtBycondition(updateCustFileExtRequest);
 			}
-			long insertCustFileTime = System.currentTimeMillis();
-			LOGGER.info("添加附件信息表耗时----------" + (insertCustFileTime - uploadTime));
-			
-			long insertcontract = System.currentTimeMillis();
 			contract.insertContractInfo(contractInfo);
-			long insertContractTime = System.currentTimeMillis();
-			LOGGER.info("添加店铺合同信息表ct_contract_info耗时----------" + (insertContractTime - insertcontract));
 			
-		} catch (Exception e) {
-			LOGGER.error("操作失败");
+		} catch (BusinessException | IOException e) {
+			LOGGER.error("操作失败"+JSON.toJSONString(e));
 			return new ModelAndView("/jsp/contract/supplier/fail");
 		}
-		long end = System.currentTimeMillis();
-		LOGGER.info("添加供应商合同信息共耗时----------" + (end - start));
 		return new ModelAndView("/jsp/contract/supplier/success");
 
 	}
@@ -659,15 +618,14 @@ public class ContractController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MultipartHttpServletRequest file = (MultipartHttpServletRequest) request;
 		MultipartFile multiFile = file.getFile(contractFileId);
-		System.out.println(file.getLocalName());
 		String dssns = "ch-user-detail-dss";
 		try {
 			IDSSClient client = DSSClientFactory.getDSSClient(dssns);
 			String fileId = client.save(multiFile.getBytes(), "remark");
 			map.put("isTrue", true);
 			map.put("dssId", fileId);
-		} catch (Exception e) {
-			LOGGER.error("上传失败");
+		} catch (BusinessException | IOException e) {
+			LOGGER.error("上传失败"+JSON.toJSONString(e));
 			map.put("isTrue", false);
 		}
 		return JSON.toJSONString(map);
@@ -687,8 +645,8 @@ public class ContractController {
 			String idpsId = im.upLoadImage(multiFile.getBytes(), UUIDUtil.genId32() + ".png");
 			map.put("isTrue", true);
 			map.put("dssId", idpsId);
-		} catch (Exception e) {
-			LOGGER.error("上传失败");
+		} catch (BusinessException | IOException e) {
+			LOGGER.error("上传失败"+JSON.toJSONString(e));
 			map.put("isTrue", false);
 		}
 		return JSON.toJSONString(map);
@@ -714,8 +672,8 @@ public class ContractController {
 			os.write(b);
 			os.flush();
 			os.close();
-		} catch (Exception e) {
-			LOGGER.error("下载文件失败", e);
+		} catch (BusinessException | IOException e) {
+			LOGGER.error("下载文件失败"+JSON.toJSONString(e));
 			if (os != null) {
 				try {
 					os.close();
@@ -724,8 +682,6 @@ public class ContractController {
 				}
 			}
 		}
-		long endTime = System.currentTimeMillis();
-		LOGGER.info("下载文件结束---------------" + (endTime - startTime));
 	}
 
 	@RequestMapping("/downloadImage/{fileName}")
@@ -738,14 +694,14 @@ public class ContractController {
 			response.reset();// 清空输出流
 			response.setContentType("application/pdf");// 定义输出类型
 			response.setHeader("Content-disposition", "attachment; filename=" + exportFileName);// 设定输出文件头
-			String idpsns = "ch-user-web-idps";
-			IImageClient client = IDPSClientFactory.getImageClient(idpsns);
+			//String idpsns = "ch-user-web-idps";
+			//IImageClient client = IDPSClientFactory.getImageClient(idpsns);
 			// byte[] b=client.getImage(imageId, imageType, imageScale)
 			// os.write(b);
 			os.flush();
 			os.close();
-		} catch (Exception e) {
-			LOGGER.error("下载文件失败", e);
+		} catch (BusinessException | IOException e) {
+			LOGGER.error("下载文件失败"+JSON.toJSONString(e));
 			if (os != null) {
 				try {
 					os.close();
@@ -758,7 +714,7 @@ public class ContractController {
 	}
 
 	public Map<String, ContractInfoResponse> getContractList(String tenantId) {
-		IContractSV contract = DubboConsumerFactory.getService("iContractSV");
+		IContractSV contract = DubboConsumerFactory.getService(ICONTRACTSV);
 		ContactInfoRequest contactInfo = new ContactInfoRequest();
 		contactInfo.setContractType(ChWebConstants.CONTRACT_TYPE_SUPPLIER);
 		contactInfo.setTenantId(tenantId);
@@ -780,7 +736,7 @@ public class ContractController {
 		ResponseHeader header = null;
 
 		try {
-			IContractSV contractSV = DubboConsumerFactory.getService("iContractSV");
+			IContractSV contractSV = DubboConsumerFactory.getService(ICONTRACTSV);
 			String userId = contractRequest.getUserId();
 			contractRequest.setUserId(null);
 			ContractInfoResponse accountQueryResponse = contractSV.queryContractInfo(contractRequest);
@@ -803,7 +759,7 @@ public class ContractController {
 					responseData.setResponseHeader(header);
 				}
 			}
-		} catch (Exception e) {
+		} catch (BusinessException e) {
 			responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "合同名称校验失败", null);
 		}
 		return responseData;
@@ -816,7 +772,7 @@ public class ContractController {
 		ResponseHeader header = null;
 
 		try {
-			IContractSV contractSV = DubboConsumerFactory.getService("iContractSV");
+			IContractSV contractSV = DubboConsumerFactory.getService(ICONTRACTSV);
 			String userId = contractRequest.getUserId();
 			contractRequest.setUserId(null);
 			ContractInfoResponse accountQueryResponse = contractSV.queryContractInfo(contractRequest);
@@ -839,7 +795,7 @@ public class ContractController {
 					responseData.setResponseHeader(header);
 				}
 			}
-		} catch (Exception e) {
+		} catch (BusinessException e) {
 			responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "合同编号校验失败", null);
 		}
 		return responseData;
@@ -848,7 +804,7 @@ public class ContractController {
 	// 查询列表
 	@RequestMapping("/getList")
 	@ResponseBody
-	public ResponseData<PageInfo<BusinessListInfo>> getList(HttpServletRequest request,String companyName,String username,String companyType){
+	public ResponseData<PageInfo<BusinessListInfo>> getList(HttpServletRequest request,String companyName,String username,String companyType)throws Exception{
 		ResponseData<PageInfo<BusinessListInfo>> response = null;
 		PageInfo<BusinessListInfo> pageInfo =null;
 		ResponseHeader header = null;
@@ -857,19 +813,21 @@ public class ContractController {
 		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("pageNo", request.getParameter("pageNo"));
 		map.put("pageSize", request.getParameter("pageSize"));
-		if(username!=null&&username.length()!=0)
+		if(username!=null&&username.length()!=0){
 			map.put("username", username);
-		if(companyName!=null&&companyName.length()!=0)
+		}
+		if(companyName!=null&&companyName.length()!=0){
 			map.put("companyName", companyName);
-		if(companyType!=null&&companyType.length()!=0)
+		}
+		if(companyType!=null&&companyType.length()!=0){
 			map.put("companyType", companyType);
+		}
 		String str ="";
 		try {
-			Long beginTime = System.currentTimeMillis();
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
 			
 		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
+			LOGGER.error("操作失败,原因:"+JSON.toJSONString(e));
 		}
 		List<BusinessListInfo> responseList = new ArrayList<>();
 		try{
@@ -950,7 +908,7 @@ public class ContractController {
 			}
 			header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
 			responseData = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
-		} catch (Exception e) {
+		} catch (BusinessException e) {
 			responseData = new ResponseData<Object>(ResponseData.AJAX_STATUS_FAILURE, "图片删除失败", null);
 		}
 		responseData.setResponseHeader(header);

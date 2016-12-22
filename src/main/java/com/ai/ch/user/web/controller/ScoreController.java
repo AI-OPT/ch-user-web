@@ -32,6 +32,7 @@ import com.ai.ch.user.web.constants.ChWebConstants.OperateCode;
 import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.util.PropertiesUtil;
 import com.ai.ch.user.web.vo.SupplierScoreVo;
+import com.ai.opt.base.exception.BusinessException;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
@@ -47,7 +48,7 @@ import com.alibaba.fastjson.JSONObject;
 @RequestMapping("/score")
 public class ScoreController {
 	
-	private static final Log log = LogFactory.getLog(ScoreController.class);
+	private static final Log LOG = LogFactory.getLog(ScoreController.class);
 	
 	//跳转供货商评价管理
 	@RequestMapping("/scorelist")
@@ -68,9 +69,9 @@ public class ScoreController {
 		QueryScoreKpiRequest queryScoreKpiRequest = new QueryScoreKpiRequest();
 		queryScoreKpiRequest.setTenantId("changhong");
 		Long beginTime = System.currentTimeMillis();
-		log.info("查询店铺综合评分服务开始"+beginTime);
+		LOG.info("查询店铺综合评分服务开始"+beginTime);
 		QueryScoreKpiResponse queryScoreKpiResponse = scoreSV.queryScoreKpi(queryScoreKpiRequest);
-		log.info("查询店铺综合评分结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+		LOG.info("查询店铺综合评分结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		model.addObject("scoreKpiList", queryScoreKpiResponse.getList());
 		return model;
 	}
@@ -93,12 +94,13 @@ public class ScoreController {
 		String tenantId =ChWebConstants.COM_TENANT_ID;
 		//操作员ID
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-		log.error("++++++++获取封装用户信息"+JSON.toJSONString(user));
+		LOG.error("++++++++获取封装用户信息"+JSON.toJSONString(user));
 		String operId = user.getUserId();
 		//总分
 		Integer totalScore =0;
-		for(int i=1;i<=4;i++)
+		for(int i=1;i<=4;i++){
 			totalScore+=Integer.valueOf(request.getParameter(String.valueOf(i)).toString());
+		}
 		//评分指标
 		scoreLogRequest.setScore1(Integer.valueOf(request.getParameter(String.valueOf(1)).toString()));
 		scoreLogRequest.setScore2(Integer.valueOf(request.getParameter(String.valueOf(2)).toString()));
@@ -115,18 +117,18 @@ public class ScoreController {
 		scoreLogRequest.setTotalScore(totalScore);
 		try{
 			Long beginTime = System.currentTimeMillis();
-			log.info("保存供应商评分信息服务开始"+beginTime);
+			LOG.info("保存供应商评分信息服务开始"+beginTime);
 			scoreSV.insertCurrentScore(currentScoreRequest);
 			scoreSV.insertScoreLog(scoreLogRequest);
-			log.info("保存供应商评分信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			LOG.info("保存供应商评分信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			response.setStatusCode(ChWebConstants.OperateCode.SUCCESS);
 			response.setStatusInfo("操作成功");
 			responseHeader = new ResponseHeader(true,ChWebConstants.OperateCode.SUCCESS,"操作成功");
-		}catch(Exception e){
+		}catch(BusinessException e){
 		response.setStatusCode(ChWebConstants.OperateCode.Fail);
 		response.setStatusInfo("操作失败");
 		responseHeader = new ResponseHeader(false,ChWebConstants.OperateCode.Fail,"操作失败");
-		log.error("保存失败");
+		LOG.error("保存失败");
 		}
 		response.setResponseHeader(responseHeader);
 		return response;
@@ -134,7 +136,7 @@ public class ScoreController {
 	
 	@RequestMapping("/getList")
 	@ResponseBody
-	public ResponseData<PageInfo<SupplierScoreVo>> getList(HttpServletRequest request,String companyName,String username,String companyType){
+	public ResponseData<PageInfo<SupplierScoreVo>> getList(HttpServletRequest request,String companyName,String username,String companyType)throws Exception{
 		ResponseData<PageInfo<SupplierScoreVo>> response = null;
 		PageInfo<SupplierScoreVo> pageInfo =null;
 		ResponseHeader header = null;
@@ -143,20 +145,23 @@ public class ScoreController {
 		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("pageNo", request.getParameter("pageNo"));
 		map.put("pageSize", request.getParameter("pageSize"));
-		if(username!=null&&username.length()!=0)
+		if(username!=null&&username.length()!=0){
 			map.put("username", username);
-		if(companyName!=null&&companyName.length()!=0)
+		}
+		if(companyName!=null&&companyName.length()!=0){
 			map.put("companyName", companyName);
-		if(companyType!=null&&companyType.length()!=0)
+		}
+		if(companyType!=null&&companyType.length()!=0){
 			map.put("companyType", companyType);
+		}
 		String str ="";
 		try {
 			Long beginTime = System.currentTimeMillis();
-			log.info("长虹查询店铺列表信息服务开始"+beginTime);
+			LOG.info("长虹查询店铺列表信息服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
-			log.info("长虹查询店铺列表结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			LOG.info("长虹查询店铺列表结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
+			LOG.error("操作失败"+JSON.toJSONString(e));
 		}
 		try{
 		JSONObject data = ParseO2pDataUtil.getData(str);
@@ -188,9 +193,9 @@ public class ScoreController {
 					 	CountScoreAvgRequest scoreAvgRequest = new CountScoreAvgRequest();
 					 	scoreAvgRequest.setTenantId(user.getTenantId());
 					 	scoreAvgRequest.setUserId(object.getString("companyId"));
-						log.info("查询店铺评分信息服务开始"+avgBeginTime);
+						LOG.info("查询店铺评分信息服务开始"+avgBeginTime);
 						CountScoreAvgResponse avgScore = scoreSV.countScoreAvg(scoreAvgRequest);
-						log.info("查询店铺评分信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-avgBeginTime)+"毫秒");
+						LOG.info("查询店铺评分信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-avgBeginTime)+"毫秒");
 					 supplierScoreVo.setUserId(object.getString("companyId"));
 					 supplierScoreVo.setUserName(object.getString("username"));
 					 supplierScoreVo.setGroupName(object.getString("name"));
@@ -203,7 +208,7 @@ public class ScoreController {
 			}
 			response.setResponseHeader(header);
 			response.setData(pageInfo);
-		}catch(Exception e){
+		}catch(BusinessException e){
 				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "查询失败");
 				header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "查询失败"); 
 				response.setResponseHeader(header);

@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.mortbay.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.constants.ChWebConstants.OperateCode;
 import com.ai.ch.user.web.util.PropertiesUtil;
 import com.ai.ch.user.web.vo.StatusListVo;
+import com.ai.opt.base.exception.BusinessException;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
@@ -33,7 +35,7 @@ import com.alibaba.fastjson.JSONObject;
 @RequestMapping("/status")
 public class StatusController {
 
-	private static final Logger logger = LoggerFactory.getLogger(StatusController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(StatusController.class);
 	
 	
 	@RequestMapping("/updateStatus")
@@ -49,7 +51,7 @@ public class StatusController {
 		String str ="";
 		try {
 			Long beginTime = System.currentTimeMillis();
-			logger.info("长虹修改账户状态服务开始"+beginTime);
+			LOG.info("长虹修改账户状态服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateCompanyState_http_url"), JSON.toJSONString(map), mapHeader);
 			JSONObject data = ParseO2pDataUtil.getData(str);
 			String resultCode = data.getString("resultCode");
@@ -71,12 +73,12 @@ public class StatusController {
 				response.setResponseHeader(header);
 
 			}
-			logger.info("长虹修改账户状态服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			LOG.info("长虹修改账户状态服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "调用API失败");
 			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
 			response.setResponseHeader(header);
-			e.printStackTrace();
+			LOG.error("操作错误"+JSON.toJSONString(e));
 		}
 		
 		return response;
@@ -85,7 +87,8 @@ public class StatusController {
 	
 	@RequestMapping("/getList")
 	@ResponseBody
-	public ResponseData<PageInfo<StatusListVo>> getList(HttpServletRequest request,String companyName,String username, String companyType){
+	public ResponseData<PageInfo<StatusListVo>> getList(HttpServletRequest request,String companyName,String username, String companyType)throws Exception{
+		
 		ResponseData<PageInfo<StatusListVo>> response = null;
 		PageInfo<StatusListVo> pageInfo =null;
 		ResponseHeader header = null;
@@ -94,20 +97,23 @@ public class StatusController {
 		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("pageNo", request.getParameter("pageNo"));
 		map.put("pageSize", request.getParameter("pageSize"));
-		if(username!=null&&username.length()!=0)
+		if(username!=null&&username.length()!=0){
 			map.put("username", username);
-		if(companyName!=null&&companyName.length()!=0)
+		}
+		if(companyName!=null&&companyName.length()!=0){
 			map.put("companyName", companyName);
-		if(companyType!=null&&companyType.length()!=0)
+		}
+		if(companyType!=null&&companyType.length()!=0){
 			map.put("companyType", companyType);
+		}
 		String str ="";
 		try {
 			Long beginTime = System.currentTimeMillis();
-			logger.info("长虹获取列表服务开始"+beginTime);
+			LOG.info("长虹获取列表服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map), mapHeader);
-			logger.info("长虹获取列表服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			LOG.info("长虹获取列表服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
+			LOG.error("操作错误"+JSON.toJSONString(e));
 		}
 		try{
 		JSONObject data = ParseO2pDataUtil.getData(str);
@@ -132,12 +138,15 @@ public class StatusController {
 					 StatusListVo statusListVo = new StatusListVo(); 
 					 JSONObject object = (JSONObject) iterator.next();
 					 String stateValue = "";
-					 if("0".equals(object.getString("companyState")))
+					 if("0".equals(object.getString("companyState"))){
 						 stateValue = "正常";
-					 else if("1".equals(object.getString("companyState")))
+					 }
+					 else if("1".equals(object.getString("companyState"))){
 						 stateValue = "冻结";
-					 else if("2".equals(object.getString("companyState")))
+					 }
+					 else if("2".equals(object.getString("companyState"))){
 						 stateValue = "注销";
+					 }
 					 statusListVo.setUserId(object.getString("companyId"));
 					 statusListVo.setUserName(object.getString("username"));
 					 statusListVo.setGroupName(object.getString("name"));
@@ -151,7 +160,7 @@ public class StatusController {
 			}
 			response.setResponseHeader(header);
 			response.setData(pageInfo);
-		}catch(Exception e){
+		}catch(BusinessException e){
 			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "查询失败");
 			header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "查询失败"); 
 			response.setResponseHeader(header);

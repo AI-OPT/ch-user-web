@@ -31,6 +31,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.CollectionUtils;
 
+import com.ai.opt.base.exception.BusinessException;
 import com.ylink.itfin.certificate.SecurityUtil;
 import com.ylink.upp.base.oxm.util.OxmHandler;
 
@@ -148,7 +149,7 @@ public class PayUtil {
 				String result = EntityUtils.toString(response.getEntity(), charset);
 				return result;
 			} else {
-				throw new Exception("调用URL地址通讯失败,失败状态：" + response.getStatusLine().getStatusCode());
+				throw new BusinessException("调用URL地址通讯失败,失败状态：" + response.getStatusLine().getStatusCode());
 			}
 		} finally {
 			if (null != httpClient) {
@@ -211,7 +212,7 @@ public class PayUtil {
 				String result = EntityUtils.toString(response.getEntity(), charset);
 				return result;
 			} else {
-				throw new Exception("调用URL地址通讯失败,失败状态：" + response.getStatusLine().getStatusCode());
+				throw new BusinessException("调用URL地址通讯失败,失败状态：" + response.getStatusLine().getStatusCode());
 			}
 		} finally {
 			if (null != httpClient) {
