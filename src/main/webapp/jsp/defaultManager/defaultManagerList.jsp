@@ -93,7 +93,7 @@
 	<tr>
 		<td>{{:userName}}</td>
 		<td>{{:custName}}</td>
-		<td>{{:BusinessCategory}}</td>
+		<td>{{:businessCategory}}</td>
 		<td>
 			<a class＝"btn-primary" href="#" onclick="pager._toDefaultCutPayment('{{:userId}}','{{:userName}}','{{:custName}}')">扣款</a>
             <a class＝"btn-primary" href="#" onclick="pager._toDefaultHistory('{{:userId}}','{{:userName}}','{{:custName}}')">扣款历史</a>

@@ -108,7 +108,7 @@
 	<tr>
 		<td>{{:userName}}</td>
 		<td>{{:custName}}</td>
-		<td>{{:BusinessCategory}}</td>
+		<td>{{:businessCategory}}</td>
 		<td  id="operation">
 			<a class＝"btn-primary" href="#" onclick="pager._toSettlementCycleSettings('{{:userId}}','{{:userName}}','{{:custName}}')">设置</a>
             <a class＝"btn-primary" href="#" onclick="pager._toSettlementCycleDetail('{{:userId}}','{{:userName}}','{{:custName}}')">查看</a>
