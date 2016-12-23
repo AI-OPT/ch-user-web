@@ -1,7 +1,9 @@
 package com.ai.ch.user.web.util;
 import java.util.Properties;  
 import java.util.concurrent.ConcurrentHashMap;  
-import java.util.concurrent.ConcurrentMap;  
+import java.util.concurrent.ConcurrentMap;
+
+import com.esotericsoftware.minlog.Log;  
 
 
 public class PropertiesUtil {
@@ -35,7 +37,7 @@ public class PropertiesUtil {
 	        try {  
 	            return loader.getPropFromProperties(DEFAULT_CONFIG_FILE);  
 	        } catch (Exception e) {  
-	            e.printStackTrace();  
+	            Log.error("操作失败");
 	            return null;  
 	        }  
 	    }  

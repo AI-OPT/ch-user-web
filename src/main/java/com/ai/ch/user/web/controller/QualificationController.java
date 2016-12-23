@@ -76,7 +76,7 @@ public class QualificationController {
 
 	private static final String USERID = "userId";
 
-	private static final String USERNAME = "username";
+	private static final String USERNAME = "userName";
 
 	private static final String SHOPNAME = "shopName";
 
@@ -731,7 +731,7 @@ public class QualificationController {
 					BusinessListInfo businessInfo = new BusinessListInfo();
 					JSONObject object = (JSONObject) iterator.next();
 					businessInfo.setUserId(object.getString(COMPANY_ID));
-					businessInfo.setUserName(object.getString(USERNAME));
+					businessInfo.setUserName(object.getString("username"));
 					businessInfo.setCustName(object.getString("name"));
 					responseList.add(businessInfo);
 				}
@@ -817,7 +817,7 @@ public class QualificationController {
 						auditTime = sdf.format(Long.parseLong(object.getString("auditStateTime")));
 					}
 					businessInfo.setUserId(object.getString(COMPANY_ID));
-					businessInfo.setUserName(object.getString(USERNAME));
+					businessInfo.setUserName(object.getString("username"));
 					businessInfo.setCustName(object.getString("name"));
 					businessInfo.setCreateTime(date);
 					businessInfo.setAuditTime(auditTime);
@@ -874,9 +874,8 @@ public class QualificationController {
 				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
 			}
-			response.setResponseHeader(header);
-
 		}
+		response.setResponseHeader(header);
 		return response;
 	}
 
@@ -892,6 +891,7 @@ public class QualificationController {
 	 * @return
 	 */
 	private static String getStarString(String content, int begin, int end) {
+		String str = "";
 		if (content != null) {
 			if (begin >= content.length() || begin < 0) {
 				return content;
@@ -902,13 +902,12 @@ public class QualificationController {
 			if (begin >= end) {
 				return content;
 			}
+			StringBuffer starStr = new StringBuffer();
+			for (int i = begin; i < end; i++) {
+				starStr.append("*");
+			}
+			str = content.substring(0, begin) + starStr + content.substring(end, content.length());
 		}
-		StringBuffer starStr = new StringBuffer();
-		for (int i = begin; i < end; i++) {
-			starStr.append("*");
-		}
-		String str = "";
-		str = content.substring(0, begin) + starStr + content.substring(end, content.length());
 		return str;
 
 	}
@@ -926,18 +925,20 @@ public class QualificationController {
 	 */
 	private static String getStarStringNoEnd(String content, int begin) {
 
-		if (begin >= content.length() || begin < 0) {
-			return content;
-		}
-		if (begin >= content.length()) {
-			return content;
-		}
-		StringBuffer starStr = new StringBuffer();
-		for (int i = begin; i < content.length(); i++) {
-			starStr.append("*");
-		}
 		String str = "";
-		str = content.substring(0, begin) + starStr;
+		if (content != null) {
+			if (begin >= content.length() || begin < 0) {
+				return content;
+			}
+			if (begin >= content.length()) {
+				return content;
+			}
+			StringBuffer starStr = new StringBuffer();
+			for (int i = begin; i < content.length(); i++) {
+				starStr.append("*");
+			}
+			str = content.substring(0, begin) + starStr;
+		}
 		return str;
 
 	}

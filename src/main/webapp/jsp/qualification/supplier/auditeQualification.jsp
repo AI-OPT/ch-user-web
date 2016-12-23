@@ -398,7 +398,7 @@
 							</ul>
 							<ul>
 									<li>
-										<p class="word">审核原因</p>
+										<p class="word"><b class="red">*</b>审核原因</p>
 										<p></p>
 									</li>
 									<li><textarea class="int-text textarea-large"

@@ -153,8 +153,9 @@ public class BillingController {
 		} else {
 			ratioStr = shopInfoResponse.getRatio() + "%";
 		}
-		if (shopInfoResponse.getDepositBalance() != null)
+		if (shopInfoResponse.getDepositBalance() != null){
 			deposit = shopInfoResponse.getDepositBalance() + "元";
+		}
 		else {
 			QueryShopDepositRequest queryShopDepositRequest = new QueryShopDepositRequest();
 			queryShopDepositRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
@@ -317,12 +318,15 @@ public class BillingController {
 		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("pageNo", request.getParameter("pageNo"));
 		map.put("pageSize", request.getParameter("pageSize"));
-		if (username != null && username.length() != 0)
+		if (username != null && username.length() != 0){
 			map.put("username", username);
-		if (companyName != null && companyName.length() != 0)
+		}
+		if (companyName != null && companyName.length() != 0){
 			map.put("companyName", companyName);
-		if (companyType != null && companyType.length() != 0)
+		}
+		if (companyType != null && companyType.length() != 0){
 			map.put("companyType", companyType);
+		}
 		String str = "";
 		try {
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"),
@@ -387,12 +391,15 @@ public class BillingController {
 		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("pageNo", request.getParameter("pageNo"));
 		map.put("pageSize", request.getParameter("pageSize"));
-		if (username != null && username.length() != 0)
+		if (username != null && username.length() != 0){
 			map.put("username", username);
-		if (companyName != null && companyName.length() != 0)
+		}
+		if (companyName != null && companyName.length() != 0){
 			map.put("companyName", companyName);
-		if (companyType != null && companyType.length() != 0)
+		}
+		if (companyType != null && companyType.length() != 0){
 			map.put("companyType", companyType);
+		}
 		String str = "";
 		try {
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"),

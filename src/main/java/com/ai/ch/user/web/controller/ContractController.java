@@ -829,7 +829,7 @@ public class ContractController {
 		} catch (IOException | URISyntaxException e) {
 			LOGGER.error("操作失败,原因:"+JSON.toJSONString(e));
 		}
-		List<BusinessListInfo> responseList = new ArrayList<>();
+		List<BusinessListInfo> responseList =null;
 		try{
 			JSONObject data = ParseO2pDataUtil.getData(str);
 			String resultCode = data.getString("resultCode");

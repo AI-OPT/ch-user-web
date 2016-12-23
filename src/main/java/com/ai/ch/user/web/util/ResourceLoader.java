@@ -1,9 +1,9 @@
 package com.ai.ch.user.web.util;
 
-import java.io.File;  
-import java.io.FileInputStream;  
-import java.util.HashMap;  
-import java.util.Map;  
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;  
   
 public final class ResourceLoader {  
@@ -19,8 +19,9 @@ public final class ResourceLoader {
     }  
       
     public Properties getPropFromProperties(String fileName) throws Exception {  
-          
-        Properties prop = loaderMap.get(fileName);  
+    	FileInputStream fileInputStream = null;
+    	Properties prop = null;
+        prop = loaderMap.get(fileName);  
         if (prop != null) {  
             return prop;  
         }  
@@ -33,8 +34,10 @@ public final class ResourceLoader {
             filePath = configPath + "/" + fileName;  
         }  
         prop = new Properties();  
-        prop.load(new FileInputStream(new File(filePath)));  
-  
+        File file = new File(filePath);
+        fileInputStream = new FileInputStream(file);
+        
+        prop.load(fileInputStream);  
         loaderMap.put(fileName, prop);  
         return prop;  
     }  

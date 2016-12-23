@@ -79,8 +79,8 @@ public class AssembleUserInfoFilter implements Filter {
                 	cond.setTenantId(user.getTenantId());
                 	SysMenuListQueryResponse menuResp=menuSV.queryMenuByUserId(cond);
                 	
-                	List<String> menuList=new ArrayList<String>();
-                	List<String> allMenuList=new ArrayList<String>();
+                	List<String> menuList=null;
+                	List<String> allMenuList=null;
                 	if(menuResp.getResponseHeader()!=null&&"000000".equalsIgnoreCase(menuResp.getResponseHeader().getResultCode())){
                 		menuList=menuResp.getMenuList();
                 		allMenuList =menuResp.getAllMenuList();
