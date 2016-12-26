@@ -33,6 +33,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.CollectionUtils;
 
 import com.ai.opt.base.exception.BusinessException;
+import com.ai.opt.sdk.util.StringUtil;
 import com.ylink.itfin.certificate.SecurityUtil;
 import com.ylink.upp.base.oxm.util.OxmHandler;
 
@@ -131,7 +132,7 @@ public class PayUtil {
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
 				//修改entryset
 				for (Entry<String, String> key : param.entrySet()) {
-					params.add(new BasicNameValuePair(key.getKey(), param.get(key)));
+					params.add(new BasicNameValuePair(String.valueOf(key.getValue()), param.get(key)));
 				}
 				HttpEntity fromEntity = new UrlEncodedFormEntity(params, charset);
 				post.setEntity(fromEntity);
@@ -195,7 +196,7 @@ public class PayUtil {
 			if (!CollectionUtils.isEmpty(data)) {
 				//修改entryset
 				for (Entry<String, String> key : data.entrySet()) {
-					uriBuilder.setParameter(key.getKey(), data.get(key));
+					uriBuilder.setParameter(String.valueOf(key.getKey()), data.get(key));
 				}
 			}
 			HttpGet httpGet = new HttpGet(uriBuilder.build());

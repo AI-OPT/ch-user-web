@@ -2,12 +2,21 @@ package com.ai.ch.user.web.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;  
+import java.util.Properties;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.ai.ch.user.web.controller.QualificationController;
+import com.ai.opt.base.exception.BusinessException;  
   
 public final class ResourceLoader {  
   
+	private static final Logger LOG = LoggerFactory.getLogger(QualificationController.class);
+	
     private static ResourceLoader loader = new ResourceLoader();  
     private static Map<String, Properties> loaderMap = new HashMap<String, Properties>();  
   
@@ -38,7 +47,18 @@ public final class ResourceLoader {
         fileInputStream = new FileInputStream(file);
         
         prop.load(fileInputStream);  
-        loaderMap.put(fileName, prop);  
+        loaderMap.put(fileName, prop);
+        try{
+        if(fileInputStream!=null){
+        	fileInputStream.close();
+        }
+        }catch(BusinessException e){
+        	 LOG.error("释放ResultSet出错", e);  
+        }finally {  
+            if (fileInputStream != null) {  
+            	fileInputStream.close();  
+            }
+        }
         return prop;  
     }  
 }  
