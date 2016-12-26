@@ -33,7 +33,6 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.CollectionUtils;
 
 import com.ai.opt.base.exception.BusinessException;
-import com.ai.opt.sdk.util.StringUtil;
 import com.ylink.itfin.certificate.SecurityUtil;
 import com.ylink.upp.base.oxm.util.OxmHandler;
 
