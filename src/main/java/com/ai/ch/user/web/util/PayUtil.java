@@ -36,6 +36,14 @@ import com.ai.opt.base.exception.BusinessException;
 import com.ylink.itfin.certificate.SecurityUtil;
 import com.ylink.upp.base.oxm.util.OxmHandler;
 
+/**
+ * 调用支付中心工具类
+ * PS这个类由支付中心提供
+ * Date: 2016年12月27日 <br>
+ * Copyright (c) 2016 asiainfo.com <br>
+ * 
+ * @author zhangqiang7
+ */
 public class PayUtil {
 
 	@Autowired

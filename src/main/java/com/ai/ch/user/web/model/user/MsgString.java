@@ -3,14 +3,27 @@ package com.ai.ch.user.web.model.user;
 import java.util.List;
 
 /**
+ * 支付中心报文信息
  * @author YangHan
  * @date 2015-3-15
  */
 public class MsgString{
 
+	/**
+	 * 报文头信息
+	 */
     private String headerMsg;
+    /**
+     * 报文
+     */
     private String xmlBody;
+    /**
+     * 数字签名
+     */
     private String DigitalSign;
+    /**
+     * 详情
+     */
     private List<String> detail;
 
     public String getHeaderMsg() {

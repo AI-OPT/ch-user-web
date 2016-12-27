@@ -14,6 +14,13 @@ import org.slf4j.LoggerFactory;
 import com.ai.ch.user.web.controller.QualificationController;
 import com.alibaba.fastjson.JSON;  
   
+/**
+ * 读取文件工具类
+ * Date: 2016年12月27日 <br>
+ * Copyright (c) 2016 asiainfo.com <br>
+ * 
+ * @author zhangqiang7
+ */
 public final class ResourceLoader {  
   
 	private static final Logger LOG = LoggerFactory.getLogger(QualificationController.class);
@@ -27,7 +34,14 @@ public final class ResourceLoader {
     public static ResourceLoader getInstance() {  
         return loader;  
     }  
-      
+   /**
+    * 获取properties文件 信息 
+    * @param fileName
+    * @return
+    * @throws Exception
+    * @author zhangqiang7
+    * @UCUSER
+    */
     public Properties getPropFromProperties(String fileName) throws Exception {  
     	FileInputStream fileInputStream = null;
     	Properties prop = null;
@@ -58,6 +72,12 @@ public final class ResourceLoader {
         return prop;  
     }  
     
+    /**
+     * 关闭流
+     * @param fis
+     * @author zhangqiang7
+     * @UCUSER
+     */
     public static void safeClose(InputStream fis) {
 		if (fis != null) {
 			try {

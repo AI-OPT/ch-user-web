@@ -6,6 +6,13 @@ import java.util.concurrent.ConcurrentMap;
 import com.esotericsoftware.minlog.Log;  
 
 
+/**
+ * 读取propertie文件工具
+ * Date: 2016年12月27日 <br>
+ * Copyright (c) 2016 asiainfo.com <br>
+ * 
+ * @author zhangqiang7
+ */
 public class PropertiesUtil {
 
 	private static ResourceLoader loader = ResourceLoader.getInstance();  
@@ -14,6 +21,14 @@ public class PropertiesUtil {
 	  
 	    private static Properties prop = null;  
 	  
+	    /**
+	     * 读取properties文件
+	     * @param key
+	     * @param propName
+	     * @return
+	     * @author zhangqiang7
+	     * @UCUSER
+	     */
 	    public static String getStringByKey(String key, String propName) {  
 	        try {  
 	            prop = loader.getPropFromProperties(propName);  
@@ -29,10 +44,26 @@ public class PropertiesUtil {
 	        return configMap.get(key);  
 	    }  
 	  
+	    /**
+	     * 读取properties文件
+	     * @param key
+	     * @param propName
+	     * @return
+	     * @author zhangqiang7
+	     * @UCUSER
+	     */
 	    public static String getStringByKey(String key) {  
 	        return getStringByKey(key, DEFAULT_CONFIG_FILE);  
 	    }  
 	  
+	    /**
+	     * 读取properties文件
+	     * @param key
+	     * @param propName
+	     * @return
+	     * @author zhangqiang7
+	     * @UCUSER
+	     */
 	    public static Properties getProperties() {  
 	        try {  
 	            return loader.getPropFromProperties(DEFAULT_CONFIG_FILE);  
