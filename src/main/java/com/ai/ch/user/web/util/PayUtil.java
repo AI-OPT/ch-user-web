@@ -131,7 +131,7 @@ public class PayUtil {
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
 				//修改entryset
 				for (Entry<String, String> key : param.entrySet()) {
-					params.add(new BasicNameValuePair(String.valueOf(key.getValue()), param.get(key)));
+					params.add(new BasicNameValuePair(String.valueOf(key.getKey()), String.valueOf(param.get(key))));
 				}
 				HttpEntity fromEntity = new UrlEncodedFormEntity(params, charset);
 				post.setEntity(fromEntity);
@@ -195,7 +195,7 @@ public class PayUtil {
 			if (!CollectionUtils.isEmpty(data)) {
 				//修改entryset
 				for (Entry<String, String> key : data.entrySet()) {
-					uriBuilder.setParameter(String.valueOf(key.getKey()), data.get(key));
+					uriBuilder.setParameter(String.valueOf(key.getKey()), String.valueOf(data.get(key)));
 				}
 			}
 			HttpGet httpGet = new HttpGet(uriBuilder.build());
