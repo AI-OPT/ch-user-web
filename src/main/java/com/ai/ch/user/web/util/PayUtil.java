@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -138,8 +137,8 @@ public class PayUtil {
 			if (!CollectionUtils.isEmpty(param)) {
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
 				//修改entryset
-				for (Entry<String, String> key : param.entrySet()) {
-					params.add(new BasicNameValuePair(String.valueOf(key.getKey()), String.valueOf(param.get(key))));
+				for (String key : param.keySet()) {
+					params.add(new BasicNameValuePair(key, param.get(key)));
 				}
 				HttpEntity fromEntity = new UrlEncodedFormEntity(params, charset);
 				post.setEntity(fromEntity);
@@ -202,8 +201,8 @@ public class PayUtil {
 			URIBuilder uriBuilder = new URIBuilder().setScheme("https").setHost(url);
 			if (!CollectionUtils.isEmpty(data)) {
 				//修改entryset
-				for (Entry<String, String> key : data.entrySet()) {
-					uriBuilder.setParameter(String.valueOf(key.getKey()), String.valueOf(data.get(key)));
+				for (String key : data.keySet()) {
+					uriBuilder.setParameter(key, data.get(key));
 				}
 			}
 			HttpGet httpGet = new HttpGet(uriBuilder.build());
