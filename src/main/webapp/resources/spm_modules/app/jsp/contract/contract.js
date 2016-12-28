@@ -416,6 +416,9 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			obj.outerHTML=obj.outerHTML; 
 		},
 		_checkContractRemarValue:function(){
+			$("#remarkErrMsg").hide();
+			$("#remarkText").hide();
+			$("#remarkText").val("")
 			var remark = $("#contractRemark").val();
 			if(remark.length>=0&&remark.length<=256){
 				$("#remarkErrMsg").hide();
