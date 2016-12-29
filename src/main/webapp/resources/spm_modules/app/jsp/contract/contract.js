@@ -167,6 +167,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 				$("#contractNameText").show();
 				$("#contractNameText").text('1-64位字符');
 	    		$("#contractNameFlag").val("0");
+	    		return;
 			}else{
 				var re= /select|insert|update|delete|exec|alert|count|'|"|=|;|>|<|%/i;
 				if(re.test(contractName)){
@@ -174,6 +175,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 					$("#contractNameText").show();
 					$("#contractNameText").text('请勿输入非法字符');
 		    		$("#contractNameFlag").val("0");
+		    		return;
 				}
 				var	param={
 						contractName:$("#contractName").val(),
