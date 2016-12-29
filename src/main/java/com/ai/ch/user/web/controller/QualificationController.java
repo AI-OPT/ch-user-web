@@ -689,7 +689,7 @@ public class QualificationController {
 		map.put(PAGENO, request.getParameter(PAGENO));
 		map.put(PAGESIZE, request.getParameter(PAGESIZE));
 		if (username != null && username.length() != 0) {
-			map.put(USERNAME, username);
+			map.put("username", username);
 		}
 		if (companyName != null && companyName.length() != 0) {
 			map.put("companyName", companyName);
@@ -764,7 +764,7 @@ public class QualificationController {
 		map.put(PAGENO, request.getParameter(PAGENO));
 		map.put(PAGESIZE, request.getParameter(PAGESIZE));
 		if (username != null && username.length() != 0) {
-			map.put(USERNAME, username);
+			map.put("username", username);
 		}
 		if (companyName != null && companyName.length() != 0) {
 			map.put("companyName", companyName);
