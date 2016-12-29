@@ -45,7 +45,7 @@
 								<ul>
 									<li class="col-md-6">
 										<p class="word">用户名:</p>
-										<p class="word">${userName }</p>
+										<p>${userName }</p>
 									</li>
 									<li class="col-md-6">
 										<p class="word">企业名称:</p>
@@ -179,8 +179,8 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
+											href="${_base}/resources/local/images/changhong_logo.gif"><img
+											src="${_base}/resources/local/images/changhong_logo.gif" width="80px"
 											height="80px"></a>
 									</p>
 								</li>
@@ -219,15 +219,15 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
+											href="${_base}/resources/local/images/changhong_logo.gif"><img
+											src="${_base}/resources/local/images/changhong_logo.gif" width="80px"
 											height="80px"></a>
 									</p>
 									<p>&nbsp;</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
+											href="${_base}/resources/local/images/changhong_logo.gif"><img
+											src="${_base}/resources/local/images/changhong_logo.gif" width="80px"
 											height="80px"></a>
 									</p>
 								</li>
@@ -266,8 +266,8 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
+											href="${_base}/resources/local/images/changhong_logo.gif"><img
+											src="${_base}/resources/local/images/changhong_logo.gif" width="80px"
 											height="80px"></a>
 									</p>
 								</li>
@@ -292,8 +292,8 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
+											href="${_base}/resources/local/images/changhong_logo.gif"><img
+											src="${_base}/resources/local/images/changhong_logo.gif" width="80px"
 											height="80px"></a>
 									</p>
 								</li>
@@ -324,8 +324,8 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
+											href="${_base}/resources/local/images/changhong_logo.gif"><img
+											src="${_base}/resources/local/images/changhong_logo.gif" width="80px"
 											height="80px"></a>
 									</p>
 								</li>
@@ -364,8 +364,8 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
+											href="${_base}/resources/local/images/changhong_logo.gif"><img
+											src="${_base}/resources/local/images/changhong_logo.gif" width="80px"
 											height="80px"></a>
 									</p>
 								</li>
@@ -375,8 +375,8 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
+											href="${_base}/resources/local/images/changhong_logo.gif"><img
+											src="${_base}/resources/local/images/changhong_logo.gif" width="80px"
 											height="80px"></a>
 									</p>
 								</li>
@@ -388,8 +388,8 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
+											href="${_base}/resources/local/images/changhong_logo.gif"><img
+											src="${_base}/resources/local/images/changhong_logo.gif" width="80px"
 											height="80px"></a>
 									</p>
 								</li>
@@ -399,8 +399,8 @@
 									</p>
 									<p>
 										<a class="popup" title="点击看缩略图"
-											href="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg"><img
-											src="http://111.9.116.183:24000/iPaas-IDPS/image/581b3603f530bd0006a7c81e.jpg" width="80px"
+											href="${_base}/resources/local/images/changhong_logo.gif"><img
+											src="${_base}/resources/local/images/changhong_logo.gif" width="80px"
 											height="80px"></a>
 									</p>
 								</li>

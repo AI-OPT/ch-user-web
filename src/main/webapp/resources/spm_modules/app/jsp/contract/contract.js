@@ -158,6 +158,9 @@ define('app/jsp/contract/contract', function (require, exports, module) {
 			}
 		},
 		_checkContractNameValue:function(){
+			$("#contractNameErrMsg").hide();
+			$("#contractNameText").hide();
+			$("#contractNameText").text('');
 			var contractName = $("#contractName").val();
 			if(contractName==""||contractName==null){
 				$("#contractNameErrMsg").show();
@@ -201,7 +204,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     									$("#contractNameText").text('必填项');
     						    		$("#contractNameFlag").val("0");
     								}else{
-    									$('#contractNameErrMsg').hide();
+    									//$('#contractNameErrMsg').hide();
     				    				$("#contractNameFlag").val("1");
     								}
     							}else{

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -279,13 +280,13 @@ public class ContractController {
 			String infoName = extVp.getInfoName();
 			String attrValue = extVp.getAttrValue();
 			String infoItem = extVp.getInfoItem();
-
+			Random random = new Random();
 			if (ChWebConstants.SCAN_CONTRACT_SUPPLIER.equals(extVp.getInfoItem())) {
 				model.put("scanContractInfoName", infoName);
 				// model.put("scanDownLoadName", new
 				// Date().getTime()+infoName.substring(infoName.lastIndexOf("."),infoName.length()));
 				model.put("scanDownLoadName",
-						UUIDUtil.genShortId() + infoName.substring(infoName.lastIndexOf('.'), infoName.length()));
+						random.nextInt(10)+DateUtil.getCurrentTimeMillis() + infoName.substring(infoName.lastIndexOf('.'), infoName.length()));
 				model.put("scanContractAttrValue", attrValue);
 				model.put("scanContractInfoItem", infoItem);
 			} else {
@@ -376,13 +377,13 @@ public class ContractController {
 			String infoName = extVp.getInfoName();
 			String attrValue = extVp.getAttrValue();
 			String infoItem = extVp.getInfoItem();
-
+			Random random = new Random();
 			if (ChWebConstants.SCAN_CONTRACT_SHOP.equals(extVp.getInfoItem())) {
 				model.put("scanContractInfoName", infoName);
 				// model.put("scanDownLoadName", new
 				// Date().getTime()+infoName.substring(infoName.lastIndexOf("."),infoName.length()));
 				model.put("scanDownLoadName",
-						UUIDUtil.genShortId() + infoName.substring(infoName.lastIndexOf('.'), infoName.length()));
+						random.nextInt(10)+DateUtil.getCurrentTimeMillis() + infoName.substring(infoName.lastIndexOf('.'), infoName.length()));
 				model.put("scanContractAttrValue", attrValue);
 				model.put("scanContractInfoItem", infoItem);
 			} else {
@@ -914,4 +915,5 @@ public class ContractController {
 		responseData.setResponseHeader(header);
 		return responseData;
 	}
+	
 }
