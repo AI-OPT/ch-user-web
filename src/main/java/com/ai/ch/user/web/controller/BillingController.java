@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.ch.user.api.shopinfo.interfaces.IShopInfoSV;
-import com.ai.ch.user.api.shopinfo.params.InsertShopInfoRequst;
 import com.ai.ch.user.api.shopinfo.params.QueryShopDepositRequest;
 import com.ai.ch.user.api.shopinfo.params.QueryShopDepositResponse;
 import com.ai.ch.user.api.shopinfo.params.QueryShopInfoRequest;
@@ -36,7 +35,6 @@ import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.constants.ExceptCodeConstants;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
-import com.ai.opt.sdk.util.BeanUtils;
 import com.ai.opt.sdk.util.ParseO2pDataUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
@@ -171,6 +169,7 @@ public class BillingController {
 	public ResponseData<String> saveMarginSetting(HttpServletRequest request) {
 		ResponseData<String> response = new ResponseData<String>(ChWebConstants.OperateCode.SUCCESS, "成功");
 		ResponseHeader responseHeader = null;
+		BaseResponse updateResponse = null;
 		UpdateShopInfoRequest shopInfoRequst = new UpdateShopInfoRequest();
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		shopInfoRequst.setTenantId(user.getTenantId());
@@ -181,9 +180,9 @@ public class BillingController {
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		Long beginTime = System.currentTimeMillis();
 		log.info("更新店铺信息服务开始"+beginTime);
-		shopInfoSV.updateShopInfo(shopInfoRequst);
+		updateResponse = shopInfoSV.updateShopInfo(shopInfoRequst);
 		log.info("更新店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
-		responseHeader = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+		responseHeader = updateResponse.getResponseHeader();
 		}catch(Exception e){
 			responseHeader = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败");
 		}
@@ -196,6 +195,7 @@ public class BillingController {
 	public ResponseData<String> saveServiceSetting(HttpServletRequest request,UpdateShopInfoRequest shopInfoRequst) {
 		ResponseData<String> response = new ResponseData<String>(ChWebConstants.OperateCode.SUCCESS, "成功");
 		ResponseHeader responseHeader = null;
+		BaseResponse updateResponse = null;
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		shopInfoRequst.setTenantId(user.getTenantId());
 		if(request.getParameter("userId")==null||"".equals(request.getParameter("userId")));
@@ -208,9 +208,9 @@ public class BillingController {
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		Long beginTime = System.currentTimeMillis();
 		log.info("更新店铺信息服务开始"+beginTime);
-		shopInfoSV.updateShopInfo(shopInfoRequst);
+		updateResponse = shopInfoSV.updateShopInfo(shopInfoRequst);
 		log.info("更新店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
-		responseHeader = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+		responseHeader = updateResponse.getResponseHeader();
 		}catch(Exception e){
 			responseHeader = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败");
 		}
@@ -250,9 +250,7 @@ public class BillingController {
 	@RequestMapping("/saveCycleSetting")
 	public ModelAndView saveCycleSetting(HttpServletRequest request,String userId,String periodType,String userName,String custName) {
 		IShopInfoSV shopInfo = DubboConsumerFactory.getService("iShopInfoSV");
-		QueryShopInfoRequest shopInfoRequest = new QueryShopInfoRequest();
-		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-		String tenantId = user.getTenantId();
+		/*String tenantId = user.getTenantId();
 		shopInfoRequest.setUserId(userId);
 		shopInfoRequest.setTenantId(tenantId);
 		Long beginTime = System.currentTimeMillis();
@@ -271,14 +269,16 @@ public class BillingController {
 			baseResponse = shopInfo.insertShopInfo(insertShopInfo);
 			log.info("保存店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		}else{
+		**/
+		    BaseResponse baseResponse = null;
 			UpdateShopInfoRequest updateShopInfoRequest = new UpdateShopInfoRequest();
-			BeanUtils.copyProperties(updateShopInfoRequest, response);
+			updateShopInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+			updateShopInfoRequest.setUserId(userId);
 			updateShopInfoRequest.setPeriodType(periodType);
 			Long updateBeginTime = System.currentTimeMillis();
 			log.info("更新店铺信息服务开始"+updateBeginTime);
 			baseResponse = shopInfo.updateShopInfo(updateShopInfoRequest);
 			log.info("更新店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-updateBeginTime)+"毫秒");
-		}
 		if(ExceptCodeConstants.Special.SUCCESS.equals(baseResponse.getResponseHeader().getResultCode())){
 			return new ModelAndView("/jsp/billing/billingCyclesSccess");
 		}else{
