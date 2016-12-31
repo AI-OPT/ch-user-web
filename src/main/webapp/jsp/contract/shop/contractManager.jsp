@@ -139,7 +139,7 @@
 								</ul>
 								<ul>
 									<li>
-										<p style="margin-left: 25%">支持上传pdf、PNG、JPG及word格式的文件</p>
+										<p>支持上传pdf、PNG、JPG及word格式的文件</p>
 										
 									</li>
 								</ul>
