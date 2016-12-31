@@ -139,8 +139,12 @@
 								</ul>
 								<ul>
 									<li>
+										<p class="word">&nbsp;</p>
 										<p>支持上传pdf、PNG、JPG及word格式的文件</p>
-										
+									</li>
+									<li>
+										<p class="word">&nbsp;</p>
+										<p>扫描版文件支持3M以下,电子版文件支持2M以下</p>
 									</li>
 								</ul>
 								<ul>
