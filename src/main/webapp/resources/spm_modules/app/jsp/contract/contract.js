@@ -590,7 +590,7 @@ function uploadScanFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId)
 		$("#"+contractText).text('文件格式不对，只允许上传pdf、png、jpg、doc、docx');
 		$("#"+contractFlag).val("0");
 		return false;
-	}else if(document.getElementById(fileId).files[0].size>3.01*1024*1024-1){
+	}else if(document.getElementById(fileId).files[0].size>3*1024*1024){
 		$("#"+errMsg).show();
 		$("#"+contractText).show();
 		$("#"+contractText).text('文档太大，不能超过3M');
@@ -644,7 +644,7 @@ function uploadEleFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
 		$("#"+contractText).text('文件格式不对，只允许上传pdf、png、jpg、doc、docx');
 		$("#"+contractFlag).val("0");
 		return false;
-	}else if(document.getElementById(fileId).files[0].size>2.01*1024*1024-1){
+	}else if(document.getElementById(fileId).files[0].size>2*1024*1024){
 		$("#"+errMsg).show();
 		$("#"+contractText).show();
 		$("#"+contractText).text('文档太大，不能超过2M');
