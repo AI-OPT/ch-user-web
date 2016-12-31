@@ -557,7 +557,7 @@ define('app/jsp/contract/contract', function (require, exports, module) {
     module.exports = ContractInfoPager
 });
 
-function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
+function uploadScanFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
 	var contractFile = $("#"+fileId).val();
 	var subString = contractFile.substring(contractFile.lastIndexOf("\\")+1,contractFile.length);
 	$("#"+inputText).val(subString);
@@ -590,10 +590,64 @@ function uploadFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
 		$("#"+contractText).text('文件格式不对，只允许上传pdf、png、jpg、doc、docx');
 		$("#"+contractFlag).val("0");
 		return false;
-	}else if(document.getElementById(fileId).files[0].size>5*1024*1024){
+	}else if(document.getElementById(fileId).files[0].size>3.01*1024*1024-1){
 		$("#"+errMsg).show();
 		$("#"+contractText).show();
-		$("#"+contractText).text('文档太大，不能超过5M');
+		$("#"+contractText).text('文档太大，不能超过3M');
+		$("#"+contractFlag).val("0");
+		return false;
+	}else if(document.getElementById(fileId).files[0].size==0){
+		$("#"+errMsg).show();
+		$("#"+contractText).show();
+		$("#"+contractText).text('不能上传空文件');
+		$("#"+contractFlag).val("0");
+		return false;
+	}else{
+		$("#"+errMsg).hide();
+		$("#"+contractText).hide();
+		$("#"+contractText).html("");
+		$("#"+contractFlag).val("1");
+	}
+}
+
+
+function uploadEleFile(fileId,inputText,errMsg,contractText,contractFlag,ddsId){
+	var contractFile = $("#"+fileId).val();
+	var subString = contractFile.substring(contractFile.lastIndexOf("\\")+1,contractFile.length);
+	$("#"+inputText).val(subString);
+	/**
+	 * 校验字符数
+	 */
+	var reg = /^[\u4e00-\u9fa5a-zA-Z0-9\.]{1,20}$/;
+	if(subString.match(reg)){
+		$("#"+errMsg).hide();
+		$("#"+contractText).hide();
+		$("#"+contractFlag).val("1");
+	}else{
+		$("#"+errMsg).show();
+		$("#"+contractText).show();
+		$("#"+contractText).text('1-20个字符，允许使用汉字、字母、数字');
+		$("#"+contractFlag).val("0");
+		return;
+	}
+	$("#"+inputText).val(subString);
+	var fileTest = $("#"+inputText).val();
+	if(fileTest==""){
+		$("#"+errMsg).show();
+		$("#"+contractText).show();
+		$("#"+contractText).text('合同附件不能为空');
+		$("#"+contractFlag).val("0");
+		return false;
+	}else if(!/\.(PDF|PNG|JPG|DOC|pdf|png|jpg|doc|docx)$/.test(fileTest)){
+		$("#"+errMsg).show();
+		$("#"+contractText).show();
+		$("#"+contractText).text('文件格式不对，只允许上传pdf、png、jpg、doc、docx');
+		$("#"+contractFlag).val("0");
+		return false;
+	}else if(document.getElementById(fileId).files[0].size>2.01*1024*1024-1){
+		$("#"+errMsg).show();
+		$("#"+contractText).show();
+		$("#"+contractText).text('文档太大，不能超过2M');
 		$("#"+contractFlag).val("0");
 		return false;
 	}else if(document.getElementById(fileId).files[0].size==0){

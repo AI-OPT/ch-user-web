@@ -110,7 +110,7 @@
 							               
 										   <input class="int-text int-large" value="${scanContractInfoName}" id="scanFileText" type="text">
 										   <input type="button" id="scanContract" class="btn-primary btn-medium" value="浏览文件"/>
-										   <input type="file" name="scanFile" id="scanFile" onchange="uploadFile('scanFile','scanFileText','scanContractErrMsg','scanContractText','scanVersionContractFlag','ddsId1')"  class="int-file"/>
+										   <input type="file" name="scanFile" id="scanFile" onchange="uploadScanFile('scanFile','scanFileText','scanContractErrMsg','scanContractText','scanVersionContractFlag','ddsId1')"  class="int-file"/>
 										   <input type="button"
 											class="biu-btn  btn-primary btn-blue btn-medium ml-10"
 											value="删除" id="scanFileButtonId" style="cursor: default;"/>
@@ -130,7 +130,7 @@
 								             <input type="hidden" id="electronicFileTennatId" value="changhong" name="list[1].tenantId"/>
 											 <input class="int-text int-large" id="electronicContractText" value="${electronicContractInfoName }" type="text">
 											 <input type="button" id="electronicContract" class="btn-primary btn-medium" value="浏览文件"/>
-											 <input type="file" name="electronicFile" id="electronicFile" onchange="uploadFile('electronicFile','electronicContractText','electronicContractErrMsg','electronicContractFileText','electronicContractFlag','ddsId2')" class="int-file"/>
+											 <input type="file" name="electronicFile" id="electronicFile" onchange="uploadEleFile('electronicFile','electronicContractText','electronicContractErrMsg','electronicContractFileText','electronicContractFlag','ddsId2')" class="int-file"/>
 											 <input type="button"
 												class="biu-btn  btn-primary btn-blue btn-medium ml-10"
 												value="删除" id="electronicFileButtonId" style="cursor: default;"/>

@@ -40,7 +40,7 @@
 					element : document.body
 				});
 				pager.render();
-				pager._dialog('提示', '保存成功', 'success', '确定', _base+'/billing/billingCyclePager');
+				pager._dialog('提示', '保存失败', 'fail', '确定', _base+'/billing/billingCyclePager');
 			});
 		})();
 	</script>
