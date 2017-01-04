@@ -93,7 +93,9 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
 		_toAuditShopPage:function(userId,username){
 			var url = _base+'/qualification/toShopCheckPager?userId='+userId+'&username='+username;
 			window.location.href = encodeURI(url);
-			
+		},
+		_toShopAuditLogPager:function(userId,username,custname){
+			window.location.href = _base+'/qualification/toShopAuditLogPager?userId='+userId+"&username="+escape(encodeURIComponent(username))+"&custname="+escape(encodeURIComponent(custname));
 		},
 		
 		_toViewSupplierPage:function(userId,username){
@@ -101,8 +103,12 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
 			window.location.href = encodeURI(url);
 			
 		},
+		_toSuplierAuditLogPager:function(userId,username,custname){
+			window.location.href =  _base+'/qualification/toSuplierAuditLogPager?userId='+userId+"&username="+escape(encodeURIComponent(username))+"&custname="+escape(encodeURIComponent(custname));
+		},
+		
 		_toAuditSupplierPage:function(userId,username){
-			var url = _base+'/qualification/toSuplierCheckPager?userId='+userId+'&username='+username;
+			var url = _base+'/qualification/toAuditSupplierPage?userId='+userId+'&username='+username;
 			window.location.href = encodeURI(url);
 			
 		},

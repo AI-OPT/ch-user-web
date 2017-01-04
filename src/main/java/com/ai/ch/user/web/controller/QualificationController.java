@@ -3,6 +3,7 @@ package com.ai.ch.user.web.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,12 +15,18 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ai.ch.user.api.audit.interfaces.IAuditSV;
+import com.ai.ch.user.api.audit.params.AuditLogVo;
+import com.ai.ch.user.api.audit.params.InsertAuditInfoRequest;
+import com.ai.ch.user.api.audit.params.QueryAuditLogInfoRequest;
+import com.ai.ch.user.api.audit.params.QueryAuditLogInfoResponse;
 import com.ai.ch.user.api.shopinfo.interfaces.IShopInfoSV;
 import com.ai.ch.user.api.shopinfo.params.QueryShopInfoRequest;
 import com.ai.ch.user.api.shopinfo.params.QueryShopInfoResponse;
@@ -27,6 +34,7 @@ import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.constants.ChWebConstants.OperateCode;
 import com.ai.ch.user.web.model.sso.client.GeneralSSOClientUser;
 import com.ai.ch.user.web.util.PropertiesUtil;
+import com.ai.ch.user.web.vo.AuditInfoVo;
 import com.ai.ch.user.web.vo.BusinessListInfo;
 import com.ai.opt.base.exception.BusinessException;
 import com.ai.opt.base.vo.PageInfo;
@@ -124,10 +132,43 @@ public class QualificationController {
 	 * 店铺审核列表
 	 * 
 	 * @return
+	 * @throws UnsupportedEncodingException
 	 */
 	@RequestMapping("/toCheckedShopPager")
 	public ModelAndView toCheckedShopPager(HttpServletRequest request) {
 		return new ModelAndView("/jsp/qualification/shop/checkedPagerList");
+	}
+
+	/**
+	 * 店铺审核日志
+	 * 
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	@RequestMapping("/toShopAuditLogPager")
+	public ModelAndView toShopAuditLogPager(HttpServletRequest request, String userId, String username, String custname)
+			throws UnsupportedEncodingException {
+		ModelAndView model = new ModelAndView("/jsp/qualification/shop/auditlog");
+		model.addObject("username", URLDecoder.decode(username, "utf-8"));
+		model.addObject("custname", URLDecoder.decode(custname, "utf-8"));
+		model.addObject("userId", userId);
+		return model;
+	}
+
+	/**
+	 * 供应商审核日志
+	 * 
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	@RequestMapping("/toSuplierAuditLogPager")
+	public ModelAndView toSuplierAuditLogPager(HttpServletRequest request, String userId, String username,
+			String custname) throws UnsupportedEncodingException {
+		ModelAndView model = new ModelAndView("/jsp/qualification/supplier/auditlog");
+		model.addObject("username", URLDecoder.decode(username, "utf-8"));
+		model.addObject("custname", URLDecoder.decode(custname, "utf-8"));
+		model.addObject("userId", userId);
+		return model;
 	}
 
 	/**
@@ -750,6 +791,56 @@ public class QualificationController {
 		return response;
 	}
 
+	// 查询审核日志
+	@RequestMapping("/getAuditLog")
+	@ResponseBody
+	public ResponseData<PageInfo<AuditInfoVo>> getAuditLog(HttpServletRequest request, String userId) {
+		ResponseData<PageInfo<AuditInfoVo>> response = null;
+		PageInfo<AuditInfoVo> pageInfo = new PageInfo<>();
+		ResponseHeader header = null;
+		IAuditSV auditSV = DubboConsumerFactory.getService("iAuditSV");
+		QueryAuditLogInfoRequest queryAuditLogInfoRequest = new QueryAuditLogInfoRequest();
+		QueryAuditLogInfoResponse queryAuditLogInfoResponse = null;
+		try {
+			queryAuditLogInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+			queryAuditLogInfoRequest.setUserId(userId);
+			queryAuditLogInfoRequest.setPageNo(Integer.valueOf(request.getParameter("pageNo")));
+			queryAuditLogInfoRequest.setPageSize(Integer.valueOf(request.getParameter("pageSize")));
+			queryAuditLogInfoResponse = auditSV.queryAuditLogInfo(queryAuditLogInfoRequest);
+			response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
+			header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+		} catch (Exception e) {
+			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
+			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
+			LOG.error("操作失败,原因" + JSON.toJSONString(e));
+		}
+		List<AuditInfoVo> result = new ArrayList<>();
+			PageInfo<AuditLogVo> pageInfoVo = queryAuditLogInfoResponse.getPageInfo();
+			if (pageInfoVo != null) {
+				for (AuditLogVo auditLogVo : pageInfoVo.getResult()) {
+					AuditInfoVo auditInfoVo = new AuditInfoVo();
+					BeanUtils.copyProperties(auditLogVo, auditInfoVo);
+					if ("2".equals(auditLogVo.getAuditStatus())) {
+						auditInfoVo.setAuditStatus("审核已通过");
+					} else if ("3".equals(auditLogVo.getAuditStatus())) {
+						auditInfoVo.setAuditStatus("审核已拒绝");
+					} else {
+						auditInfoVo.setAuditStatus("");
+					}
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					if (auditLogVo.getAuditTime() != null) {
+						auditInfoVo.setAuditTime(sdf.format(auditLogVo.getAuditTime()));
+					}
+					result.add(auditInfoVo);
+				}
+				BeanUtils.copyProperties(pageInfoVo, pageInfo);
+				pageInfo.setResult(result);
+		}
+		response.setResponseHeader(header);
+		response.setData(pageInfo);
+		return response;
+	}
+
 	// 查询已审核列表
 	@RequestMapping("/getCheckedList")
 	@ResponseBody
@@ -841,7 +932,7 @@ public class QualificationController {
 	@RequestMapping("/updateAudit")
 	@ResponseBody
 	public ResponseData<String> updateAudit(HttpServletRequest request, String companyId, String auditState,
-			String reason) {
+			String reason, String ctType) {
 		ResponseData<String> response = null;
 		ResponseHeader header = null;
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession()
@@ -870,6 +961,16 @@ public class QualificationController {
 			if ("success".equals(result)) {
 				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				IAuditSV auditSV = DubboConsumerFactory.getService("iAuditSV");
+				InsertAuditInfoRequest insertAuditInfoRequest = new InsertAuditInfoRequest();
+				insertAuditInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+				insertAuditInfoRequest.setAuditDesc(reason);
+				insertAuditInfoRequest.setAuditStatus(auditState);
+				insertAuditInfoRequest.setOperId(user.getUserId());
+				insertAuditInfoRequest.setOperName(user.getUsername());
+				insertAuditInfoRequest.setCtType(ctType);
+				insertAuditInfoRequest.setUserId(companyId);
+				auditSV.insertAuditInfo(insertAuditInfoRequest);
 			} else {
 				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");

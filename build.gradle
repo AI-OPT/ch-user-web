@@ -94,6 +94,8 @@ dependencies {
     compile "com.ai.ch.user:shopinfo:1.1-SNAPSHOT"
     //扣费设置
     compile "com.ai.ch.user:defaultlog:1.1-SNAPSHOT"
+    //审核日志
+    compile "com.ai.ch.user:audit:1.0-SNAPSHOT"
     
     compile "com.ai.platform.common:sysuser:1.0-SNAPSHOT"
     //租户信息

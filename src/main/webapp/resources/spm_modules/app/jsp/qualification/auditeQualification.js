@@ -41,7 +41,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
     		window.location.href=url;
     	},
     	
-    	_passAudit:function(userId,url){
+    	_passAudit:function(userId,url,ctType){
     		this._checkReason();
     		if($("#reasonFlag").val()=='0'){
     			return false;
@@ -60,6 +60,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    			dataType: "json",
 		    			data:{
 		    				"auditState":"2",
+		    				"ctType":ctType,
 		    				"companyId":userId,
 		    				"reason":$.trim($("#reason").val())
 		    			},
@@ -146,7 +147,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 			}
 		},
 		
-    	_rejectAudit:function(userId,url){
+    	_rejectAudit:function(userId,url,ctType){
     		this._checkReason();
     		if($("#reasonFlag").val()=='0'){
     			return;
@@ -165,6 +166,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    			dataType: "json",
 		    			data:{
 		    				"auditState":'3',
+		    				"ctType":ctType,
 		    				"companyId":userId,
 		    				"reason":$.trim($("#reason").val())
 		    			},
