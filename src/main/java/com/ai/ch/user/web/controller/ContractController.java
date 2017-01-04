@@ -5,13 +5,13 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -280,7 +280,7 @@ public class ContractController {
 			String infoName = extVp.getInfoName();
 			String attrValue = extVp.getAttrValue();
 			String infoItem = extVp.getInfoItem();
-			Random random = new Random();
+			SecureRandom random = new SecureRandom();
 			if (ChWebConstants.SCAN_CONTRACT_SUPPLIER.equals(extVp.getInfoItem())) {
 				model.put("scanContractInfoName", infoName);
 				// model.put("scanDownLoadName", new
@@ -377,7 +377,7 @@ public class ContractController {
 			String infoName = extVp.getInfoName();
 			String attrValue = extVp.getAttrValue();
 			String infoItem = extVp.getInfoItem();
-			Random random = new Random();
+			SecureRandom random = new SecureRandom();
 			if (ChWebConstants.SCAN_CONTRACT_SHOP.equals(extVp.getInfoItem())) {
 				model.put("scanContractInfoName", infoName);
 				// model.put("scanDownLoadName", new

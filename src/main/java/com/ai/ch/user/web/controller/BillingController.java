@@ -43,6 +43,7 @@ import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.esotericsoftware.minlog.Log;
 @RestController
 @RequestMapping("/billing")
 public class BillingController {
@@ -94,15 +95,19 @@ public class BillingController {
 		{
 			rentFeeStr="未设置";
 		}else{
-			if("Y".equals(shopInfoResponse.getRentCycleType()))
+			if("Y".equals(shopInfoResponse.getRentCycleType())){
 				rentFeeStr=shopInfoResponse.getRentFee()+"元/年";
-			if("Q".equals(shopInfoResponse.getRentCycleType()))
+			}
+			if("Q".equals(shopInfoResponse.getRentCycleType())){
 				rentFeeStr=shopInfoResponse.getRentFee()+"元/季度";
-			if("M".equals(shopInfoResponse.getRentCycleType()))
+			}
+			if("M".equals(shopInfoResponse.getRentCycleType())){
 				rentFeeStr=shopInfoResponse.getRentFee()+"元/月";
+			}
 		}
-		if(shopInfoResponse.getRatio()==null||shopInfoResponse.getRatio()==0)
+		if(shopInfoResponse.getRatio()==null||shopInfoResponse.getRatio()==0){
 			ratioStr="未设置";
+		}
 		else{
 			ratioStr=shopInfoResponse.getRatio()+"%";
 		}
@@ -133,20 +138,25 @@ public class BillingController {
 		if(shopInfoResponse.getRentFee()==null||shopInfoResponse.getRentFee()==0){
 			rentFeeStr="未设置";
 		}else{
-			if("Y".equals(shopInfoResponse.getRentCycleType()))
+			if("Y".equals(shopInfoResponse.getRentCycleType())){
 			rentFeeStr=shopInfoResponse.getRentFee()+"元/年";
-			if("Q".equals(shopInfoResponse.getRentCycleType()))
+			}
+			if("Q".equals(shopInfoResponse.getRentCycleType())){
 				rentFeeStr=shopInfoResponse.getRentFee()+"元/季度";
-			if("M".equals(shopInfoResponse.getRentCycleType()))
+			}
+			if("M".equals(shopInfoResponse.getRentCycleType())){
 				rentFeeStr=shopInfoResponse.getRentFee()+"元/月";
+			}
 		}
-		if(shopInfoResponse.getRatio()==null||shopInfoResponse.getRatio()==0)
+		if(shopInfoResponse.getRatio()==null||shopInfoResponse.getRatio()==0){
 			ratioStr="未设置";
+		}
 		else{
 			ratioStr=shopInfoResponse.getRatio()+"%";
 		}
-		if(shopInfoResponse.getDepositBalance()!=null)
+		if(shopInfoResponse.getDepositBalance()!=null){
 			deposit =shopInfoResponse.getDepositBalance()+"元";
+		}
 		else{
 			QueryShopDepositRequest queryShopDepositRequest = new QueryShopDepositRequest();
 			queryShopDepositRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
@@ -173,7 +183,7 @@ public class BillingController {
 		UpdateShopInfoRequest shopInfoRequst = new UpdateShopInfoRequest();
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		shopInfoRequst.setTenantId(user.getTenantId());
-		if(request.getParameter("userId")==null||"".equals(request.getParameter("userId")));
+		//if(request.getParameter("userId")==null||"".equals(request.getParameter("userId")));
 		shopInfoRequst.setUserId(request.getParameter("userId"));
 		shopInfoRequst.setDepositBalance(Long.valueOf(request.getParameter("depositBalance")));
 		try{
@@ -198,12 +208,14 @@ public class BillingController {
 		BaseResponse updateResponse = null;
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		shopInfoRequst.setTenantId(user.getTenantId());
-		if(request.getParameter("userId")==null||"".equals(request.getParameter("userId")));
+		//if(request.getParameter("userId")==null||"".equals(request.getParameter("userId")));
 		shopInfoRequst.setUserId(request.getParameter("userId"));
-		if(shopInfoRequst.getRentFee()==null)
+		if(shopInfoRequst.getRentFee()==null){
 			shopInfoRequst.setRentFee(0L);
-		if(shopInfoRequst.getRatio()==null)
+		}
+		if(shopInfoRequst.getRatio()==null){
 			shopInfoRequst.setRatio(0.0F);
+		}
 		try{
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		Long beginTime = System.currentTimeMillis();
@@ -241,7 +253,7 @@ public class BillingController {
 			model.put("userName", URLDecoder.decode(userName,"utf-8"));
 			model.put("custName", URLDecoder.decode(custName,"utf-8"));
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			Log.error("操作发生错误,原因"+JSON.toJSONString(e));
 		}
  		model.put("userId", userId);
 		return new ModelAndView("/jsp/billing/billingCycle",model);
@@ -303,7 +315,7 @@ public class BillingController {
 			model.put("userName", URLDecoder.decode(userName,"utf-8"));
 			model.put("custName", URLDecoder.decode(custName,"utf-8"));
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			Log.error("操作失败,错误原因"+JSON.toJSONString(e));
 		}
 		return new ModelAndView("/jsp/billing/billingCycleDetail",model);
 	}
@@ -320,12 +332,15 @@ public class BillingController {
 		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("pageNo", request.getParameter("pageNo"));
 		map.put("pageSize", request.getParameter("pageSize"));
-		if(username!=null&&username.length()!=0)
+		if(username!=null&&username.length()!=0){
 			map.put("username", username);
-		if(companyName!=null&&companyName.length()!=0)
+		}
+		if(companyName!=null&&companyName.length()!=0){
 			map.put("companyName", companyName);
-		if(companyType!=null&&companyType.length()!=0)
+		}
+		if(companyType!=null&&companyType.length()!=0){
 			map.put("companyType", companyType);
+		}
 		String str ="";
 		try {
 			Long beginTime = System.currentTimeMillis();
@@ -334,7 +349,7 @@ public class BillingController {
 			log.info("长虹接口查询列表服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			
 		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
+			Log.error("操作失败,错误原因"+JSON.toJSONString(e));
 		}
 		try{
 			JSONObject data = ParseO2pDataUtil.getData(str);
@@ -391,12 +406,15 @@ public class BillingController {
 		mapHeader.put("appkey", PropertiesUtil.getStringByKey("appkey"));
 		map.put("pageNo", request.getParameter("pageNo"));
 		map.put("pageSize", request.getParameter("pageSize"));
-		if(username!=null&&username.length()!=0)
+		if(username!=null&&username.length()!=0){
 			map.put("username", username);
-		if(companyName!=null&&companyName.length()!=0)
+		}
+		if(companyName!=null&&companyName.length()!=0){
 			map.put("companyName", companyName);
-		if(companyType!=null&&companyType.length()!=0)
+		}
+		if(companyType!=null&&companyType.length()!=0){
 			map.put("companyType", companyType);
+		}
 		String str ="";
 		try {
 			Long beginTime = System.currentTimeMillis();
@@ -405,7 +423,7 @@ public class BillingController {
 			log.info("长虹接口查询列表服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			
 		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
+			Log.error("操作失败,错误原因"+JSON.toJSONString(e));
 		}
 		try{
 			JSONObject data = ParseO2pDataUtil.getData(str);

@@ -1,5 +1,12 @@
 package com.ai.ch.user.web.constants;
 
+/**
+ * 商户web常用代码常量
+ * Date: 2017年1月4日 <br>
+ * Copyright (c) 2017 asiainfo.com <br>
+ * 
+ * @author zhangqiang7
+ */
 public class ChWebConstants {
 
 	/**
@@ -16,16 +23,34 @@ public class ChWebConstants {
      */
     public static final String CONTRACT_TYPE_SHOP="2";
     
+    /**
+     * 供应商扫描合同
+     */
     public static final String SCAN_CONTRACT_SUPPLIER="30001";
     
+    /**
+     * 供应商电子合同
+     */
     public static final String ELECTRONIC_CONTRACT_SUPPLIER="30002";
 	
+    /**
+     * 店铺扫描合同
+     */
     public static final String SCAN_CONTRACT_SHOP="40001";
     
+    /**
+     * 店铺电子合同
+     */
     public static final String ELECTRONIC_CONTRACT_SHOP="40002";
     
+    /**
+     * 供应商附件类型
+     */
     public static final String INFOTYPE_SUPPLIER="30";
     
+    /**
+     * 店铺附件类型
+     */
     public static final String INFOTYPE_SHOP="40";
     
 	public final static class Tenant {
@@ -66,23 +91,33 @@ public class ChWebConstants {
         public static final java.lang.String SUCCESS_CODE = "000000";// 成功
         /*** 失败ID */
         public static final String ERROR_CODE = "111111";
-        public static final java.lang.String SYSTEM_ERROR = "999999";// 系统错误
+        // 系统错误
+        public static final java.lang.String SYSTEM_ERROR = "999999";
 
-        public static final java.lang.String PARAM_IS_NULL = "888888";// 参数为空
+        // 参数为空
+        public static final java.lang.String PARAM_IS_NULL = "888888";
 
-        public static final java.lang.String NO_RESULT = "000001";// 无结果
+        // 无结果
+        public static final java.lang.String NO_RESULT = "000001";
 
-        public static final java.lang.String PARAM_TYPE_NOT_RIGHT = "000002";// 参数类型错误
+        // 参数类型错误
+        public static final java.lang.String PARAM_TYPE_NOT_RIGHT = "000002";
 
-        public static final java.lang.String NO_DATA_OR_CACAE_ERROR = "000003";// 无数据或缓存错误
+        // 无数据或缓存错误
+        public static final java.lang.String NO_DATA_OR_CACAE_ERROR = "000003";
 
-        public static final java.lang.String PARAM_VALUE_NOT_RIGHT = "000004";// 参数取值错误
+        // 参数取值错误
+        public static final java.lang.String PARAM_VALUE_NOT_RIGHT = "000004";
 
-        public static final java.lang.String PARAM_VALUE_EXIST_ERROR = "000005";// 参数值重复错误
+        // 参数值重复错误
+        public static final java.lang.String PARAM_VALUE_EXIST_ERROR = "000005";
 
-        public static final java.lang.String RESULT_IS_NULL = "000006";// 结果为空
+        // 结果为空
+        public static final java.lang.String RESULT_IS_NULL = "000006";
         
+        //合同名称错误
         public static final java.lang.String CONTRACT_NAME_ERROR="100005";
+        //合同代码有误
         public static final java.lang.String CONTRACT_CODE_ERROR="100005";
     }
 
