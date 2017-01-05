@@ -410,7 +410,7 @@
 							<ul>
 								<li>
 									<p class="word">原因:</p>
-									<p>${auditResponse.auditDesc }</p>
+									<p class="wide-field">${auditResponse.auditDesc }</p>
 								</li>
 							</ul>
 							<ul> 

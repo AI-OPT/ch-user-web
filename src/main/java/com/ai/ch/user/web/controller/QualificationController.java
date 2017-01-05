@@ -568,7 +568,7 @@ public class QualificationController {
 		queryAuditInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
 		queryAuditInfoRequest.setUserId(userId);
 		QueryAuditInfoResponse queryAuditInfoResponse = auditSV.queryAuditInfo(queryAuditInfoRequest);
-		if(StringUtil.isBlank(queryAuditInfoResponse.getAuditStatus())){
+		if(!StringUtil.isBlank(queryAuditInfoResponse.getAuditStatus())){
 			if("2".equals(queryAuditInfoResponse.getAuditStatus())){
 				queryAuditInfoResponse.setAuditStatus("审核已通过");
 			}else if("3".equals(queryAuditInfoResponse.getAuditStatus())){
@@ -736,7 +736,7 @@ public class QualificationController {
 			queryAuditInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
 			queryAuditInfoRequest.setUserId(userId);
 			QueryAuditInfoResponse queryAuditInfoResponse = auditSV.queryAuditInfo(queryAuditInfoRequest);
-			if(StringUtil.isBlank(queryAuditInfoResponse.getAuditStatus())){
+			if(!StringUtil.isBlank(queryAuditInfoResponse.getAuditStatus())){
 				if("2".equals(queryAuditInfoResponse.getAuditStatus())){
 					queryAuditInfoResponse.setAuditStatus("审核已通过");
 				}else if("3".equals(queryAuditInfoResponse.getAuditStatus())){

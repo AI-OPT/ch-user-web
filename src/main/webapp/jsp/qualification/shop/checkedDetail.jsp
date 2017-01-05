@@ -433,7 +433,7 @@
 							<ul>
 								<li>
 								<p class="word">店铺介绍:</p>
-								<p>${shopDesc }</p>
+								<p class="wide-field">${shopDesc }</p>
 								</li>
 							</ul>
 							<div class="nav-tplist-title bd-bottom pb-10">
@@ -456,7 +456,7 @@
 							<ul>
 								<li>
 									<p class="word">原因:</p>
-									<p>${auditResponse.auditDesc }</p>
+									<p class="wide-field">${auditResponse.auditDesc }</p>
 								</li>
 								</ul>
 							<ul>
