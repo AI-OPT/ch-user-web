@@ -25,6 +25,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ai.ch.user.api.audit.interfaces.IAuditSV;
 import com.ai.ch.user.api.audit.params.AuditLogVo;
 import com.ai.ch.user.api.audit.params.InsertAuditInfoRequest;
+import com.ai.ch.user.api.audit.params.QueryAuditInfoRequest;
+import com.ai.ch.user.api.audit.params.QueryAuditInfoResponse;
 import com.ai.ch.user.api.audit.params.QueryAuditLogInfoRequest;
 import com.ai.ch.user.api.audit.params.QueryAuditLogInfoResponse;
 import com.ai.ch.user.api.shopinfo.interfaces.IShopInfoSV;
@@ -42,6 +44,7 @@ import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.opt.sdk.util.ParseO2pDataUtil;
+import com.ai.opt.sdk.util.StringUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.alibaba.fastjson.JSON;
@@ -559,6 +562,22 @@ public class QualificationController {
 		model.addObject(BRANDNAMECH, data2.getString(BRANDNAMECH));
 		model.addObject(BRANDNAMEEN, data2.getString(BRANDNAMEEN));
 		model.addObject(REGISTERCAPITAL, data2.getString(REGISTERCAPITAL));
+		
+		IAuditSV auditSV = DubboConsumerFactory.getService("iAuditSV");
+		QueryAuditInfoRequest queryAuditInfoRequest = new QueryAuditInfoRequest();
+		queryAuditInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+		queryAuditInfoRequest.setUserId(userId);
+		QueryAuditInfoResponse queryAuditInfoResponse = auditSV.queryAuditInfo(queryAuditInfoRequest);
+		if(StringUtil.isBlank(queryAuditInfoResponse.getAuditStatus())){
+			if("2".equals(queryAuditInfoResponse.getAuditStatus())){
+				queryAuditInfoResponse.setAuditStatus("审核已通过");
+			}else if("3".equals(queryAuditInfoResponse.getAuditStatus())){
+				queryAuditInfoResponse.setAuditStatus("审核已拒绝");
+			}else{
+				queryAuditInfoResponse.setAuditStatus("");
+			}
+		}
+		model.addObject("auditResponse", queryAuditInfoResponse);
 		return model;
 	}
 
@@ -712,6 +731,21 @@ public class QualificationController {
 				}
 			}
 			model.addObject("ecommOwner", ecommOwner);
+			IAuditSV auditSV = DubboConsumerFactory.getService("iAuditSV");
+			QueryAuditInfoRequest queryAuditInfoRequest = new QueryAuditInfoRequest();
+			queryAuditInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
+			queryAuditInfoRequest.setUserId(userId);
+			QueryAuditInfoResponse queryAuditInfoResponse = auditSV.queryAuditInfo(queryAuditInfoRequest);
+			if(StringUtil.isBlank(queryAuditInfoResponse.getAuditStatus())){
+				if("2".equals(queryAuditInfoResponse.getAuditStatus())){
+					queryAuditInfoResponse.setAuditStatus("审核已通过");
+				}else if("3".equals(queryAuditInfoResponse.getAuditStatus())){
+					queryAuditInfoResponse.setAuditStatus("审核已拒绝");
+				}else{
+					queryAuditInfoResponse.setAuditStatus("");
+				}
+			}
+			model.addObject("auditResponse", queryAuditInfoResponse);
 		}
 		return model;
 	}

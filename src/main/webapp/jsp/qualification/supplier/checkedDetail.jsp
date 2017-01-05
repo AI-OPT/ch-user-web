@@ -391,7 +391,7 @@
 								</li>
 							</ul>
 							<div class="nav-tplist-title bd-bottom pb-10">
-								<%-- <ul>
+							<ul>
 									<li class="col-md-5">审核详情</li>
 								</ul>
 							</div>
@@ -412,7 +412,7 @@
 									<p class="word">原因:</p>
 									<p>${auditResponse.auditDesc }</p>
 								</li>
-							</ul> --%>
+							</ul>
 							<ul> 
 							<li>
 							<p class="word">&nbsp;</p>
