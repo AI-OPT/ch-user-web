@@ -57,62 +57,7 @@ public class QualificationController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(QualificationController.class);
 
-	private static final String APPKEY = "appkey";
-
-	private static final String COMPANY_ID = "companyId";
-
-	private static final String FINDBYCOMPANYID = "findByCompanyId_http_url";
-
-	private static final String CREATETIME = "createTime";
-
-	private static final String TAXPAYERTYPE = "taxpayerType";
-
-	private static final String GENERAL = "一般纳税人";
-
-	private static final String TAXPAYER = "小规模纳税人";
-
-	private static final String NONVALUE = "非增值税纳税人";
-
-	private static final String LEGALREPRESENTATIVE = "legalRepresentative";
-
-	private static final String PHONE = "phone";
-
-	private static final String EMAIL = "email";
-
-	private static final String IDNUMBER = "idNumber";
-
-	private static final String BANKACCOUNT = "bankAccount";
-
-	private static final String BUSINESSADDRESS = "businessAddress";
-
-	private static final String USERID = "userId";
-
-	private static final String USERNAME = "userName";
-
-	private static final String SHOPNAME = "shopName";
-
-	private static final String INDUSTRYTYPE = "industryType";
-
-	private static final String OFFICIALWEBSITE = "officialWebsite";
-	private static final String COMPANIESNUMBER = "companiesNumber";
-	private static final String COMPANYNATURE = "companyNature";
-	private static final String ANNUALTURNOVER = "annualTurnover";
-	private static final String AREACOVER = "areaCover";
-	private static final String FAX = "fax";
-	private static final String LOCATION = "location";
-	private static final String BUSINESSLICENSEREGISTRATIONNUMBER = "businessLicenseRegistrationNumber";
-	private static final String ESTABLISHDATE = "establishDate";
-	private static final String TAXPAYERNUMBER = "taxpayerNumber";
-	private static final String BUSINESSSCOPE = "businessScope";
-	private static final String TAXCODE = "taxCode";
-	private static final String ORGANIZATIONCODE = "organizationCode";
-	private static final String BANKNAME = "bankName";
-	private static final String COMMODITYTYPE = "commodityType";
-	private static final String BRANDNAMECH = "brandNameCh";
-	private static final String REGISTERCAPITAL = "registerCapital";
-	private static final String BRANDNAMEEN = "brandNameEn";
-	private static final String PAGENO = "pageNo";
-	private static final String PAGESIZE = "pageSize";
+	
 	static private String[] shopOwner = { "京东", "天猫", "淘宝", "苏宁", "一号店", "自有电商平台" };
 
 	/**
@@ -196,11 +141,11 @@ public class QualificationController {
 		// 查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put(APPKEY, PropertiesUtil.getStringByKey(APPKEY));
-		map.put(COMPANY_ID, userId);
+		mapHeader.put(ChWebConstants.Audit.APPKEY, PropertiesUtil.getStringByKey(ChWebConstants.Audit.APPKEY));
+		map.put(ChWebConstants.Audit.COMPANY_ID, userId);
 		String str = "";
 		try {
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey(FINDBYCOMPANYID), JSON.toJSONString(map),
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey(ChWebConstants.Audit.FINDBYCOMPANYID), JSON.toJSONString(map),
 					mapHeader);
 		} catch (IOException | URISyntaxException e) {
 			LOG.error("查询失败,失败信息" + JSON.toJSONString(e));
@@ -211,17 +156,17 @@ public class QualificationController {
 
 		// 转换时间
 		String createTime = "";
-		if (data2.getString(CREATETIME) != null && data2.getString(CREATETIME).length() != 0) {
+		if (data2.getString(ChWebConstants.Audit.CREATETIME) != null && data2.getString(ChWebConstants.Audit.CREATETIME).length() != 0) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			createTime = sdf.format(Long.parseLong(data2.getString(CREATETIME)));
+			createTime = sdf.format(Long.parseLong(data2.getString(ChWebConstants.Audit.CREATETIME)));
 		}
 		String taxpayerType = "";
-		if ("1".equals(data2.getString(TAXPAYERTYPE))) {
-			taxpayerType = GENERAL;
-		} else if ("2".equals(data2.getString(TAXPAYERTYPE))) {
-			taxpayerType = TAXPAYER;
-		} else if ("3".equals(data2.getString(TAXPAYERTYPE))) {
-			taxpayerType = NONVALUE;
+		if ("1".equals(data2.getString(ChWebConstants.Audit.TAXPAYERTYPE))) {
+			taxpayerType = ChWebConstants.Audit.GENERAL;
+		} else if ("2".equals(data2.getString(ChWebConstants.Audit.TAXPAYERTYPE))) {
+			taxpayerType = ChWebConstants.Audit.TAXPAYER;
+		} else if ("3".equals(data2.getString(ChWebConstants.Audit.TAXPAYERTYPE))) {
+			taxpayerType = ChWebConstants.Audit.NONVALUE;
 		}
 		String legalRepresentative = "";
 		String phone = "";
@@ -231,70 +176,70 @@ public class QualificationController {
 		String businessAddress = "";
 		String location = "";
 		// 安全处理信息
-		if (data2.getString(LEGALREPRESENTATIVE) != null) {
-			legalRepresentative = getStarStringNoEnd(data2.getString(LEGALREPRESENTATIVE), 1);
+		if (data2.getString(ChWebConstants.Audit.LEGALREPRESENTATIVE) != null) {
+			legalRepresentative = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.LEGALREPRESENTATIVE), 1);
 		}
-		if (data2.getString(PHONE) != null) {
-			phone = getStarString(data2.getString(PHONE), 4, 7);
+		if (data2.getString(ChWebConstants.Audit.PHONE) != null) {
+			phone = getStarString(data2.getString(ChWebConstants.Audit.PHONE), 4, 7);
 		}
-		if (data2.getString(EMAIL) != null) {
-			email = getStarString(data2.getString(EMAIL), 2, data2.getString(EMAIL).lastIndexOf("@"));
+		if (data2.getString(ChWebConstants.Audit.EMAIL) != null) {
+			email = getStarString(data2.getString(ChWebConstants.Audit.EMAIL), 2, data2.getString(ChWebConstants.Audit.EMAIL).lastIndexOf("@"));
 		}
-		if (data2.getString(IDNUMBER) != null) {
-			idNumber = getStarString(data2.getString(IDNUMBER), data2.getString(IDNUMBER).length() - 10,
-					data2.getString(IDNUMBER).length() - 4);
+		if (data2.getString(ChWebConstants.Audit.IDNUMBER) != null) {
+			idNumber = getStarString(data2.getString(ChWebConstants.Audit.IDNUMBER), data2.getString(ChWebConstants.Audit.IDNUMBER).length() - 10,
+					data2.getString(ChWebConstants.Audit.IDNUMBER).length() - 4);
 		}
-		if (data2.getString(BANKACCOUNT) != null) {
-			bankAccount = getStarString(data2.getString(BANKACCOUNT), data2.getString(BANKACCOUNT).length() - 7,
-					data2.getString(BANKACCOUNT).length() - 3);
+		if (data2.getString(ChWebConstants.Audit.BANKACCOUNT) != null) {
+			bankAccount = getStarString(data2.getString(ChWebConstants.Audit.BANKACCOUNT), data2.getString(ChWebConstants.Audit.BANKACCOUNT).length() - 7,
+					data2.getString(ChWebConstants.Audit.BANKACCOUNT).length() - 3);
 		}
-		if (data2.getString(BUSINESSADDRESS) != null) {
-			if (data2.getString(BUSINESSADDRESS).length() < 4) {
-				businessAddress = getStarStringNoEnd(data2.getString(BUSINESSADDRESS),
-						data2.getString(BUSINESSADDRESS).length() - 1);
+		if (data2.getString(ChWebConstants.Audit.BUSINESSADDRESS) != null) {
+			if (data2.getString(ChWebConstants.Audit.BUSINESSADDRESS).length() < 4) {
+				businessAddress = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.BUSINESSADDRESS),
+						data2.getString(ChWebConstants.Audit.BUSINESSADDRESS).length() - 1);
 			} else {
-				businessAddress = getStarStringNoEnd(data2.getString(BUSINESSADDRESS),
-						data2.getString(BUSINESSADDRESS).length() - 4);
+				businessAddress = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.BUSINESSADDRESS),
+						data2.getString(ChWebConstants.Audit.BUSINESSADDRESS).length() - 4);
 			}
 		}
-		if (data2.getString(LOCATION) != null) {
-			if (data2.getString(LOCATION).length() < 4) {
-				location = getStarStringNoEnd(data2.getString(LOCATION), data2.getString(LOCATION).length() - 1);
+		if (data2.getString(ChWebConstants.Audit.LOCATION) != null) {
+			if (data2.getString(ChWebConstants.Audit.LOCATION).length() < 4) {
+				location = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.LOCATION), data2.getString(ChWebConstants.Audit.LOCATION).length() - 1);
 			} else {
-				location = getStarStringNoEnd(data2.getString(LOCATION), data2.getString(LOCATION).length() - 4);
+				location = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.LOCATION), data2.getString(ChWebConstants.Audit.LOCATION).length() - 4);
 			}
 		}
 		// System.out.println(JSON.toJSONString(data2));
-		model.addObject(USERID, userId);
-		model.addObject(USERNAME, username);
-		model.addObject(SHOPNAME, data2.getString("name"));
-		model.addObject(CREATETIME, createTime);
-		model.addObject(INDUSTRYTYPE, data2.getString(INDUSTRYTYPE));
-		model.addObject(OFFICIALWEBSITE, data2.getString(OFFICIALWEBSITE));
-		model.addObject(COMPANIESNUMBER, data2.getString(COMPANIESNUMBER));
-		model.addObject(COMPANYNATURE, data2.getString(COMPANYNATURE));
-		model.addObject(LOCATION, location);
-		model.addObject(ANNUALTURNOVER, data2.getString(ANNUALTURNOVER));
-		model.addObject(AREACOVER, data2.getString(AREACOVER));
-		model.addObject(PHONE, phone);
-		model.addObject(FAX, data2.getString(FAX));
-		model.addObject(EMAIL, email);
-		model.addObject(BUSINESSADDRESS, businessAddress);
-		model.addObject(BUSINESSLICENSEREGISTRATIONNUMBER, data2.getString(BUSINESSLICENSEREGISTRATIONNUMBER));
-		model.addObject(ESTABLISHDATE, data2.getString(ESTABLISHDATE));
-		model.addObject(BUSINESSSCOPE, data2.getString(BUSINESSSCOPE));
-		model.addObject(LEGALREPRESENTATIVE, legalRepresentative);
-		model.addObject(IDNUMBER, idNumber);
-		model.addObject(TAXPAYERNUMBER, data2.getString(TAXPAYERNUMBER));
-		model.addObject(TAXPAYERTYPE, taxpayerType);
-		model.addObject(TAXCODE, data2.getString(TAXCODE));
-		model.addObject(ORGANIZATIONCODE, data2.getString(ORGANIZATIONCODE));
-		model.addObject(BANKNAME, data2.getString(BANKNAME));
-		model.addObject(BANKACCOUNT, bankAccount);
-		model.addObject(COMMODITYTYPE, data2.getString(COMMODITYTYPE));
-		model.addObject(BRANDNAMECH, data2.getString(BRANDNAMECH));
-		model.addObject(BRANDNAMEEN, data2.getString(BRANDNAMEEN));
-		model.addObject(REGISTERCAPITAL, data2.getString(REGISTERCAPITAL));
+		model.addObject(ChWebConstants.Audit.USERID, userId);
+		model.addObject(ChWebConstants.Audit.USERNAME, username);
+		model.addObject(ChWebConstants.Audit.SHOPNAME, data2.getString("name"));
+		model.addObject(ChWebConstants.Audit.CREATETIME, createTime);
+		model.addObject(ChWebConstants.Audit.INDUSTRYTYPE, data2.getString(ChWebConstants.Audit.INDUSTRYTYPE));
+		model.addObject(ChWebConstants.Audit.OFFICIALWEBSITE, data2.getString(ChWebConstants.Audit.OFFICIALWEBSITE));
+		model.addObject(ChWebConstants.Audit.COMPANIESNUMBER, data2.getString(ChWebConstants.Audit.COMPANIESNUMBER));
+		model.addObject(ChWebConstants.Audit.COMPANYNATURE, data2.getString(ChWebConstants.Audit.COMPANYNATURE));
+		model.addObject(ChWebConstants.Audit.LOCATION, location);
+		model.addObject(ChWebConstants.Audit.ANNUALTURNOVER, data2.getString(ChWebConstants.Audit.ANNUALTURNOVER));
+		model.addObject(ChWebConstants.Audit.AREACOVER, data2.getString(ChWebConstants.Audit.AREACOVER));
+		model.addObject(ChWebConstants.Audit.PHONE, phone);
+		model.addObject(ChWebConstants.Audit.FAX, data2.getString(ChWebConstants.Audit.FAX));
+		model.addObject(ChWebConstants.Audit.EMAIL, email);
+		model.addObject(ChWebConstants.Audit.BUSINESSADDRESS, businessAddress);
+		model.addObject(ChWebConstants.Audit.BUSINESSLICENSEREGISTRATIONNUMBER, data2.getString(ChWebConstants.Audit.BUSINESSLICENSEREGISTRATIONNUMBER));
+		model.addObject(ChWebConstants.Audit.ESTABLISHDATE, data2.getString(ChWebConstants.Audit.ESTABLISHDATE));
+		model.addObject(ChWebConstants.Audit.BUSINESSSCOPE, data2.getString(ChWebConstants.Audit.BUSINESSSCOPE));
+		model.addObject(ChWebConstants.Audit.LEGALREPRESENTATIVE, legalRepresentative);
+		model.addObject(ChWebConstants.Audit.IDNUMBER, idNumber);
+		model.addObject(ChWebConstants.Audit.TAXPAYERNUMBER, data2.getString(ChWebConstants.Audit.TAXPAYERNUMBER));
+		model.addObject(ChWebConstants.Audit.TAXPAYERTYPE, taxpayerType);
+		model.addObject(ChWebConstants.Audit.TAXCODE, data2.getString(ChWebConstants.Audit.TAXCODE));
+		model.addObject(ChWebConstants.Audit.ORGANIZATIONCODE, data2.getString(ChWebConstants.Audit.ORGANIZATIONCODE));
+		model.addObject(ChWebConstants.Audit.BANKNAME, data2.getString(ChWebConstants.Audit.BANKNAME));
+		model.addObject(ChWebConstants.Audit.BANKACCOUNT, bankAccount);
+		model.addObject(ChWebConstants.Audit.COMMODITYTYPE, data2.getString(ChWebConstants.Audit.COMMODITYTYPE));
+		model.addObject(ChWebConstants.Audit.BRANDNAMECH, data2.getString(ChWebConstants.Audit.BRANDNAMECH));
+		model.addObject(ChWebConstants.Audit.BRANDNAMEEN, data2.getString(ChWebConstants.Audit.BRANDNAMEEN));
+		model.addObject(ChWebConstants.Audit.REGISTERCAPITAL, data2.getString(ChWebConstants.Audit.REGISTERCAPITAL));
 		return model;
 	}
 
@@ -310,11 +255,11 @@ public class QualificationController {
 		// 查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put(APPKEY, PropertiesUtil.getStringByKey(APPKEY));
-		map.put(COMPANY_ID, userId);
+		mapHeader.put(ChWebConstants.Audit.APPKEY, PropertiesUtil.getStringByKey(ChWebConstants.Audit.APPKEY));
+		map.put(ChWebConstants.Audit.COMPANY_ID, userId);
 		String str = "";
 		try {
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey(FINDBYCOMPANYID), JSON.toJSONString(map),
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey(ChWebConstants.Audit.FINDBYCOMPANYID), JSON.toJSONString(map),
 					mapHeader);
 		} catch (IOException | URISyntaxException e) {
 			LOG.error("查询失败,失败信息" + JSON.toJSONString(e));
@@ -330,17 +275,17 @@ public class QualificationController {
 		queryShopInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
 		queryShopInfoRequest.setUserId(userId);
 		QueryShopInfoResponse response = shopInfoSV.queryShopInfo(queryShopInfoRequest);
-		if (data2.getString(CREATETIME) != null && data2.getString(CREATETIME).length() != 0) {
+		if (data2.getString(ChWebConstants.Audit.CREATETIME) != null && data2.getString(ChWebConstants.Audit.CREATETIME).length() != 0) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			createTime = sdf.format(Long.parseLong(data2.getString(CREATETIME)));
+			createTime = sdf.format(Long.parseLong(data2.getString(ChWebConstants.Audit.CREATETIME)));
 		}
 		String taxpayerType = "";
-		if ("1".equals(data2.getString(TAXPAYERTYPE))) {
-			taxpayerType = GENERAL;
-		} else if ("2".equals(data2.getString(TAXPAYERTYPE))) {
-			taxpayerType = TAXPAYER;
-		} else if ("3".equals(data2.getString(TAXPAYERTYPE))) {
-			taxpayerType = NONVALUE;
+		if ("1".equals(data2.getString(ChWebConstants.Audit.TAXPAYERTYPE))) {
+			taxpayerType = ChWebConstants.Audit.GENERAL;
+		} else if ("2".equals(data2.getString(ChWebConstants.Audit.TAXPAYERTYPE))) {
+			taxpayerType = ChWebConstants.Audit.TAXPAYER;
+		} else if ("3".equals(data2.getString(ChWebConstants.Audit.TAXPAYERTYPE))) {
+			taxpayerType = ChWebConstants.Audit.NONVALUE;
 		}
 
 		String legalRepresentative = "";
@@ -351,68 +296,68 @@ public class QualificationController {
 		String businessAddress = "";
 		String location = "";
 		// 安全处理信息
-		if (data2.getString(LEGALREPRESENTATIVE) != null) {
-			legalRepresentative = getStarStringNoEnd(data2.getString(LEGALREPRESENTATIVE), 1);
+		if (data2.getString(ChWebConstants.Audit.LEGALREPRESENTATIVE) != null) {
+			legalRepresentative = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.LEGALREPRESENTATIVE), 1);
 		}
-		if (data2.getString(PHONE) != null) {
-			phone = getStarString(data2.getString(PHONE), 4, 7);
+		if (data2.getString(ChWebConstants.Audit.PHONE) != null) {
+			phone = getStarString(data2.getString(ChWebConstants.Audit.PHONE), 4, 7);
 		}
-		if (data2.getString(EMAIL) != null) {
-			email = getStarString(data2.getString(EMAIL), 2, data2.getString(EMAIL).lastIndexOf("@"));
+		if (data2.getString(ChWebConstants.Audit.EMAIL) != null) {
+			email = getStarString(data2.getString(ChWebConstants.Audit.EMAIL), 2, data2.getString(ChWebConstants.Audit.EMAIL).lastIndexOf("@"));
 		}
-		if (data2.getString(IDNUMBER) != null) {
-			idNumber = getStarString(data2.getString(IDNUMBER), data2.getString(IDNUMBER).length() - 10,
-					data2.getString(IDNUMBER).length() - 4);
+		if (data2.getString(ChWebConstants.Audit.IDNUMBER) != null) {
+			idNumber = getStarString(data2.getString(ChWebConstants.Audit.IDNUMBER), data2.getString(ChWebConstants.Audit.IDNUMBER).length() - 10,
+					data2.getString(ChWebConstants.Audit.IDNUMBER).length() - 4);
 		}
-		if (data2.getString(BANKACCOUNT) != null) {
-			bankAccount = getStarString(data2.getString(BANKACCOUNT), data2.getString(BANKACCOUNT).length() - 7,
-					data2.getString(BANKACCOUNT).length() - 3);
+		if (data2.getString(ChWebConstants.Audit.BANKACCOUNT) != null) {
+			bankAccount = getStarString(data2.getString(ChWebConstants.Audit.BANKACCOUNT), data2.getString(ChWebConstants.Audit.BANKACCOUNT).length() - 7,
+					data2.getString(ChWebConstants.Audit.BANKACCOUNT).length() - 3);
 		}
-		if (data2.getString(BUSINESSADDRESS) != null) {
-			if (data2.getString(BUSINESSADDRESS).length() < 4) {
-				businessAddress = getStarStringNoEnd(data2.getString(BUSINESSADDRESS),
-						data2.getString(BUSINESSADDRESS).length() - 1);
+		if (data2.getString(ChWebConstants.Audit.BUSINESSADDRESS) != null) {
+			if (data2.getString(ChWebConstants.Audit.BUSINESSADDRESS).length() < 4) {
+				businessAddress = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.BUSINESSADDRESS),
+						data2.getString(ChWebConstants.Audit.BUSINESSADDRESS).length() - 1);
 			} else {
-				businessAddress = getStarStringNoEnd(data2.getString(BUSINESSADDRESS),
-						data2.getString(BUSINESSADDRESS).length() - 4);
+				businessAddress = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.BUSINESSADDRESS),
+						data2.getString(ChWebConstants.Audit.BUSINESSADDRESS).length() - 4);
 			}
 		}
-		if (data2.getString(LOCATION) != null) {
-			if (data2.getString(LOCATION).length() < 4) {
-				location = getStarStringNoEnd(data2.getString(LOCATION), data2.getString(LOCATION).length() - 1);
+		if (data2.getString(ChWebConstants.Audit.LOCATION) != null) {
+			if (data2.getString(ChWebConstants.Audit.LOCATION).length() < 4) {
+				location = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.LOCATION), data2.getString(ChWebConstants.Audit.LOCATION).length() - 1);
 			} else {
-				location = getStarStringNoEnd(data2.getString(LOCATION), data2.getString(LOCATION).length() - 4);
+				location = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.LOCATION), data2.getString(ChWebConstants.Audit.LOCATION).length() - 4);
 			}
 		}
-		model.addObject(USERID, userId);
-		model.addObject(USERNAME, username);
-		model.addObject(SHOPNAME, data2.getString("name"));
-		model.addObject(CREATETIME, createTime);
-		model.addObject(INDUSTRYTYPE, data2.getString(INDUSTRYTYPE));
-		model.addObject(OFFICIALWEBSITE, data2.getString(OFFICIALWEBSITE));
-		model.addObject(COMPANIESNUMBER, data2.getString(COMPANIESNUMBER));
-		model.addObject(COMPANYNATURE, data2.getString(COMPANYNATURE));
-		model.addObject(LOCATION, location);
-		model.addObject(ANNUALTURNOVER, data2.getString(ANNUALTURNOVER));
-		model.addObject(AREACOVER, data2.getString(AREACOVER));
-		model.addObject(PHONE, phone);
-		model.addObject(FAX, data2.getString(FAX));
-		model.addObject(EMAIL, email);
-		model.addObject(BUSINESSADDRESS, businessAddress);
-		model.addObject(BUSINESSLICENSEREGISTRATIONNUMBER, data2.getString(BUSINESSLICENSEREGISTRATIONNUMBER));
-		model.addObject(ESTABLISHDATE, data2.getString(ESTABLISHDATE));
-		model.addObject(BUSINESSSCOPE, data2.getString(BUSINESSSCOPE));
-		model.addObject(LEGALREPRESENTATIVE, legalRepresentative);
-		model.addObject(IDNUMBER, idNumber);
-		model.addObject(TAXPAYERNUMBER, data2.getString(TAXPAYERNUMBER));
-		model.addObject(TAXPAYERTYPE, taxpayerType);
-		model.addObject(TAXCODE, data2.getString(TAXCODE));
-		model.addObject(ORGANIZATIONCODE, data2.getString(ORGANIZATIONCODE));
-		model.addObject(BANKNAME, data2.getString(BANKNAME));
-		model.addObject(BANKACCOUNT, bankAccount);
-		model.addObject(COMMODITYTYPE, data2.getString(COMMODITYTYPE));
-		model.addObject(BRANDNAMECH, data2.getString(BRANDNAMECH));
-		model.addObject(BRANDNAMEEN, data2.getString(BRANDNAMEEN));
+		model.addObject(ChWebConstants.Audit.USERID, userId);
+		model.addObject(ChWebConstants.Audit.USERNAME, username);
+		model.addObject(ChWebConstants.Audit.SHOPNAME, data2.getString("name"));
+		model.addObject(ChWebConstants.Audit.CREATETIME, createTime);
+		model.addObject(ChWebConstants.Audit.INDUSTRYTYPE, data2.getString(ChWebConstants.Audit.INDUSTRYTYPE));
+		model.addObject(ChWebConstants.Audit.OFFICIALWEBSITE, data2.getString(ChWebConstants.Audit.OFFICIALWEBSITE));
+		model.addObject(ChWebConstants.Audit.COMPANIESNUMBER, data2.getString(ChWebConstants.Audit.COMPANIESNUMBER));
+		model.addObject(ChWebConstants.Audit.COMPANYNATURE, data2.getString(ChWebConstants.Audit.COMPANYNATURE));
+		model.addObject(ChWebConstants.Audit.LOCATION, location);
+		model.addObject(ChWebConstants.Audit.ANNUALTURNOVER, data2.getString(ChWebConstants.Audit.ANNUALTURNOVER));
+		model.addObject(ChWebConstants.Audit.AREACOVER, data2.getString(ChWebConstants.Audit.AREACOVER));
+		model.addObject(ChWebConstants.Audit.PHONE, phone);
+		model.addObject(ChWebConstants.Audit.FAX, data2.getString(ChWebConstants.Audit.FAX));
+		model.addObject(ChWebConstants.Audit.EMAIL, email);
+		model.addObject(ChWebConstants.Audit.BUSINESSADDRESS, businessAddress);
+		model.addObject(ChWebConstants.Audit.BUSINESSLICENSEREGISTRATIONNUMBER, data2.getString(ChWebConstants.Audit.BUSINESSLICENSEREGISTRATIONNUMBER));
+		model.addObject(ChWebConstants.Audit.ESTABLISHDATE, data2.getString(ChWebConstants.Audit.ESTABLISHDATE));
+		model.addObject(ChWebConstants.Audit.BUSINESSSCOPE, data2.getString(ChWebConstants.Audit.BUSINESSSCOPE));
+		model.addObject(ChWebConstants.Audit.LEGALREPRESENTATIVE, legalRepresentative);
+		model.addObject(ChWebConstants.Audit.IDNUMBER, idNumber);
+		model.addObject(ChWebConstants.Audit.TAXPAYERNUMBER, data2.getString(ChWebConstants.Audit.TAXPAYERNUMBER));
+		model.addObject(ChWebConstants.Audit.TAXPAYERTYPE, taxpayerType);
+		model.addObject(ChWebConstants.Audit.TAXCODE, data2.getString(ChWebConstants.Audit.TAXCODE));
+		model.addObject(ChWebConstants.Audit.ORGANIZATIONCODE, data2.getString(ChWebConstants.Audit.ORGANIZATIONCODE));
+		model.addObject(ChWebConstants.Audit.BANKNAME, data2.getString(ChWebConstants.Audit.BANKNAME));
+		model.addObject(ChWebConstants.Audit.BANKACCOUNT, bankAccount);
+		model.addObject(ChWebConstants.Audit.COMMODITYTYPE, data2.getString(ChWebConstants.Audit.COMMODITYTYPE));
+		model.addObject(ChWebConstants.Audit.BRANDNAMECH, data2.getString(ChWebConstants.Audit.BRANDNAMECH));
+		model.addObject(ChWebConstants.Audit.BRANDNAMEEN, data2.getString(ChWebConstants.Audit.BRANDNAMEEN));
 		if (response != null) {
 			String busiType = "";
 			if ("1".equals(response.getBusiType())) {
@@ -464,11 +409,11 @@ public class QualificationController {
 		// 查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put(APPKEY, PropertiesUtil.getStringByKey(APPKEY));
-		map.put(COMPANY_ID, userId);
+		mapHeader.put(ChWebConstants.Audit.APPKEY, PropertiesUtil.getStringByKey(ChWebConstants.Audit.APPKEY));
+		map.put(ChWebConstants.Audit.COMPANY_ID, userId);
 		String str = "";
 		try {
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey(FINDBYCOMPANYID), JSON.toJSONString(map),
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey(ChWebConstants.Audit.FINDBYCOMPANYID), JSON.toJSONString(map),
 					mapHeader);
 		} catch (IOException | URISyntaxException e) {
 			LOG.error("查询失败,失败信息" + JSON.toJSONString(e));
@@ -478,17 +423,17 @@ public class QualificationController {
 		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
 		// 转换时间
 		String createTime = "";
-		if (data2.getString(CREATETIME) != null && data2.getString(CREATETIME).length() != 0) {
+		if (data2.getString(ChWebConstants.Audit.CREATETIME) != null && data2.getString(ChWebConstants.Audit.CREATETIME).length() != 0) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			createTime = sdf.format(Long.parseLong(data2.getString(CREATETIME)));
+			createTime = sdf.format(Long.parseLong(data2.getString(ChWebConstants.Audit.CREATETIME)));
 		}
 		String taxpayerType = "";
-		if ("1".equals(data2.getString(TAXPAYERTYPE))) {
-			taxpayerType = GENERAL;
-		} else if ("2".equals(data2.getString(TAXPAYERTYPE))) {
-			taxpayerType = TAXPAYER;
-		} else if ("3".equals(data2.getString(TAXPAYERTYPE))) {
-			taxpayerType = NONVALUE;
+		if ("1".equals(data2.getString(ChWebConstants.Audit.TAXPAYERTYPE))) {
+			taxpayerType = ChWebConstants.Audit.GENERAL;
+		} else if ("2".equals(data2.getString(ChWebConstants.Audit.TAXPAYERTYPE))) {
+			taxpayerType = ChWebConstants.Audit.TAXPAYER;
+		} else if ("3".equals(data2.getString(ChWebConstants.Audit.TAXPAYERTYPE))) {
+			taxpayerType = ChWebConstants.Audit.NONVALUE;
 		}
 
 		String legalRepresentative = "";
@@ -499,69 +444,69 @@ public class QualificationController {
 		String businessAddress = "";
 		String location = "";
 		// 安全处理信息
-		if (data2.getString(LEGALREPRESENTATIVE) != null) {
-			legalRepresentative = getStarStringNoEnd(data2.getString(LEGALREPRESENTATIVE), 1);
+		if (data2.getString(ChWebConstants.Audit.LEGALREPRESENTATIVE) != null) {
+			legalRepresentative = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.LEGALREPRESENTATIVE), 1);
 		}
-		if (data2.getString(PHONE) != null) {
-			phone = getStarString(data2.getString(PHONE), 4, 7);
+		if (data2.getString(ChWebConstants.Audit.PHONE) != null) {
+			phone = getStarString(data2.getString(ChWebConstants.Audit.PHONE), 4, 7);
 		}
-		if (data2.getString(EMAIL) != null) {
-			email = getStarString(data2.getString(EMAIL), 2, data2.getString(EMAIL).lastIndexOf("@"));
+		if (data2.getString(ChWebConstants.Audit.EMAIL) != null) {
+			email = getStarString(data2.getString(ChWebConstants.Audit.EMAIL), 2, data2.getString(ChWebConstants.Audit.EMAIL).lastIndexOf("@"));
 		}
-		if (data2.getString(IDNUMBER) != null) {
-			idNumber = getStarString(data2.getString(IDNUMBER), data2.getString(IDNUMBER).length() - 10,
-					data2.getString(IDNUMBER).length() - 4);
+		if (data2.getString(ChWebConstants.Audit.IDNUMBER) != null) {
+			idNumber = getStarString(data2.getString(ChWebConstants.Audit.IDNUMBER), data2.getString(ChWebConstants.Audit.IDNUMBER).length() - 10,
+					data2.getString(ChWebConstants.Audit.IDNUMBER).length() - 4);
 		}
-		if (data2.getString(BANKACCOUNT) != null) {
-			bankAccount = getStarString(data2.getString(BANKACCOUNT), data2.getString(BANKACCOUNT).length() - 7,
-					data2.getString(BANKACCOUNT).length() - 3);
+		if (data2.getString(ChWebConstants.Audit.BANKACCOUNT) != null) {
+			bankAccount = getStarString(data2.getString(ChWebConstants.Audit.BANKACCOUNT), data2.getString(ChWebConstants.Audit.BANKACCOUNT).length() - 7,
+					data2.getString(ChWebConstants.Audit.BANKACCOUNT).length() - 3);
 		}
-		if (data2.getString(BUSINESSADDRESS) != null) {
-			if (data2.getString(BUSINESSADDRESS).length() < 4) {
-				businessAddress = getStarStringNoEnd(data2.getString(BUSINESSADDRESS),
-						data2.getString(BUSINESSADDRESS).length() - 1);
+		if (data2.getString(ChWebConstants.Audit.BUSINESSADDRESS) != null) {
+			if (data2.getString(ChWebConstants.Audit.BUSINESSADDRESS).length() < 4) {
+				businessAddress = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.BUSINESSADDRESS),
+						data2.getString(ChWebConstants.Audit.BUSINESSADDRESS).length() - 1);
 			} else {
-				businessAddress = getStarStringNoEnd(data2.getString(BUSINESSADDRESS),
-						data2.getString(BUSINESSADDRESS).length() - 4);
+				businessAddress = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.BUSINESSADDRESS),
+						data2.getString(ChWebConstants.Audit.BUSINESSADDRESS).length() - 4);
 			}
 		}
-		if (data2.getString(LOCATION) != null) {
-			if (data2.getString(LOCATION).length() < 4) {
-				location = getStarStringNoEnd(data2.getString(LOCATION), data2.getString(LOCATION).length() - 1);
+		if (data2.getString(ChWebConstants.Audit.LOCATION) != null) {
+			if (data2.getString(ChWebConstants.Audit.LOCATION).length() < 4) {
+				location = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.LOCATION), data2.getString(ChWebConstants.Audit.LOCATION).length() - 1);
 			} else {
-				location = getStarStringNoEnd(data2.getString(LOCATION), data2.getString(LOCATION).length() - 4);
+				location = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.LOCATION), data2.getString(ChWebConstants.Audit.LOCATION).length() - 4);
 			}
 		}
-		model.addObject(USERID, userId);
-		model.addObject(USERNAME, username);
-		model.addObject(SHOPNAME, data2.getString("name"));
-		model.addObject(CREATETIME, createTime);
-		model.addObject(INDUSTRYTYPE, data2.getString(INDUSTRYTYPE));
-		model.addObject(OFFICIALWEBSITE, data2.getString(OFFICIALWEBSITE));
-		model.addObject(COMPANIESNUMBER, data2.getString(COMPANIESNUMBER));
-		model.addObject(COMPANYNATURE, data2.getString(COMPANYNATURE));
-		model.addObject(LOCATION, location);
-		model.addObject(ANNUALTURNOVER, data2.getString(ANNUALTURNOVER));
-		model.addObject(AREACOVER, data2.getString(AREACOVER));
-		model.addObject(PHONE, phone);
-		model.addObject(FAX, data2.getString(FAX));
-		model.addObject(EMAIL, email);
-		model.addObject(BUSINESSADDRESS, businessAddress);
-		model.addObject(BUSINESSLICENSEREGISTRATIONNUMBER, data2.getString(BUSINESSLICENSEREGISTRATIONNUMBER));
-		model.addObject(ESTABLISHDATE, data2.getString(ESTABLISHDATE));
-		model.addObject(BUSINESSSCOPE, data2.getString(BUSINESSSCOPE));
-		model.addObject(LEGALREPRESENTATIVE, legalRepresentative);
-		model.addObject(IDNUMBER, idNumber);
-		model.addObject(TAXPAYERNUMBER, data2.getString(TAXPAYERNUMBER));
-		model.addObject(TAXPAYERTYPE, taxpayerType);
-		model.addObject(TAXCODE, data2.getString(TAXCODE));
-		model.addObject(ORGANIZATIONCODE, data2.getString(ORGANIZATIONCODE));
-		model.addObject(BANKNAME, data2.getString(BANKNAME));
-		model.addObject(BANKACCOUNT, bankAccount);
-		model.addObject(COMMODITYTYPE, data2.getString(COMMODITYTYPE));
-		model.addObject(BRANDNAMECH, data2.getString(BRANDNAMECH));
-		model.addObject(BRANDNAMEEN, data2.getString(BRANDNAMEEN));
-		model.addObject(REGISTERCAPITAL, data2.getString(REGISTERCAPITAL));
+		model.addObject(ChWebConstants.Audit.USERID, userId);
+		model.addObject(ChWebConstants.Audit.USERNAME, username);
+		model.addObject(ChWebConstants.Audit.SHOPNAME, data2.getString("name"));
+		model.addObject(ChWebConstants.Audit.CREATETIME, createTime);
+		model.addObject(ChWebConstants.Audit.INDUSTRYTYPE, data2.getString(ChWebConstants.Audit.INDUSTRYTYPE));
+		model.addObject(ChWebConstants.Audit.OFFICIALWEBSITE, data2.getString(ChWebConstants.Audit.OFFICIALWEBSITE));
+		model.addObject(ChWebConstants.Audit.COMPANIESNUMBER, data2.getString(ChWebConstants.Audit.COMPANIESNUMBER));
+		model.addObject(ChWebConstants.Audit.COMPANYNATURE, data2.getString(ChWebConstants.Audit.COMPANYNATURE));
+		model.addObject(ChWebConstants.Audit.LOCATION, location);
+		model.addObject(ChWebConstants.Audit.ANNUALTURNOVER, data2.getString(ChWebConstants.Audit.ANNUALTURNOVER));
+		model.addObject(ChWebConstants.Audit.AREACOVER, data2.getString(ChWebConstants.Audit.AREACOVER));
+		model.addObject(ChWebConstants.Audit.PHONE, phone);
+		model.addObject(ChWebConstants.Audit.FAX, data2.getString(ChWebConstants.Audit.FAX));
+		model.addObject(ChWebConstants.Audit.EMAIL, email);
+		model.addObject(ChWebConstants.Audit.BUSINESSADDRESS, businessAddress);
+		model.addObject(ChWebConstants.Audit.BUSINESSLICENSEREGISTRATIONNUMBER, data2.getString(ChWebConstants.Audit.BUSINESSLICENSEREGISTRATIONNUMBER));
+		model.addObject(ChWebConstants.Audit.ESTABLISHDATE, data2.getString(ChWebConstants.Audit.ESTABLISHDATE));
+		model.addObject(ChWebConstants.Audit.BUSINESSSCOPE, data2.getString(ChWebConstants.Audit.BUSINESSSCOPE));
+		model.addObject(ChWebConstants.Audit.LEGALREPRESENTATIVE, legalRepresentative);
+		model.addObject(ChWebConstants.Audit.IDNUMBER, idNumber);
+		model.addObject(ChWebConstants.Audit.TAXPAYERNUMBER, data2.getString(ChWebConstants.Audit.TAXPAYERNUMBER));
+		model.addObject(ChWebConstants.Audit.TAXPAYERTYPE, taxpayerType);
+		model.addObject(ChWebConstants.Audit.TAXCODE, data2.getString(ChWebConstants.Audit.TAXCODE));
+		model.addObject(ChWebConstants.Audit.ORGANIZATIONCODE, data2.getString(ChWebConstants.Audit.ORGANIZATIONCODE));
+		model.addObject(ChWebConstants.Audit.BANKNAME, data2.getString(ChWebConstants.Audit.BANKNAME));
+		model.addObject(ChWebConstants.Audit.BANKACCOUNT, bankAccount);
+		model.addObject(ChWebConstants.Audit.COMMODITYTYPE, data2.getString(ChWebConstants.Audit.COMMODITYTYPE));
+		model.addObject(ChWebConstants.Audit.BRANDNAMECH, data2.getString(ChWebConstants.Audit.BRANDNAMECH));
+		model.addObject(ChWebConstants.Audit.BRANDNAMEEN, data2.getString(ChWebConstants.Audit.BRANDNAMEEN));
+		model.addObject(ChWebConstants.Audit.REGISTERCAPITAL, data2.getString(ChWebConstants.Audit.REGISTERCAPITAL));
 		
 		IAuditSV auditSV = DubboConsumerFactory.getService("iAuditSV");
 		QueryAuditInfoRequest queryAuditInfoRequest = new QueryAuditInfoRequest();
@@ -575,6 +520,15 @@ public class QualificationController {
 				queryAuditInfoResponse.setAuditStatus("审核已拒绝");
 			}else{
 				queryAuditInfoResponse.setAuditStatus("");
+			}
+			int remarkLength = 0;
+			if (queryAuditInfoResponse.getAuditDesc() != null) {
+				remarkLength = queryAuditInfoResponse.getAuditDesc().length();
+				if (remarkLength > 60) {
+					model.addObject("remarkLength", true);
+				} else {
+					model.addObject("remarkLength", false);
+				}
 			}
 		}
 		model.addObject("auditResponse", queryAuditInfoResponse);
@@ -593,8 +547,8 @@ public class QualificationController {
 		// 查询账户信息
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put(APPKEY, PropertiesUtil.getStringByKey(APPKEY));
-		map.put(COMPANY_ID, userId);
+		mapHeader.put(ChWebConstants.Audit.APPKEY, PropertiesUtil.getStringByKey(ChWebConstants.Audit.APPKEY));
+		map.put(ChWebConstants.Audit.COMPANY_ID, userId);
 		// 查询商户信息
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		QueryShopInfoRequest queryShopInfoRequest = new QueryShopInfoRequest();
@@ -603,7 +557,7 @@ public class QualificationController {
 		QueryShopInfoResponse response = shopInfoSV.queryShopInfo(queryShopInfoRequest);
 		String str = "";
 		try {
-			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey(FINDBYCOMPANYID), JSON.toJSONString(map),
+			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey(ChWebConstants.Audit.FINDBYCOMPANYID), JSON.toJSONString(map),
 					mapHeader);
 		} catch (IOException | URISyntaxException e) {
 			LOG.error("查询失败,失败信息" + JSON.toJSONString(e));
@@ -613,17 +567,17 @@ public class QualificationController {
 		JSONObject data2 = (JSONObject) JSON.parse(data1.getString("data"));
 		// 转换时间
 		String createTime = "";
-		if (data2.getString(CREATETIME) != null && data2.getString(CREATETIME).length() != 0) {
+		if (data2.getString(ChWebConstants.Audit.CREATETIME) != null && data2.getString(ChWebConstants.Audit.CREATETIME).length() != 0) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			createTime = sdf.format(Long.parseLong(data2.getString(CREATETIME)));
+			createTime = sdf.format(Long.parseLong(data2.getString(ChWebConstants.Audit.CREATETIME)));
 		}
 		String taxpayerType = "";
-		if ("1".equals(data2.getString(TAXPAYERTYPE))) {
-			taxpayerType = GENERAL;
-		} else if ("2".equals(data2.getString(TAXPAYERTYPE))) {
-			taxpayerType = TAXPAYER;
-		} else if ("3".equals(data2.getString(TAXPAYERTYPE))) {
-			taxpayerType = NONVALUE;
+		if ("1".equals(data2.getString(ChWebConstants.Audit.TAXPAYERTYPE))) {
+			taxpayerType = ChWebConstants.Audit.GENERAL;
+		} else if ("2".equals(data2.getString(ChWebConstants.Audit.TAXPAYERTYPE))) {
+			taxpayerType = ChWebConstants.Audit.TAXPAYER;
+		} else if ("3".equals(data2.getString(ChWebConstants.Audit.TAXPAYERTYPE))) {
+			taxpayerType = ChWebConstants.Audit.NONVALUE;
 		}
 
 		String legalRepresentative = "";
@@ -634,69 +588,69 @@ public class QualificationController {
 		String businessAddress = "";
 		String location = "";
 		// 安全处理信息
-		if (data2.getString(LEGALREPRESENTATIVE) != null) {
-			legalRepresentative = getStarStringNoEnd(data2.getString(LEGALREPRESENTATIVE), 1);
+		if (data2.getString(ChWebConstants.Audit.LEGALREPRESENTATIVE) != null) {
+			legalRepresentative = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.LEGALREPRESENTATIVE), 1);
 		}
-		if (data2.getString(PHONE) != null) {
-			phone = getStarString(data2.getString(PHONE), 4, 7);
+		if (data2.getString(ChWebConstants.Audit.PHONE) != null) {
+			phone = getStarString(data2.getString(ChWebConstants.Audit.PHONE), 4, 7);
 		}
-		if (data2.getString(EMAIL) != null) {
-			email = getStarString(data2.getString(EMAIL), 2, data2.getString(EMAIL).lastIndexOf("@"));
+		if (data2.getString(ChWebConstants.Audit.EMAIL) != null) {
+			email = getStarString(data2.getString(ChWebConstants.Audit.EMAIL), 2, data2.getString(ChWebConstants.Audit.EMAIL).lastIndexOf("@"));
 		}
-		if (data2.getString(IDNUMBER) != null) {
-			idNumber = getStarString(data2.getString(IDNUMBER), data2.getString(IDNUMBER).length() - 10,
-					data2.getString(IDNUMBER).length() - 4);
+		if (data2.getString(ChWebConstants.Audit.IDNUMBER) != null) {
+			idNumber = getStarString(data2.getString(ChWebConstants.Audit.IDNUMBER), data2.getString(ChWebConstants.Audit.IDNUMBER).length() - 10,
+					data2.getString(ChWebConstants.Audit.IDNUMBER).length() - 4);
 		}
-		if (data2.getString(BANKACCOUNT) != null) {
-			bankAccount = getStarString(data2.getString(BANKACCOUNT), data2.getString(BANKACCOUNT).length() - 7,
-					data2.getString(BANKACCOUNT).length() - 3);
+		if (data2.getString(ChWebConstants.Audit.BANKACCOUNT) != null) {
+			bankAccount = getStarString(data2.getString(ChWebConstants.Audit.BANKACCOUNT), data2.getString(ChWebConstants.Audit.BANKACCOUNT).length() - 7,
+					data2.getString(ChWebConstants.Audit.BANKACCOUNT).length() - 3);
 		}
-		if (data2.getString(BUSINESSADDRESS) != null) {
-			if (data2.getString(BUSINESSADDRESS).length() < 4) {
-				businessAddress = getStarStringNoEnd(data2.getString(BUSINESSADDRESS),
-						data2.getString(BUSINESSADDRESS).length() - 1);
+		if (data2.getString(ChWebConstants.Audit.BUSINESSADDRESS) != null) {
+			if (data2.getString(ChWebConstants.Audit.BUSINESSADDRESS).length() < 4) {
+				businessAddress = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.BUSINESSADDRESS),
+						data2.getString(ChWebConstants.Audit.BUSINESSADDRESS).length() - 1);
 			} else {
-				businessAddress = getStarStringNoEnd(data2.getString(BUSINESSADDRESS),
-						data2.getString(BUSINESSADDRESS).length() - 4);
+				businessAddress = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.BUSINESSADDRESS),
+						data2.getString(ChWebConstants.Audit.BUSINESSADDRESS).length() - 4);
 			}
 		}
-		if (data2.getString(LOCATION) != null) {
-			if (data2.getString(LOCATION).length() < 4) {
-				location = getStarStringNoEnd(data2.getString(LOCATION), data2.getString(LOCATION).length() - 1);
+		if (data2.getString(ChWebConstants.Audit.LOCATION) != null) {
+			if (data2.getString(ChWebConstants.Audit.LOCATION).length() < 4) {
+				location = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.LOCATION), data2.getString(ChWebConstants.Audit.LOCATION).length() - 1);
 			} else {
-				location = getStarStringNoEnd(data2.getString(LOCATION), data2.getString(LOCATION).length() - 4);
+				location = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.LOCATION), data2.getString(ChWebConstants.Audit.LOCATION).length() - 4);
 			}
 		}
-		model.addObject(USERID, userId);
-		model.addObject(USERNAME, username);
-		model.addObject(SHOPNAME, data2.getString("name"));
-		model.addObject(CREATETIME, createTime);
-		model.addObject(INDUSTRYTYPE, data2.getString(INDUSTRYTYPE));
-		model.addObject(OFFICIALWEBSITE, data2.getString(OFFICIALWEBSITE));
-		model.addObject(COMPANIESNUMBER, data2.getString(COMPANIESNUMBER));
-		model.addObject(COMPANYNATURE, data2.getString(COMPANYNATURE));
-		model.addObject(LOCATION, location);
-		model.addObject(ANNUALTURNOVER, data2.getString(ANNUALTURNOVER));
-		model.addObject(AREACOVER, data2.getString(AREACOVER));
-		model.addObject(PHONE, phone);
-		model.addObject(FAX, data2.getString(FAX));
-		model.addObject(EMAIL, email);
-		model.addObject(BUSINESSADDRESS, businessAddress);
-		model.addObject(BUSINESSLICENSEREGISTRATIONNUMBER, data2.getString(BUSINESSLICENSEREGISTRATIONNUMBER));
-		model.addObject(ESTABLISHDATE, data2.getString(ESTABLISHDATE));
-		model.addObject(BUSINESSSCOPE, data2.getString(BUSINESSSCOPE));
-		model.addObject(LEGALREPRESENTATIVE, legalRepresentative);
-		model.addObject(IDNUMBER, idNumber);
-		model.addObject(TAXPAYERNUMBER, data2.getString(TAXPAYERNUMBER));
-		model.addObject(TAXPAYERTYPE, taxpayerType);
-		model.addObject(TAXCODE, data2.getString(TAXCODE));
-		model.addObject(ORGANIZATIONCODE, data2.getString(ORGANIZATIONCODE));
-		model.addObject(BANKNAME, data2.getString(BANKNAME));
-		model.addObject(BANKACCOUNT, bankAccount);
-		model.addObject(COMMODITYTYPE, data2.getString(COMMODITYTYPE));
-		model.addObject(BRANDNAMECH, data2.getString(BRANDNAMECH));
-		model.addObject(BRANDNAMEEN, data2.getString(BRANDNAMEEN));
-		model.addObject(REGISTERCAPITAL, data2.getString(REGISTERCAPITAL));
+		model.addObject(ChWebConstants.Audit.USERID, userId);
+		model.addObject(ChWebConstants.Audit.USERNAME, username);
+		model.addObject(ChWebConstants.Audit.SHOPNAME, data2.getString("name"));
+		model.addObject(ChWebConstants.Audit.CREATETIME, createTime);
+		model.addObject(ChWebConstants.Audit.INDUSTRYTYPE, data2.getString(ChWebConstants.Audit.INDUSTRYTYPE));
+		model.addObject(ChWebConstants.Audit.OFFICIALWEBSITE, data2.getString(ChWebConstants.Audit.OFFICIALWEBSITE));
+		model.addObject(ChWebConstants.Audit.COMPANIESNUMBER, data2.getString(ChWebConstants.Audit.COMPANIESNUMBER));
+		model.addObject(ChWebConstants.Audit.COMPANYNATURE, data2.getString(ChWebConstants.Audit.COMPANYNATURE));
+		model.addObject(ChWebConstants.Audit.LOCATION, location);
+		model.addObject(ChWebConstants.Audit.ANNUALTURNOVER, data2.getString(ChWebConstants.Audit.ANNUALTURNOVER));
+		model.addObject(ChWebConstants.Audit.AREACOVER, data2.getString(ChWebConstants.Audit.AREACOVER));
+		model.addObject(ChWebConstants.Audit.PHONE, phone);
+		model.addObject(ChWebConstants.Audit.FAX, data2.getString(ChWebConstants.Audit.FAX));
+		model.addObject(ChWebConstants.Audit.EMAIL, email);
+		model.addObject(ChWebConstants.Audit.BUSINESSADDRESS, businessAddress);
+		model.addObject(ChWebConstants.Audit.BUSINESSLICENSEREGISTRATIONNUMBER, data2.getString(ChWebConstants.Audit.BUSINESSLICENSEREGISTRATIONNUMBER));
+		model.addObject(ChWebConstants.Audit.ESTABLISHDATE, data2.getString(ChWebConstants.Audit.ESTABLISHDATE));
+		model.addObject(ChWebConstants.Audit.BUSINESSSCOPE, data2.getString(ChWebConstants.Audit.BUSINESSSCOPE));
+		model.addObject(ChWebConstants.Audit.LEGALREPRESENTATIVE, legalRepresentative);
+		model.addObject(ChWebConstants.Audit.IDNUMBER, idNumber);
+		model.addObject(ChWebConstants.Audit.TAXPAYERNUMBER, data2.getString(ChWebConstants.Audit.TAXPAYERNUMBER));
+		model.addObject(ChWebConstants.Audit.TAXPAYERTYPE, taxpayerType);
+		model.addObject(ChWebConstants.Audit.TAXCODE, data2.getString(ChWebConstants.Audit.TAXCODE));
+		model.addObject(ChWebConstants.Audit.ORGANIZATIONCODE, data2.getString(ChWebConstants.Audit.ORGANIZATIONCODE));
+		model.addObject(ChWebConstants.Audit.BANKNAME, data2.getString(ChWebConstants.Audit.BANKNAME));
+		model.addObject(ChWebConstants.Audit.BANKACCOUNT, bankAccount);
+		model.addObject(ChWebConstants.Audit.COMMODITYTYPE, data2.getString(ChWebConstants.Audit.COMMODITYTYPE));
+		model.addObject(ChWebConstants.Audit.BRANDNAMECH, data2.getString(ChWebConstants.Audit.BRANDNAMECH));
+		model.addObject(ChWebConstants.Audit.BRANDNAMEEN, data2.getString(ChWebConstants.Audit.BRANDNAMEEN));
+		model.addObject(ChWebConstants.Audit.REGISTERCAPITAL, data2.getString(ChWebConstants.Audit.REGISTERCAPITAL));
 		if (response != null) {
 			String busiType = "";
 			if ("1".equals(response.getBusiType())) {
@@ -715,6 +669,15 @@ public class QualificationController {
 			model.addObject("busiType", busiType);
 			model.addObject("hasExperi", hasExperi);
 			model.addObject("shopDesc", response.getShopDesc());
+			int shopDescLength = 0;
+			if (response.getShopDesc() != null) {
+				shopDescLength = response.getShopDesc().length();
+				if (shopDescLength > 60) {
+					model.addObject("shopDescLength", true);
+				} else {
+					model.addObject("shopDescLength", false);
+				}
+			}
 			StringBuffer ecomm = new StringBuffer();
 			String ecommOwner = "";
 			if (response.getEcommOwner() != null) {
@@ -737,12 +700,21 @@ public class QualificationController {
 			queryAuditInfoRequest.setUserId(userId);
 			QueryAuditInfoResponse queryAuditInfoResponse = auditSV.queryAuditInfo(queryAuditInfoRequest);
 			if(!StringUtil.isBlank(queryAuditInfoResponse.getAuditStatus())){
-				if("2".equals(queryAuditInfoResponse.getAuditStatus())){
+				if("1".equals(queryAuditInfoResponse.getAuditStatus())){
 					queryAuditInfoResponse.setAuditStatus("审核已通过");
-				}else if("3".equals(queryAuditInfoResponse.getAuditStatus())){
+				}else if("2".equals(queryAuditInfoResponse.getAuditStatus())){
 					queryAuditInfoResponse.setAuditStatus("审核已拒绝");
 				}else{
 					queryAuditInfoResponse.setAuditStatus("");
+				}
+			}
+			int remarkLength = 0;
+			if (queryAuditInfoResponse.getAuditDesc() != null) {
+				remarkLength = queryAuditInfoResponse.getAuditDesc().length();
+				if (remarkLength > 60) {
+					model.addObject("remarkLength", true);
+				} else {
+					model.addObject("remarkLength", false);
 				}
 			}
 			model.addObject("auditResponse", queryAuditInfoResponse);
@@ -760,9 +732,9 @@ public class QualificationController {
 		ResponseHeader header = null;
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put(APPKEY, PropertiesUtil.getStringByKey(APPKEY));
-		map.put(PAGENO, request.getParameter(PAGENO));
-		map.put(PAGESIZE, request.getParameter(PAGESIZE));
+		mapHeader.put(ChWebConstants.Audit.APPKEY, PropertiesUtil.getStringByKey(ChWebConstants.Audit.APPKEY));
+		map.put(ChWebConstants.Audit.PAGENO, request.getParameter(ChWebConstants.Audit.PAGENO));
+		map.put(ChWebConstants.Audit.PAGESIZE, request.getParameter(ChWebConstants.Audit.PAGESIZE));
 		if (username != null && username.length() != 0) {
 			map.put("username", username);
 		}
@@ -791,7 +763,7 @@ public class QualificationController {
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
 			} else {
 				Integer pageNo = Integer.valueOf(data.getString("pages"));
-				Integer pageSize = Integer.valueOf(data.getString(PAGESIZE));
+				Integer pageSize = Integer.valueOf(data.getString(ChWebConstants.Audit.PAGESIZE));
 				Integer total = Integer.valueOf(data.getString("total"));
 				Integer pageCount = Integer.valueOf(data.getString("pageNum"));
 				pageInfo = new PageInfo<>();
@@ -805,7 +777,7 @@ public class QualificationController {
 				while (iterator.hasNext()) {
 					BusinessListInfo businessInfo = new BusinessListInfo();
 					JSONObject object = (JSONObject) iterator.next();
-					businessInfo.setUserId(object.getString(COMPANY_ID));
+					businessInfo.setUserId(object.getString(ChWebConstants.Audit.COMPANY_ID));
 					businessInfo.setUserName(object.getString("username"));
 					businessInfo.setCustName(object.getString("name"));
 					responseList.add(businessInfo);
@@ -854,9 +826,9 @@ public class QualificationController {
 				for (AuditLogVo auditLogVo : pageInfoVo.getResult()) {
 					AuditInfoVo auditInfoVo = new AuditInfoVo();
 					BeanUtils.copyProperties(auditLogVo, auditInfoVo);
-					if ("2".equals(auditLogVo.getAuditStatus())) {
+					if ("1".equals(auditLogVo.getAuditStatus())) {
 						auditInfoVo.setAuditStatus("审核已通过");
-					} else if ("3".equals(auditLogVo.getAuditStatus())) {
+					} else if ("2".equals(auditLogVo.getAuditStatus())) {
 						auditInfoVo.setAuditStatus("审核已拒绝");
 					} else {
 						auditInfoVo.setAuditStatus("");
@@ -885,9 +857,9 @@ public class QualificationController {
 		ResponseHeader header = null;
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put(APPKEY, PropertiesUtil.getStringByKey(APPKEY));
-		map.put(PAGENO, request.getParameter(PAGENO));
-		map.put(PAGESIZE, request.getParameter(PAGESIZE));
+		mapHeader.put(ChWebConstants.Audit.APPKEY, PropertiesUtil.getStringByKey(ChWebConstants.Audit.APPKEY));
+		map.put(ChWebConstants.Audit.PAGENO, request.getParameter(ChWebConstants.Audit.PAGENO));
+		map.put(ChWebConstants.Audit.PAGESIZE, request.getParameter(ChWebConstants.Audit.PAGESIZE));
 		if (username != null && username.length() != 0) {
 			map.put("username", username);
 		}
@@ -916,7 +888,7 @@ public class QualificationController {
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
 			} else {
 				Integer pageNo = Integer.valueOf(data.getString("pages"));
-				Integer pageSize = Integer.valueOf(data.getString(PAGESIZE));
+				Integer pageSize = Integer.valueOf(data.getString(ChWebConstants.Audit.PAGESIZE));
 				Integer total = Integer.valueOf(data.getString("total"));
 				Integer pageCount = Integer.valueOf(data.getString("pageNum"));
 				pageInfo = new PageInfo<>();
@@ -931,9 +903,9 @@ public class QualificationController {
 					BusinessListInfo businessInfo = new BusinessListInfo();
 					JSONObject object = (JSONObject) iterator.next();
 					String date = "";
-					if (object.getString(CREATETIME) != null && object.getString(CREATETIME).length() != 0) {
+					if (object.getString(ChWebConstants.Audit.CREATETIME) != null && object.getString(ChWebConstants.Audit.CREATETIME).length() != 0) {
 						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-						date = sdf.format(Long.parseLong(object.getString(CREATETIME)));
+						date = sdf.format(Long.parseLong(object.getString(ChWebConstants.Audit.CREATETIME)));
 					}
 					String auditTime = "";
 					if (object.getString("auditStateTime") != null
@@ -941,7 +913,7 @@ public class QualificationController {
 						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 						auditTime = sdf.format(Long.parseLong(object.getString("auditStateTime")));
 					}
-					businessInfo.setUserId(object.getString(COMPANY_ID));
+					businessInfo.setUserId(object.getString(ChWebConstants.Audit.COMPANY_ID));
 					businessInfo.setUserName(object.getString("username"));
 					businessInfo.setCustName(object.getString("name"));
 					businessInfo.setCreateTime(date);
@@ -973,10 +945,10 @@ public class QualificationController {
 				.getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		Map<String, String> map = new HashMap<>();
 		Map<String, String> mapHeader = new HashMap<>();
-		mapHeader.put(APPKEY, PropertiesUtil.getStringByKey(APPKEY));
+		mapHeader.put(ChWebConstants.Audit.APPKEY, PropertiesUtil.getStringByKey(ChWebConstants.Audit.APPKEY));
 		map.put("openId", user.getUserId());
 		map.put("auditState", auditState);
-		map.put(COMPANY_ID, companyId);
+		map.put(ChWebConstants.Audit.COMPANY_ID, companyId);
 		String str = "";
 		try {
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("updateAuditState_http_url"),

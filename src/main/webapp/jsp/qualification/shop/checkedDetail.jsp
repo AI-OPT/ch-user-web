@@ -433,7 +433,12 @@
 							<ul>
 								<li>
 								<p class="word">店铺介绍:</p>
-								<p class="wide-field">${shopDesc }</p>
+									<c:if test="${shopDescLength==true}">
+									  	<p class="wide-field" style="word-break:break-all;">${shopDesc }</p>
+									  </c:if>
+									  <c:if test="${shopDescLength==false}">
+									  	<p style="word-break:break-all;">${shopDesc }</p>
+									  </c:if>
 								</li>
 							</ul>
 							<div class="nav-tplist-title bd-bottom pb-10">
@@ -456,7 +461,12 @@
 							<ul>
 								<li>
 									<p class="word">原因:</p>
-									<p class="wide-field">${auditResponse.auditDesc }</p>
+									<c:if test="${remarkLength==true}">
+									  	<p class="wide-field" style="word-break:break-all;">${auditResponse.auditDesc }</p>
+									  </c:if>
+									  <c:if test="${remarkLength==false}">
+									  	<p style="word-break:break-all;">${auditResponse.auditDesc }</p>
+									  </c:if>
 								</li>
 								</ul>
 							<ul>

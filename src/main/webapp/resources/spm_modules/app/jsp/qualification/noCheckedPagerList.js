@@ -47,7 +47,7 @@ define('app/jsp/qualification/noCheckedPagerList', function (require, exports, m
 	 			messageId:"showMessageDiv",
 	            data : {
 	            	"companyType":companyType,
-	            	"auditState":'1',
+	            	"auditState":'0',
 				},
 	           	pageSize: noCheckedPagerListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
@@ -86,7 +86,7 @@ define('app/jsp/qualification/noCheckedPagerList', function (require, exports, m
 	            	"username":$("#username").val().replace(/(^\s*)|(\s*$)/g,""),
 					"companyName":$("#companyName").val().replace(/(^\s*)|(\s*$)/g,""),
 					"companyType":companyType,
-					"auditState":'1',
+					"auditState":'0',
 				},
 	           	pageSize: noCheckedPagerListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,

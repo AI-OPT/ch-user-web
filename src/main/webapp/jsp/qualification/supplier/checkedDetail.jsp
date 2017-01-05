@@ -410,7 +410,12 @@
 							<ul>
 								<li>
 									<p class="word">原因:</p>
-									<p class="wide-field">${auditResponse.auditDesc }</p>
+									<c:if test="${remarkLength==true}">
+									  	<p class="wide-field" style="word-break:break-all;">${auditResponse.auditDesc }</p>
+									  </c:if>
+									  <c:if test="${remarkLength==false}">
+									  	<p style="word-break:break-all;">${auditResponse.auditDesc }</p>
+									  </c:if>
 								</li>
 							</ul>
 							<ul> 

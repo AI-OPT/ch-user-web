@@ -59,7 +59,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    			url:_base+"/qualification/updateAudit",
 		    			dataType: "json",
 		    			data:{
-		    				"auditState":"2",
+		    				"auditState":"1",
 		    				"ctType":ctType,
 		    				"companyId":userId,
 		    				"reason":$.trim($("#reason").val())
@@ -165,7 +165,7 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    			url:_base+"/qualification/updateAudit",
 		    			dataType: "json",
 		    			data:{
-		    				"auditState":'3',
+		    				"auditState":'2',
 		    				"ctType":ctType,
 		    				"companyId":userId,
 		    				"reason":$.trim($("#reason").val())
