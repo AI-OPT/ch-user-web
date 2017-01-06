@@ -44,20 +44,35 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+/**
+ * 供应商评分controller
+ * @author Zh
+ *
+ */
 @RestController
 @RequestMapping("/score")
 public class ScoreController {
 	
 	private static final Log LOG = LogFactory.getLog(ScoreController.class);
 	
-	//跳转供货商评价管理
+	/**
+	 * 跳转供货商评价管理
+	 * @return
+	 */
 	@RequestMapping("/scorelist")
 	public ModelAndView scoreList() {
 		ModelAndView model = new ModelAndView("/jsp/crm/scorelist"); 
 		return model;
 	}
 	
-	//评价供货商页面
+	/**
+	 * 评价供货商页面
+	 * @param username
+	 * @param userId
+	 * @param shopName
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
 	@RequestMapping("/scorepage")
 	public ModelAndView scorePage(String username,String userId,String shopName) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/crm/scorepage"); 
@@ -76,13 +91,21 @@ public class ScoreController {
 		return model;
 	}
 	
-	//供货商评价历史记录	
+	/**
+	 * 供货商评价历史记录	
+	 * @return
+	 */
 	@RequestMapping("/scorelog")
     public ModelAndView getScoreLog() {
         return new ModelAndView("/jsp/crm/scorelog");
     }
 	
-	//提交供货商评价
+	/**
+	 * 提交供货商评价
+	 * @param request
+	 * @param userId
+	 * @return
+	 */
 	@RequestMapping("/savescore")
 	public ResponseData<String> saveScore(HttpServletRequest request,String userId) {
 		ResponseData<String> response = new ResponseData<String>(null, null);
@@ -134,6 +157,15 @@ public class ScoreController {
 		return response;
 	}
 	
+	/**
+	 * 获取列表信息
+	 * @param request
+	 * @param companyName
+	 * @param username
+	 * @param companyType
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("/getList")
 	@ResponseBody
 	public ResponseData<PageInfo<SupplierScoreVo>> getList(HttpServletRequest request,String companyName,String username,String companyType)throws Exception{

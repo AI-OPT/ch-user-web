@@ -60,14 +60,29 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+
+/**
+ * 合同Controller
+ * @author Zh
+ *
+ */
 @RestController
 @RequestMapping("/contract")
 public class ContractController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ContractController.class);
 	
+	/**
+	 * iContractSV
+	 */
 	private static final String ICONTRACTSV = "iContractSV";
+	/**
+	 * format
+	 */
 	private static final String FORMAT = "yyyy-MM-dd";
+	/**
+	 * contackInfo
+	 */
 	private static final String CONTACTINFO = "contactInfo";
 
 	/**
@@ -611,7 +626,12 @@ public class ContractController {
 
 	}
 
-	// 上传文件
+	/**
+	 * 上传文件
+	 * @param request
+	 * @param contractFileId
+	 * @return
+	 */
 	@RequestMapping(value = "/uploadFile", produces = "text/html;charset=utf-8")
 	@ResponseBody
 	public String uploadFile(HttpServletRequest request, String contractFileId) {
@@ -632,7 +652,12 @@ public class ContractController {
 		return JSON.toJSONString(map);
 	}
 
-	// 上传文件
+	/**
+	 * 上传文件
+	 * @param request
+	 * @param contractFileId
+	 * @return
+	 */
 	@RequestMapping(value = "/uploadImage", produces = "text/html;charset=utf-8")
 	@ResponseBody
 	public String uploadImage(HttpServletRequest request, String contractFileId) {
@@ -653,6 +678,13 @@ public class ContractController {
 		return JSON.toJSONString(map);
 	}
 
+	/**
+	 * 下载文件
+	 * @param request
+	 * @param response
+	 * @param fileName
+	 * @param attrValue
+	 */
 	@RequestMapping("/download")
 	public void downloadFile(HttpServletRequest request, HttpServletResponse response, String fileName,
 			String attrValue) {
@@ -685,6 +717,13 @@ public class ContractController {
 		}
 	}
 
+	/**
+	 * 下载文件
+	 * @param request
+	 * @param response
+	 * @param fileName
+	 * @param attrValue
+	 */
 	@RequestMapping("/downloadImage/{fileName}")
 	public void downloadImage(HttpServletRequest request, HttpServletResponse response, String fileName,
 			String attrValue) {
@@ -714,6 +753,11 @@ public class ContractController {
 
 	}
 
+	/**
+	 * 获取订单列表
+	 * @param tenantId
+	 * @return
+	 */
 	public Map<String, ContractInfoResponse> getContractList(String tenantId) {
 		IContractSV contract = DubboConsumerFactory.getService(ICONTRACTSV);
 		ContactInfoRequest contactInfo = new ContactInfoRequest();
@@ -730,6 +774,12 @@ public class ContractController {
 		return map;
 	}
 
+	/**
+	 * 校验合同名称
+	 * @param request
+	 * @param contractRequest
+	 * @return
+	 */
 	@RequestMapping("/checkContractName")
 	@ResponseBody
 	public ResponseData<String> checkContractName(HttpServletRequest request, ContactInfoRequest contractRequest) {
@@ -766,6 +816,12 @@ public class ContractController {
 		return responseData;
 	}
 
+	/**
+	 * 校验合同code
+	 * @param request
+	 * @param contractRequest
+	 * @return
+	 */
 	@RequestMapping("/checkContractCode")
 	@ResponseBody
 	public ResponseData<String> checkContractCode(HttpServletRequest request, ContactInfoRequest contractRequest) {
@@ -802,7 +858,15 @@ public class ContractController {
 		return responseData;
 	}
 
-	// 查询列表
+	/**
+	 * 查询列表
+	 * @param request
+	 * @param companyName
+	 * @param username
+	 * @param companyType
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("/getList")
 	@ResponseBody
 	public ResponseData<PageInfo<BusinessListInfo>> getList(HttpServletRequest request,String companyName,String username,String companyType)throws Exception{
@@ -884,6 +948,13 @@ public class ContractController {
 		return response;
 	}
 
+	/**
+	 * 删除文件
+	 * @param request
+	 * @param contractFileId
+	 * @param infoExtId
+	 * @return
+	 */
 	@RequestMapping("/deleteExtFile")
 	@ResponseBody
 	public ResponseData<Object> deleteExtFile(HttpServletRequest request, String contractFileId, String infoExtId) {

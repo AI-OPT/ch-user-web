@@ -9,10 +9,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * 登出controller
+ * @author Zh
+ *
+ */
 @Controller
 public class LogoutController {
 	private static final Logger LOG = LoggerFactory.getLogger(LogoutController.class);
 
+	/**
+	 * 单点登出
+	 * @param request
+	 * @param response
+	 */
 	@RequestMapping("/ssologout")
 	public void logout(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();

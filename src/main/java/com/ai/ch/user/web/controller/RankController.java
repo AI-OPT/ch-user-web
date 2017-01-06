@@ -41,12 +41,22 @@ import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.paas.ipaas.image.IImageClient;
 
+/**
+ * 入驻商户评级controller
+ * @author Zh
+ *
+ */
 @RestController
 @RequestMapping("/rank")
 public class RankController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(BillingController.class);
 
+	/**
+	 * 跳转页面
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/rankrule")
 	public ModelAndView rankRule(HttpServletRequest request) {
 		// 调dubbo服务
@@ -80,6 +90,11 @@ public class RankController {
 
 	}
 	
+	/**
+	 * 获取评级详情json串
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/getJsonData")
 	@ResponseBody
 	public ResponseData<String> getJsonData(HttpServletRequest request){
@@ -100,7 +115,11 @@ public class RankController {
 		responseData.setResponseHeader(responseHeader);
 		return responseData;
 	}
-	
+	/**
+	 * 获取初始JSON串
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/getInitData")
 	@ResponseBody
 	public ResponseData<ShopRankParamVo> getInitData(HttpServletRequest request){
@@ -143,6 +162,14 @@ public class RankController {
 		return responseData;
 	}
 	
+	/**
+	 * 保存入驻商户评级信息
+	 * @param request
+	 * @param rankRuleRequest
+	 * @return
+	 * @throws IOException
+	 * @throws Exception
+	 */
 	@RequestMapping("/saverule")
 	public ModelAndView saveRule(HttpServletRequest request, InsertRankRuleRequest rankRuleRequest) throws IOException ,Exception{
 		ModelAndView view=null;
@@ -191,6 +218,14 @@ public class RankController {
 		return view;
 	}
 	
+	/**
+	 * 更新入驻商户评级信息
+	 * @param request
+	 * @param rankRuleRequest
+	 * @return
+	 * @throws IOException
+	 * @throws Exception
+	 */
 	@RequestMapping("/updaterule")
 	public ModelAndView updateRule(HttpServletRequest request, UpdateRankRuleRequest rankRuleRequest) throws IOException ,Exception{
 		ModelAndView view=null;
@@ -242,7 +277,11 @@ public class RankController {
 	}
 	
 	
-	//获取url的Map
+	/**
+	 * 获取url的Map
+	 * @param tenantId
+	 * @return
+	 */
 	public Map<String,String> getUrlMap(String tenantId){
 		String idpsns = "ch-user-web-idps";
 	    // 获取imageClient
@@ -261,7 +300,11 @@ public class RankController {
 		}
 			return urlMap;
 	}
-	//获取图片name的Map
+	/**
+	 * 获取图片name的Map
+	 * @param tenantId
+	 * @return
+	 */
 	public Map<String,String> getNameMap(String tenantId){
 		ICustFileSV custfileSV = DubboConsumerFactory.getService("iCustfileSV");
 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
@@ -275,7 +318,11 @@ public class RankController {
 		}
 		return nameMap;
 	}
-	//获取图片url的Map
+	/**
+	 * 获取图片url的Map
+	 * @param tenantId
+	 * @return
+	 */
 	public Map<String,String> getIdpsMap(String tenantId){
 		ICustFileSV custfileSV = DubboConsumerFactory.getService("iCustfileSV");
 		QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();

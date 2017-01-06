@@ -10,7 +10,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.mortbay.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +30,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+/**
+ * 账户状态controller
+ * @author Zh
+ *
+ */
 @RestController
 @RequestMapping("/status")
 public class StatusController {
@@ -38,6 +42,13 @@ public class StatusController {
 	private static final Logger LOG = LoggerFactory.getLogger(StatusController.class);
 	
 	
+	/**
+	 * 更新账户状态
+	 * @param request
+	 * @param companyState
+	 * @param companyId
+	 * @return
+	 */
 	@RequestMapping("/updateStatus")
 	@ResponseBody
 	public ResponseData<String> updateStatus(HttpServletRequest request,String companyState,String companyId){
@@ -85,6 +96,15 @@ public class StatusController {
 	}
 	
 	
+	/**
+	 * 获取列表信息
+	 * @param request
+	 * @param companyName
+	 * @param username
+	 * @param companyType
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("/getList")
 	@ResponseBody
 	public ResponseData<PageInfo<StatusListVo>> getList(HttpServletRequest request,String companyName,String username, String companyType)throws Exception{

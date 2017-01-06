@@ -44,17 +44,39 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.esotericsoftware.minlog.Log;
+
+/**
+ * 保证金服务费controller
+ * Date: 2017年1月6日 <br>
+ * Copyright (c) 2017 asiainfo.com <br>
+ * 
+ * @author zhangqiang7
+ */
 @RestController
 @RequestMapping("/billing")
 public class BillingController {
 
 	private static final Logger log = LoggerFactory.getLogger(BillingController.class);
 
+	/**
+	 * 跳转页面
+	 * @return
+	 * @author zhangqiang7
+	 * @UCUSER
+	 */
 	@RequestMapping("/billingpager")
 	public ModelAndView billingPager() {
 		return new ModelAndView("/jsp/billing/billingList");
 	}
 
+	/**
+	 * 保证金页面
+	 * @param userId
+	 * @param username
+	 * @param shopName
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
 	@RequestMapping("/marginsetting")
 	public ModelAndView marginSetting(String userId, String username,String shopName) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/billing/marginSetting");
@@ -75,6 +97,15 @@ public class BillingController {
 		return model;
 	}
 
+	/**
+	 * 服务费页面
+	 * @param userId
+	 * @param username
+	 * @param shopName
+	 * @param request
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
 	@RequestMapping("/servicefeesetting")
 	public ModelAndView serviceFeeSetting(String userId,String username,String shopName,HttpServletRequest request) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/billing/serviceFeeSetting");
@@ -118,7 +149,15 @@ public class BillingController {
 		model.addObject("userId", userId);
 		return model;
 	}
-	
+	/**
+	 * 保证金服务费详情
+	 * @param userId
+	 * @param username
+	 * @param shopName
+	 * @param request
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
 	@RequestMapping("/servicefee")
 	public ModelAndView serviceFee(String userId,String username,String shopName,HttpServletRequest request) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("/jsp/billing/serviceFee");
@@ -174,6 +213,11 @@ public class BillingController {
 			return model;
 	}
 
+	/**
+	 * 保存保证金
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/savemarginsetting")
 	@ResponseBody
 	public ResponseData<String> saveMarginSetting(HttpServletRequest request) {
@@ -200,6 +244,12 @@ public class BillingController {
 		return response;
 	}
 	
+	/**
+	 * 保存服务费
+	 * @param request
+	 * @param shopInfoRequst
+	 * @return
+	 */
 	@RequestMapping("/saveservicesetting")
 	@ResponseBody
 	public ResponseData<String> saveServiceSetting(HttpServletRequest request,UpdateShopInfoRequest shopInfoRequst) {
@@ -235,7 +285,14 @@ public class BillingController {
 		return new ModelAndView("/jsp/billing/billingCycleList");
 	}
 	
-	
+	/**
+	 * 结算周期
+	 * @param request
+	 * @param userId
+	 * @param userName
+	 * @param custName
+	 * @return
+	 */
 	@RequestMapping("/billingCycleSetting")
 	public ModelAndView billingCycleSetting(HttpServletRequest request,String userId,String userName,String custName) {
 		IShopInfoSV shopInfo = DubboConsumerFactory.getService("iShopInfoSV");
@@ -259,6 +316,15 @@ public class BillingController {
 		return new ModelAndView("/jsp/billing/billingCycle",model);
 	}
 	
+	/**
+	 * 保存结算周期
+	 * @param request
+	 * @param userId
+	 * @param periodType
+	 * @param userName
+	 * @param custName
+	 * @return
+	 */
 	@RequestMapping("/saveCycleSetting")
 	public ModelAndView saveCycleSetting(HttpServletRequest request,String userId,String periodType,String userName,String custName) {
 		IShopInfoSV shopInfo = DubboConsumerFactory.getService("iShopInfoSV");
@@ -298,6 +364,14 @@ public class BillingController {
 		}
 	}
 	
+	/**
+	 * 结算周期详情
+	 * @param request
+	 * @param userId
+	 * @param userName
+	 * @param custName
+	 * @return
+	 */
 	@RequestMapping("/billingCycleDetail")
 	public ModelAndView billingCycleDetail(HttpServletRequest request,String userId,String userName,String custName) {
 		IShopInfoSV shopInfo = DubboConsumerFactory.getService("iShopInfoSV");
@@ -320,7 +394,14 @@ public class BillingController {
 		return new ModelAndView("/jsp/billing/billingCycleDetail",model);
 	}
 	
-	//查询结算周期和违约管理列表
+	/**
+	 * 查询结算周期和违约管理列表
+	 * @param request
+	 * @param companyName
+	 * @param username
+	 * @param companyType
+	 * @return
+	 */
 	@RequestMapping("/getList")
 	@ResponseBody
 	public ResponseData<PageInfo<BusinessListInfo>> getList(HttpServletRequest request,String companyName,String username,String companyType){
@@ -394,7 +475,14 @@ public class BillingController {
 		return response;
 	}
 	
-	//查询保证金/服务费列表
+	/**
+	 * 查询保证金/服务费列表
+	 * @param request
+	 * @param companyName
+	 * @param username
+	 * @param companyType
+	 * @return
+	 */
 	@RequestMapping("/getBillingList")
 	@ResponseBody
 	public ResponseData<PageInfo<ShopManageVo>> getBillingList(HttpServletRequest request,String companyName,String username,String companyType){

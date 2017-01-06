@@ -74,6 +74,11 @@ import com.ylink.upp.oxm.entity.upp_711_001_01.GrpBody;
 import com.ylink.upp.oxm.entity.upp_711_001_01.GrpHdr;
 import com.ylink.upp.oxm.entity.upp_711_001_01.ReqsInfo;
 
+/**
+ * 违约扣款controller
+ * @author Zh
+ *
+ */
 @RestController
 @RequestMapping("/defaultManager")
 public class DefaultManagerController {
@@ -83,16 +88,33 @@ public class DefaultManagerController {
 	@Autowired
 	private OxmHandler oxmHandler;
 
+	/**
+	 * 跳转页面
+	 * @return
+	 */
 	@RequestMapping("/defaultPager")
 	public ModelAndView billingPager() {
 		return new ModelAndView("/jsp/defaultManager/defaultManagerList");
 	}
 
+	/**
+	 * 跳转页面
+	 * @return
+	 */
 	@RequestMapping("/defaultManagerPager")
 	public ModelAndView defaultManager() {
 		return new ModelAndView("/jsp/defaultManager/defaultManagerList");
 	}
 
+	/**
+	 * 增加扣款信息
+	 * @param request
+	 * @param userId
+	 * @param userName
+	 * @param custName
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("/addDefaultInfo")
 	public ModelAndView addDefaultInfo(HttpServletRequest request, String userId, String userName, String custName)
 			throws Exception {
@@ -214,6 +236,13 @@ public class DefaultManagerController {
 		return new ModelAndView("/jsp/defaultManager/addDefault", model);
 	}
 
+	/**
+	 * 获取支付通知
+	 * @param msgHeader
+	 * @param xmlMsg
+	 * @param sign
+	 * @return
+	 */
 	public XmlBodyEntity receiveMsg(String msgHeader, String xmlMsg, String sign) {
 		try {
 			PayUtil payUtil = new PayUtil();
@@ -231,6 +260,13 @@ public class DefaultManagerController {
 
 	}
 
+	/**
+	 * 保存扣款信息
+	 * @param request
+	 * @param defaultLogInfo
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("/saveDefaultInfo")
 	@ResponseBody
 	public ResponseData<String> saveDefaultInfo(HttpServletRequest request, DefaultLogVo defaultLogInfo)
@@ -394,6 +430,15 @@ public class DefaultManagerController {
 		return responseData;
 	}
 
+	/**
+	 * 违约扣款历史信息
+	 * @param request
+	 * @param userId
+	 * @param userName
+	 * @param custName
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
 	@RequestMapping("/defaultHistoryPager")
 	public ModelAndView defaultHistoryPager(HttpServletRequest request, String userId, String userName, String custName)
 			throws UnsupportedEncodingException {
@@ -439,7 +484,15 @@ public class DefaultManagerController {
 		return responseData;
 	}
 
-	// 查询列表
+	/**
+	 * 查询列表
+	 * @param request
+	 * @param companyName
+	 * @param username
+	 * @param companyType
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("/getList")
 	@ResponseBody
 	public ResponseData<PageInfo<BusinessListInfo>> getList(HttpServletRequest request, String companyName,
@@ -516,6 +569,13 @@ public class DefaultManagerController {
 		return response;
 	}
 
+	/**
+	 * 支付通知
+	 * @param msgHead
+	 * @param xmlBody
+	 * @param signMsg
+	 * @return
+	 */
 	@RequestMapping("/paymentNotifications")
 	public String paymentNotifications(@RequestParam("msgHeader") String msgHead,
 			@RequestParam("xmlBody") String xmlBody, @RequestParam("signMsg") String signMsg) {
@@ -562,6 +622,11 @@ public class DefaultManagerController {
 		}
 	}
 
+	/**
+	 * 获取租户信息
+	 * @param request
+	 * @return
+	 */
 	public GnTenantVo getTenantInfo(HttpServletRequest request) {
 		GnTenantVo gntenatVo = null;
 		try {

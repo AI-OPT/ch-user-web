@@ -135,65 +135,183 @@ public class ChWebConstants {
 		public static final String UploadImg_ERROR = "fail";
 	}
 
+	/**
+	 * 资质审核常量
+	 */
 	public static final class Audit {
 		private Audit() {
 		}
 
+		/**
+		 * appkey
+		 */
 		public static final String APPKEY = "appkey";
 
+		/**
+		 * companyId
+		 */
 		public static final String COMPANY_ID = "companyId";
 
+		/**
+		 * 获取otpurl
+		 */
 		public static final String FINDBYCOMPANYID = "findByCompanyId_http_url";
 
+		/**
+		 * 创建时间
+		 */
 		public static final String CREATETIME = "createTime";
 
+		/**
+		 * 纳税人类型
+		 */
 		public static final String TAXPAYERTYPE = "taxpayerType";
 
+		/**
+		 * 一般纳税人
+		 */
 		public static final String GENERAL = "一般纳税人";
 
+		/**
+		 * 小规模纳税人
+		 */
 		public static final String TAXPAYER = "小规模纳税人";
 
+		/**
+		 * 非增值税纳税人
+		 */
 		public static final String NONVALUE = "非增值税纳税人";
 
+		/**
+		 * legalRepresentative
+		 */
 		public static final String LEGALREPRESENTATIVE = "legalRepresentative";
 
+		/**
+		 * 电话
+		 */
 		public static final String PHONE = "phone";
 
+		/**
+		 * email
+		 */
 		public static final String EMAIL = "email";
 
+		/**
+		 * idnumber
+		 */
 		public static final String IDNUMBER = "idNumber";
 
+		/**
+		 * bankaccount
+		 */
 		public static final String BANKACCOUNT = "bankAccount";
 
+		/**
+		 * businessAddress
+		 */
 		public static final String BUSINESSADDRESS = "businessAddress";
 
+		/**
+		 * userId
+		 * 
+		 */
 		public static final String USERID = "userId";
 
+		/**
+		 * userName
+		 */
 		public static final String USERNAME = "userName";
 
+		/**
+		 * shopname
+		 */
 		public static final String SHOPNAME = "shopName";
 
+		/**
+		 * industryType
+		 */
 		public static final String INDUSTRYTYPE = "industryType";
 
+		/**
+		 * officialWebsite
+		 */
 		public static final String OFFICIALWEBSITE = "officialWebsite";
+		/**
+		 * companiesNumber
+		 */
 		public static final String COMPANIESNUMBER = "companiesNumber";
+		/**
+		 * companyNature
+		 */
 		public static final String COMPANYNATURE = "companyNature";
+		/**
+		 * annualTurnover
+		 */
 		public static final String ANNUALTURNOVER = "annualTurnover";
+		/**
+		 * areaCover
+		 */
 		public static final String AREACOVER = "areaCover";
+		/**
+		 * fax
+		 */
 		public static final String FAX = "fax";
+		/**
+		 * location
+		 */
 		public static final String LOCATION = "location";
+		/**
+		 * businessLicenseRegistrationNumber
+		 */
 		public static final String BUSINESSLICENSEREGISTRATIONNUMBER = "businessLicenseRegistrationNumber";
+		/**
+		 * establishDate
+		 */
 		public static final String ESTABLISHDATE = "establishDate";
+		/**
+		 * taxpayerNumber
+		 */
 		public static final String TAXPAYERNUMBER = "taxpayerNumber";
+		/**
+		 * businessScope
+		 */
 		public static final String BUSINESSSCOPE = "businessScope";
+		/**
+		 * taxCode
+		 */
 		public static final String TAXCODE = "taxCode";
+		/**
+		 * organizationCode
+		 */
 		public static final String ORGANIZATIONCODE = "organizationCode";
+		/**
+		 * bankName
+		 */
 		public static final String BANKNAME = "bankName";
+		/**
+		 * commodityType
+		 */
 		public static final String COMMODITYTYPE = "commodityType";
+		/**
+		 * brandNameCh
+		 */
 		public static final String BRANDNAMECH = "brandNameCh";
+		/**
+		 * registerCapital
+		 */
 		public static final String REGISTERCAPITAL = "registerCapital";
+		/**
+		 * brandNameEn
+		 */
 		public static final String BRANDNAMEEN = "brandNameEn";
+		/**
+		 * pageNo
+		 */
 		public static final String PAGENO = "pageNo";
+		/**
+		 * pageSize
+		 */
 		public static final String PAGESIZE = "pageSize";
 	}
 

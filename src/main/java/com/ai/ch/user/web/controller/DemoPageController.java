@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * it is just a demo
+ * @author Zh
+ *
+ */
 @RestController
 @RequestMapping("/demo")
 public class DemoPageController {

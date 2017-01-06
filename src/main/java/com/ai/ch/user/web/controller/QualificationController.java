@@ -51,6 +51,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+/**
+ * 资质审核controller
+ * @author Zh
+ *
+ */
 @RestController
 @RequestMapping("/qualification")
 public class QualificationController {
@@ -722,7 +727,15 @@ public class QualificationController {
 		return model;
 	}
 
-	// 查询未审核列表
+	/**
+	 * 查询未审核列表
+	 * @param request
+	 * @param auditState
+	 * @param companyName
+	 * @param username
+	 * @param companyType
+	 * @return
+	 */
 	@RequestMapping("/getUncheckList")
 	@ResponseBody
 	public ResponseData<PageInfo<BusinessListInfo>> getUncheckList(HttpServletRequest request, String auditState,
@@ -797,7 +810,12 @@ public class QualificationController {
 		return response;
 	}
 
-	// 查询审核日志
+	/**
+	 * 查询审核日志
+	 * @param request
+	 * @param userId
+	 * @return
+	 */
 	@RequestMapping("/getAuditLog")
 	@ResponseBody
 	public ResponseData<PageInfo<AuditInfoVo>> getAuditLog(HttpServletRequest request, String userId) {
@@ -847,7 +865,15 @@ public class QualificationController {
 		return response;
 	}
 
-	// 查询已审核列表
+	/**
+	 * 查询已审核列表
+	 * @param request
+	 * @param companyName
+	 * @param username
+	 * @param auditState
+	 * @param companyType
+	 * @return
+	 */
 	@RequestMapping("/getCheckedList")
 	@ResponseBody
 	public ResponseData<PageInfo<BusinessListInfo>> getCheckedList(HttpServletRequest request, String companyName,
@@ -935,6 +961,15 @@ public class QualificationController {
 		return response;
 	}
 
+	/**
+	 * 更新资质审核状态
+	 * @param request
+	 * @param companyId
+	 * @param auditState
+	 * @param reason
+	 * @param ctType
+	 * @return
+	 */
 	@RequestMapping("/updateAudit")
 	@ResponseBody
 	public ResponseData<String> updateAudit(HttpServletRequest request, String companyId, String auditState,
