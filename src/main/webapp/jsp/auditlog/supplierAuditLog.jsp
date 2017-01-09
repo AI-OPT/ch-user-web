@@ -26,13 +26,14 @@
 						<h5 class="pull-left">入驻商户审核日志</h5>
 					</header>
 					<div class="form-label">
+					<div id="dateDiv">
 						<ul>
 							<li class="col-md-6">
 								<p class="word">开始时间</p>
 								<p>
 									<input class="int-text int-medium " readonly
 										onClick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false,maxDate:'#F{$dp.$D(\'orderTimeEnd\')}'})"
-										id="orderTimeBegin" name="control_date" id="orderTimeBegin" />
+										id="orderTimeBegin" name="control_date"/>
 									<span class="time"> <i class="fa  fa-calendar"></i></span>
 								</p>
 							</li>
@@ -46,6 +47,7 @@
 								</p>
 							</li>
 						</ul>
+						</div>
 						<ul>
 							<li class="col-md-6">
 								<p class="word">审核人</p>

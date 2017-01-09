@@ -86,9 +86,9 @@ public class AuditController {
 					}
 					list.add(auditLogInfoVo);
 				}
-				BeanUtils.copyProperties(pageInfo, pageLogInfo);
-				pageLogInfo.setResult(list);
 			}
+			BeanUtils.copyProperties(pageInfo, pageLogInfo);
+			pageLogInfo.setResult(list);
 			responseData.setData(pageLogInfo);
 		}
 		}catch(Exception e){
