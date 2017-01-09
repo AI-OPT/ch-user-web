@@ -460,6 +460,8 @@
 									onclick="pager._passAudit('${userId}','${_base}/qualification/toNoCheckedShopPager','1');">
 									</p><p>
 									<input type="hidden" id="reasonFlag">
+									<input type="hidden" id="uaername" value="${userName }">
+									<input type="hidden" id="companyname" value="${shopName }">
 								<input type="button"
 									class="biu-btn  btn-primary btn-blue btn-medium ml-10" value="拒绝"
 									onclick="pager._rejectAudit('${userId}','${_base }/qualification/toNoCheckedShopPager','1');">

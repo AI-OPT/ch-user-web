@@ -973,7 +973,7 @@ public class QualificationController {
 	@RequestMapping("/updateAudit")
 	@ResponseBody
 	public ResponseData<String> updateAudit(HttpServletRequest request, String companyId, String auditState,
-			String reason, String ctType) {
+			String reason, String ctType,String username,String companyname) {
 		ResponseData<String> response = null;
 		ResponseHeader header = null;
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession()
@@ -1002,6 +1002,7 @@ public class QualificationController {
 			if ("success".equals(result)) {
 				response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 				header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
+				try{
 				IAuditSV auditSV = DubboConsumerFactory.getService("iAuditSV");
 				InsertAuditInfoRequest insertAuditInfoRequest = new InsertAuditInfoRequest();
 				insertAuditInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
@@ -1010,14 +1011,21 @@ public class QualificationController {
 				insertAuditInfoRequest.setOperId(user.getUserId());
 				insertAuditInfoRequest.setOperName(user.getUsername());
 				insertAuditInfoRequest.setCtType(ctType);
+				insertAuditInfoRequest.setUserName(username);
+				insertAuditInfoRequest.setCompanyName(companyname);
 				insertAuditInfoRequest.setUserId(companyId);
+				LOG.error("保存资质审核信息:"+JSON.toJSONString(insertAuditInfoRequest));
 				auditSV.insertAuditInfo(insertAuditInfoRequest);
+				}catch(Exception e){
+					LOG.error("保存资质信息失败,原因"+JSON.toJSONString(e));
+				}
 			} else {
 				response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
-				header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
+				header = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败");
 			}
 		}
 		response.setResponseHeader(header);
+		LOG.error("返回报文体:"+JSON.toJSONString(response));
 		return response;
 	}
 

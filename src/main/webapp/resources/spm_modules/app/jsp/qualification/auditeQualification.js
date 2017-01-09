@@ -62,6 +62,8 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    				"auditState":"1",
 		    				"ctType":ctType,
 		    				"companyId":userId,
+		    				"username":$("#username").val(),
+		    				"companyname":$("#companyname").val(),
 		    				"reason":$.trim($("#reason").val())
 		    			},
 		    	        success: function(data) {
@@ -168,6 +170,8 @@ define('app/jsp/qualification/auditeQualification', function (require, exports, 
 		    				"auditState":'2',
 		    				"ctType":ctType,
 		    				"companyId":userId,
+		    				"username":$("#username").val(),
+		    				"companyname":$("#companyname").val(),
 		    				"reason":$.trim($("#reason").val())
 		    			},
 		    	        success: function(data) {

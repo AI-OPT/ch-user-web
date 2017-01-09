@@ -23,7 +23,7 @@
 				<!--白色背景-->
 				<div class="main-box-body clearfix">
 					<header class="main-box-header clearfix">
-						<h5 class="pull-left">入驻商户审核日志</h5>
+						<h5 class="pull-left">供应商审核日志</h5>
 					</header>
 					<div class="form-label">
 					<div id="dateDiv">
