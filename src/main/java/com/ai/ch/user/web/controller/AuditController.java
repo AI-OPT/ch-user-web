@@ -58,7 +58,7 @@ public class AuditController {
 			queryAuditLogInfoRequest.setBeginTime(Timestamp.valueOf(request.getParameter("startTime")+" 00:00:00"));
 		}
 		if(request.getParameter("endTime")!=null&&(!StringUtil.isBlank(request.getParameter("endTime")))){
-			queryAuditLogInfoRequest.setEndTime(Timestamp.valueOf(request.getParameter("endTime")+" 00:00:00"));
+			queryAuditLogInfoRequest.setEndTime(Timestamp.valueOf(request.getParameter("endTime")+" 23:59:59"));
 		}
 		if(request.getParameter("username")!=null&&!(StringUtil.isBlank(request.getParameter("username")))){
 			queryAuditLogInfoRequest.setUserName(request.getParameter("username"));
