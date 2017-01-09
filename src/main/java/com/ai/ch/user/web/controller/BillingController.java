@@ -43,7 +43,6 @@ import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.esotericsoftware.minlog.Log;
 
 /**
  * 保证金服务费controller
@@ -56,7 +55,7 @@ import com.esotericsoftware.minlog.Log;
 @RequestMapping("/billing")
 public class BillingController {
 
-	private static final Logger log = LoggerFactory.getLogger(BillingController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(BillingController.class);
 
 	/**
 	 * 跳转页面
@@ -86,9 +85,9 @@ public class BillingController {
 		queryShopDepositRequest.setUserId(userId);
 		
 		Long beginTime = System.currentTimeMillis();
-		log.info("查询店铺保证金服务开始"+beginTime);
+		LOG.info("查询店铺保证金服务开始"+beginTime);
 		QueryShopDepositResponse response=shopInfoSV.queryShopDeposit(queryShopDepositRequest);
-		log.info("查询店铺保证金服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+		LOG.info("查询店铺保证金服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		model.addObject("userName", URLDecoder.decode(username,"utf-8"));
 		model.addObject("shopName", URLDecoder.decode(shopName,"utf-8"));
 		model.addObject("deposit", response.getDepositBalance());
@@ -115,9 +114,9 @@ public class BillingController {
 		shopInfoRequest.setTenantId(user.getTenantId());
 		shopInfoRequest.setUserId(userId);
 		Long beginTime = System.currentTimeMillis();
-		log.info("查询店铺信息服务开始"+beginTime);
+		LOG.info("查询店铺信息服务开始"+beginTime);
 		QueryShopInfoResponse shopInfoResponse = shopInfoSV.queryShopInfo(shopInfoRequest);
-		log.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+		LOG.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		
 		String rentFeeStr="";
 		String ratioStr="";
@@ -167,9 +166,9 @@ public class BillingController {
 		shopInfoRequest.setTenantId(user.getTenantId());
 		shopInfoRequest.setUserId(userId);
 		long beginTime = System.currentTimeMillis();
-		log.info("查询店铺信息服务开始"+beginTime);
+		LOG.info("查询店铺信息服务开始"+beginTime);
 		QueryShopInfoResponse shopInfoResponse = shopInfoSV.queryShopInfo(shopInfoRequest);
-		log.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+		LOG.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		
 		String rentFeeStr="";
 		String ratioStr="";
@@ -233,9 +232,9 @@ public class BillingController {
 		try{
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		Long beginTime = System.currentTimeMillis();
-		log.info("更新店铺信息服务开始"+beginTime);
+		LOG.info("更新店铺信息服务开始"+beginTime);
 		updateResponse = shopInfoSV.updateShopInfo(shopInfoRequst);
-		log.info("更新店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+		LOG.info("更新店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		responseHeader = updateResponse.getResponseHeader();
 		}catch(Exception e){
 			responseHeader = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败");
@@ -269,9 +268,9 @@ public class BillingController {
 		try{
 		IShopInfoSV shopInfoSV = DubboConsumerFactory.getService("iShopInfoSV");
 		Long beginTime = System.currentTimeMillis();
-		log.info("更新店铺信息服务开始"+beginTime);
+		LOG.info("更新店铺信息服务开始"+beginTime);
 		updateResponse = shopInfoSV.updateShopInfo(shopInfoRequst);
-		log.info("更新店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+		LOG.info("更新店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		responseHeader = updateResponse.getResponseHeader();
 		}catch(Exception e){
 			responseHeader = new ResponseHeader(false, ChWebConstants.OperateCode.Fail, "操作失败");
@@ -301,16 +300,16 @@ public class BillingController {
 		GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		shopInfoRequest.setTenantId(user.getTenantId());
 		Long beginTime = System.currentTimeMillis();
-		log.info("查询店铺信息服务开始"+beginTime);
+		LOG.info("查询店铺信息服务开始"+beginTime);
 		QueryShopInfoResponse response = shopInfo.queryShopInfo(shopInfoRequest);
-		log.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+		LOG.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		Map<String, Object> model = new HashMap<String, Object>();
  		model.put("shopInfo", response);
  		try {
 			model.put("userName", URLDecoder.decode(userName,"utf-8"));
 			model.put("custName", URLDecoder.decode(custName,"utf-8"));
 		} catch (UnsupportedEncodingException e) {
-			Log.error("操作发生错误,原因"+JSON.toJSONString(e));
+			LOG.error("操作发生错误,原因"+JSON.toJSONString(e));
 		}
  		model.put("userId", userId);
 		return new ModelAndView("/jsp/billing/billingCycle",model);
@@ -332,9 +331,9 @@ public class BillingController {
 		shopInfoRequest.setUserId(userId);
 		shopInfoRequest.setTenantId(tenantId);
 		Long beginTime = System.currentTimeMillis();
-		log.info("查询店铺信息服务开始"+beginTime);
+		LOG.info("查询店铺信息服务开始"+beginTime);
 		QueryShopInfoResponse response = shopInfo.queryShopInfo(shopInfoRequest);
-		log.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+		LOG.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		BaseResponse baseResponse=null;
 		if("".equals(response.getUserId())||response.getUserId()==null){
 			InsertShopInfoRequst insertShopInfo = new InsertShopInfoRequst();
@@ -343,9 +342,9 @@ public class BillingController {
 			insertShopInfo.setPeriodType(periodType);
 			insertShopInfo.setStatus(0);
 			Long insertBeginTime = System.currentTimeMillis();
-			log.info("保存店铺信息服务开始"+insertBeginTime);
+			LOG.info("保存店铺信息服务开始"+insertBeginTime);
 			baseResponse = shopInfo.insertShopInfo(insertShopInfo);
-			log.info("保存店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			LOG.info("保存店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		}else{
 		**/
 		    BaseResponse baseResponse = null;
@@ -354,9 +353,9 @@ public class BillingController {
 			updateShopInfoRequest.setUserId(userId);
 			updateShopInfoRequest.setPeriodType(periodType);
 			Long updateBeginTime = System.currentTimeMillis();
-			log.info("更新店铺信息服务开始"+updateBeginTime);
+			LOG.info("更新店铺信息服务开始"+updateBeginTime);
 			baseResponse = shopInfo.updateShopInfo(updateShopInfoRequest);
-			log.info("更新店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-updateBeginTime)+"毫秒");
+			LOG.info("更新店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-updateBeginTime)+"毫秒");
 		if(ExceptCodeConstants.Special.SUCCESS.equals(baseResponse.getResponseHeader().getResultCode())){
 			return new ModelAndView("/jsp/billing/billingCyclesSccess");
 		}else{
@@ -380,16 +379,16 @@ public class BillingController {
 		 GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		shopInfoRequest.setTenantId(user.getTenantId());
 		Long beginTime = System.currentTimeMillis();
-		log.info("查询店铺信息服务开始"+beginTime);
+		LOG.info("查询店铺信息服务开始"+beginTime);
 		QueryShopInfoResponse response = shopInfo.queryShopInfo(shopInfoRequest);
-		log.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+		LOG.info("查询店铺信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		Map<String, Object> model = new HashMap<String, Object>();
  		model.put("shopInfo", response);
  		try {
 			model.put("userName", URLDecoder.decode(userName,"utf-8"));
 			model.put("custName", URLDecoder.decode(custName,"utf-8"));
 		} catch (UnsupportedEncodingException e) {
-			Log.error("操作失败,错误原因"+JSON.toJSONString(e));
+			LOG.error("操作失败,错误原因"+JSON.toJSONString(e));
 		}
 		return new ModelAndView("/jsp/billing/billingCycleDetail",model);
 	}
@@ -425,12 +424,12 @@ public class BillingController {
 		String str ="";
 		try {
 			Long beginTime = System.currentTimeMillis();
-			log.info("长虹接口查询列表服务开始"+beginTime);
+			LOG.info("长虹接口查询列表服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
-			log.info("长虹接口查询列表服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			LOG.info("长虹接口查询列表服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			
 		} catch (IOException | URISyntaxException e) {
-			Log.error("操作失败,错误原因"+JSON.toJSONString(e));
+			LOG.error("操作失败,错误原因"+JSON.toJSONString(e));
 		}
 		try{
 			JSONObject data = ParseO2pDataUtil.getData(str);
@@ -506,12 +505,12 @@ public class BillingController {
 		String str ="";
 		try {
 			Long beginTime = System.currentTimeMillis();
-			log.info("长虹接口查询列表服务开始"+beginTime);
+			LOG.info("长虹接口查询列表服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
-			log.info("长虹接口查询列表服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
+			LOG.info("长虹接口查询列表服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			
 		} catch (IOException | URISyntaxException e) {
-			Log.error("操作失败,错误原因"+JSON.toJSONString(e));
+			LOG.error("操作失败,错误原因"+JSON.toJSONString(e));
 		}
 		try{
 			JSONObject data = ParseO2pDataUtil.getData(str);

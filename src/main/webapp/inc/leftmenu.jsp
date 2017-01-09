@@ -16,8 +16,10 @@
                     <ul class="submenu">
                         <li><a href="${_base}/qualification/toNoCheckedSupplierPager"  target="mainFrame">供应商待审核</a></li>
                         <li><a href="${_base}/qualification/toCheckedSupplierPager" target="mainFrame">供应商已审核</a></li>
+                        <li><a href="${_base}/audit/supplierauditlog" target="mainFrame">供应商审核日志</a></li>
                         <li><a href="${_base}/qualification/toNoCheckedShopPager"  target="mainFrame">入驻商户待审核</a></li>
                         <li><a href="${_base}/qualification/toCheckedShopPager" target="mainFrame">入驻商户已审核</a></li>
+                        <li><a href="${_base}/audit/shopauditlog" target="mainFrame">入驻商户审核日志</a></li>
                     </ul>
                 <!--二级菜单结束-->
                 </li>
