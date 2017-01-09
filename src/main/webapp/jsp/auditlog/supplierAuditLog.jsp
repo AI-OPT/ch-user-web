@@ -47,13 +47,12 @@
 								</p>
 							</li>
 						</ul>
-						</div>
 						<ul>
 							<li class="col-md-6">
 								<p class="word">审核人</p>
 								<p>
 									<input class="int-text int-medium" id="username" type="text"
-										placeholder="请输入姓名">
+										placeholder="请输入审核人姓名">
 								</p>
 							</li>
 							<li class="col-md-6">
