@@ -1,9 +1,13 @@
 package com.ai.ch.user.web.controller;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,6 +17,7 @@ import com.ai.ch.user.api.audit.params.AuditLogVo;
 import com.ai.ch.user.api.audit.params.QueryAuditLogInfoRequest;
 import com.ai.ch.user.api.audit.params.QueryAuditLogInfoResponse;
 import com.ai.ch.user.web.constants.ChWebConstants;
+import com.ai.ch.user.web.vo.AuditLogInfoVo;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.StringUtil;
@@ -40,8 +45,9 @@ public class AuditController {
 	}
 	
 	@RequestMapping("getAuditList")
-	public ResponseData<PageInfo<AuditLogVo>> getAuditList(HttpServletRequest request,String ctType){
-		ResponseData<PageInfo<AuditLogVo>> responseData= null;
+	public ResponseData<PageInfo<AuditLogInfoVo>> getAuditList(HttpServletRequest request,String ctType){
+		ResponseData<PageInfo<AuditLogInfoVo>> responseData= null;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		IAuditSV auditSV = DubboConsumerFactory.getService(IAuditSV.class);
 		QueryAuditLogInfoRequest queryAuditLogInfoRequest = new QueryAuditLogInfoRequest();
 		queryAuditLogInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
@@ -61,7 +67,29 @@ public class AuditController {
 		QueryAuditLogInfoResponse queryAuditLogInfoResponse = auditSV.queryAuditLogInfo(queryAuditLogInfoRequest);
 		responseData = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 		if(queryAuditLogInfoResponse.getPageInfo()!=null){
-			responseData.setData(queryAuditLogInfoResponse.getPageInfo());
+			PageInfo<AuditLogVo> pageInfo = queryAuditLogInfoResponse.getPageInfo();
+			PageInfo<AuditLogInfoVo> pageLogInfo = new PageInfo<>();
+			List<AuditLogInfoVo> list= new ArrayList<>();
+			if(pageInfo.getResult()!=null&&pageInfo.getResult().size()>0){
+				for (AuditLogVo auditLogVo  : pageInfo.getResult()) {
+					AuditLogInfoVo auditLogInfoVo = new AuditLogInfoVo();
+					BeanUtils.copyProperties(auditLogVo, auditLogInfoVo);
+					if(auditLogVo.getAuditTime()!=null){
+						auditLogInfoVo.setAuditTime(sdf.format(auditLogVo.getAuditTime().getTime()));
+					}
+					if(auditLogVo.getAuditStatus()!=null){
+						if("1".equals(auditLogVo.getAuditStatus())){
+							auditLogInfoVo.setAuditStatus("审核已通过");
+						}else if("2".equals(auditLogVo.getAuditStatus())){
+							auditLogInfoVo.setAuditStatus("审核已拒绝");
+						}
+					}
+					list.add(auditLogInfoVo);
+				}
+				BeanUtils.copyProperties(pageInfo, pageLogInfo);
+				pageLogInfo.setResult(list);
+			}
+			responseData.setData(pageLogInfo);
 		}
 		}catch(Exception e){
 			responseData = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
