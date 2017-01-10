@@ -519,9 +519,9 @@ public class QualificationController {
 		queryAuditInfoRequest.setUserId(userId);
 		QueryAuditInfoResponse queryAuditInfoResponse = auditSV.queryAuditInfo(queryAuditInfoRequest);
 		if(!StringUtil.isBlank(queryAuditInfoResponse.getAuditStatus())){
-			if("1".equals(queryAuditInfoResponse.getAuditStatus())){
+			if(ChWebConstants.AuditLog.AUDIT_PASS.equals(queryAuditInfoResponse.getAuditStatus())){
 				queryAuditInfoResponse.setAuditStatus("审核已通过");
-			}else if("2".equals(queryAuditInfoResponse.getAuditStatus())){
+			}else if(ChWebConstants.AuditLog.AUDIT_REJECT.equals(queryAuditInfoResponse.getAuditStatus())){
 				queryAuditInfoResponse.setAuditStatus("审核已拒绝");
 			}else{
 				queryAuditInfoResponse.setAuditStatus("");
@@ -705,9 +705,9 @@ public class QualificationController {
 			queryAuditInfoRequest.setUserId(userId);
 			QueryAuditInfoResponse queryAuditInfoResponse = auditSV.queryAuditInfo(queryAuditInfoRequest);
 			if(!StringUtil.isBlank(queryAuditInfoResponse.getAuditStatus())){
-				if("1".equals(queryAuditInfoResponse.getAuditStatus())){
+				if(ChWebConstants.AuditLog.AUDIT_PASS.equals(queryAuditInfoResponse.getAuditStatus())){
 					queryAuditInfoResponse.setAuditStatus("审核已通过");
-				}else if("2".equals(queryAuditInfoResponse.getAuditStatus())){
+				}else if(ChWebConstants.AuditLog.AUDIT_REJECT.equals(queryAuditInfoResponse.getAuditStatus())){
 					queryAuditInfoResponse.setAuditStatus("审核已拒绝");
 				}else{
 					queryAuditInfoResponse.setAuditStatus("");

@@ -421,6 +421,7 @@ public class BillingController {
 		if(companyType!=null&&companyType.length()!=0){
 			map.put("companyType", companyType);
 		}
+		map.put("auditState",ChWebConstants.AuditLog.AUDIT_PASS);
 		String str ="";
 		try {
 			Long beginTime = System.currentTimeMillis();

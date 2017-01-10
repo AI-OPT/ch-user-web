@@ -136,6 +136,30 @@ public class ChWebConstants {
 	}
 
 	/**
+	 * 审核日志
+	 * 
+	 * @author Zh
+	 *
+	 */
+	public static final class AuditLog {
+		private AuditLog() {
+		}
+
+		/**
+		 * 待审核
+		 */
+		public static final String AUDIT_READY = "0";
+		/**
+		 * 审核通过
+		 */
+		public static final String AUDIT_PASS = "1";
+		/**
+		 * 审核拒绝
+		 */
+		public static final String AUDIT_REJECT = "2";
+	}
+
+	/**
 	 * 资质审核常量
 	 */
 	public static final class Audit {
