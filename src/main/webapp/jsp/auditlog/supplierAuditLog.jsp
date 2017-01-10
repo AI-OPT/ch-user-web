@@ -32,7 +32,7 @@
 								<p class="word">开始时间</p>
 								<p>
 									<input class="int-text int-medium " readonly
-										onClick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false,maxDate:'#F{$dp.$D(\'orderTimeEnd\')}'})"
+										onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false,maxDate:'#F{$dp.$D(\'orderTimeEnd\')}'})"
 										id="orderTimeBegin" name="control_date"/>
 									<span class="time"> <i class="fa  fa-calendar"></i></span>
 								</p>
@@ -41,7 +41,7 @@
 								<p class="word">结束时间</p>
 								<p>
 									<input class="int-text int-medium " readonly
-										onClick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false,minDate:'#F{$dp.$D(\'orderTimeBegin\')}'})"
+										onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false,minDate:'#F{$dp.$D(\'orderTimeBegin\')}'})"
 										id="orderTimeEnd" name="control_date" /> <span class="time"><i
 										class="fa  fa-calendar"></i></span>
 								</p>
@@ -60,7 +60,7 @@
 								<p>
 									<input type="button"
 										class="biu-btn  btn-primary btn-blue btn-medium ml-10"
-										id="search" value="查  询" onclick="pager._search('1')">
+										id="search" value="查  询" onclick="pager._search('1');">
 								</p>
 							</li>
 						</ul>
