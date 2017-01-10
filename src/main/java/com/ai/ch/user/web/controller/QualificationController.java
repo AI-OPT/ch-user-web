@@ -519,9 +519,9 @@ public class QualificationController {
 		queryAuditInfoRequest.setUserId(userId);
 		QueryAuditInfoResponse queryAuditInfoResponse = auditSV.queryAuditInfo(queryAuditInfoRequest);
 		if(!StringUtil.isBlank(queryAuditInfoResponse.getAuditStatus())){
-			if("2".equals(queryAuditInfoResponse.getAuditStatus())){
+			if("1".equals(queryAuditInfoResponse.getAuditStatus())){
 				queryAuditInfoResponse.setAuditStatus("审核已通过");
-			}else if("3".equals(queryAuditInfoResponse.getAuditStatus())){
+			}else if("2".equals(queryAuditInfoResponse.getAuditStatus())){
 				queryAuditInfoResponse.setAuditStatus("审核已拒绝");
 			}else{
 				queryAuditInfoResponse.setAuditStatus("");
