@@ -26,9 +26,8 @@
 						<h5 class="pull-left">入驻商户审核日志</h5>
 					</header>
 					<div class="form-label">
-						<div id="dateDiv">
 							<ul>
-								<li class="col-md-6">
+								<li class="col-md-6" id="dateDiv1">
 									<p class="word">开始时间</p>
 									<p>
 										<input class="int-text int-medium " readonly
@@ -38,7 +37,7 @@
 										</span>
 									</p>
 								</li>
-								<li class="col-md-6">
+								<li class="col-md-6" id="dateDiv2">
 									<p class="word">结束时间</p>
 									<p>
 										<input class="int-text int-medium " readonly
@@ -47,8 +46,7 @@
 											class="fa  fa-calendar"></i></span>
 									</p>
 								</li>
-							</ul>
-						</div>
+						</ul>
 						<ul>
 							<li class="col-md-6">
 								<p class="word">审核人</p>
@@ -68,6 +66,7 @@
 						</ul>
 					</div>
 				</div>
+			</div>
 			</div>
 		</div>
 		<!--删格化-->
@@ -102,16 +101,28 @@
 				</div>
 			</div>
 		</div>
-	</div>
 	<script type="text/javascript">
 		
 	<%-- 展示日历 --%>
-		$('#dateDiv').delegate('.fa-calendar', 'click', function() {
+		$('#dateDiv1').delegate('.fa-calendar', 'click', function() {
 			var calInput = $(this).parent().prev();
 			var timeId = calInput.attr('id');
 			WdatePicker({
 				el : timeId,
-				readOnly : true
+				readOnly : true,
+				dateFmt:'yyyy-MM-dd',
+				isShowClear:false,
+				maxDate:'#F{$dp.$D(\'orderTimeEnd\')}'});
+		});
+		$('#dateDiv2').delegate('.fa-calendar', 'click', function() {
+			var calInput = $(this).parent().prev();
+			var timeId = calInput.attr('id');
+			WdatePicker({
+				el : timeId,
+				readOnly : true,
+				dateFmt:'yyyy-MM-dd',
+				isShowClear:false,
+				minDate:'#F{$dp.$D(\'orderTimeBegin\')}'});
 		});
 		var pager;
 		(function() {

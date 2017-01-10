@@ -28,7 +28,7 @@
 					<div class="form-label">
 					<div id="dateDiv">
 						<ul>
-							<li class="col-md-6">
+							<li class="col-md-6" id="dateDiv1">
 								<p class="word">开始时间</p>
 								<p>
 									<input class="int-text int-medium " readonly
@@ -37,7 +37,7 @@
 									<span class="time"> <i class="fa  fa-calendar"></i></span>
 								</p>
 							</li>
-							<li class="col-md-6">
+							<li class="col-md-6" id="dateDiv2">
 								<p class="word">结束时间</p>
 								<p>
 									<input class="int-text int-medium " readonly
@@ -66,6 +66,7 @@
 						</ul>
 					</div>
 				</div>
+			</div>
 			</div>
 		</div>
 		<!--删格化-->
@@ -104,14 +105,26 @@
 	<script type="text/javascript">
 		
 	<%-- 展示日历 --%>
-		$('#dateDiv').delegate('.fa-calendar', 'click', function() {
-			var calInput = $(this).parent().prev();
-			var timeId = calInput.attr('id');
-			WdatePicker({
-				el : timeId,
-				readOnly : true
-			});
-		});
+	$('#dateDiv1').delegate('.fa-calendar', 'click', function() {
+		var calInput = $(this).parent().prev();
+		var timeId = calInput.attr('id');
+		WdatePicker({
+			el : timeId,
+			readOnly : true,
+			dateFmt:'yyyy-MM-dd',
+			isShowClear:false,
+			maxDate:'#F{$dp.$D(\'orderTimeEnd\')}'});
+	});
+	$('#dateDiv2').delegate('.fa-calendar', 'click', function() {
+		var calInput = $(this).parent().prev();
+		var timeId = calInput.attr('id');
+		WdatePicker({
+			el : timeId,
+			readOnly : true,
+			dateFmt:'yyyy-MM-dd',
+			isShowClear:false,
+			minDate:'#F{$dp.$D(\'orderTimeBegin\')}'});
+	});
 		var pager;
 		(function() {
 			seajs.use('app/jsp/auditlog/auditlog', function(AuditLogPager) {
