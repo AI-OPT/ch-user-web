@@ -47,7 +47,7 @@ public class AuditController {
 	@RequestMapping("getAuditList")
 	public ResponseData<PageInfo<AuditLogInfoVo>> getAuditList(HttpServletRequest request,String ctType){
 		ResponseData<PageInfo<AuditLogInfoVo>> responseData= null;
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
 		IAuditSV auditSV = DubboConsumerFactory.getService(IAuditSV.class);
 		QueryAuditLogInfoRequest queryAuditLogInfoRequest = new QueryAuditLogInfoRequest();
 		queryAuditLogInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
