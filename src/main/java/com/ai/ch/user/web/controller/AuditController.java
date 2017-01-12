@@ -54,7 +54,7 @@ public class AuditController {
 		queryAuditLogInfoRequest.setPageNo(Integer.valueOf(request.getParameter("pageNo")));
 		queryAuditLogInfoRequest.setPageSize(Integer.valueOf(request.getParameter("pageSize")));
 		queryAuditLogInfoRequest.setCtType(ctType);
-		queryAuditLogInfoRequest.setsetAuditStatus(auditStatus);
+		queryAuditLogInfoRequest.setAuditStatus(auditStatus);
 		if(request.getParameter("startTime")!=null&&!(StringUtil.isBlank(request.getParameter("startTime")))){
 			queryAuditLogInfoRequest.setBeginTime(Timestamp.valueOf(request.getParameter("startTime")+" 00:00:00"));
 		}
