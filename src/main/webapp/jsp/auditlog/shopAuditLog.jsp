@@ -26,26 +26,26 @@
 						<h5 class="pull-left">入驻商户审核日志</h5>
 					</header>
 					<div class="form-label">
-							<ul>
-								<li class="col-md-6" id="dateDiv1">
-									<p class="word">开始时间</p>
-									<p>
-										<input class="int-text int-medium " readonly
-											onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false,maxDate:'#F{$dp.$D(\'orderTimeEnd\')}'})"
-											id="orderTimeBegin" name="control_date" /> <span
-											class="time"> <i class="fa  fa-calendar"></i>
-										</span>
-									</p>
-								</li>
-								<li class="col-md-6" id="dateDiv2">
-									<p class="word">结束时间</p>
-									<p>
-										<input class="int-text int-medium " readonly
-											onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false,minDate:'#F{$dp.$D(\'orderTimeBegin\')}'})"
-											id="orderTimeEnd" name="control_date" /> <span class="time"><i
-											class="fa  fa-calendar"></i></span>
-									</p>
-								</li>
+						<ul>
+							<li class="col-md-6" id="dateDiv1">
+								<p class="word">开始时间</p>
+								<p>
+									<input class="int-text int-medium " readonly
+										onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false,maxDate:'#F{$dp.$D(\'orderTimeEnd\')}'})"
+										id="orderTimeBegin" name="control_date" /> <span class="time">
+										<i class="fa  fa-calendar"></i>
+									</span>
+								</p>
+							</li>
+							<li class="col-md-6" id="dateDiv2">
+								<p class="word">结束时间</p>
+								<p>
+									<input class="int-text int-medium " readonly
+										onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false,minDate:'#F{$dp.$D(\'orderTimeBegin\')}'})"
+										id="orderTimeEnd" name="control_date" /> <span class="time"><i
+										class="fa  fa-calendar"></i></span>
+								</p>
+							</li>
 						</ul>
 						<ul>
 							<li class="col-md-6">
@@ -56,51 +56,65 @@
 								</p>
 							</li>
 							<li class="col-md-6">
-								<p class="word">&nbsp;</p>
+							<p class="word">审核状态</p>
 								<p>
+									<select class="select select-mini" id="auditStatus"
+										name="auditStatus">
+										<option value="9">全部</option>
+										<option value="1">审核已通过</option>
+										<option value="2">审核已拒绝</option>
+									</select>
+								</p>
+							</li>
+							</ul>
+							<div class="right pr-30">
+							<ul>
+							<li class="col-md-6">
+								<p >
 									<input type="button"
 										class="biu-btn  btn-primary btn-blue btn-medium ml-10"
 										id="search" value="查  询" onclick="pager._search('2');">
 								</p>
 							</li>
 						</ul>
+						</div>
 					</div>
 				</div>
 			</div>
-			</div>
 		</div>
-		<!--删格化-->
-		<div class="row">
-			<!--内侧框架-->
-			<div class="col-lg-12">
-				<!--删格化-->
-				<div class="main-box clearfix">
-					<!--白色背景-->
-					<div class="main-box-body clearfix">
-						<table class="table table-hover table-border table-bordered">
-							<thead>
-								<tr>
-									<th>用户名</th>
-									<th>企业名称</th>
-									<th>审核结果</th>
-									<th>审核人</th>
-									<th>审核时间</th>
-									<th>审核原因</th>
-								</tr>
-							</thead>
-							<tbody id="TBODY_AUDIT">
-							</tbody>
-						</table>
-					</div>
-					<!--分页-->
-					<div class="paging">
-						<ul id="pagination-ul"></ul>
-					</div>
-					<!--分页结束-->
-					<div id="showMessageDiv" class="text-c"></div>
+	</div>
+	<!--删格化-->
+	<div class="row">
+		<!--内侧框架-->
+		<div class="col-lg-12">
+			<!--删格化-->
+			<div class="main-box clearfix">
+				<!--白色背景-->
+				<div class="main-box-body clearfix">
+					<table class="table table-hover table-border table-bordered">
+						<thead>
+							<tr>
+								<th>用户名</th>
+								<th>企业名称</th>
+								<th>审核结果</th>
+								<th>审核人</th>
+								<th>审核时间</th>
+								<th>审核原因</th>
+							</tr>
+						</thead>
+						<tbody id="TBODY_AUDIT">
+						</tbody>
+					</table>
 				</div>
+				<!--分页-->
+				<div class="paging">
+					<ul id="pagination-ul"></ul>
+				</div>
+				<!--分页结束-->
+				<div id="showMessageDiv" class="text-c"></div>
 			</div>
 		</div>
+	</div>
 	<script type="text/javascript">
 		
 	<%-- 展示日历 --%>
@@ -110,9 +124,10 @@
 			WdatePicker({
 				el : timeId,
 				readOnly : true,
-				dateFmt:'yyyy-MM-dd',
-				isShowClear:false,
-				maxDate:'#F{$dp.$D(\'orderTimeEnd\')}'});
+				dateFmt : 'yyyy-MM-dd',
+				isShowClear : false,
+				maxDate : '#F{$dp.$D(\'orderTimeEnd\')}'
+			});
 		});
 		$('#dateDiv2').delegate('.fa-calendar', 'click', function() {
 			var calInput = $(this).parent().prev();
@@ -120,9 +135,10 @@
 			WdatePicker({
 				el : timeId,
 				readOnly : true,
-				dateFmt:'yyyy-MM-dd',
-				isShowClear:false,
-				minDate:'#F{$dp.$D(\'orderTimeBegin\')}'});
+				dateFmt : 'yyyy-MM-dd',
+				isShowClear : false,
+				minDate : '#F{$dp.$D(\'orderTimeBegin\')}'
+			});
 		});
 		var pager;
 		(function() {

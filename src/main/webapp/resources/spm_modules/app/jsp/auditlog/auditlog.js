@@ -74,7 +74,8 @@ define('app/jsp/auditlog/auditlog', function (require, exports, module) {
 	            	"username":$("#username").val(),
 	            	"startTime":$("#orderTimeBegin").val(),
 	            	"endTime":$("#orderTimeEnd").val(),
-	            	"ctType":ctType
+	            	"ctType":ctType,
+	            	"auditStatus":$("#auditStatus").val()
 				},
 	           	pageSize: auditLogPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,

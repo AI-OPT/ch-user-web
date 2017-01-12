@@ -26,47 +26,62 @@
 						<h5 class="pull-left">供应商审核日志</h5>
 					</header>
 					<div class="form-label">
-					<div id="dateDiv">
-						<ul>
-							<li class="col-md-6" id="dateDiv1">
-								<p class="word">开始时间</p>
-								<p>
-									<input class="int-text int-medium " readonly
-										onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false,maxDate:'#F{$dp.$D(\'orderTimeEnd\')}'})"
-										id="orderTimeBegin" name="control_date"/>
-									<span class="time"> <i class="fa  fa-calendar"></i></span>
-								</p>
-							</li>
-							<li class="col-md-6" id="dateDiv2">
-								<p class="word">结束时间</p>
-								<p>
-									<input class="int-text int-medium " readonly
-										onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false,minDate:'#F{$dp.$D(\'orderTimeBegin\')}'})"
-										id="orderTimeEnd" name="control_date" /> <span class="time"><i
-										class="fa  fa-calendar"></i></span>
-								</p>
-							</li>
-						</ul>
-						<ul>
-							<li class="col-md-6">
-								<p class="word">审核人</p>
-								<p>
-									<input class="int-text int-medium" id="username" type="text"
-										placeholder="请输入审核人姓名">
-								</p>
-							</li>
-							<li class="col-md-6">
-								<p class="word">&nbsp;</p>
-								<p>
-									<input type="button"
-										class="biu-btn  btn-primary btn-blue btn-medium ml-10"
-										id="search" value="查  询" onclick="pager._search('1');">
-								</p>
-							</li>
-						</ul>
+						<div id="dateDiv">
+							<ul>
+								<li class="col-md-6" id="dateDiv1">
+									<p class="word">开始时间</p>
+									<p>
+										<input class="int-text int-medium " readonly
+											onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false,maxDate:'#F{$dp.$D(\'orderTimeEnd\')}'})"
+											id="orderTimeBegin" name="control_date" /> <span
+											class="time"> <i class="fa  fa-calendar"></i>
+										</span>
+									</p>
+								</li>
+								<li class="col-md-6" id="dateDiv2">
+									<p class="word">结束时间</p>
+									<p>
+										<input class="int-text int-medium " readonly
+											onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false,minDate:'#F{$dp.$D(\'orderTimeBegin\')}'})"
+											id="orderTimeEnd" name="control_date" /> <span class="time"><i
+											class="fa  fa-calendar"></i></span>
+									</p>
+								</li>
+							</ul>
+							<ul>
+								<li class="col-md-6">
+									<p class="word">审核人</p>
+									<p>
+										<input class="int-text int-medium" id="username" type="text"
+											placeholder="请输入审核人姓名">
+									</p>
+								</li>
+								<li class="col-md-6">
+									<p class="word">审核状态</p>
+									<p>
+										<select class="select select-mini" id="auditStatus"
+											name="auditStatus">
+											<option value="9">全部</option>
+											<option value="1">审核已通过</option>
+											<option value="2">审核已拒绝</option>
+										</select>
+									</p>
+								</li>
+							</ul>
+							<div class="right pr-30">
+								<ul>
+									<li class="col-md-6">
+										<p>
+											<input type="button"
+												class="biu-btn  btn-primary btn-blue btn-medium ml-10"
+												id="search" value="查  询" onclick="pager._search('2');">
+										</p>
+									</li>
+								</ul>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
 			</div>
 		</div>
 		<!--删格化-->
@@ -105,26 +120,28 @@
 	<script type="text/javascript">
 		
 	<%-- 展示日历 --%>
-	$('#dateDiv1').delegate('.fa-calendar', 'click', function() {
-		var calInput = $(this).parent().prev();
-		var timeId = calInput.attr('id');
-		WdatePicker({
-			el : timeId,
-			readOnly : true,
-			dateFmt:'yyyy-MM-dd',
-			isShowClear:false,
-			maxDate:'#F{$dp.$D(\'orderTimeEnd\')}'});
-	});
-	$('#dateDiv2').delegate('.fa-calendar', 'click', function() {
-		var calInput = $(this).parent().prev();
-		var timeId = calInput.attr('id');
-		WdatePicker({
-			el : timeId,
-			readOnly : true,
-			dateFmt:'yyyy-MM-dd',
-			isShowClear:false,
-			minDate:'#F{$dp.$D(\'orderTimeBegin\')}'});
-	});
+		$('#dateDiv1').delegate('.fa-calendar', 'click', function() {
+			var calInput = $(this).parent().prev();
+			var timeId = calInput.attr('id');
+			WdatePicker({
+				el : timeId,
+				readOnly : true,
+				dateFmt : 'yyyy-MM-dd',
+				isShowClear : false,
+				maxDate : '#F{$dp.$D(\'orderTimeEnd\')}'
+			});
+		});
+		$('#dateDiv2').delegate('.fa-calendar', 'click', function() {
+			var calInput = $(this).parent().prev();
+			var timeId = calInput.attr('id');
+			WdatePicker({
+				el : timeId,
+				readOnly : true,
+				dateFmt : 'yyyy-MM-dd',
+				isShowClear : false,
+				minDate : '#F{$dp.$D(\'orderTimeBegin\')}'
+			});
+		});
 		var pager;
 		(function() {
 			seajs.use('app/jsp/auditlog/auditlog', function(AuditLogPager) {

@@ -851,7 +851,7 @@ public class QualificationController {
 					} else {
 						auditInfoVo.setAuditStatus("");
 					}
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					if (auditLogVo.getAuditTime() != null) {
 						auditInfoVo.setAuditTime(sdf.format(auditLogVo.getAuditTime()));
 					}
@@ -930,13 +930,13 @@ public class QualificationController {
 					JSONObject object = (JSONObject) iterator.next();
 					String date = "";
 					if (object.getString(ChWebConstants.Audit.CREATETIME) != null && object.getString(ChWebConstants.Audit.CREATETIME).length() != 0) {
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						date = sdf.format(Long.parseLong(object.getString(ChWebConstants.Audit.CREATETIME)));
 					}
 					String auditTime = "";
 					if (object.getString("auditStateTime") != null
 							&& object.getString("auditStateTime").length() != 0) {
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						auditTime = sdf.format(Long.parseLong(object.getString("auditStateTime")));
 					}
 					businessInfo.setUserId(object.getString(ChWebConstants.Audit.COMPANY_ID));
