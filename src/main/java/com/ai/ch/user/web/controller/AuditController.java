@@ -45,7 +45,7 @@ public class AuditController {
 	}
 	
 	@RequestMapping("getAuditList")
-	public ResponseData<PageInfo<AuditLogInfoVo>> getAuditList(HttpServletRequest request,String ctType){
+	public ResponseData<PageInfo<AuditLogInfoVo>> getAuditList(HttpServletRequest request,String ctType,String auditStatus){
 		ResponseData<PageInfo<AuditLogInfoVo>> responseData= null;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		IAuditSV auditSV = DubboConsumerFactory.getService(IAuditSV.class);
@@ -54,6 +54,7 @@ public class AuditController {
 		queryAuditLogInfoRequest.setPageNo(Integer.valueOf(request.getParameter("pageNo")));
 		queryAuditLogInfoRequest.setPageSize(Integer.valueOf(request.getParameter("pageSize")));
 		queryAuditLogInfoRequest.setCtType(ctType);
+		queryAuditLogInfoRequest.setsetAuditStatus(auditStatus);
 		if(request.getParameter("startTime")!=null&&!(StringUtil.isBlank(request.getParameter("startTime")))){
 			queryAuditLogInfoRequest.setBeginTime(Timestamp.valueOf(request.getParameter("startTime")+" 00:00:00"));
 		}
