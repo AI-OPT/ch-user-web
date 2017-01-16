@@ -52,7 +52,7 @@
 								<p class="word">审核人</p>
 								<p>
 									<input class="int-text int-medium" id="username" type="text"
-										placeholder="请输入姓名">
+										placeholder="">
 								</p>
 							</li>
 							<li class="col-md-6">
