@@ -34,16 +34,31 @@ import com.esotericsoftware.minlog.Log;
 @RequestMapping("/audit")
 public class AuditController {
 	
+	/**
+	 * 跳转页面
+	 * @return
+	 */
 	@RequestMapping("/shopauditlog")
 	public ModelAndView shopAuditLogPager() {
 		return new ModelAndView("/jsp/auditlog/shopAuditLog");
 	}
 	
+	/**
+	 * 跳转页面
+	 * @return
+	 */
 	@RequestMapping("supplierauditlog")
 	public ModelAndView supplierAuditLogPager() {
 		return new ModelAndView("/jsp/auditlog/supplierAuditLog");
 	}
 	
+	/**
+	 * 获取资质审核信息列表
+	 * @param request
+	 * @param ctType
+	 * @param auditStatus
+	 * @return
+	 */
 	@RequestMapping("getAuditList")
 	public ResponseData<PageInfo<AuditLogInfoVo>> getAuditList(HttpServletRequest request,String ctType,String auditStatus){
 		ResponseData<PageInfo<AuditLogInfoVo>> responseData= null;

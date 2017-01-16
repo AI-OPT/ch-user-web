@@ -168,16 +168,19 @@ public class ChWebConstants {
 
 		/**
 		 * appkey
+		 * 校验码
 		 */
 		public static final String APPKEY = "appkey";
 
 		/**
 		 * companyId
+		 * 商户id
 		 */
 		public static final String COMPANY_ID = "companyId";
 
 		/**
 		 * 获取otpurl
+		 * otp地址
 		 */
 		public static final String FINDBYCOMPANYID = "findByCompanyId_http_url";
 
@@ -208,6 +211,7 @@ public class ChWebConstants {
 
 		/**
 		 * legalRepresentative
+		 * 法人代表
 		 */
 		public static final String LEGALREPRESENTATIVE = "legalRepresentative";
 
@@ -218,123 +222,152 @@ public class ChWebConstants {
 
 		/**
 		 * email
+		 * 邮件
 		 */
 		public static final String EMAIL = "email";
 
 		/**
 		 * idnumber
+		 * 序列号
 		 */
 		public static final String IDNUMBER = "idNumber";
 
 		/**
 		 * bankaccount
+		 * 银行账号
 		 */
 		public static final String BANKACCOUNT = "bankAccount";
 
 		/**
 		 * businessAddress
+		 * 企业地址
 		 */
 		public static final String BUSINESSADDRESS = "businessAddress";
 
 		/**
 		 * userId
+		 * 用户序列号
 		 * 
 		 */
 		public static final String USERID = "userId";
 
 		/**
 		 * userName
+		 * 用户名
 		 */
 		public static final String USERNAME = "userName";
 
 		/**
 		 * shopname
+		 * 商户名
 		 */
 		public static final String SHOPNAME = "shopName";
 
 		/**
 		 * industryType
+		 * 企业类型
 		 */
 		public static final String INDUSTRYTYPE = "industryType";
 
 		/**
 		 * officialWebsite
+		 * 企业网站
+		 * 
 		 */
 		public static final String OFFICIALWEBSITE = "officialWebsite";
 		/**
 		 * companiesNumber
+		 * 企业名
 		 */
 		public static final String COMPANIESNUMBER = "companiesNumber";
 		/**
 		 * companyNature
+		 * 企业类型
 		 */
 		public static final String COMPANYNATURE = "companyNature";
 		/**
 		 * annualTurnover
+		 * 年营业额
 		 */
 		public static final String ANNUALTURNOVER = "annualTurnover";
 		/**
 		 * areaCover
+		 * 占地面积
 		 */
 		public static final String AREACOVER = "areaCover";
 		/**
 		 * fax
+		 * 传真
 		 */
 		public static final String FAX = "fax";
 		/**
 		 * location
+		 * 地址
 		 */
 		public static final String LOCATION = "location";
 		/**
 		 * businessLicenseRegistrationNumber
+		 * 营业执照注册号
 		 */
 		public static final String BUSINESSLICENSEREGISTRATIONNUMBER = "businessLicenseRegistrationNumber";
 		/**
 		 * establishDate
+		 * 注册日期
 		 */
 		public static final String ESTABLISHDATE = "establishDate";
 		/**
 		 * taxpayerNumber
+		 * 纳税码
 		 */
 		public static final String TAXPAYERNUMBER = "taxpayerNumber";
 		/**
 		 * businessScope
+		 * 营业范围
 		 */
 		public static final String BUSINESSSCOPE = "businessScope";
 		/**
 		 * taxCode
+		 * 税码
 		 */
 		public static final String TAXCODE = "taxCode";
 		/**
 		 * organizationCode
+		 * 组织机构代码证
 		 */
 		public static final String ORGANIZATIONCODE = "organizationCode";
 		/**
 		 * bankName
+		 * 银行名
 		 */
 		public static final String BANKNAME = "bankName";
 		/**
 		 * commodityType
+		 * 类目
 		 */
 		public static final String COMMODITYTYPE = "commodityType";
 		/**
 		 * brandNameCh
+		 * 中文品牌
 		 */
 		public static final String BRANDNAMECH = "brandNameCh";
 		/**
 		 * registerCapital
+		 * 注册资本
 		 */
 		public static final String REGISTERCAPITAL = "registerCapital";
 		/**
 		 * brandNameEn
+		 * 英文品牌
 		 */
 		public static final String BRANDNAMEEN = "brandNameEn";
 		/**
 		 * pageNo
+		 * 页码
 		 */
 		public static final String PAGENO = "pageNo";
 		/**
 		 * pageSize
+		 * 页数
 		 */
 		public static final String PAGESIZE = "pageSize";
 	}
