@@ -74,7 +74,7 @@
 										<p>
 											<input type="button"
 												class="biu-btn  btn-primary btn-blue btn-medium ml-10"
-												id="search" value="查  询" onclick="pager._search('2');">
+												id="search" value="查  询" onclick="pager._search('1');">
 										</p>
 									</li>
 								</ul>
