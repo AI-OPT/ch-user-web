@@ -39,7 +39,7 @@
                                     <table class="table table-hover table-border table-bordered">
                                         <thead>      
                                             <tr>
-                                            	<th>违约时间</th>
+                                            	<th>扣款时间</th>
                                                 <th>违约原因</th>
                                                 <th>扣款金额(元）</th>
                                                 <th>操作人</th>
