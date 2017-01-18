@@ -62,9 +62,9 @@ define('app/jsp/billing/marginSetting', function (require, exports, module) {
     					required:"保证金不能为空",
     					digits:"请输入大于0的数字",
     					maxlength:"最多输入12位",
-    					min:"最小值为{0}",
+    					min:"请输入大于0的数字",
     					max:"最大值为{0}",
-    					pattern:"请输入大于0的数字"
+    					pattern:"请输入大于0的数字，最多输入12位"
     					}
     			},
     			errorPlacement: function (error, element) {

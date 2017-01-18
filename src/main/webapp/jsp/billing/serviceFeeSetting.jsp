@@ -134,7 +134,9 @@ label.error {
 													<input type="text" class="int-text int-mini" name="ratio"
 														id="ratio"  /> % * 订单金额
 												</p>
-												<p class="input-group"></p><p><input type="text" style="display:none;color:red;width:200px" id="ratioInfo" value="0-100内小数,支持小数点后2位" ></p><input type="hidden" id="userId"
+												<p class="input-group"></p>
+												<p><input type="text" style="display:none;color:red;width:200px" id="ratioInfo" value="请输入大于0的数字，最多有两位小数" ></p>
+												<input type="hidden" id="userId"
 												name="userId" value="${userId }" />
 											</li>
 										</ul>

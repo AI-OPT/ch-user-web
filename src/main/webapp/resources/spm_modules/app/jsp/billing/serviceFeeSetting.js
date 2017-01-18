@@ -34,6 +34,7 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     	//事件代理
     	events: {
     		"click #saveSetting":"_saveSetting",
+    		"blur #ratio":"_checkRatio",
         },
     	//重写父类
     	setup: function () {
@@ -52,31 +53,19 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     					required:true,
     					digits:true,
     					maxlength:12,
-    					min:0,
+    					min:1,
     					max:999999999999999,
     					pattern:/^\+?(0|[1-9][0-9]*)$/
-    					},
-    				ratio: {
-		    			required:true,
-		    			pattern:/^(([1-9]{1}\d*)|([0]{1}))(\.(\d){1,2})?$/,
-		    			min:0,
-		    			max:100,
-    		}
+    					}
     			},
     			messages: {
     				rentFee: {
     					required:"服务费不能为空",
     					digits: "请输入大于0的数字",
     					maxlength:"最多输入12位",
-    					min:"最小值为{0}",
+    					min:"请输入大于0的数字，最多输入12位",
     					max:"最大值为{0}",
     					pattern:"请输入大于0的数字，最多输入12位"
-    					},
-    				ratio: {
-    					required:"服务费不能为空",
-    					pattern: "请输入大于0的数字，最多有两位小数",
-    					min:"最小值为{0}",
-    					max:"最大值为{0}",
     					}
     			},
     			errorPlacement: function (error, element) {
@@ -119,8 +108,33 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
     	}
     	},
     	
+    	_checkRatio:function(){
+    		$("#ratioInfo").hide();
+    		if($("#ratio").val()==null){
+    			$("#ratioInfo").val("服务费不能为空");
+    			$("#ratioInfo").show();
+				return;
+    		}
+    		if(parseFloat($("#ratio").val())==0){
+				$("#ratioInfo").show();
+				return;
+			}
+    		if(parseFloat($("#ratio").val())>100){
+    			$("#ratioInfo").val("最大值为100");
+    			$("#ratioInfo").show();
+    			return;
+    		}
+    		var reg = /^(([1-9]{1}\d*)|([0]{1}))(\.(\d){1,2})?$/;
+    		if(reg.test($("#ratio").val())!=true){
+    			$("#ratioInfo").val("请输入大于0的数字，最多有两位小数");
+    			$("#ratioInfo").show();
+    			return;
+    		}
+    	},
+    	
     	_saveSetting:function(){
     		var _this= this;
+    		
 			//父类目
 			var catArr = [];
 			var hasError = false;
@@ -129,6 +143,7 @@ define('app/jsp/billing/serviceFeeSetting', function (require, exports, module) 
 			if(!$("#serviceFee").valid()){
 				return;
 			}
+			this._checkRatio();
 			//debugger;
         	$.ajax({
     			type:"post",
