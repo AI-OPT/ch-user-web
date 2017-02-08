@@ -295,22 +295,7 @@ public class DefaultManagerController {
 			sysUserQueryRequest.setTenantId(userClient.getTenantId());
 			SysUserQueryResponse userQueryResponse = sysUserQuery.queryUserInfo(sysUserQueryRequest);
 
-			BeanUtils.copyProperties(defaultLogRequest, defaultLogInfo);
-
-			defaultLogRequest.setDeductDate(new Timestamp(new Date().getTime()));
-			/**
-			 * 在长虹侧是以分为单位，所以由元转换成分
-			 */
-			defaultLogRequest.setDeductBalance(defaultLogInfo.getDeductBalance() * 100);
-			defaultLogRequest.setOperId(Long.parseLong(userQueryResponse.getNo()));
-			defaultLogRequest.setOperName(userQueryResponse.getLoginName());
-			defaultLogRequest.setTenantId(userClient.getTenantId());
-
-			Long beginTime = System.currentTimeMillis();
-			LOGGER.info("保存扣款信息服务开始" + beginTime);
-			defaultLogResponse = defaultLog.insertDefaultLog(defaultLogRequest);
-			LOGGER.info("保存扣款信息服务结束" + System.currentTimeMillis() + "耗时:" + (System.currentTimeMillis() - beginTime)
-					+ "毫秒");
+			
 
 			/**
 			 * 组装数据
@@ -409,6 +394,22 @@ public class DefaultManagerController {
 						return responseData;
 					}
 				}
+				BeanUtils.copyProperties(defaultLogRequest, defaultLogInfo);
+
+				defaultLogRequest.setDeductDate(new Timestamp(new Date().getTime()));
+				/**
+				 * 在长虹侧是以分为单位，所以由元转换成分
+				 */
+				defaultLogRequest.setDeductBalance(defaultLogInfo.getDeductBalance() * 100);
+				defaultLogRequest.setOperId(Long.parseLong(userQueryResponse.getNo()));
+				defaultLogRequest.setOperName(userQueryResponse.getLoginName());
+				defaultLogRequest.setTenantId(userClient.getTenantId());
+
+				Long beginTime = System.currentTimeMillis();
+				LOGGER.info("保存扣款信息服务开始" + beginTime);
+				defaultLogResponse = defaultLog.insertDefaultLog(defaultLogRequest);
+				LOGGER.info("保存扣款信息服务结束" + System.currentTimeMillis() + "耗时:" + (System.currentTimeMillis() - beginTime)
+						+ "毫秒");
 				responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
 				responseHeader = new ResponseHeader(true, ExceptionCode.SUCCESS_CODE, "操作成功");
 			} else {

@@ -24,7 +24,13 @@ public enum TranType {
    ,PAY_GUARANTEE_MONEY_QUERY("711.001.01", "保证金支付订单查询")
    ,PAY_GUARANTEE_MONEY_QUERY_RESULT("712.001.01", "保证金支付订单应答")
    ;
+	/**
+	 * 交易类型代码
+	 */
    private String value;
+   /**
+    * 交易类型名称
+    */
    private String name;
 
    TranType(String value,String name){
@@ -48,6 +54,11 @@ public enum TranType {
        return name;
    }
 
+   /**
+    * 根据交易类型代码解析交易类型名称枚举值
+    * @param value
+    * @return
+    */
    public static TranType parseEnumByValue(String value){
        if(StringUtils.isEmpty(value))
            return null;
