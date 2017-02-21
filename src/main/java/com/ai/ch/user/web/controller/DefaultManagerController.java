@@ -295,7 +295,24 @@ public class DefaultManagerController {
 			sysUserQueryRequest.setTenantId(userClient.getTenantId());
 			SysUserQueryResponse userQueryResponse = sysUserQuery.queryUserInfo(sysUserQueryRequest);
 
-			
+			BeanUtils.copyProperties(defaultLogRequest, defaultLogInfo);
+
+			defaultLogRequest.setDeductDate(new Timestamp(new Date().getTime()));
+			/**
+			 * 在长虹侧是以分为单位，所以由元转换成分
+			 */
+			defaultLogRequest.setDeductBalance(defaultLogInfo.getDeductBalance() * 100);
+			defaultLogRequest.setOperId(Long.parseLong(userQueryResponse.getNo()));
+			defaultLogRequest.setOperName(userQueryResponse.getLoginName());
+			defaultLogRequest.setTenantId(userClient.getTenantId());
+
+			Long beginTime = System.currentTimeMillis();
+			LOGGER.info("保存扣款信息服务开始" + beginTime);
+			defaultLogResponse = defaultLog.insertDefaultLog(defaultLogRequest);
+			LOGGER.info("保存扣款信息服务结束" + System.currentTimeMillis() + "耗时:" + (System.currentTimeMillis() - beginTime)
+					+ "毫秒");
+			responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
+			responseHeader = new ResponseHeader(true, ExceptionCode.SUCCESS_CODE, "操作成功");
 
 			/**
 			 * 组装数据
@@ -305,18 +322,21 @@ public class DefaultManagerController {
 			// 包装数据
 			com.ylink.upp.oxm.entity.upp_100_001_01.GrpHdr hdr = new com.ylink.upp.oxm.entity.upp_100_001_01.GrpHdr();
 			hdr.setMerNo(gnTenantVo.getMerNo());// 设置一级平台商户号
+			//hdr.setMerNo("CO20160700000001");// 设置一级平台商户号
 			// 支付类型
 			hdr.setTranType(TranType.PAY_APPLY.getValue());// 设置交易类型(保证金)
 			hdr.setCreDtTm(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
 			com.ylink.upp.oxm.entity.upp_100_001_01.GrpBody body = new com.ylink.upp.oxm.entity.upp_100_001_01.GrpBody();
 			// 保证金扣款没有订单id，所以把扣款记录记录在属性里
 			body.setMerOrderId(defaultLogResponse.getSerialCode());
+			body.setMerOrderId(UUIDUtil.genId32());
 			body.setUserName("uname");
 			body.setToken("token");
 			body.setOpenId("1");
 			body.setCustType("02");// 企业
 			// 扣保证金的企业
 			body.setPayCustNo(gnTenantVo.getDebitSide());
+			//body.setPayCustNo("CB2016083100000002");
 			BigDecimal orderAmt = null;
 			List<PayOrderDetail> details = new ArrayList<PayOrderDetail>();
 			PayOrderDetail detail = new PayOrderDetail();
@@ -324,6 +344,7 @@ public class DefaultManagerController {
 			detail.setProductAmt(new Double(defaultLogInfo.getDeductBalance() * 100).longValue() + "");// 扣保证金金额（分）
 			detail.setProductName("productName1");// 扣保证金原因
 			detail.setSonMerNo(gnTenantVo.getReceivingSide());// 收取保证金商户号
+			//detail.setSonMerNo("CO20160700000006");// 收取保证金商户号
 			detail.setMerSeqId(UUIDUtil.genId32());// 商户主订单号
 			orderAmt = new BigDecimal(detail.getProductAmt());// 订单总金额(当前与扣款金额相同)
 			details.add(detail);
@@ -387,6 +408,8 @@ public class DefaultManagerController {
 					com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo receive2 = (com.ylink.upp.oxm.entity.upp_599_001_01.RespInfo) resultMsg;
 					LOGGER.info("+++++++++++++支付通知返回报文+++++++++" + JSON.toJSONString(receive2));
 					if (!"90000".equals(receive2.getGrpBody().getStsRsn().getRespCode())) {
+						//删除defaultLog
+						defaultLog.deleteDefaultLog(defaultLogResponse.getSerialCode());
 						responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
 						responseHeader = new ResponseHeader(false, ExceptionCode.ERROR_CODE, "操作失败");
 						responseData.setResponseHeader(responseHeader);
@@ -394,24 +417,6 @@ public class DefaultManagerController {
 						return responseData;
 					}
 				}
-				BeanUtils.copyProperties(defaultLogRequest, defaultLogInfo);
-
-				defaultLogRequest.setDeductDate(new Timestamp(new Date().getTime()));
-				/**
-				 * 在长虹侧是以分为单位，所以由元转换成分
-				 */
-				defaultLogRequest.setDeductBalance(defaultLogInfo.getDeductBalance() * 100);
-				defaultLogRequest.setOperId(Long.parseLong(userQueryResponse.getNo()));
-				defaultLogRequest.setOperName(userQueryResponse.getLoginName());
-				defaultLogRequest.setTenantId(userClient.getTenantId());
-
-				Long beginTime = System.currentTimeMillis();
-				LOGGER.info("保存扣款信息服务开始" + beginTime);
-				defaultLogResponse = defaultLog.insertDefaultLog(defaultLogRequest);
-				LOGGER.info("保存扣款信息服务结束" + System.currentTimeMillis() + "耗时:" + (System.currentTimeMillis() - beginTime)
-						+ "毫秒");
-				responseData = new ResponseData<String>(ExceptionCode.SUCCESS_CODE, "操作成功", null);
-				responseHeader = new ResponseHeader(true, ExceptionCode.SUCCESS_CODE, "操作成功");
 			} else {
 				defaultLog.deleteDefaultLog(defaultLogResponse.getSerialCode());
 				responseData = new ResponseData<String>(ExceptionCode.ERROR_CODE, "操作失败", null);
