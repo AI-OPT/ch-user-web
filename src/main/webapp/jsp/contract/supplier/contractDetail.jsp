@@ -95,7 +95,7 @@
 										<p class="word"><b class="red">*</b>扫描版合同:</p>
 										<p>${scanContractInfoName }</p>
 										<c:if test="${scanContractInfoName!=''&&scanContractInfoName!=null}">
-											<a class="biu-btn btn-auto btn-green" href="${_base}/contract/download?fileName=${scanDownLoadName}&attrValue=${scanContractAttrValue}"> <i class="icon-download-alt"> </i>下载 </a>
+											<a class="biu-btn btn-auto btn-blue" href="${_base}/contract/download?fileName=${scanDownLoadName}&attrValue=${scanContractAttrValue}"> <i class="icon-download-alt"> </i>下载 </a>
 										</c:if>
 									</li>
 								</ul>
@@ -104,7 +104,7 @@
 										<p class="word">电子版合同:</p>
 										<p>${electronicContractInfoName}</p>
 										<c:if test="${electronicContractInfoName!=''&&electronicContractInfoName!=null}">
-											<a class="biu-btn btn-auto btn-green" href="${_base}/contract/download?fileName=${electronicDownLoadName}&attrValue=${electronicContractAttrValue}"> <i class="icon-download-alt"> </i>下载 </a>
+											<a class="biu-btn btn-auto btn-blue" href="${_base}/contract/download?fileName=${electronicDownLoadName}&attrValue=${electronicContractAttrValue}"> <i class="icon-download-alt"> </i>下载 </a>
 										</c:if>
 									</li>
 								</ul>
