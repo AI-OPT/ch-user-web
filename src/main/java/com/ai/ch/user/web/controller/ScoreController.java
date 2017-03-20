@@ -24,8 +24,6 @@ import com.ai.ch.user.api.score.interfaces.IScoreSV;
 import com.ai.ch.user.api.score.param.CountScoreAvgRequest;
 import com.ai.ch.user.api.score.param.CountScoreAvgResponse;
 import com.ai.ch.user.api.score.param.InsertCurrentScoreRequest;
-import com.ai.ch.user.api.score.param.InsertScoreLogRequest;
-import com.ai.ch.user.api.score.param.QueryScoreKpiRequest;
 import com.ai.ch.user.api.score.param.QueryScoreKpiResponse;
 import com.ai.ch.user.web.constants.ChWebConstants;
 import com.ai.ch.user.web.constants.ChWebConstants.OperateCode;
@@ -108,7 +106,6 @@ public class ScoreController {
 		ResponseData<String> response = new ResponseData<String>(null, null);
 		ResponseHeader responseHeader = null;
 		InsertCurrentScoreRequest currentScoreRequest = new InsertCurrentScoreRequest();
-		InsertScoreLogRequest scoreLogRequest = new InsertScoreLogRequest();
 		//调dubbo服务
 		//tenantId
 		String tenantId =ChWebConstants.COM_TENANT_ID;
@@ -122,19 +119,15 @@ public class ScoreController {
 			totalScore+=Integer.valueOf(request.getParameter(String.valueOf(i)).toString());
 		}
 		//评分指标
-		scoreLogRequest.setScore1(Integer.valueOf(request.getParameter(String.valueOf(1)).toString()));
-		scoreLogRequest.setScore2(Integer.valueOf(request.getParameter(String.valueOf(2)).toString()));
-		scoreLogRequest.setScore3(Integer.valueOf(request.getParameter(String.valueOf(3)).toString()));
-		scoreLogRequest.setScore4(Integer.valueOf(request.getParameter(String.valueOf(4)).toString()));
 		IScoreSV scoreSV = DubboConsumerFactory.getService("iScoreSV");
 		currentScoreRequest.setTenantId(tenantId);
 		currentScoreRequest.setOperId(Long.valueOf(operId));
 		currentScoreRequest.setUserId(userId);
 		currentScoreRequest.setTotalScore(totalScore);
-		scoreLogRequest.setTenantId(tenantId);
-		scoreLogRequest.setOperId(Long.valueOf(operId));
-		scoreLogRequest.setUserId(userId);
-		scoreLogRequest.setTotalScore(totalScore);
+		currentScoreRequest.setScore1(Integer.valueOf(request.getParameter(String.valueOf(1)).toString()));
+		currentScoreRequest.setScore2(Integer.valueOf(request.getParameter(String.valueOf(2)).toString()));
+		currentScoreRequest.setScore3(Integer.valueOf(request.getParameter(String.valueOf(3)).toString()));
+		currentScoreRequest.setScore4(Integer.valueOf(request.getParameter(String.valueOf(4)).toString()));
 		try{
 			scoreSV.insertCurrentScore(currentScoreRequest);
 			response.setStatusCode(ChWebConstants.OperateCode.SUCCESS);
