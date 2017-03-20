@@ -83,10 +83,7 @@ public class ScoreController {
 		IScoreSV scoreSV = DubboConsumerFactory.getService("iScoreSV");
 		QueryScoreKpiRequest queryScoreKpiRequest = new QueryScoreKpiRequest();
 		queryScoreKpiRequest.setTenantId("changhong");
-		Long beginTime = System.currentTimeMillis();
-		LOG.info("查询店铺综合评分服务开始"+beginTime);
 		QueryScoreKpiResponse queryScoreKpiResponse = scoreSV.queryScoreKpi(queryScoreKpiRequest);
-		LOG.info("查询店铺综合评分结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		model.addObject("scoreKpiList", queryScoreKpiResponse.getList());
 		return model;
 	}
@@ -139,11 +136,7 @@ public class ScoreController {
 		scoreLogRequest.setUserId(userId);
 		scoreLogRequest.setTotalScore(totalScore);
 		try{
-			Long beginTime = System.currentTimeMillis();
-			LOG.info("保存供应商评分信息服务开始"+beginTime);
 			scoreSV.insertCurrentScore(currentScoreRequest);
-			scoreSV.insertScoreLog(scoreLogRequest);
-			LOG.info("保存供应商评分信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 			response.setStatusCode(ChWebConstants.OperateCode.SUCCESS);
 			response.setStatusInfo("操作成功");
 			responseHeader = new ResponseHeader(true,ChWebConstants.OperateCode.SUCCESS,"操作成功");
@@ -151,7 +144,7 @@ public class ScoreController {
 		response.setStatusCode(ChWebConstants.OperateCode.Fail);
 		response.setStatusInfo("操作失败");
 		responseHeader = new ResponseHeader(false,ChWebConstants.OperateCode.Fail,"操作失败");
-		LOG.error("保存失败");
+		LOG.error("保存失败",e);
 		}
 		response.setResponseHeader(responseHeader);
 		return response;
@@ -188,10 +181,7 @@ public class ScoreController {
 		}
 		String str ="";
 		try {
-			Long beginTime = System.currentTimeMillis();
-			LOG.info("长虹查询店铺列表信息服务开始"+beginTime);
 			str = HttpClientUtil.sendPost(PropertiesUtil.getStringByKey("searchCompanyList_http_url"), JSON.toJSONString(map),mapHeader);
-			LOG.info("长虹查询店铺列表结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-beginTime)+"毫秒");
 		} catch (IOException | URISyntaxException e) {
 			LOG.error("操作失败"+JSON.toJSONString(e));
 		}
@@ -221,13 +211,10 @@ public class ScoreController {
 					 //查询综合分
 					 IScoreSV scoreSV = DubboConsumerFactory.getService("iScoreSV");
 					 GeneralSSOClientUser user = (GeneralSSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-					 	Long avgBeginTime = System.currentTimeMillis();
 					 	CountScoreAvgRequest scoreAvgRequest = new CountScoreAvgRequest();
 					 	scoreAvgRequest.setTenantId(user.getTenantId());
 					 	scoreAvgRequest.setUserId(object.getString("companyId"));
-						LOG.info("查询店铺评分信息服务开始"+avgBeginTime);
 						CountScoreAvgResponse avgScore = scoreSV.countScoreAvg(scoreAvgRequest);
-						LOG.info("查询店铺评分信息服务结束"+System.currentTimeMillis()+"耗时:"+(System.currentTimeMillis()-avgBeginTime)+"毫秒");
 					 supplierScoreVo.setUserId(object.getString("companyId"));
 					 supplierScoreVo.setUserName(object.getString("username"));
 					 supplierScoreVo.setGroupName(object.getString("name"));
