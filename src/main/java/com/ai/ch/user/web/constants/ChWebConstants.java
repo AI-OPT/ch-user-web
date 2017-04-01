@@ -11,7 +11,7 @@ public class ChWebConstants {
 	/**
 	 * 通用租户标识
 	 */
-	public static final String COM_TENANT_ID = "changhong";
+	public static final String  COM_TENANT_ID = "changhong";
 	/**
 	 * 合同类型 供应商 =1
 	 */
