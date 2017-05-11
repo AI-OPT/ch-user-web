@@ -86,21 +86,18 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
     	},
     	
 		_toViewShopPage:function(userId,username){
-			var url = _base+'/qualification/toShopDetailPager?userId='+userId+'&username='+username;
-			window.location.href = encodeURI(url);
+			window.location.href  = _base+'/qualification/toShopDetailPager?userId='+userId+'&username='+escape(encodeURIComponent(username));
 			
 		},
 		_toAuditShopPage:function(userId,username){
-			var url = _base+'/qualification/toShopCheckPager?userId='+userId+'&username='+username;
-			window.location.href = encodeURI(url);
+			window.location.href  = _base+'/qualification/toShopCheckPager?userId='+userId+'&username='+escape(encodeURIComponent(username));
 		},
 		_toShopAuditLogPager:function(userId,username,custname){
 			window.location.href = _base+'/qualification/toShopAuditLogPager?userId='+userId+"&username="+escape(encodeURIComponent(username))+"&custname="+escape(encodeURIComponent(custname));
 		},
 		
 		_toViewSupplierPage:function(userId,username){
-			var url = _base+'/qualification/toSuplierDetailPager?userId='+userId+'&username='+username;
-			window.location.href = encodeURI(url);
+			window.location.href  = _base+'/qualification/toSuplierDetailPager?userId='+userId+'&username='+escape(encodeURIComponent(username));
 			
 		},
 		_toSuplierAuditLogPager:function(userId,username,custname){
@@ -108,8 +105,7 @@ define('app/jsp/qualification/checkedPagerList', function (require, exports, mod
 		},
 		
 		_toAuditSupplierPage:function(userId,username){
-			var url = _base+'/qualification/toAuditSupplierPage?userId='+userId+'&username='+username;
-			window.location.href = encodeURI(url);
+			window.location.href  = _base+'/qualification/toAuditSupplierPage?userId='+userId+'&username='+escape(encodeURIComponent(username));
 			
 		},
 		

@@ -214,10 +214,9 @@ public class QualificationController {
 				location = getStarStringNoEnd(data2.getString(ChWebConstants.Audit.LOCATION), data2.getString(ChWebConstants.Audit.LOCATION).length() - 4);
 			}
 		}
-		// System.out.println(JSON.toJSONString(data2));
 		model.addObject(ChWebConstants.Audit.USERID, userId);
-		model.addObject(ChWebConstants.Audit.USERNAME, username);
-		model.addObject(ChWebConstants.Audit.SHOPNAME, data2.getString("name"));
+		model.addObject(ChWebConstants.Audit.USERNAME, URLDecoder.decode(username, "utf-8"));
+		model.addObject(ChWebConstants.Audit.SHOPNAME, URLDecoder.decode(data2.getString("name"), "utf-8"));
 		model.addObject(ChWebConstants.Audit.CREATETIME, createTime);
 		model.addObject(ChWebConstants.Audit.INDUSTRYTYPE, data2.getString(ChWebConstants.Audit.INDUSTRYTYPE));
 		model.addObject(ChWebConstants.Audit.OFFICIALWEBSITE, data2.getString(ChWebConstants.Audit.OFFICIALWEBSITE));
@@ -335,8 +334,8 @@ public class QualificationController {
 			}
 		}
 		model.addObject(ChWebConstants.Audit.USERID, userId);
-		model.addObject(ChWebConstants.Audit.USERNAME, username);
-		model.addObject(ChWebConstants.Audit.SHOPNAME, data2.getString("name"));
+		model.addObject(ChWebConstants.Audit.USERNAME, URLDecoder.decode(username, "utf-8"));
+		model.addObject(ChWebConstants.Audit.SHOPNAME, URLDecoder.decode(data2.getString("name"), "utf-8"));
 		model.addObject(ChWebConstants.Audit.CREATETIME, createTime);
 		model.addObject(ChWebConstants.Audit.INDUSTRYTYPE, data2.getString(ChWebConstants.Audit.INDUSTRYTYPE));
 		model.addObject(ChWebConstants.Audit.OFFICIALWEBSITE, data2.getString(ChWebConstants.Audit.OFFICIALWEBSITE));
@@ -483,8 +482,8 @@ public class QualificationController {
 			}
 		}
 		model.addObject(ChWebConstants.Audit.USERID, userId);
-		model.addObject(ChWebConstants.Audit.USERNAME, username);
-		model.addObject(ChWebConstants.Audit.SHOPNAME, data2.getString("name"));
+		model.addObject(ChWebConstants.Audit.USERNAME, URLDecoder.decode(username, "utf-8"));
+		model.addObject(ChWebConstants.Audit.SHOPNAME, URLDecoder.decode(data2.getString("name"), "utf-8"));
 		model.addObject(ChWebConstants.Audit.CREATETIME, createTime);
 		model.addObject(ChWebConstants.Audit.INDUSTRYTYPE, data2.getString(ChWebConstants.Audit.INDUSTRYTYPE));
 		model.addObject(ChWebConstants.Audit.OFFICIALWEBSITE, data2.getString(ChWebConstants.Audit.OFFICIALWEBSITE));
@@ -627,8 +626,8 @@ public class QualificationController {
 			}
 		}
 		model.addObject(ChWebConstants.Audit.USERID, userId);
-		model.addObject(ChWebConstants.Audit.USERNAME, username);
-		model.addObject(ChWebConstants.Audit.SHOPNAME, data2.getString("name"));
+		model.addObject(ChWebConstants.Audit.USERNAME, URLDecoder.decode(username, "utf-8"));
+		model.addObject(ChWebConstants.Audit.SHOPNAME, URLDecoder.decode(data2.getString("name"), "utf-8"));
 		model.addObject(ChWebConstants.Audit.CREATETIME, createTime);
 		model.addObject(ChWebConstants.Audit.INDUSTRYTYPE, data2.getString(ChWebConstants.Audit.INDUSTRYTYPE));
 		model.addObject(ChWebConstants.Audit.OFFICIALWEBSITE, data2.getString(ChWebConstants.Audit.OFFICIALWEBSITE));
