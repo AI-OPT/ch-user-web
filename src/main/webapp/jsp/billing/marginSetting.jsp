@@ -39,11 +39,11 @@ label.error {
                                 <div class="table-responsive clearfix">
 								 <div class="form-label pl-40">
 							           	<ul>
-							                <li  class="col-md-3">
+							                <li  class="col-md-6">
 							                    <p class="word">用户名:</p>
 							                    <p>${userName }</p>
 							                </li>
-							                <li  class="col-md-3">
+							                <li  class="col-md-6">
 							                    <p class="word">企业名称:</p>
 							                    <p>${shopName }</p>
 							                </li>  
