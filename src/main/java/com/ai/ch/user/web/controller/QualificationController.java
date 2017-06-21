@@ -823,21 +823,20 @@ public class QualificationController {
 		ResponseHeader header = null;
 		IAuditSV auditSV = DubboConsumerFactory.getService("iAuditSV");
 		QueryAuditLogInfoRequest queryAuditLogInfoRequest = new QueryAuditLogInfoRequest();
-		QueryAuditLogInfoResponse queryAuditLogInfoResponse = null;
 		try {
 			queryAuditLogInfoRequest.setTenantId(ChWebConstants.COM_TENANT_ID);
 			queryAuditLogInfoRequest.setUserId(userId);
-			queryAuditLogInfoRequest.setPageNo(Integer.valueOf(request.getParameter("pageNo")));
-			queryAuditLogInfoRequest.setPageSize(Integer.valueOf(request.getParameter("pageSize")));
-			queryAuditLogInfoResponse = auditSV.queryAuditLogInfo(queryAuditLogInfoRequest);
+			if(!StringUtil.isBlank(request.getParameter("pageNo"))){
+				queryAuditLogInfoRequest.setPageNo(Integer.valueOf(request.getParameter("pageNo")));
+			}
+			if(!StringUtil.isBlank(request.getParameter("pageSize"))){
+				queryAuditLogInfoRequest.setPageSize(Integer.valueOf(request.getParameter("pageSize")));
+			}
+			QueryAuditLogInfoResponse queryAuditLogInfoResponse = auditSV.queryAuditLogInfo(queryAuditLogInfoRequest);
 			response = new ResponseData<>(ChWebConstants.OperateCode.SUCCESS, "操作成功");
 			header = new ResponseHeader(true, ChWebConstants.OperateCode.SUCCESS, "操作成功");
-		} catch (Exception e) {
-			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
-			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
-			LOG.error("操作失败,原因" + JSON.toJSONString(e));
-		}
-		List<AuditInfoVo> result = new ArrayList<>();
+		
+			List<AuditInfoVo> result = new ArrayList<>();
 			PageInfo<AuditLogVo> pageInfoVo = queryAuditLogInfoResponse.getPageInfo();
 			if (pageInfoVo != null) {
 				for (AuditLogVo auditLogVo : pageInfoVo.getResult()) {
@@ -858,6 +857,11 @@ public class QualificationController {
 				}
 				BeanUtils.copyProperties(pageInfoVo, pageInfo);
 				pageInfo.setResult(result);
+			}
+		} catch (Exception e) {
+			response = new ResponseData<>(ChWebConstants.OperateCode.Fail, "操作失败");
+			header = new ResponseHeader(true, ChWebConstants.OperateCode.Fail, "操作失败");
+			LOG.error("操作失败,原因" + JSON.toJSONString(e));
 		}
 		response.setResponseHeader(header);
 		response.setData(pageInfo);

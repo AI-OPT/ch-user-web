@@ -37,6 +37,7 @@ import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.opt.sdk.util.ParseO2pDataUtil;
+import com.ai.opt.sdk.util.StringUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.alibaba.fastjson.JSON;
@@ -117,18 +118,32 @@ public class ScoreController {
 		//总分
 		Integer totalScore =0;
 		for(int i=1;i<=4;i++){
-			totalScore+=Integer.valueOf(request.getParameter(String.valueOf(i)).toString());
+			if(!StringUtil.isBlank(request.getParameter(String.valueOf(i)).toString())){
+				totalScore+=Integer.valueOf(request.getParameter(String.valueOf(i)).toString());
+			}
 		}
 		//评分指标
 		IScoreSV scoreSV = DubboConsumerFactory.getService("iScoreSV");
 		currentScoreRequest.setTenantId(tenantId);
-		currentScoreRequest.setOperId(Long.valueOf(operId));
-		currentScoreRequest.setUserId(userId);
+		if(!StringUtil.isBlank(operId)){
+			currentScoreRequest.setOperId(Long.valueOf(operId));
+		}
+		if(!StringUtil.isBlank(userId)){
+			currentScoreRequest.setUserId(userId);
+		}
 		currentScoreRequest.setTotalScore(totalScore);
-		currentScoreRequest.setScore1(Integer.valueOf(request.getParameter(String.valueOf(1)).toString()));
-		currentScoreRequest.setScore2(Integer.valueOf(request.getParameter(String.valueOf(2)).toString()));
-		currentScoreRequest.setScore3(Integer.valueOf(request.getParameter(String.valueOf(3)).toString()));
-		currentScoreRequest.setScore4(Integer.valueOf(request.getParameter(String.valueOf(4)).toString()));
+		if(!StringUtil.isBlank(request.getParameter(String.valueOf(1)).toString())){
+			currentScoreRequest.setScore1(Integer.valueOf(request.getParameter(String.valueOf(1)).toString()));
+		}
+		if(!StringUtil.isBlank(request.getParameter(String.valueOf(2)).toString())){
+			currentScoreRequest.setScore2(Integer.valueOf(request.getParameter(String.valueOf(2)).toString()));
+		}
+		if(!StringUtil.isBlank(request.getParameter(String.valueOf(3)).toString())){
+			currentScoreRequest.setScore3(Integer.valueOf(request.getParameter(String.valueOf(3)).toString()));
+		}
+		if(!StringUtil.isBlank(request.getParameter(String.valueOf(4)).toString())){
+			currentScoreRequest.setScore4(Integer.valueOf(request.getParameter(String.valueOf(4)).toString()));
+		}
 		try{
 			scoreSV.insertCurrentScore(currentScoreRequest);
 			response.setStatusCode(ChWebConstants.OperateCode.SUCCESS);
